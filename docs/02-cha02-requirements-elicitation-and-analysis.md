@@ -330,3 +330,25 @@ Carlos es un estudiante universitario de 20 años que gestiona sus finanzas con 
 </p>
 
 María es una madre de familia de 40 años, con ingresos variables, que administra las finanzas del hogar junto a su esposo usando Excel, Yape y BCP. El mapa evidencia que carga con una preocupación constante por la responsabilidad económica familiar, siente agobio al registrar gastos de varios miembros simultáneamente, y culpa cuando olvida fechas de pago. Observa cómo los gastos recurrentes se acumulan mes a mes, además de plataformas bancarias que ofrecen información parcial pero no integrada. En el día a día, elabora listas en Excel, recolecta comprobantes y dedica un tiempo considerable a conciliar registros de forma manual. Sus principales dolores son el olvido de fechas de vencimiento y el tiempo excesivo que demanda el control manual; sus ganancias esperadas se centran en centralizar ingresos y gastos, contar con recordatorios automáticos y obtener reportes visuales claros.
+
+#### 2.3.5. As-Is Scenario Mapping
+
+En el As-Is Scenario Map se representa el proceso real que viven los usuarios de los segmentos objetivo identificados, previo a la existencia del producto solución. Este mapa ayuda a encontrar puntos clave que suelen convertirse en obstáculos para las metas de los User Persona, y permite generar ideas de solución que se integrarán en el producto a diseñar.
+
+**Segmento 1: Miembros de familias con problemas de gestión financiera**
+
+<p align="center">
+  <img src="https://i.imgur.com/nbWLYmS.png" alt="As-Is Scenario Map - Segmento 1">
+</p>
+
+El ecosistema actual de Carlos es reactivo y manual, dependiendo de una hoja de Excel que genera alta fricción en el registro diario. La falta de automatización al usar métodos de pago como Yape provoca una desconexión entre sus metas de ahorro y sus gastos reales, lo que deriva en pereza y desidia. El ciclo cierra con frustración e inseguridad, ya que el usuario no logra tener un rastro claro de su dinero ni el cumplimiento de sus objetivos, lo cual valida la urgencia de una solución que elimine la carga operativa del registro manual.
+
+**Segmento 2: Responsables de la economía familiar**
+
+<p align="center">
+  <img src="https://i.imgur.com/yxIKokq.png" alt="As-Is Scenario Map - Segmento 2">
+</p>
+
+Para María, la gestión financiera es una fuente de agotamiento y agobio debido a la fragmentación de la información familiar. Al intentar centralizar manualmente los gastos de varios miembros, enfrenta una carga cognitiva elevada y pierde tiempo personal en tareas de conciliación que rara vez cuadran. Este escenario culmina en sentimientos de culpa e irritación por el pago de moras evitables, lo que evidencia la necesidad de una plataforma colaborativa que centralice el control y reduzca el estrés administrativo del hogar.
+
+De esta forma, se diseñaron ambos mapas As-Is de cada User Persona en la aplicación Miro. El proceso de diseño comenzó con la identificación de las fases o eventos más resaltantes en la experiencia de cada User Persona. Luego, para cada fase, se identificaron las labores que comúnmente realiza cada persona. A continuación, se adoptó la perspectiva de cada usuario para imaginar qué pensamientos surgirían al realizar cada actividad. Finalmente, se identificó el sentimiento asociado a dicho pensamiento y se analizó el porqué de su aparición. Además, se identificaron áreas positivas y negativas para cada persona según su situación.
