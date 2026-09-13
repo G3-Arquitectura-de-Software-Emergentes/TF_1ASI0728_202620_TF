@@ -159,3 +159,103 @@ En esta sección se registra cada entrevista realizada. En total, se realizaron 
 | ![evidencia-entrevista]() | **Distrito:** Villa el Salvador (Lima) <br> **Entrevistado:** Diego <br> **Edad:** 23 años |
 | **Link:** aun sin el link de la entrevista | **Entrevistador:** Didier Sebastian Meza Solórzano |
 | **Timing:** 00:00 | **Resumen:** Diego accede a contenido mediante su celular, usando principalmente uno de la marca Xiaomi. La aplicación que más usa es WhatsApp para comunicarse con su familia, mientras que el navegador que utiliza es Google Chrome.<br><br>Actualmente es padre de un bebé recién nacido, por lo que gestiona el presupuesto destinado a su hijo, el alquiler y los alimentos para poder progresar. Anota sus gastos en la aplicación de notas por defecto de su celular; sin embargo, presenta dificultades al momento de ahorrar, ya que suele usar ese dinero para cubrir gastos imprevistos relacionados con su hijo.<br><br>Diego menciona que una de las cosas que más valora es que la aplicación sea fácil e intuitiva de usar, ya que esto le ayudaría a gestionar y priorizar qué gastos son más importantes que otros.<br><br>Además, tiende a olvidar con frecuencia fechas importantes de sus pagos, por lo que le gustaría ser notificado sobre pagos pendientes o próximos a vencer, para poder cumplir con ellos a tiempo.<br><br>Por último, suele revisar sus gastos semanalmente y menciona que le resulta tedioso tener que ingresar manualmente cada uno de ellos, por lo que le gustaría que este proceso fuera automático. |
+
+#### 2.2.3. Análisis de entrevistas
+
+En primer lugar, se presentan gráficos circulares con los porcentajes destacados en las respuestas dadas por los entrevistados del primer segmento objetivo:
+
+**Uso de herramientas de control de finanzas personales**
+
+<p align="center">
+  <img src="https://i.imgur.com/LcI6Wsl.png" alt="Uso de herramientas de control de finanzas personales">
+</p>
+
+A partir del gráfico, se concluye que los usuarios de este segmento están acostumbrados y prefieren utilizar las hojas de cálculo de Excel para manejar sus finanzas de forma efectiva. Se observa, en menor medida, el uso de registros en billeteras bancarias y de cuadernos de apuntes tradicionales para el registro de ingresos y gastos. Finalmente, en la misma proporción, un 16.7% de los entrevistados no utiliza ninguna herramienta para controlar sus finanzas.
+
+**Navegador utilizado**
+
+<p align="center">
+  <img src="https://i.imgur.com/WqoGpN6.png" alt="Navegador utilizado">
+</p>
+
+Se observa que la totalidad de los usuarios entrevistados en este primer segmento utiliza el navegador Chrome de Google.
+
+**Aportación en la gestión financiera familiar**
+
+<p align="center">
+  <img src="https://i.imgur.com/HoW4Vgh.png" alt="Aportación en la gestión financiera familiar">
+</p>
+
+Se aprecia que los tres entrevistados apoyan a sus padres en la gestión del dinero del hogar, ya sea al revisar el dinero, los gastos, o al planificar a futuro.
+
+**Adquirir una mejor herramienta para el control de sus finanzas**
+
+<p align="center">
+  <img src="https://i.imgur.com/jruExtp.png" alt="Adquirir una mejor herramienta para el control de sus finanzas">
+</p>
+
+Se concluye que todos los entrevistados coinciden en la necesidad de contar con una herramienta mejor que la que usan actualmente para gestionar sus finanzas.
+
+**Tecnologías utilizadas**
+
+<p align="center">
+  <img src="https://i.imgur.com/uchgo85.png" alt="Tecnologías utilizadas">
+</p>
+
+Se observa que la mayoría de los entrevistados (62.5%) utiliza dispositivos con sistema operativo Android. En menor proporción, también se identifican dispositivos con sistema operativo Windows (25.0%) y iOS (12.5%).
+
+A partir de las entrevistas realizadas al primer segmento, integrado por miembros de familias con problemas de gestión financiera, se puede concluir lo siguiente:
+
+- Existen dificultades para el ahorro personal debido a gastos imprevistos y gastos hormiga, lo que dificulta ajustarse al presupuesto previamente definido.
+- Hay interés por gestionar mejor las finanzas; sin embargo, se presentan conflictos con herramientas como Excel, notas o billeteras digitales, por lo que se necesitan soluciones adaptadas a sus situaciones financieras.
+- Respecto a la gestión financiera familiar, la mayoría de los entrevistados considera que sus padres (responsables económicos) conocen lo necesario y realizan una correcta gestión del dinero del hogar.
+- Se requiere una solución que facilite la gestión del dinero tanto a nivel personal como familiar, incorporando facilidad de uso, opciones de personalización y control de privacidad en un entorno compartido.
+
+En segundo lugar, se presentan gráficos circulares con los porcentajes destacados en las respuestas dadas por los entrevistados del segundo segmento objetivo:
+
+**Uso de herramientas de control de finanzas familiares**
+
+<p align="center">
+  <img src="https://i.imgur.com/28gXUpo.png" alt="Uso de herramientas de control de finanzas familiares">
+</p>
+
+Se identifica nuevamente una preferencia por el uso de las hojas de cálculo de Excel para el manejo de las finanzas familiares, con un uso menor de métodos tradicionales como cuadernos de apuntes.
+
+**Navegador utilizado**
+
+<p align="center">
+  <img src="https://i.imgur.com/OVkQVVy.png" alt="Navegador utilizado">
+</p>
+
+Se identifica una preferencia total por el uso del navegador Chrome para realizar diversas actividades, como la búsqueda de información.
+
+**Adquirir una mejor herramienta para el control de sus finanzas**
+
+<p align="center">
+  <img src="https://i.imgur.com/zMcB1TZ.png" alt="Adquirir una mejor herramienta para el control de sus finanzas">
+</p>
+
+Al igual que en el primer segmento, los entrevistados están de acuerdo en que necesitan una herramienta que mejore su experiencia en el manejo de finanzas personales y familiares.
+
+**Apoya a los integrantes de su familia para gestionar sus gastos**
+
+<p align="center">
+  <img src="https://i.imgur.com/8w8L0o3.png" alt="Apoya a los integrantes de su familia para gestionar sus gastos">
+</p>
+
+Se identifica que la mayoría de los entrevistados ayuda a otros miembros de su familia a gestionar sus finanzas con los conocimientos que posee. Sin embargo, dado que las actividades relacionadas con la gestión de sus propios gastos ya resultan tediosas, sería de gran ayuda contar con una herramienta que facilite ambos procesos.
+
+**Tecnologías utilizadas**
+
+<p align="center">
+  <img src="https://i.imgur.com/tg1Wfct.png" alt="Tecnologías utilizadas">
+</p>
+
+Se observa que, en igual proporción (40.0% cada uno), los entrevistados utilizan dispositivos con sistema operativo Android y dispositivos portátiles con sistema operativo Windows. En menor proporción, se identifican dispositivos con sistema operativo iOS, con un 20.0%.
+
+A partir de las entrevistas realizadas al segundo segmento, integrado por los responsables de la economía familiar, se puede concluir lo siguiente:
+
+- Es necesaria una herramienta digital que facilite tanto el registro de gastos e ingresos como la visualización de los datos registrados, ya que es común confundir u olvidar algún gasto o ingreso a lo largo del mes.
+- Existe coincidencia en la dificultad para recordar fechas importantes relacionadas con pagos de servicios del hogar o de préstamos.
+- Al igual que en el primer segmento, hay un gran interés por gestionar mejor las finanzas; sin embargo, se presentan conflictos con el uso de herramientas tradicionales como Excel u hojas de apuntes.
+- Los entrevistados valoran contar con un presupuesto dividido por distintos sectores de gasto, para tener un control más riguroso de los gastos que deben realizarse.
