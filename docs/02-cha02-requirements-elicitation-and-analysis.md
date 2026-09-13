@@ -47,4 +47,59 @@ A continuación, se detallan las estrategias y tácticas diseñadas para respond
 
 *Contexto:* La principal amenaza identificada es el dominio de aplicaciones con presupuestos de marketing consolidados. Sin embargo, la creciente necesidad de alfabetización financiera en el entorno local representa una oportunidad estratégica para el proyecto.
 
+### 2.2. Entrevistas
+
+#### 2.2.1. Diseño de entrevistas
+
+A continuación, se presentan las preguntas elegidas para entrevistar a las personas que pertenecen a los segmentos objetivo definidos:
+
+**Segmento objetivo 1: Miembros de familias con problemas de gestión financiera**
+
+*Preguntas introductorias:*
+
+1. ¿Cuál es tu nombre y edad?
+2. ¿En qué distrito vives actualmente?
+3. ¿Con qué dispositivos sueles acceder a contenido en línea (móvil, tablet, PC, etc.)?
+4. ¿Qué marcas sueles usar o qué marcas te inspiran confianza? (marcas favoritas)
+5. ¿Qué canales sueles usar para interactuar con otras personas? (redes sociales, mensajería, etc.)
+6. ¿Qué navegadores web sueles usar? ¿Por qué?
+
+*Preguntas para profundizar:*
+
+1. ¿Cómo llevas el control de tus gastos e ingresos personales actualmente?
+2. ¿Qué herramientas o aplicaciones usas para gestionar tu presupuesto?
+3. ¿Sueles gastar más en cosas innecesarias que en cosas esenciales para ti?
+4. ¿Qué dificultades enfrentas al intentar ahorrar dinero?
+5. ¿Qué características te gustaría que tuviera una aplicación para ayudarte a gestionar tus finanzas?
+6. ¿Qué es algo que vuelve tedioso el proceso de llevar un control de tus gastos?
+7. ¿Con qué frecuencia revisas tu presupuesto o gastos mensuales?
+8. ¿Cómo aportas en la gestión financiera en tu hogar?
+9. ¿Qué sientes respecto al manejo de la economía familiar por parte de tus apoderados?
+10. ¿Cómo te sentirías al compartir el registro de ingresos y egresos de toda tu familia en un mismo lugar?
+11. ¿Qué tan fácil encuentras la lectura de gráficos o reportes financieros?
+
+**Segmento objetivo 2: Responsables de la economía familiar**
+
+*Preguntas introductorias:*
+
+1. ¿Cuál es tu nombre y edad?
+2. ¿En qué distrito vives actualmente?
+3. ¿Con qué dispositivos sueles acceder a contenido en línea (móvil, tablet, PC, etc.)?
+4. ¿Qué marcas sueles usar o qué marcas te inspiran confianza? (marcas favoritas)
+5. ¿Qué canales sueles usar para interactuar con otras personas? (redes sociales, mensajería, etc.)
+6. ¿Qué navegadores web sueles usar? ¿Por qué?
+
+*Preguntas para profundizar:*
+
+1. ¿Cómo gestionas el presupuesto familiar actualmente?
+2. ¿Cuántas veces has sentido que el dinero no te rinde lo suficiente para cubrir los gastos del hogar?
+3. ¿Qué herramientas o aplicaciones usas para llevar el control de los gastos del hogar?
+4. ¿Qué desafíos enfrentas al intentar ahorrar dinero para la familia?
+5. ¿Qué características te gustaría que tuviera una aplicación para ayudarte a gestionar las finanzas familiares?
+6. ¿Con qué frecuencia revisas el presupuesto o gastos mensuales del hogar?
+7. ¿Qué es algo que vuelve tedioso el proceso de llevar un control de tus gastos?
+8. ¿Tiendes a olvidar fechas de pagos importantes? ¿Qué tipo de recordatorios te serían útiles?
+9. ¿Cómo ayudas a otros miembros de tu familia a gestionar sus gastos?
+10. ¿Cuánta facilidad le encuentras al momento de separar dinero para diferentes categorías de gastos (comida, transporte, ocio, etc.)?
+
 *Táctica:* Ejecución de alianzas estratégicas locales. Para superar el bajo posicionamiento inicial como startup, se buscará colaborar con instituciones educativas o comunidades universitarias, con el objetivo de posicionar a Intiva como la herramienta estándar de apoyo financiero para estudiantes, convirtiendo así la competencia masiva en un dominio de nicho específico y controlado.
