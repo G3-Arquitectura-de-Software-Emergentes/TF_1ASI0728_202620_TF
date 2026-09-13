@@ -308,3 +308,25 @@ Se consideran los dos User Personas previamente definidos, representantes de los
 | Calcular gastos totales a fin de mes | Media | Alta | Alta | Alta |
 
 Ambos User Personas coinciden en una alta frecuencia e importancia respecto al registro y monitoreo de ingresos y egresos, el control del presupuesto mensual y la visualización de gastos. Carlos Castillo muestra mayor necesidad de apoyo en el registro por categorías y en la gestión de metas de ahorro, dado que son actividades de baja frecuencia pero de alta relevancia para su madurez financiera. María Palacios, por su parte, demanda con mayor urgencia las alertas de vencimiento, las notificaciones del grupo familiar y el seguimiento de pagos pendientes, lo que refleja su rol como responsable económica del hogar. En ambos casos, una herramienta que automatice el registro, centralice la información y ofrezca recordatorios inteligentes reduciría significativamente la carga operativa de gestión financiera.
+
+#### 2.3.3. Empathy Mapping
+
+El Empathy Mapping ayuda a entender de manera más profunda a los User Personas definidos. Con esta herramienta se captura lo que el usuario siente, dice, piensa y hace desde su propia perspectiva. Además, permite identificar dolores y metas que el usuario desea cumplir, información que resulta útil para formar ideas de diseño relevantes para el producto que servirá como solución. Cada mapa de empatía fue diseñado en la aplicación UXPressia.
+
+Para su elaboración, se tomó como base la información recopilada durante las entrevistas realizadas a ambos segmentos objetivo, así como los perfiles construidos en la sección de User Personas. Cada mapa sintetiza los hallazgos más relevantes de cada arquetipo. A continuación, se presentan los mapas de empatía correspondientes a los dos User Personas definidos para la solución: Carlos Castillo, representante del Segmento Objetivo 1 (integrantes de familias con problemas de gestión financiera), y María Palacios, representante del Segmento Objetivo 2 (responsables de la economía familiar).
+
+**User Persona 1: Carlos Castillo**
+
+<p align="center">
+  <img src="https://i.imgur.com/h0GVuaA.png" alt="Empathy Map - Carlos Castillo">
+</p>
+
+Carlos es un estudiante universitario de 20 años que gestiona sus finanzas con herramientas básicas como Excel y Yape, sin un método consistente. El mapa revela que siente optimismo al planificar, pero termina frustrado al no cumplir su presupuesto, lo que le genera inseguridad al no saber exactamente en qué gasta su dinero. Observa a compañeros que gastan sin control y está expuesto a publicidad de consumo como la de Temu, mientras escucha recomendaciones de sus padres sobre el ahorro. En la práctica, intenta registrar sus gastos en Excel, pero no mantiene la constancia y termina gastando más en cosas innecesarias. Sus principales dolores son la falta de herramientas simples y el desconocimiento de sus patrones de gasto; sus ganancias esperadas apuntan a contar con un registro automático, categorizado y colaborativo con su familia.
+
+**User Persona 2: María Palacios**
+
+<p align="center">
+  <img src="https://i.imgur.com/WQudXd3.png" alt="Empathy Map - María Palacios">
+</p>
+
+María es una madre de familia de 40 años, con ingresos variables, que administra las finanzas del hogar junto a su esposo usando Excel, Yape y BCP. El mapa evidencia que carga con una preocupación constante por la responsabilidad económica familiar, siente agobio al registrar gastos de varios miembros simultáneamente, y culpa cuando olvida fechas de pago. Observa cómo los gastos recurrentes se acumulan mes a mes, además de plataformas bancarias que ofrecen información parcial pero no integrada. En el día a día, elabora listas en Excel, recolecta comprobantes y dedica un tiempo considerable a conciliar registros de forma manual. Sus principales dolores son el olvido de fechas de vencimiento y el tiempo excesivo que demanda el control manual; sus ganancias esperadas se centran en centralizar ingresos y gastos, contar con recordatorios automáticos y obtener reportes visuales claros.
