@@ -282,3 +282,29 @@ Al User Persona representante de este primer segmento se le dio el nombre de Car
 </p>
 
 Al User Persona representante de este segundo segmento se le dio el nombre de María Palacios, de 40 años, supervisora de ventas. María es una persona trabajadora que siempre busca lo mejor para su familia, por lo que procura gestionar de forma efectiva las finanzas del hogar y ahorrar para gastos futuros imprevistos. Aunque utiliza herramientas tradicionales como hojas de cálculo de Excel o los registros que ofrecen las billeteras digitales o de su banco, estos métodos no le brindan un control total de sus finanzas ni de las de su familia en conjunto. Su principal motivación es simplificar la gestión de las finanzas familiares y contar con un control completo del flujo de dinero, de manera que pueda realizar los pagos a tiempo y conocer el detalle de los gastos del hogar. Busca una solución tecnológica que reduzca el tiempo que le toma gestionar el dinero y que le brinde una visión completa del flujo económico familiar.
+
+#### 2.3.2. User Task Matrix
+
+El User Task Matrix de cada User Persona incluye las actividades que más destacan en una situación cotidiana. A cada actividad se le asigna un puntaje según qué tan frecuente es realizada por el User Persona, y otro puntaje según qué tan importante resulta dicha actividad. Gracias a esta herramienta, es posible identificar las actividades que necesitan realizar los usuarios y cómo las llevan a cabo, con el fin de hallar oportunidades de mejora que formarán parte del producto a diseñar.
+
+Se consideran los dos User Personas previamente definidos, representantes de los dos segmentos objetivo del proyecto. En cada tabla se colocan las actividades que realizan para cumplir sus objetivos. Para los niveles de frecuencia e importancia se utilizan cuatro niveles: Muy Alta, Alta, Media y Baja.
+
+
+
+| Tarea | Carlos Castillo — Frecuencia | Carlos Castillo — Importancia | María Palacios — Frecuencia | María Palacios — Importancia |
+|---|---|---|---|---|
+| Revisar gastos personales o de la familia | Alta | Alta | Alta | Alta |
+| Registrar gastos | Media | Alta | Alta | Alta |
+| Clasificar gastos por categorías | Media | Alta | Media | Alta |
+| Controlar un presupuesto | Media | Alta | Alta | Alta |
+| Monitorear ingresos y egresos | Alta | Alta | Alta | Alta |
+| Dar seguimiento a deudas o gastos pendientes | Baja | Media | Alta | Alta |
+| Recibir alertas de vencimiento de pagos | Baja | Alta | Alta | Muy Alta |
+| Visualizar gráficos de gastos e ingresos | Media | Alta | Media | Alta |
+| Gestionar metas de ahorro | Baja | Alta | Media | Alta |
+| Participar en grupo familiar compartido | Baja | Media | Alta | Alta |
+| Recibir notificaciones de transacciones grupales | Baja | Media | Alta | Alta |
+| Ajustar gastos o priorizar necesidades | Media | Alta | Alta | Alta |
+| Calcular gastos totales a fin de mes | Media | Alta | Alta | Alta |
+
+Ambos User Personas coinciden en una alta frecuencia e importancia respecto al registro y monitoreo de ingresos y egresos, el control del presupuesto mensual y la visualización de gastos. Carlos Castillo muestra mayor necesidad de apoyo en el registro por categorías y en la gestión de metas de ahorro, dado que son actividades de baja frecuencia pero de alta relevancia para su madurez financiera. María Palacios, por su parte, demanda con mayor urgencia las alertas de vencimiento, las notificaciones del grupo familiar y el seguimiento de pagos pendientes, lo que refleja su rol como responsable económica del hogar. En ambos casos, una herramienta que automatice el registro, centralice la información y ofrezca recordatorios inteligentes reduciría significativamente la carga operativa de gestión financiera.
