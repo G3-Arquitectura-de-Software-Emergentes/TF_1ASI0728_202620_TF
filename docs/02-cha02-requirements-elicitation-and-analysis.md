@@ -259,3 +259,26 @@ A partir de las entrevistas realizadas al segundo segmento, integrado por los re
 - Existe coincidencia en la dificultad para recordar fechas importantes relacionadas con pagos de servicios del hogar o de préstamos.
 - Al igual que en el primer segmento, hay un gran interés por gestionar mejor las finanzas; sin embargo, se presentan conflictos con el uso de herramientas tradicionales como Excel u hojas de apuntes.
 - Los entrevistados valoran contar con un presupuesto dividido por distintos sectores de gasto, para tener un control más riguroso de los gastos que deben realizarse.
+
+
+### 2.3. Needfinding
+
+#### 2.3.1. User Persona
+
+En esta sección se presenta la elaboración de un User Persona por cada segmento objetivo identificado. Cada uno reúne información representativa del segmento respectivo, considerando similitudes en datos demográficos, gustos, uso de tecnología, objetivos y dolores. De esta forma, se logra una idea más clara del público al que va dirigida esta propuesta de solución.
+
+**Segmento objetivo 1: Integrantes de familias con problemas de gastos y ahorro**
+
+<p align="center">
+  <img src="https://i.imgur.com/6jSGGff.png" alt="User Persona - Segmento 1">
+</p>
+
+Al User Persona representante de este primer segmento se le dio el nombre de Carlos Castillo, de 20 años, estudiante. Carlos es alguien que va aprendiendo poco a poco a gestionar sus finanzas y, aunque ha utilizado herramientas tradicionales como hojas de cálculo de Excel o los registros que ofrecen las billeteras digitales, estos métodos no le ayudan realmente a gestionar su dinero. Su principal motivación es mejorar sus habilidades y conocimientos en gestión financiera para aprender a ahorrar de forma estratégica, llevar una vida más tranquila y, además, poder usar ese conocimiento para apoyar a sus padres en el manejo del dinero familiar. Busca una solución tecnológica fácil de adaptar y de baja complejidad, que le permita digitalizar el registro de sus ingresos y gastos, de modo que pueda reconocer con claridad el flujo de su dinero.
+
+**Segmento objetivo 2: Responsables de la economía familiar**
+
+<p align="center">
+  <img src="https://i.imgur.com/vbdrCLr.png" alt="User Persona - Segmento 2">
+</p>
+
+Al User Persona representante de este segundo segmento se le dio el nombre de María Palacios, de 40 años, supervisora de ventas. María es una persona trabajadora que siempre busca lo mejor para su familia, por lo que procura gestionar de forma efectiva las finanzas del hogar y ahorrar para gastos futuros imprevistos. Aunque utiliza herramientas tradicionales como hojas de cálculo de Excel o los registros que ofrecen las billeteras digitales o de su banco, estos métodos no le brindan un control total de sus finanzas ni de las de su familia en conjunto. Su principal motivación es simplificar la gestión de las finanzas familiares y contar con un control completo del flujo de dinero, de manera que pueda realizar los pagos a tiempo y conocer el detalle de los gastos del hogar. Busca una solución tecnológica que reduzca el tiempo que le toma gestionar el dinero y que le brinde una visión completa del flujo económico familiar.
