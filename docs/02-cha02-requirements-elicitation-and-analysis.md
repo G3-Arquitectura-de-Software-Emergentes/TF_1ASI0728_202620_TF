@@ -24,3 +24,27 @@ Este análisis se realiza con el objetivo de identificar la posición de Intiva 
 | **Debilidades** | Presenta bajo posicionamiento en el mercado y recursos limitados, al ser una startup. | Puede presentar un enfoque menor en educación financiera didáctica. | Carece de funciones avanzadas y de automatización. | Puede depender de la conexión bancaria y del nivel de confianza del usuario en la automatización. |
 | **Oportunidades** | Existe una alta demanda de educación financiera y de uso de aplicaciones digitales. | Puede expandir su base de usuarios mediante servicios financieros. | Puede captar usuarios que buscan simplicidad. | Puede crecer entre usuarios que buscan automatizar el ahorro e iniciarse en la inversión. |
 | **Amenazas** | Enfrenta competencia de aplicaciones consolidadas y hábitos financieros deficientes en los usuarios. | Enfrenta competencia de aplicaciones más simples y educativas. | Puede ser desplazada por soluciones más completas. | Compite con aplicaciones que ofrecen automatización financiera más avanzada. |
+
+#### 2.1.2. Estrategias y tácticas frente a competidores
+
+A partir del diagnóstico FODA realizado sobre los competidores directos, se definieron las acciones estratégicas necesarias para que Resolum alcance un posicionamiento sólido en el mercado. El enfoque no se centra únicamente en competir a nivel de funcionalidades técnicas, sino en capitalizar la experiencia educativa como el principal diferenciador del producto.
+
+A continuación, se detallan las estrategias y tácticas diseñadas para responder al contexto competitivo actual:
+
+**1. Estrategia de diferenciación por valor educativo**
+
+*Contexto:* A diferencia de Plum, que prioriza la automatización mediante inteligencia artificial, o de Monefy, enfocada exclusivamente en la velocidad del registro manual, Resolum busca que el usuario comprenda la lógica detrás de sus gastos, ingresos y objetivos de ahorro.
+
+*Táctica:* Se implementará una estructura de gamificación interactiva. En lugar de limitarse a un monitoreo pasivo como el de Fintonic, Resolum incorporará metas de ahorro y niveles de progresión. Con esto, la propuesta didáctica se convierte en el eje central del software, transformando la gestión financiera en un proceso dinámico y recompensable.
+
+**2. Estrategia de abordaje de segmentos desatendidos**
+
+*Contexto:* Las soluciones actuales suelen ser generalistas y asumen que el usuario ya posee conocimientos financieros previos o confianza plena para vincular sus cuentas bancarias, lo que genera una barrera de entrada para el público joven.
+
+*Táctica:* Utilizar dentro de la aplicación un lenguaje intuitivo, evitando la terminología técnica financiera que pueda generar confusión en los usuarios.
+
+**3. Estrategia de posicionamiento y mitigación de riesgos**
+
+*Contexto:* La principal amenaza identificada es el dominio de aplicaciones con presupuestos de marketing consolidados. Sin embargo, la creciente necesidad de alfabetización financiera en el entorno local representa una oportunidad estratégica para el proyecto.
+
+*Táctica:* Ejecución de alianzas estratégicas locales. Para superar el bajo posicionamiento inicial como startup, se buscará colaborar con instituciones educativas o comunidades universitarias, con el objetivo de posicionar a Intiva como la herramienta estándar de apoyo financiero para estudiantes, convirtiendo así la competencia masiva en un dominio de nicho específico y controlado.
