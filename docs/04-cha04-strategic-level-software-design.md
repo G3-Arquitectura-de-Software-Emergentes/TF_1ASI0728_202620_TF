@@ -25,46 +25,385 @@
 ### 4.2.2. Candidate Context Discovery
 
 ### 4.2.3. Domain Message Flows Modeling
-En esta sección se explica y evidencia el proceso seguido para visualizar cómo deben colaborar los bounded contexts al resolver los casos que se presentan en el negocio para las personas usuarias del sistema. Para ello se aplicó la técnica de visualización Domain Storytelling.
 
-Cada historia se construyó a partir del comportamiento realmente implementado en el backend (intiva-api-platform): los command y query handlers, los domain events publicados y los servicios de Anti-Corruption Layer (ACL) que consume cada contexto. En lugar de la notación icónica clásica, las historias se representan como diagramas de secuencia por carriles —uno por actor o bounded context—, donde cada flecha numerada corresponde a una oración de la historia (actor — actividad — objeto de trabajo — destinatario), preservando el orden narrativo que exige Domain Storytelling.
+En esta sección se explica y evidencia el proceso seguido para visualizar cómo deben colaborar los bounded contexts al resolver los casos que se presentan en el negocio para las personas usuarias del sistema. Para ello se aplicó la técnica de visualización **Domain Storytelling**.
+
+Cada historia se construyó a partir del comportamiento realmente implementado en el backend (`intiva-api-platform`): los *command* y *query handlers*, los *domain events* publicados y los servicios de Anti-Corruption Layer (ACL) que consume cada contexto. En lugar de la notación icónica clásica, las historias se representan como diagramas de secuencia por carriles —uno por actor o bounded context—, donde cada flecha numerada corresponde a una oración de la historia (*actor — actividad — objeto de trabajo — destinatario*), preservando el orden narrativo que exige Domain Storytelling.
 
 Se seleccionaron cinco historias que cubren los procesos de negocio más representativos: el alta de una persona usuaria, la formación de una economía familiar, el registro de una transacción con evaluación de límite de gasto, el recordatorio de un pago recurrente y la consulta del panel de analíticas.
+
+Cada historia se presenta a continuación en dos representaciones complementarias: el **diagrama de Domain Storytelling** en notación pictográfica —actores y sistemas, objetos de trabajo y actividades numeradas— y, como apoyo de lectura, el mismo flujo expresado como diagrama de secuencia por carriles. Los diagramas pictográficos se encuentran en `assets/img/cap04/` en formato PNG y SVG editable.
+
 #### 4.2.3.1. Historia 1 — Registro y preparación inicial de una nueva persona usuaria
+
+![Diagrama de Domain Storytelling — Historia 1: registro y preparación inicial de una nueva persona usuaria](../assets/img/cap04/domain-story-01-registro.png)
+
+*Diagrama de Domain Storytelling — Historia 1: registro y preparación inicial de una nueva persona usuaria. Fuente: elaboración propia a partir de `intiva-api-platform`.*
+
+**Representación de apoyo (diagrama de secuencia por carriles):**
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor V as Persona visitante
+    participant IAM as IAM
+    participant CAT as Categories & Financial Accounts
+    participant PRO as Profiles
+    V->>IAM: Se registra con correo y contraseña (SignUpCommand)
+    IAM->>IAM: Crea el agregado User y publica UserRegisteredEvent
+    IAM->>CAT: Solicita crear la categoría por defecto (ACL: createDefaultCategory)
+    IAM->>CAT: Solicita crear la cuenta financiera por defecto (ACL: createDefaultFinancialAccount)
+    IAM->>PRO: Solicita iniciar el onboarding guiado (ACL: createUserOnboarding)
+    IAM-->>PRO: UserRegisteredEvent (suscripción directa)
+    PRO->>PRO: Crea el Profile por defecto a partir del correo
+    IAM-->>V: Devuelve el token de sesión (JWT)
+```
+
+Cuando una persona visitante se registra, IAM crea el agregado `User` y, en el mismo evento de dominio (`UserRegisteredEvent`), dispara en cadena la creación de una categoría por defecto y una cuenta financiera por defecto en *Categories & Financial Accounts*, y solicita a *Profiles* que inicie el onboarding guiado. Esta preparación inicial es la que hace posible el escenario de usabilidad **QAS-01**: la persona puede registrar su primera transacción sin tener que configurar antes una categoría ni una cuenta.
+
+Es notable que la creación del `Profile` no ocurre por la llamada ACL de IAM, sino porque *Profiles* escucha por su cuenta el mismo evento de dominio: dos mecanismos de integración conviven para un mismo disparador, lo cual se retoma como hallazgo en la sección 4.2.5.
 
 #### 4.2.3.2. Historia 2 — Una economía familiar se organiza (Household)
 
+![Diagrama de Domain Storytelling — Historia 2: una economía familiar se organiza](../assets/img/cap04/domain-story-02-household.png)
+
+*Diagrama de Domain Storytelling — Historia 2: una economía familiar se organiza. Fuente: elaboración propia a partir de `intiva-api-platform`.*
+
+**Representación de apoyo (diagrama de secuencia por carriles):**
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor R as Family Economy Responsible
+    participant HH as Household
+    participant COM as Communications
+    actor I as Persona invitada
+    R->>HH: Crea el grupo familiar (CreateFamilyCommand)
+    HH->>HH: Publica FamilyCreatedEvent
+    R->>HH: Envía una invitación por enlace o código QR (SendInvitationCommand)
+    HH->>COM: Solicita notificar la invitación enviada (ACL)
+    COM->>I: Entrega la notificación de invitación
+    I->>HH: Acepta la invitación (AcceptInvitationCommand / ClaimDeferredInviteCommand)
+    HH->>HH: Registra el FamilyMember y publica InvitationAcceptedEvent
+    HH->>COM: Solicita notificar la aceptación (ACL)
+    COM->>R: Informa que la persona se unió al grupo familiar
+```
+
+Esta historia evidencia el rol diferencial de *Household*: el *Family Economy Responsible* crea el grupo familiar y envía una invitación —por enlace o código QR, incluso a personas que aún no tienen la aplicación instalada, mediante *Deferred Deep Link*—. Cada evento relevante del ciclo de vida de la invitación (enviada y aceptada) se traduce en una llamada explícita al ACL de *Communications* para notificar a la persona correspondiente. A diferencia de la Historia 1, aquí *Household* sí controla explícitamente cuándo notificar, en lugar de dejar que *Communications* escuche sus eventos de forma autónoma.
+
 #### 4.2.3.3. Historia 3 — Se registra una transacción familiar y se evalúa un límite de gasto
+
+![Diagrama de Domain Storytelling — Historia 3: registro de una transacción familiar y evaluación de un límite de gasto](../assets/img/cap04/domain-story-03-transaccion.png)
+
+*Diagrama de Domain Storytelling — Historia 3: registro de una transacción familiar y evaluación de un límite de gasto. Fuente: elaboración propia a partir de `intiva-api-platform`.*
+
+**Representación de apoyo (diagrama de secuencia por carriles):**
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor M as Integrante de la familia
+    participant FIN as Finances
+    participant CAT as Categories & Financial Accounts
+    participant COM as Communications
+    participant HH as Household
+    M->>FIN: Registra un gasto familiar (RegisterTransactionCommand)
+    FIN->>CAT: Consulta si la cuenta tiene saldo suficiente (ACL: hasSufficientBalance)
+    CAT-->>FIN: Confirma el saldo disponible
+    FIN->>FIN: Registra la Transaction y publica FamilyTransactionCreatedEvent
+    FIN->>CAT: Registra el movimiento en la cuenta financiera (ACL)
+    FIN->>FIN: Evalúa los SpendingLimit afectados
+    FIN->>COM: Solicita alertar el límite alcanzado o superado (ACL)
+    FIN-->>COM: SpendingLimitWarningReachedEvent / SpendingLimitExceededEvent
+    COM-->>FIN: Escucha FamilyTransactionCreatedEvent (suscripción directa)
+    COM->>HH: Consulta los integrantes activos de la familia (ACL)
+    HH-->>COM: Devuelve los identificadores de los integrantes
+    COM->>M: Notifica el movimiento al resto del grupo familiar
+```
+
+Esta es la historia que atraviesa el mayor número de contextos y la que sustenta los drivers **QAS-05** y **US 014**. El registro de la transacción exige una validación síncrona del saldo antes de aceptarse —de ahí la llamada ACL bloqueante a *Categories & Financial Accounts*—, mientras que las consecuencias del registro (alertar el límite, avisar a la familia) se propagan de forma asíncrona para no penalizar el tiempo de respuesta de la operación principal. Se observa nuevamente la convivencia de los dos mecanismos: *Finances* llama explícitamente al ACL de *Communications* para las alertas de límite (paso 7), mientras que *Communications* se suscribe por su cuenta al evento de transacción familiar (paso 9).
 
 #### 4.2.3.4. Historia 4 — Un pago recurrente está por vencer
 
+![Diagrama de Domain Storytelling — Historia 4: un pago recurrente está por vencer](../assets/img/cap04/domain-story-04-recordatorio.png)
+
+*Diagrama de Domain Storytelling — Historia 4: un pago recurrente está por vencer. Fuente: elaboración propia a partir de `intiva-api-platform`.*
+
+**Representación de apoyo (diagrama de secuencia por carriles):**
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant SCH as PaymentReminderScheduler (Finances)
+    participant FIN as Finances
+    participant COM as Communications
+    participant FCM as Firebase Cloud Messaging
+    actor U as Persona usuaria
+    SCH->>FIN: Detecta transacciones recurrentes próximas a vencer o vencidas
+    FIN->>FIN: Publica PaymentDueSoonEvent o PaymentExpiredEvent
+    FIN-->>COM: Entrega el evento (suscripción directa)
+    COM->>COM: Crea la Notification correspondiente
+    COM->>FCM: Solicita el envío push a los dispositivos activos
+    FCM->>U: Entrega el recordatorio en el dispositivo
+```
+
+A diferencia de las historias anteriores, este flujo no lo inicia una persona sino un proceso programado (`PaymentReminderScheduler` / `RecurringTransactionScheduler`, dentro de *Finances*). Al detectar que una transacción recurrente está por vencer o ya venció, *Finances* publica `PaymentDueSoonEvent` o `PaymentExpiredEvent`; *Communications* los escucha directamente —sin ACL de por medio— y entrega el recordatorio. Es el mismo patrón de suscripción directa detectado en la Historia 3, y es la materialización del driver **US 030**.
+
 #### 4.2.3.5. Historia 5 — La familia visualiza sus métricas financieras
 
+![Diagrama de Domain Storytelling — Historia 5: la familia visualiza sus métricas financieras](../assets/img/cap04/domain-story-05-analytics.png)
+
+*Diagrama de Domain Storytelling — Historia 5: la familia visualiza sus métricas financieras. Fuente: elaboración propia a partir de `intiva-api-platform`.*
+
+**Representación de apoyo (diagrama de secuencia por carriles):**
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor R as Family Economy Responsible
+    participant WEB as Aplicación web
+    participant ANA as Analytics
+    participant RDS as Caché (Redis)
+    participant FIN as Finances
+    participant SAV as Financial Goals (Savings)
+    participant CAT as Categories & Financial Accounts
+    R->>WEB: Abre el dashboard financiero del grupo familiar
+    WEB->>ANA: Solicita el resumen del periodo (GetAnalyticsSummaryByOwnerQuery)
+    ANA->>RDS: Consulta el resumen cacheado
+    RDS-->>ANA: No disponible o expirado
+    ANA->>FIN: Lee TransactionRepository y SpendingLimitRepository (acceso directo)
+    ANA->>SAV: Lee SavingGoalRepository (acceso directo)
+    ANA->>CAT: Consulta nombre y color de cada categoría (ACL)
+    ANA->>ANA: Calcula el AnalyticsSummary del periodo
+    ANA->>RDS: Almacena el resumen con TTL
+    ANA-->>WEB: Devuelve el resumen financiero
+    WEB-->>R: Presenta los gráficos del periodo
+```
+
+Al abrir el dashboard en la aplicación web, *Analytics* debe reunir información de tres contextos distintos. Aquí se documenta de forma explícita una decisión de diseño que se retoma como crítica en la sección 4.2.5: el acceso a *Finances* y a *Savings* ocurre leyendo sus repositorios directamente —sin pasar por un ACL ni por la Application Layer de esos contextos—, mientras que el acceso a *Categories & Financial Accounts* sí respeta el patrón ACL usado en el resto del sistema. El resultado se cachea en Redis para no recalcular el resumen en cada consulta, lo que es la implementación concreta del driver **QAS-04**.
 ### 4.2.4. Bounded Context Canvases
+
+A partir de los ocho bounded contexts identificados en el Candidate Context Discovery, el equipo elaboró el Bounded Context Canvas de cada uno siguiendo el proceso iterativo propuesto por Nick Tune:
+
+1. **Context Overview Definition** — nombre, propósito y clasificación estratégica del contexto.
+2. **Business Rules Distillation & Ubiquitous Language Capture** — el vocabulario y las reglas de negocio no ambiguas que gobiernan el contexto.
+3. **Capability Analysis** — qué hace el contexto, expresado como los *Commands*, *Queries* y *Domain Events* realmente implementados.
+4. **Capability Layering** — distinguiendo qué capacidades son el núcleo de la responsabilidad del contexto y cuáles son de soporte.
+5. **Dependencies Capture** — con quién colabora el contexto y mediante qué mecanismo (entrante y saliente).
+6. **Design Critique** — una revisión honesta de las decisiones de diseño, incluyendo aquellas que se apartan del patrón ideal.
+
+Los ocho contextos se presentan en el orden en que colaboran a lo largo del ciclo de vida de una persona usuaria: primero identidad y perfil, luego los contextos de soporte financiero, después el núcleo transaccional y familiar, y por último comunicación y analítica.
+
+Cada canvas se presenta a continuación en su representación visual —siguiendo la plantilla del Bounded Context Canvas, con las seis secciones del proceso numeradas— acompañada de la tabla con el detalle completo del contenido. Los canvases se encuentran en `assets/img/cap04/`.
 
 #### 4.2.4.1. Identity and Access Management (IAM)
 
+![Bounded Context Canvas — Identity and Access Management (IAM)](../assets/img/cap04/bc-canvas-01-identity-and-access-management-iam.png)
+
+*Bounded Context Canvas de Identity and Access Management (IAM). Fuente: elaboración propia a partir de `intiva-api-platform`.*
+
+| Sección del Canvas | Contenido |
+| --- | --- |
+| **1. Context Overview — Propósito** | Gestiona el ciclo de vida de la identidad digital de las personas usuarias de Intiva: registro, autenticación (local y mediante OAuth2 con Google) y emisión de credenciales de sesión (JWT). Es la puerta de entrada de toda persona nueva a la plataforma. |
+| **Clasificación estratégica** | Generic Subdomain de alto riesgo: no es un diferenciador de negocio, pero es indispensable — sin identidad no hay acceso a ningún otro contexto. |
+| **Domain Roles** | Gateway Context (punto de entrada único) y Upstream Publisher: su evento de registro dispara el arranque de otros tres contextos. |
+| **2. Ubiquitous Language** | • User<br>• Sign-Up / Sign-In<br>• PasswordHash (VO)<br>• Email (VO)<br>• Token (JWT)<br>• Role |
+| **Business Rules** | • El correo electrónico es único por persona usuaria (se rechaza con UserWithEmailAlreadyExits).<br>• La contraseña debe cumplir reglas mínimas de seguridad antes de aceptarse (isPasswordValid).<br>• La contraseña nunca se persiste en texto plano: se almacena únicamente como PasswordHash (BCrypt).<br>• La autenticación admite dos vías equivalentes: credenciales locales u OAuth2 con cuenta de Google. |
+| **3. Capability Analysis — Commands** | • SignUpCommand<br>• SignInCommand<br>• SeedRolesCommand |
+| **Capability Analysis — Queries** | • GetUserByEmailQuery<br>• GetUserByIdQuery |
+| **Capability Analysis — Domain Events publicados** | UserRegisteredEvent |
+| **4. Capability Layering** | Core capability: autenticar y emitir tokens (razón de ser del contexto). Supporting capability: orquestar el «bootstrap» de una persona nueva (categoría, cuenta financiera y onboarding por defecto), delegando en otros contextos. |
+| **5. Dependencies — Inbound (quién lo consume)** | Ninguno. IAM no publica una interfaz ACL propia para que otros contextos lo consulten; su único canal de salida hacia afuera es el evento UserRegisteredEvent. |
+| **Dependencies — Outbound (a quién consume)** | • Categories & Financial Accounts — ACL síncrona: createDefaultCategory(userId), createDefaultFinancialAccount(userId).<br>• Profiles — ACL síncrona: createUserOnboarding(userId). |
+| **6. Design Critique** | El bootstrap posterior al registro concentra tres llamadas salientes en un único event handler dentro de IAM, acoplándolo al orden de creación en tres contextos distintos. Se evaluó introducir un proceso de aplicación tipo Saga, pero se descartó por ahora dado el bajo número de pasos. Además, conviven dos mecanismos distintos entre IAM y Profiles (ACL síncrona y evento asíncrono) para dos propósitos que podrían unificarse — ver relación 2 y 3 en la sección 4.2.5. |
+
 #### 4.2.4.2. Profiles
+
+![Bounded Context Canvas — Profiles](../assets/img/cap04/bc-canvas-02-profiles.png)
+
+*Bounded Context Canvas de Profiles. Fuente: elaboración propia a partir de `intiva-api-platform`.*
+
+| Sección del Canvas | Contenido |
+| --- | --- |
+| **1. Context Overview — Propósito** | Administra la información personal, preferencias y el proceso de onboarding (tutorial guiado de primeros pasos) de cada persona usuaria. |
+| **Clasificación estratégica** | Supporting Subdomain. |
+| **Domain Roles** | Downstream conformista de IAM para el evento de registro; modelo independiente para los datos personales. |
+| **2. Ubiquitous Language** | • Profile<br>• Onboarding<br>• TutorialStep<br>• Avatar |
+| **Business Rules** | • Toda persona usuaria (User) tiene exactamente un Profile.<br>• El nombre de perfil por defecto se deriva del local-part del correo electrónico (antes del «@»).<br>• El proceso de onboarding puede omitirse (Skip) o revertirse (Rollback) sin afectar los datos financieros ya creados. |
+| **3. Capability Analysis — Commands** | • CreateProfileCommand<br>• UpdateProfileCommand<br>• CreateUserOnboardingCommand<br>• AdvanceTutorialStepCommand<br>• SkipOnboardingCommand<br>• RollbackOnboardingCommand |
+| **Capability Analysis — Queries** | • GetProfileByUserIdQuery<br>• GetOnboardingStatusQuery |
+| **Capability Analysis — Domain Events publicados** | (ninguno propio identificado en el código actual) |
+| **4. Capability Layering** | Core capability: gestión del perfil personal. Supporting capability: orquestación del onboarding guiado (una funcionalidad de experiencia de usuario, no del dominio financiero). |
+| **5. Dependencies — Inbound (quién lo consume)** | • IAM llama a ProfilesContextFacade.createUserOnboarding(userId) — Open Host Service publicado por Profiles.<br>• IAM publica UserRegisteredEvent; Profiles lo escucha directamente (sin ACL intermedia) para crear el Profile por defecto. |
+| **Dependencies — Outbound (a quién consume)** | Ninguna. |
+| **6. Design Critique** | Profiles escucha un evento (UserRegisteredEvent) definido dentro del paquete de dominio de IAM, lo que implica un import cruzado entre Domain Layers de dos bounded contexts distintos. Se recomienda extraer un evento de integración propio (Published Language) en lugar de reutilizar la clase de dominio de IAM tal cual. |
 
 #### 4.2.4.3. Categories & Financial Accounts
 
+![Bounded Context Canvas — Categories & Financial Accounts](../assets/img/cap04/bc-canvas-03-categories-financial-accounts.png)
+
+*Bounded Context Canvas de Categories & Financial Accounts. Fuente: elaboración propia a partir de `intiva-api-platform`.*
+
+| Sección del Canvas | Contenido |
+| --- | --- |
+| **1. Context Overview — Propósito** | Administra el catálogo de categorías de gasto/ingreso y los medios de pago (cuentas en efectivo, tarjetas de débito/crédito, billeteras digitales) que usan las personas y familias para registrar sus finanzas. |
+| **Clasificación estratégica** | Supporting Subdomain para «Categories»; capacidades casi Core para «Financial Accounts», por su relación directa con el saldo disponible. |
+| **Domain Roles** | Open Host Service ampliamente reutilizado: es el contexto con más consumidores del sistema (IAM, Finances y Analytics). |
+| **2. Ubiquitous Language** | • Category / CategoryType<br>• FinancialAccount<br>• CashAccount / DebitCardAccount / CreditCardAccount / WalletAccount<br>• Institution<br>• AccountName |
+| **Business Rules** | • Toda persona o familia recibe una categoría y una cuenta financiera por defecto al registrarse.<br>• Una cuenta inactiva no puede recibir transacciones (InactiveFinancialAccountException).<br>• No se acepta una transacción que deje saldo insuficiente (InsufficientFundsException) ni un monto inválido (InvalidTransactionAmountException).<br>• Un conflicto de sincronización entre app móvil (offline) y backend se resuelve mediante control de versión del agregado (FinancialAccountSyncConflictException). |
+| **3. Capability Analysis — Commands** | • CreateCategoryCommand<br>• CreateDefaultCategoryCommand<br>• CreateFinancialAccountCommand<br>• CreateDefaultFinancialAccountCommand<br>• UpdateFinancialAccountCommand<br>• CreateFinancialAccountTransaction |
+| **Capability Analysis — Queries** | • GetCategoryByIdQuery<br>• GetAllCategoriesByOwnerTypeAndOwnerIdAndTypeQuery<br>• GetFinancialAccountByIdQuery<br>• GetAllFinancialAccountsByOwnerId |
+| **Capability Analysis — Domain Events publicados** | (no publica eventos de dominio propios: es consultado de forma síncrona como fuente de datos maestros) |
+| **4. Capability Layering** | Core capability: mantener el saldo y su consistencia (createFinancialAccountTransaction, hasSufficientBalance). Supporting capability: catálogo y etiquetado de categorías. |
+| **5. Dependencies — Inbound (quién lo consume)** | • IAM — ACL: createDefaultCategory, createDefaultFinancialAccount (bootstrap).<br>• Finances — ACL: hasSufficientBalance, getFinancialAccountNameById, createFinancialAccountTransaction, getCategoryNameById.<br>• Analytics — ACL: getCategoryColorAndIconById, getCategoryNameById. |
+| **Dependencies — Outbound (a quién consume)** | Ninguna. |
+| **6. Design Critique** | El contexto agrupa dos agregados (Category y FinancialAccount) con ciclos de vida y consumidores distintos. Se planteó la pregunta «¿qué pasaría si separamos Financial Accounts en su propio bounded context?»: se decidió mantenerlos juntos porque comparten infraestructura y el volumen de reglas de Financial Accounts aún es reducido, pero es el candidato más claro a dividirse si el dominio de medios de pago crece (por ejemplo, al integrar pasarelas de pago externas). |
+
 #### 4.2.4.4. Finances
+
+![Bounded Context Canvas — Finances](../assets/img/cap04/bc-canvas-04-finances.png)
+
+*Bounded Context Canvas de Finances. Fuente: elaboración propia a partir de `intiva-api-platform`.*
+
+| Sección del Canvas | Contenido |
+| --- | --- |
+| **1. Context Overview — Propósito** | Es el núcleo transaccional de Intiva: registra ingresos y egresos, aplica límites de gasto y gestiona transacciones recurrentes (pagos programados) tanto para personas individuales como para grupos familiares. |
+| **Clasificación estratégica** | Core Subdomain — es la razón de ser del producto. |
+| **Domain Roles** | Downstream de Categories & Financial Accounts; Upstream de Communications y de Analytics. |
+| **2. Ubiquitous Language** | • Transaction<br>• SpendingLimit / SpendingLimitStatus<br>• RecurringTransaction<br>• OwnerType (Individual / Family) |
+| **Business Rules** | • Toda transacción pertenece a un OwnerType: INDIVIDUAL o FAMILY.<br>• Un límite de gasto (SpendingLimit) se aplica sobre una categoría o sobre una cuenta financiera (SpendingLimitTargetType).<br>• Al superar el umbral de advertencia o el límite definido se dispara un evento de dominio.<br>• Una transacción sin fondos suficientes se rechaza y se notifica mediante TransactionRegistrationRejectedEvent. |
+| **3. Capability Analysis — Commands** | • RegisterTransactionCommand<br>• UpdateTransactionAmountCommand<br>• CreateSpendingLimitCommand<br>• ActivateSpendingLimitCommand<br>• CreateRecurringTransactionCommand<br>• ActivateRecurringTransactionCommand |
+| **Capability Analysis — Queries** | • GetTransactionsByOwnerIdQuery<br>• GetLastTransactionsByOwnerIdQuery<br>• GetSpendingLimitsByOwnerIdQuery<br>• GetRecurringTransactionsByOwnerIdQuery |
+| **Capability Analysis — Domain Events publicados** | • FamilyTransactionCreatedEvent<br>• RegisteredTransactionDetectedEvent<br>• TransactionRegistrationRejectedEvent<br>• SpendingLimitWarningReachedEvent<br>• SpendingLimitExceededEvent<br>• PaymentDueSoonEvent<br>• PaymentExpiredEvent<br>• RecurringTransactionExecutionRequestedEvent |
+| **4. Capability Layering** | Core capability: registrar transacciones y controlar límites de gasto. Supporting capability: recordatorios de pagos recurrentes (scheduling con PaymentReminderScheduler / RecurringTransactionScheduler). |
+| **5. Dependencies — Inbound (quién lo consume)** | • Analytics lee TransactionRepository y SpendingLimitRepository directamente (sin ACL).<br>• Communications escucha directamente FamilyTransactionCreatedEvent, PaymentDueSoonEvent y PaymentExpiredEvent. |
+| **Dependencies — Outbound (a quién consume)** | • Categories & Financial Accounts — ACL síncrona.<br>• Communications — ACL síncrona (FinancesExternalNotificationsService) para alertas de límite de gasto. |
+| **6. Design Critique** | Finances es el contexto con más eventos de dominio publicados (8) pero no expone una interfaz ACL propia («FinancesContextFacade») para que otros lo consulten de forma controlada; Analytics accede a sus repositorios directamente. Se recomienda publicar dicha interfaz para blindar su Domain Layer, especialmente porque es el Core Subdomain del producto. |
 
 #### 4.2.4.5. Financial Goals (Savings)
 
+![Bounded Context Canvas — Financial Goals (Savings)](../assets/img/cap04/bc-canvas-05-financial-goals-savings.png)
+
+*Bounded Context Canvas de Financial Goals (Savings). Fuente: elaboración propia a partir de `intiva-api-platform`.*
+
+| Sección del Canvas | Contenido |
+| --- | --- |
+| **1. Context Overview — Propósito** | Permite definir metas de ahorro individuales o familiares y registrar los aportes hasta alcanzarlas. |
+| **Clasificación estratégica** | Core Subdomain — el «ahorro colaborativo» es parte del valor diferencial de Intiva. |
+| **Domain Roles** | Contexto mayormente independiente (leaf context); es leído por Analytics. |
+| **2. Ubiquitous Language** | • SavingGoal<br>• GoalContribution<br>• SavingGoalStatus (In Progress / Completed) |
+| **Business Rules** | • Una meta puede pertenecer a un individuo o a una familia (OwnerTypes).<br>• El monto ahorrado es la suma de sus GoalContribution.<br>• Completar y descompletar una meta son operaciones simétricas y reversibles (Complete / UncompleteSavingGoalCommand). |
+| **3. Capability Analysis — Commands** | • CreateSavingGoalCommand<br>• ContributeToSavingGoalCommand<br>• CompleteSavingGoalCommand<br>• UncompleteSavingGoalCommand<br>• UpdateSavingGoalCommand<br>• DeleteSavingGoalCommand |
+| **Capability Analysis — Queries** | • GetSavingGoalByIdQuery<br>• GetAllSavingGoalsByUserIdQuery<br>• GetAllSavingGoalsByGroupIdQuery<br>• GetAllCompletedSavingGoalsByUserIdQuery |
+| **Capability Analysis — Domain Events publicados** | (no se identifican eventos de dominio publicados en la implementación actual — ver crítica de diseño) |
+| **4. Capability Layering** | Core capability: ciclo de vida de la meta y sus aportes. No se identifican capacidades de soporte adicionales. |
+| **5. Dependencies — Inbound (quién lo consume)** | Analytics lee SavingGoalRepository directamente (sin ACL). |
+| **Dependencies — Outbound (a quién consume)** | Ninguna. |
+| **6. Design Critique** | El vocabulario de Communications ya reserva los tipos SAVING_GOAL_COMPLETED y SAVING_GOAL_NOT_COMPLETED, pero Savings todavía no publica el evento que debería dispararlos (p. ej. SavingGoalCompletedEvent): es un vacío entre el diseño de mensajería anticipado y la implementación actual, y queda registrado como trabajo pendiente. Asimismo, la intención original del proyecto era que un aporte de ahorro generara una transacción en Finances; el código actual no materializa esa colaboración, por lo que ambos contextos permanecen desacoplados. |
+
 #### 4.2.4.6. Household
+
+![Bounded Context Canvas — Household](../assets/img/cap04/bc-canvas-06-household.png)
+
+*Bounded Context Canvas de Household. Fuente: elaboración propia a partir de `intiva-api-platform`.*
+
+| Sección del Canvas | Contenido |
+| --- | --- |
+| **1. Context Overview — Propósito** | Modela la colaboración financiera familiar: creación de grupos familiares, asignación de roles, membresías e invitaciones. |
+| **Clasificación estratégica** | Core Subdomain — es el diferenciador central de Intiva frente a las apps de finanzas personales puramente individuales. |
+| **Domain Roles** | Upstream de Communications (provee membresía) y a la vez Downstream de Communications (solicita notificaciones): relación de Partnership bidireccional. |
+| **2. Ubiquitous Language** | • Family<br>• FamilyMember / FamilyRole<br>• Family Economy Responsible<br>• Invitation / InvitationStatus<br>• DeferredDeepLink |
+| **Business Rules** | • Solo el Family Economy Responsible administra el grupo familiar y asigna roles.<br>• Una invitación pendiente no puede duplicarse (InvitationAlreadyPendingException) y expira tras un tiempo definido (InvitationExpiredException).<br>• Una persona no puede unirse dos veces al mismo grupo (UserAlreadyMemberException).<br>• Las invitaciones soportan enlaces diferidos (deep link) y código QR para personas que aún no tienen la app instalada. |
+| **3. Capability Analysis — Commands** | • CreateFamilyCommand<br>• AddFamilyMemberCommand<br>• AssignRoleCommand<br>• SendInvitationCommand<br>• SendInvitationLinkCommand<br>• AcceptInvitationCommand<br>• RejectInvitationCommand<br>• ClaimDeferredInviteCommand |
+| **Capability Analysis — Queries** | • GetFamilyByIdQuery<br>• GetMembersByFamilyIdQuery<br>• GetInvitationByTokenQuery<br>• GetPendingInvitationsByUserIdQuery |
+| **Capability Analysis — Domain Events publicados** | • FamilyCreatedEvent<br>• FamilyInvitationSentEvent<br>• InvitationAcceptedEvent<br>• InvitationRejectedEvent |
+| **4. Capability Layering** | Core capability: gestión de membresía familiar y roles. Supporting capability: generación de códigos QR y enlaces diferidos de invitación (infraestructura de distribución). |
+| **5. Dependencies — Inbound (quién lo consume)** | Communications llama a HouseholdContextFacade.getActiveFamilyMemberUserIds(familyId) para poder notificar a todo el grupo cuando Finances registra una transacción familiar. |
+| **Dependencies — Outbound (a quién consume)** | Communications — ACL síncrona, para notificar invitaciones enviadas y aceptadas. |
+| **6. Design Critique** | Household y Communications se llaman mutuamente (Household → Communications para notificar; Communications → Household para resolver miembros). Es una relación de Partnership válida, pero exige vigilar que no aparezcan ciclos de eventos entre ambos contextos; se recomienda documentarla explícitamente como tal en el Context Map para que el equipo la trate con el mismo cuidado de versionado en ambos sentidos. |
 
 #### 4.2.4.7. Communications
 
+![Bounded Context Canvas — Communications](../assets/img/cap04/bc-canvas-07-communications.png)
+
+*Bounded Context Canvas de Communications. Fuente: elaboración propia a partir de `intiva-api-platform`.*
+
+| Sección del Canvas | Contenido |
+| --- | --- |
+| **1. Context Overview — Propósito** | Centraliza la generación de notificaciones in-app y push (mediante Firebase Cloud Messaging) originadas por eventos de negocio de otros contextos. |
+| **Clasificación estratégica** | Generic / Supporting Subdomain: motor de mensajería reutilizable, no es un diferenciador de negocio en sí mismo. |
+| **Domain Roles** | Downstream de Finances y Household (consumidor de eventos) y a la vez Open Host Service para quien necesite emitir una notificación. |
+| **2. Ubiquitous Language** | • Notification / NotificationDevice<br>• NotificationType<br>• NotificationSource<br>• NotificationStatus (Read / Unread) |
+| **Business Rules** | • Una notificación push se envía a todos los dispositivos activos registrados por la persona usuaria (NotificationDevice).<br>• Toda notificación registra un tipo y una fuente de negocio (NotificationType / NotificationSource) para poder filtrarla.<br>• En entornos de desarrollo, el envío a Firebase se sustituye por un stub (DevFirebaseMessagingGatewayStub) para no depender de credenciales reales. |
+| **3. Capability Analysis — Commands** | • CreateInAppNotificationCommand<br>• SendPushNotificationCommand<br>• RegisterNotificationDeviceCommand<br>• DeactivateNotificationDeviceCommand<br>• MarkNotificationAsReadCommand |
+| **Capability Analysis — Queries** | • GetNotificationsByRecipientUserIdQuery<br>• GetUnreadNotificationsByRecipientUserIdQuery<br>• GetActiveNotificationDevicesByUserIdQuery |
+| **Capability Analysis — Domain Events publicados** | (no publica eventos propios: es mayoritariamente un contexto «hoja» consumidor de eventos ajenos) |
+| **4. Capability Layering** | Core capability: entrega confiable de la notificación (in-app + push). Supporting capability: registro y gestión del ciclo de vida de los dispositivos (tokens FCM). |
+| **5. Dependencies — Inbound (quién lo consume)** | • Finances llama a CommunicationsContextFacade vía ACL (FinancesExternalNotificationsService).<br>• Household llama a CommunicationsContextFacade vía ACL directa.<br>• Communications escucha directamente 3 eventos de Finances (FamilyTransactionCreatedEvent, PaymentDueSoonEvent, PaymentExpiredEvent) y 2 de Household (FamilyInvitationSentEvent, InvitationAcceptedEvent). |
+| **Dependencies — Outbound (a quién consume)** | Household — ACL síncrona, para resolver los miembros activos de una familia. |
+| **6. Design Critique** | Conviven dos mecanismos de integración con el mismo propósito: ACL explícita (cuando Finances u Household llaman a Communications) frente a suscripción directa a eventos del emisor (cuando Communications escucha eventos de Finances/Household por su cuenta). Se recomienda unificar el criterio para que todo evento que derive en notificación se traduzca primero en una llamada explícita al ACL de Communications, evitando que este contexto dependa de las clases de evento internas de otros bounded contexts. |
+
 #### 4.2.4.8. Analytics
+
+![Bounded Context Canvas — Analytics](../assets/img/cap04/bc-canvas-08-analytics.png)
+
+*Bounded Context Canvas de Analytics. Fuente: elaboración propia a partir de `intiva-api-platform`.*
+
+| Sección del Canvas | Contenido |
+| --- | --- |
+| **1. Context Overview — Propósito** | Transforma los datos financieros (transacciones, límites de gasto, metas de ahorro) en métricas, tendencias y reportes visuales para el dashboard de la aplicación web. |
+| **Clasificación estratégica** | Supporting Subdomain: es un read-model / motor de reportes, no un contexto transaccional. |
+| **Domain Roles** | Downstream puro de Finances, Savings y Categories & Financial Accounts; no es consumido por ningún otro contexto de backend (solo por la aplicación web). |
+| **2. Ubiquitous Language** | • AnalyticsSummary<br>• AnalyticsPeriod (Daily / Weekly / Monthly / Annual)<br>• SpendingLimitAnalytics<br>• SavingGoalAnalytics<br>• CategoryExpenseSummary |
+| **Business Rules** | • Los resultados se calculan por OwnerType (Individual o Family) y por PeriodType.<br>• Los resúmenes se cachean en Redis mediante un AnalyticsCachePort para reducir la carga sobre PostgreSQL.<br>• Un reporte exportable respeta un ReportFormat y un ReportFilter definidos por la persona usuaria. |
+| **3. Capability Analysis — Commands** | GenerateReportCommand |
+| **Capability Analysis — Queries** | • GetAnalyticsSummaryByOwnerQuery<br>• GetSpendingLimitAnalyticsByOwnerQuery<br>• GetSavingGoalAnalyticsByOwnerQuery<br>• GetCategoryExpenseRankingQuery<br>• GetIncomeVsExpenseTrendQuery<br>• GetReportPreviewQuery |
+| **Capability Analysis — Domain Events publicados** | (no publica eventos: es un contexto de consulta, no de comando de negocio) |
+| **4. Capability Layering** | Core capability: cálculo y cacheo del resumen financiero. Supporting capability: generación de reportes exportables. |
+| **5. Dependencies — Inbound (quién lo consume)** | Ninguna: nadie más consume AnalyticsContextFacade a nivel de backend (solo la aplicación web, a través de sus controladores REST). |
+| **Dependencies — Outbound (a quién consume)** | • Categories & Financial Accounts — ACL síncrona.<br>• Finances — acceso directo a repositorio (TransactionRepository, SpendingLimitRepository), sin ACL.<br>• Financial Goals (Savings) — acceso directo a repositorio (SavingGoalRepository), sin ACL. |
+| **6. Design Critique** | Es el caso más claro de deuda de diseño detectado en este análisis: AnalyticsExternalTransactionService inyecta directamente los repositorios de Finances y Savings, saltándose tanto el ACL como el Application Layer de esos contextos. Funciona hoy porque los 8 bounded contexts comparten una única base de datos PostgreSQL y un mismo despliegue (monolito modular), pero es el principal obstáculo si en el futuro se quisiera extraer Analytics — o cualquier otro contexto — como un servicio desplegado de forma independiente. |
 
 ### 4.2.5. Context Mapping
 
+Con las *Dependencies Capture* de cada Bounded Context Canvas ya relevadas, el equipo construyó el Context Map de Intiva: una visualización de las relaciones estructurales entre los ocho bounded contexts. El mapa distingue tres tipos de colaboración presentes en el sistema: llamadas síncronas a través de una interfaz publicada (**Anti-Corruption Layer / Open Host Service**), colaboración asíncrona mediante *domain events* (**Conformist**) y —como hallazgo relevante del análisis— **acceso directo a repositorios de persistencia sin pasar por ninguna interfaz de contexto**, lo cual se documenta como deuda de diseño más que como un patrón deliberado.
+
+![Context Map de Intiva](../assets/img/cap04/context-map.png)
+
+*Context Map de Intiva, en notación de Context Mapping de Domain-Driven Design: cada relación indica su extremo upstream (U, proveedor) y downstream (D, consumidor), junto con el patrón de relación aplicado. Los números remiten a la tabla de relaciones que se detalla a continuación. Fuente: elaboración propia a partir de `intiva-api-platform`.*
+
+
+
 #### Tabla de relaciones entre bounded contexts
 
+| # | Relación (llamador → llamado) | Patrón DDD | Mecanismo de integración | Evidencia en el código |
+| --- | --- | --- | --- | --- |
+| 1 | IAM → Categories & Financial Accounts | Customer/Supplier con Anti-Corruption Layer (ACL) | Llamada síncrona a la interfaz publicada (CategoriesContextFacade, FinancialAccountContextFacade) a través de un wrapper propio de IAM (IamExternalCategoriesService, IamExternalFinancialAccountsService). | UserRegisteredEventHandler crea la categoría y la cuenta financiera por defecto tras el registro. |
+| 2 | IAM → Profiles | Customer/Supplier con ACL (Open Host Service publicado por Profiles) | Llamada síncrona a ProfilesContextFacade a través de IamProfilesExternalService. | createUserOnboarding(userId). |
+| 3 | Profiles → IAM | Conformist (Published Language implícito) | Evento de dominio asíncrono (Spring ApplicationEvent) — Profiles escucha UserRegisteredEvent directamente, sin traducción propia. | Profiles.UserRegisteredEventHandler crea el Profile por defecto. |
+| 4 | Finances → Categories & Financial Accounts | Customer/Supplier con ACL | Llamada síncrona vía FinancesExternalCategoriesService / FinancesExternalFinancialAccountService. | Validación de saldo suficiente y registro del movimiento en la cuenta. |
+| 5 | Finances → Communications | Customer/Supplier con ACL / Open Host Service | Llamada síncrona vía FinancesExternalNotificationsService → CommunicationsContextFacade. | Alertas de límite de gasto (warning / exceeded). |
+| 6 | Communications → Finances | Conformist | Suscripción asíncrona directa a eventos de dominio ajenos: FamilyTransactionCreatedEvent, PaymentDueSoonEvent, PaymentExpiredEvent. | FamilyEventHandler, PaymentReminderEventHandler. |
+| 7 | Communications → Household | Customer/Supplier con ACL (Partnership junto con la relación 8) | Llamada síncrona vía CommunicationsExternalHouseholdService → HouseholdContextFacade. | Obtener miembros activos de la familia para notificar una transacción familiar. |
+| 8 | Household → Communications | Customer/Supplier con ACL (Partnership junto con la relación 7) | Llamada síncrona directa a CommunicationsContextFacade. | Notificar invitaciones enviadas y aceptadas. |
+| 9 | Analytics → Categories & Financial Accounts | Customer/Supplier con ACL | Llamada síncrona vía CategoriesContextFacade. | Nombre y color de categoría para los reportes. |
+| 10 | Analytics → Finances | Shared Database / Conformist (sin ACL) — deuda de diseño | Acceso directo a TransactionRepository y SpendingLimitRepository. | Cálculo de AnalyticsSummary y SpendingLimitAnalytics. |
+| 11 | Analytics → Financial Goals (Savings) | Shared Database / Conformist (sin ACL) — deuda de diseño | Acceso directo a SavingGoalRepository. | Cálculo de SavingGoalAnalytics. |
 #### Shared Kernel
 
+Los ocho bounded contexts comparten deliberadamente el paquete `platform.shared`, que actúa como un **Shared Kernel**: `Money`, `UserId`, `OwnerTypes`, `PeriodTypes`, `CurrencyCodes`, `TransactionEntry` y la clase base `AuditableAbstractAggregate`, además de servicios transversales como el almacenamiento de imágenes (Cloudinary). Mantener estos tipos de valor en un único lugar evita que cada contexto reinvente su propia noción de "dinero" o de "titular" (individual frente a familiar), lo cual sería especialmente riesgoso en un dominio financiero donde la consistencia de estos conceptos es crítica. El costo de este acuerdo es el habitual del Shared Kernel: cualquier cambio a estos tipos requiere coordinación entre los responsables de los ocho contextos.
+
 #### Discusión de diseño: preguntas "¿qué pasaría si…?"
+
+Siguiendo las preguntas de diseño sugeridas para el proceso de Context Mapping, el equipo discutió explícitamente las siguientes alternativas antes de llegar al mapa presentado:
+
+- **"¿Qué pasaría si movemos este *capability* a otro bounded context?"** — Se evaluó extraer *Financial Accounts* fuera de *Categories* hacia un contexto propio de "Payment Methods". Se decidió no hacerlo todavía: comparten infraestructura y el volumen de reglas de negocio de *Financial Accounts* aún es reducido, pero queda identificado como el candidato más claro a separarse si el dominio de medios de pago crece (por ejemplo, al integrar pasarelas de pago externas).
+- **"¿Qué pasaría si aislamos los *core capabilities* y movemos los otros a un contexto aparte?"** — Aplicado a *Finances*: se consideró separar el recordatorio de pagos recurrentes (*scheduling*) en un contexto de soporte independiente del núcleo transaccional. Se descartó porque ambos comparten el agregado `RecurringTransaction` y la separación duplicaría reglas de negocio sin un beneficio claro todavía.
+- **"¿Qué pasaría si creamos un *shared service* para reducir la duplicación entre múltiples bounded contexts?"** — Ya está aplicado como el Shared Kernel descrito arriba, para los tipos de valor fundamentales del dominio financiero (`Money`, `UserId`, `OwnerTypes`, etc.).
+- **"¿Qué pasaría si duplicamos una funcionalidad para romper la dependencia?"** — Se propone como evolución futura para *Analytics*: en lugar de leer los repositorios de *Finances* y *Savings* directamente (relaciones 10 y 11), *Analytics* podría mantener su propio modelo de lectura (al estilo CQRS), alimentado por eventos de dominio o por un Open Host Service de solo lectura publicado por esos contextos. Esto eliminaría la deuda de diseño identificada sin sacrificar el rendimiento del dashboard, y es coherente con la alternativa diferida en la Candidate Pattern Evaluation Matrix de la sección 4.1.4.
+- **"¿Qué pasaría si partimos el bounded context en múltiples bounded contexts?"** — Aplicado a *Communications*: se evaluó separar la gestión de dispositivos (tokens de notificación push) de la generación y entrega de notificaciones. Se descartó porque ambos comparten el mismo ciclo de vida operativo y la separación solo añadiría una llamada más entre contextos sin reducir el acoplamiento real.
+
+**Conclusión del Context Mapping.** En conjunto, el Context Map confirma que *Finances* y *Household* son los Core Subdomains del negocio —motivo por el cual concentran más eventos de dominio y más relaciones entrantes—, mientras que *IAM*, *Communications* y *Analytics* cumplen roles de soporte genérico. La relación menos saludable del mapa es el acceso directo de *Analytics* a los repositorios de *Finances* y *Savings* (relaciones 10 y 11): funciona hoy porque los ocho bounded contexts comparten una única base de datos PostgreSQL y un mismo despliegue —el monolito modular decidido en la Iteración 1 del ADD—, pero se documenta explícitamente como deuda de diseño a resolver antes de considerar cualquier extracción futura de un bounded context como servicio independiente.
 
 ## 4.3. Software Architecture
 
@@ -75,3 +414,4 @@ Se seleccionaron cinco historias que cubren los procesos de negocio más represe
 ### 4.3.3. Software Architecture Container Level Diagrams
 
 ### 4.3.4. Software Architecture Deployment Diagrams
+
