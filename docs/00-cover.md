@@ -35,7 +35,7 @@ Producto
 | Código     | Apellidos y Nombres           |
 |------------|--------------------------------|
 | u202110385 | Loli Ramirez, Camila Cristina |
-| \<u202319950\>   | \<Meza Solórzano,Didier Sebastián\>          |
+| u202319950   | Meza Solórzano,Didier Sebastián          |
 | \<código\>   | \<Apellidos y Nombres\>          |
 | \<código\>   | \<Apellidos y Nombres\>          |
 | \<código\>   | \<Apellidos y Nombres\>          |
