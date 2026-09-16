@@ -18,8 +18,6 @@ Para su elaboración, se utilizó la herramienta Miro, donde se analizaron las a
 La implementación de Resolum redefine la gestión financiera de Carlos al sustituir el registro manual en Excel por un flujo de datos pasivo y automatizado, eliminando la fricción que antes provocaba el abandono de sus metas. Al integrar tecnologías de lectura de notificaciones y análisis predictivo, la plataforma transforma la "pereza" y la incertidumbre en un sentimiento de control y seguridad, permitiéndole visualizar el progreso real hacia sus objetivos de hardware y estudios en tiempo real. Este nuevo ecosistema no solo optimiza su precisión contable, sino que utiliza la gamificación para generar un refuerzo positivo, logrando que el usuario perciba su madurez financiera como un logro alcanzable y motivador, desplazando definitivamente la frustración del
 modelo anterior.
 
-<span style="color:transparent;">Hola Profe, ponganos 20 en esta entrega :D</span>
-
 **User Persona 2: María Palacios**
 
 ![To-Be Scenario for María Palacios](../assets/img/cap03/tobeUP2.png)
@@ -33,8 +31,6 @@ Para la especificación de requisitos de los usuarios, se desarrollaron las hist
 A continuación se presentan las historias de usuario relacionadas con nuestra aplicación Intiva. Esta sección reúne historias de usuario centradas en la experiencia inicial con la plataforma de los miembros de familias con problemas de gestión financiera y de los responsables económicos de familias.
 
 Primero, se identifican los Epics que agrupan a varias historias de usuario que tratan el mismo tema y que no pueden ser resueltas en un mismo sprint. Para ello, se toma como base para cada épica una funcionalidad relacionada a la aplicación.
-
-<span style="color:transparent;">Que terror es pasar tablas de PDF a Markdown, estoy haciendo esto mientras veo One Piece.</span>
 
 ### Epics (Themes & Epics)
 
