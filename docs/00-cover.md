@@ -37,8 +37,7 @@ Producto
 | u202110385 | Loli Ramirez, Camila Cristina |
 | u202319950   | Meza Solórzano,Didier Sebastián          |
 | u20211g163   | Solis Solis, Leonardo José          |
-| \<código\>   | \<Apellidos y Nombres\>          |
-| \<código\>   | \<Apellidos y Nombres\>          |
+| u202214214   | Rivera Ticllacuri, Omar Harold          |
 
 **Setiembre 2026**
 

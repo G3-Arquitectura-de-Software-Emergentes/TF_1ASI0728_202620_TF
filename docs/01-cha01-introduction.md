@@ -35,19 +35,20 @@ Balanza es una startup tecnológica que se centra en el desarrollo de soluciones
   </tr>
   <tr>
     <td>
-      <img src="https://github.com/RuwaLabs/upc-pre-202620-1acc0238-4945-RuwaLabs-report/blob/chapter-01/chapter-01/assets/foto_didier.jpg?raw=true" alt="Foto de Didier" style="max-height:40px; display:block; margin:6px auto 0;">
+      <img src="/assets/img/cap01/Omar.jpeg" alt="Foto de Omar" style="max-height:40px; display:block; margin:6px auto 0;">
     </td>
     <td>Meza Solórzano, Didier Sebastian</td>
     <td>U202319950</td>
     <td>Ingeniería de Software</td>
     <td>Soy estudiante de Ingeniería de Software con interés en el desarrollo de aplicaciones móviles y soluciones tecnológicas orientadas a resolver problemas reales. Me considero una persona responsable, comprometida y con disposición para trabajar en equipo. Asimismo, busco aplicar buenas prácticas de desarrollo y mejorar continuamente mis conocimientos técnicos durante el desarrollo de proyectos.</td>
   </tr>
-  <tr>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
+<tr>
+    <td>       <img src="https://github.com/RuwaLabs/upc-pre-202620-1acc0238-4945-RuwaLabs-report/blob/chapter-01/chapter-01/assets/foto_didier.jpg?raw=true" alt="Foto de Didier" style="max-height:40px; display:block; margin:6px auto 0;">
+    </td>
+    <td>Rivera Ticllcauri, Omar Harold</td>
+    <td>U202214214</td>
+    <td>Ingeniería de Software</td>
+    <td>Soy estudiante del 7mo ciclo de Ingeniería de Software. Me considero una persona responsable, puntual y colaborativa, comprometida con apoyar a mis compañeros para lograr un proyecto de calidad. Mis conocimientos técnicos principales se enfocan en C# junto a frameworks como ASP.NET y Node.js. Además, tengo experiencia trabajando con bases de datos SQL y NoSQL (PostgreSQL, MySQL, MongoDB), Python, Figma y diseño gráfico. Mis pasatiempos incluyen el desarrollo de videojuegos y la música.</td>
   </tr>
   <tr>
     <td></td>
