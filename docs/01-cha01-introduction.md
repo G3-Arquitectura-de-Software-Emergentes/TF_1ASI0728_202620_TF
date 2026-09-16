@@ -8,7 +8,7 @@ A continuación, se presenta una descripción detallada de la startup al incluir
 
 ### 1.1.1. Descripción de la Startup
 
-Resolum es una startup tecnológica que se centra en el desarrollo de soluciones innovadoras, accesibles y didácticas para la gestión de finanzas personales con un enfoque en el manejo de ingresos, gastos y ahorros. De este modo, busca empoderar a los usuarios para que puedan tomar el control de sus finanzas y mejorar su bienestar económico a través de herramientas digitales intuitivas y efectivas.
+Balanza es una startup tecnológica que se centra en el desarrollo de soluciones innovadoras, accesibles y didácticas para la gestión de finanzas personales con un enfoque en el manejo de ingresos, gastos y ahorros. De este modo, busca empoderar a los usuarios para que puedan tomar el control de sus finanzas y mejorar su bienestar económico a través de herramientas digitales intuitivas y efectivas.
 
 | Misión                                                                       | Visión                                                                                                                                                                                                                    | Valores                                                                                             |
 | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
