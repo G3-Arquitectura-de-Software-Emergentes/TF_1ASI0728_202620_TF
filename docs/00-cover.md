@@ -36,7 +36,7 @@ Producto
 |------------|--------------------------------|
 | u202110385 | Loli Ramirez, Camila Cristina |
 | u202319950   | Meza Solórzano,Didier Sebastián          |
-| \<código\>   | \<Apellidos y Nombres\>          |
+| u20211g163   | Solis Solis, Leonardo José          |
 | \<código\>   | \<Apellidos y Nombres\>          |
 | \<código\>   | \<Apellidos y Nombres\>          |
 
