@@ -156,7 +156,7 @@ En esta sección se registra cada entrevista realizada. En total, se realizaron 
 
 | Entrevista #3 | Registro |
 |---|---|
-| ![evidencia-entrevista]() | **Distrito:** Villa el Salvador (Lima) <br> **Entrevistado:** Diego <br> **Edad:** 23 años |
+| ![evidencia-entrevista]() | **Distrito:** Villa el Salvador (Lima) <br> **Entrevistado:** Diego <br> **Edad:** 28 años |
 | **Link:** aun sin el link de la entrevista | **Entrevistador:** Didier Sebastian Meza Solórzano |
 | **Timing:** 00:00 | **Resumen:** Diego accede a contenido mediante su celular, usando principalmente uno de la marca Xiaomi. La aplicación que más usa es WhatsApp para comunicarse con su familia, mientras que el navegador que utiliza es Google Chrome.<br><br>Actualmente es padre de un bebé recién nacido, por lo que gestiona el presupuesto destinado a su hijo, el alquiler y los alimentos para poder progresar. Anota sus gastos en la aplicación de notas por defecto de su celular; sin embargo, presenta dificultades al momento de ahorrar, ya que suele usar ese dinero para cubrir gastos imprevistos relacionados con su hijo.<br><br>Diego menciona que una de las cosas que más valora es que la aplicación sea fácil e intuitiva de usar, ya que esto le ayudaría a gestionar y priorizar qué gastos son más importantes que otros.<br><br>Además, tiende a olvidar con frecuencia fechas importantes de sus pagos, por lo que le gustaría ser notificado sobre pagos pendientes o próximos a vencer, para poder cumplir con ellos a tiempo.<br><br>Por último, suele revisar sus gastos semanalmente y menciona que le resulta tedioso tener que ingresar manualmente cada uno de ellos, por lo que le gustaría que este proceso fuera automático. |
 
