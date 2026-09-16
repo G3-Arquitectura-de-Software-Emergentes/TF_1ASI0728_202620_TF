@@ -194,10 +194,6 @@ URL del repositorio del Project Report en GitHub: [G3-Arquitectura-de-Software-E
 
 ## Student Outcome
 
-\<Completar con el Student Outcome ABET indicado en el sílabo de 1ASI0728 para esta sección.\>
-
-## Student Outcome
-
 | Criterio específico | Acciones Realizadas | Conclusiones |
 | --- | --- | --- |
 | Comunica oralmente sus ideas y/o resultados con objetividad a público de diferentes especialidades y niveles jerárquicos, en el marco del desarrollo de un proyecto en ingeniería. | Meza Solórzano, Didier Sebastian: Participé en la exposición de los hallazgos del análisis competitivo y las entrevistas del Capítulo 2, así como de las decisiones estratégicas de diseño (Attribute-Driven Design) del Capítulo 4, explicando los drivers arquitectónicos y las restricciones técnicas del proyecto a mis compañeros de equipo. | <pendiente de completar con el resto del equipo> |
