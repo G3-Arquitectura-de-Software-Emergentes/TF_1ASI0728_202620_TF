@@ -461,11 +461,65 @@ Siguiendo las preguntas de diseño sugeridas para el proceso de Context Mapping,
 
 ## 4.3. Software Architecture
 
+En esta sección, el equipo presenta y explica la representación de la Arquitectura de Software para la solución Intiva, aplicando el C4 Model y utilizando la herramienta Structurizr. A continuación, se desglosa el diseño desde una vista macro del ecosistema tecnológico, pasando por el contexto del sistema, los contenedores internos, hasta llegar a la distribución física en el diagrama de despliegue.
+
 ### 4.3.1. Software Architecture System Landscape Diagram
 
-### 4.3.2. Software Architecture Context Level Diagrams
+En esta sección se presenta el System Landscape Diagram, el cual ilustra el panorama tecnológico completo, delimitando la frontera de la empresa frente a los sistemas externos que no controla.
 
-### 4.3.3. Software Architecture Container Level Diagrams
+![Software Architecture System Landscape Diagram](../assets/img/cap04/SystemLandscape1.png)
 
-### 4.3.4. Software Architecture Deployment Diagrams
+**Explicación del diagrama:**
+El diagrama muestra a la startup Resolum como el límite empresarial ("Enterprise Boundary") que agrupa a sus usuarios registrados (Integrantes de familia y Responsables de la economía familiar) y a su producto central, Intiva Platform. Fuera de este límite se ubican los Visitantes anónimos y los tres sistemas de software externos con los que la empresa interactúa: OAuth2 (para autenticación), Google Play Billing (para procesamiento de pagos) y Firebase Cloud Messaging (para el envío de notificaciones).
+
+### 4.3.1. Software Architecture Context Level Diagrams
+
+En esta sección se presenta el Context Level Diagram. A diferencia del Landscape, este diagrama hace un acercamiento para mostrar a Intiva Platform como un recuadro único en el centro, rodeado por sus usuarios y otros sistemas con los que interactúa directamente.
+
+![Software Architecture Context Level Diagram](../assets/img/cap04/context.jpg)
+
+**Explicación del diagrama:**
+Intiva Platform se posiciona como el núcleo de la solución para la gestión financiera. Interactúa directamente con los usuarios (Visitantes, Integrantes y Responsables familiares) quienes acceden para gestionar presupuestos, ingresos y ahorros. Para lograrlo, el sistema central delega responsabilidades críticas a servicios externos: la gestión de identidad y registro a OAuth2, el cobro de suscripciones a Google Play Billing, y las alertas en tiempo real a Firebase Cloud Messaging.
+
+### 4.3.2. Software Architecture Container Level Diagrams
+
+En esta sección se presenta el Container Diagram de la plataforma Intiva. Dicho diagrama muestra los elementos de alto nivel de la arquitectura de software, cómo se distribuyen las responsabilidades entre ellos, las principales decisiones de tecnología y cómo los contenedores se comunican entre sí.
+
+![Software Architecture Container Level Diagram](../assets/img/cap04/containerdiagram.png)
+
+**Explicación del diagrama:**
+En el diagrama se observan los diversos contenedores que componen el sistema. El flujo inicia con los visitantes accediendo a la Landing Page estática. Una vez registrados, utilizan la aplicación móvil nativa para operaciones diarias o la aplicación web para visualizar analíticas avanzadas. Ambos clientes consumen servicios web enviando peticiones HTTPS mediante JSON al API Gateway (NGINX), el cual enruta la información hacia los contextos correspondientes (microservicios lógicos en Spring Boot).
+
+A continuación, se detallan las responsabilidades y tecnologías de cada contenedor:
+
+| Contenedor | Tecnología | Descripción |
+| :--- | :--- | :--- |
+| **Landing Page** | Astro.js | Sitio web estático donde se muestra información relacionada a Intiva como funcionalidades, beneficios y testimonios. |
+| **Web Server** | NGINX | Balanceador para acceder a la aplicación web y servir los archivos PWA de la aplicación. |
+| **Web Application** | Vue.js | Aplicación para navegadores web que contiene la funcionalidad de analíticas y gráficos estadísticos para familias y usuarios. |
+| **Mobile Application** | Kotlin | Aplicación para dispositivos móviles que contiene las funcionalidades de gestión de finanzas y la creación de grupos familiares. |
+| **Mobile Local Database** | SQLite | Base de datos local del dispositivo donde se almacenan transacciones registradas cuando no hay conexión a Internet. |
+| **API Gateway** | NGINX | Punto de acceso hacia los contextos que conforman el API. Recibe solicitudes y las envía a los controladores. |
+| **IAM Context** | Java, Spring Boot | Bounded Context que gestiona autenticación, registro, autorización y generación de JWT. |
+| **Profiles Context** | Java, Spring Boot | Bounded Context que maneja información personal de los usuarios. |
+| **Subscriptions Context** | Java, Spring Boot | Bounded Context encargado del manejo del ciclo de vida de las suscripciones de los usuarios. |
+| **Analytics Context** | Java, Spring Boot | Bounded Context encargado de procesar información para generar métricas destinadas a los gráficos de la aplicación web. |
+| **Savings Context** | Java, Spring Boot | Bounded Context encargado de gestionar las metas de ahorro y las contribuciones aportadas. |
+| **Finances Context** | Java, Spring Boot | Core Bounded Context encargado del registro de transacciones, límites de gasto y transacciones recurrentes. |
+| **Categories Context** | Java, Spring Boot | Bounded Context que se encarga de categorizar las transacciones de los usuarios. |
+| **Household Context** | Java, Spring Boot | Core Bounded Context que se encarga de la gestión de grupos familiares para el control en conjunto de la economía. |
+| **Communications Context** | Java, Spring Boot | Bounded Context que delega notificaciones push a los dispositivos de los usuarios mediante Firebase. |
+| **PostgreSQL Database** | PostgreSQL | Base de datos relacional principal donde se almacena en tablas toda la información del sistema. |
+| **Cache Server Database** | Redis | Base de datos clave-valor en memoria que almacena métricas para agilizar la carga de los gráficos esstadísticos. |
+
+### 4.3.3. Software Architecture Deployment Diagrams
+
+En esta sección se presenta y explica el Deployment Diagram, el cual ilustra cómo los contenedores de software descritos anteriormente se mapean a la infraestructura física y de nube para su ejecución en entornos de producción.
+
+![Software Architecture Deployment Diagram](../assets/img/cap04/deploymentdiagram.jpg)
+
+**Explicación del diagrama:**
+El despliegue de la arquitectura se basa en un enfoque de alta disponibilidad en la nube. Por el lado del cliente, la aplicación móvil de Kotlin se ejecuta en los dispositivos Android de los usuarios (versión 8.0 o superior), mientras que las aplicaciones web (Vue.js) y el sitio estático (Astro.js) se renderizan en los navegadores web de los clientes.
+
+En el backend, el núcleo del sistema se aloja en **Microsoft Azure**. Las peticiones entrantes son recibidas por un servidor NGINX que actúa como proxy inverso y API Gateway, protegiendo los puertos internos y enrutando el tráfico hacia el monolito modular desarrollado en Spring Boot. Para la persistencia de datos, el sistema se conecta a una instancia gestionada de **PostgreSQL**, mientras que el almacenamiento en caché para optimizar las analíticas y la gestión de tokens se delega a un clúster manejado por **Redis Cloud**, garantizando seguridad y baja latencia a través de conexiones cifradas TLS.
 
