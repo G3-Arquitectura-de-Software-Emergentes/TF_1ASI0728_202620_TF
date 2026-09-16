@@ -59,7 +59,7 @@ Producto
 
 ## Project Report Collaboration Insights
 
-URL del repositorio del Project Report en GitHub: [\<URL del repositorio\>](<URL del repositorio>)
+URL del repositorio del Project Report en GitHub: [G3-Arquitectura-de-Software-Emergentes](https://github.com/G3-Arquitectura-de-Software-Emergentes)
 
 ## AV1:
 
@@ -194,11 +194,9 @@ URL del repositorio del Project Report en GitHub: [\<URL del repositorio\>](<URL
 
 ## Student Outcome
 
-\<Completar con el Student Outcome ABET indicado en el sílabo de 1ASI0728 para esta sección.\>
-
-| Criterio específico                                                                                                                                                                   | Acciones Realizadas | Conclusiones |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | ------------ |
-| Comunica oralmente sus ideas y/o resultados con objetividad a público de diferentes especialidades y niveles jerarquicos, en el marco del desarrollo de un proyecto en ingeniería.    |                     |              |
-| Comunica en forma escrita ideas y/o resultados con objetividad a público de diferentes especialidades y niveles jerarquicos, en el marco del desarrollo de un proyecto en ingeniería. |                     |              |
+| Criterio específico | Acciones Realizadas | Conclusiones |
+| --- | --- | --- |
+| Comunica oralmente sus ideas y/o resultados con objetividad a público de diferentes especialidades y niveles jerárquicos, en el marco del desarrollo de un proyecto en ingeniería. | Meza Solórzano, Didier Sebastian: Participé en la exposición de los hallazgos del análisis competitivo y las entrevistas del Capítulo 2, así como de las decisiones estratégicas de diseño (Attribute-Driven Design) del Capítulo 4, explicando los drivers arquitectónicos y las restricciones técnicas del proyecto a mis compañeros de equipo. | <pendiente de completar con el resto del equipo> |
+| Comunica en forma escrita ideas y/o resultados con objetividad a público de diferentes especialidades y niveles jerárquicos, en el marco del desarrollo de un proyecto en ingeniería. | Meza Solórzano, Didier Sebastian: Redacté el análisis competitivo, el registro y análisis de entrevistas, y el needfinding del Capítulo 2, además del Design Purpose, los Primary User Stories, los Quality Attribute Scenarios, los Constraints y el Architectural Drivers Backlog del Capítulo 4, documentando cada decisión con criterios de aceptación y justificación técnica. | <pendiente de completar con el resto del equipo> |                 |              |
 
 <div style="page-break-after: always;"></div>

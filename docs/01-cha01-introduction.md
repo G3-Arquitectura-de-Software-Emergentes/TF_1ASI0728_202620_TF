@@ -8,7 +8,7 @@ A continuación, se presenta una descripción detallada de la startup al incluir
 
 ### 1.1.1. Descripción de la Startup
 
-Resolum es una startup tecnológica que se centra en el desarrollo de soluciones innovadoras, accesibles y didácticas para la gestión de finanzas personales con un enfoque en el manejo de ingresos, gastos y ahorros. De este modo, busca empoderar a los usuarios para que puedan tomar el control de sus finanzas y mejorar su bienestar económico a través de herramientas digitales intuitivas y efectivas.
+Balanza es una startup tecnológica que se centra en el desarrollo de soluciones innovadoras, accesibles y didácticas para la gestión de finanzas personales con un enfoque en el manejo de ingresos, gastos y ahorros. De este modo, busca empoderar a los usuarios para que puedan tomar el control de sus finanzas y mejorar su bienestar económico a través de herramientas digitales intuitivas y efectivas.
 
 | Misión                                                                       | Visión                                                                                                                                                                                                                    | Valores                                                                                             |
 | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
@@ -16,12 +16,47 @@ Resolum es una startup tecnológica que se centra en el desarrollo de soluciones
 
 ### 1.1.2. Perfiles de integrantes del equipo
 
-| Foto | Integrante                   | Código     | Carrera                | Habilidades y conocimientos técnicos                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| ---- | ---------------------------- | ---------- | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|      | Camila Cristina Loli Ramirez | U202110385 | Ingeniería de Software | Soy estudiante de la carrera Ingeniería de Software. Mi carrera se basa en los conocimientos y técnicas científicas para crear un programa informático. Tengo experiencia con el trabajo en equipo, creación de proyectos y creación de programas básicos. Aportaré al equipo mi creatividad, compromiso de trabajo en equipo, puntualidad y responsabilidad. Me comprometo a trabajar constantemente para mejorar nuestro proyecto y a generar un entorno de trabajo sano con mi grupo. |
-|      |                              |            |                        |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-|      |                              |            |                        |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-|      |                              |            |                        |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+### 1.1.2. Perfiles de integrantes del equipo
+
+<table>
+  <tr>
+    <th>Foto</th>
+    <th>Integrante</th>
+    <th>Código</th>
+    <th>Carrera</th>
+    <th>Habilidades y conocimientos técnicos</th>
+  </tr>
+  <tr>
+    <td></td>
+    <td>Loli Ramirez, Camila Cristina</td>
+    <td>U202110385</td>
+    <td>Ingeniería de Software</td>
+    <td>Soy estudiante de la carrera Ingeniería de Software. Mi carrera se basa en los conocimientos y técnicas científicas para crear un programa informático. Tengo experiencia con el trabajo en equipo, creación de proyectos y creación de programas básicos. Aportaré al equipo mi creatividad, compromiso de trabajo en equipo, puntualidad y responsabilidad. Me comprometo a trabajar constantemente para mejorar nuestro proyecto y a generar un entorno de trabajo sano con mi grupo.</td>
+  </tr>
+  <tr>
+    <td>
+      <img src="https://github.com/RuwaLabs/upc-pre-202620-1acc0238-4945-RuwaLabs-report/blob/chapter-01/chapter-01/assets/foto_didier.jpg?raw=true" alt="Foto de Didier" style="max-height:40px; display:block; margin:6px auto 0;">
+    </td>
+    <td>Meza Solórzano, Didier Sebastian</td>
+    <td>U202319950</td>
+    <td>Ingeniería de Software</td>
+    <td>Soy estudiante de Ingeniería de Software con interés en el desarrollo de aplicaciones móviles y soluciones tecnológicas orientadas a resolver problemas reales. Me considero una persona responsable, comprometida y con disposición para trabajar en equipo. Asimismo, busco aplicar buenas prácticas de desarrollo y mejorar continuamente mis conocimientos técnicos durante el desarrollo de proyectos.</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>
 
 ## 1.2. Solution Profile
 
