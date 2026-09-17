@@ -34,6 +34,8 @@ En esta sección se detallan los escenarios de atributos de calidad que tienen m
 | **Disponibilidad** | Usuario | Solicita acceso a su información financiera en cualquier momento | Backend desplegado en Azure | Producción | El sistema responde sin interrupciones del servicio | Uptime mensual no menor al 95% |
 | **Interoperabilidad** | Servicio externo (Firebase Cloud Messaging, Google Play Billing, Cloudinary) | Devuelve un error, un token inválido o no está disponible | Adaptadores de integración del backend | Producción | El sistema maneja la excepción sin interrumpir el flujo principal de la aplicación | 100% de fallos de terceros manejados sin caída del servicio |
 | **Modificabilidad** | Equipo de desarrollo | Necesita añadir un nuevo tipo de cuenta financiera o una nueva categoría de análisis | Bounded Contexts del backend | Desarrollo | El cambio se realiza dentro de un solo bounded context sin afectar a los demás | Modificación localizada en un único módulo del backend |
+| **Precisión funcional** | Usuario | Registra un gasto cuyo comercio es reconocible | Servicio de sugerencia de categoría (Categories & Financial Accounts) | Producción | El sistema sugiere una categoría junto con un nivel de confianza, permitiendo al usuario corregirla | ≥ 80% de aciertos en comercios frecuentes; el usuario siempre puede corregir la sugerencia |
+| **Privacidad** | Sistema operativo Android | Intercepta el contenido de una notificación push del dispositivo | Servicio de captura de notificaciones (RPA) en el cliente móvil | Producción, dispositivo del usuario | El sistema procesa únicamente notificaciones de aplicaciones financieras autorizadas y descarta el resto sin almacenarlas | 0% de notificaciones no financieras persistidas |
 #### 4.1.2.3. Constraints
 En esta sección reunimos aquellas condiciones que no son opcionales y son restricciones establecidas por necesidades propias del negocio y del contexto académico del proyecto, las cuales debemos respetar para asegurar que la solución propuesta sea viable y cumpla con las expectativas. A continuación, se presentan los principales constraints en forma de Technical Stories, sirviendo como guía concreta para el desarrollo del sistema.
 
@@ -66,6 +68,7 @@ En esta sección identificamos y priorizamos los principales drivers que deben g
 | D-10 | Monetización freemium | Definir planes gratuito y premium, con validación de suscripciones a través del proveedor de pagos. | Medium | Medium |
 | D-11 | Metas de ahorro personales y compartidas | Registrar, modificar y hacer seguimiento de metas con aportes individuales y grupales. | Medium | Medium |
 | D-12 | Disponibilidad del servicio | Mantener la plataforma accesible con un uptime mensual no menor al 95% sobre infraestructura en planes gratuitos. | Medium | Low |
+| D-13 | Automatización inteligente de registro y categorización | Reducir la fricción de registro manual mediante lectura de notificaciones financieras (RPA) y sugerencia de categoría (IA), sin comprometer la precisión ni la privacidad del usuario. | High | High |
 
 Los drivers clasificados como (High, High) —D-02 y D-03— son los que se abordan en la primera iteración del proceso de diseño, ya que constituyen simultáneamente el principal diferenciador del producto y el mayor desafío técnico de la arquitectura, al requerir un modelo de permisos y visibilidad granular dentro de un contexto compartido.
 ### 4.1.4. Architectural Design Decisions
@@ -199,6 +202,50 @@ La última iteración definió la frontera externa del sistema. Dos asuntos qued
 | AD-19 | Validar toda suscripción del lado del servidor contra el proveedor de pagos, sin confiar en el resultado que informe el cliente. | Previene la activación fraudulenta de beneficios premium, requisito implícito de D-10 y US 010. |
 
 
+#### Iteración 5: automatización inteligente de registro y categorización
+
+**Drivers considerados:** D-13 (Automatización inteligente de registro y categorización).
+
+Esta iteración se incorporó una vez que el equipo revisó el To-Be Scenario Mapping del Capítulo III y encontró una idea mencionada allí para el segmento de Carlos Castillo —lectura automática de notificaciones y análisis predictivo— que nunca había sido traducida a un driver arquitectónico concreto. A esto se sumó un hallazgo recurrente en las entrevistas del Capítulo II: varios usuarios (Rodrigo, Benjamín) señalaron como tedioso tanto el registro manual como la clasificación posterior de sus gastos por categoría. El driver D-13 agrupa ambos hallazgos porque comparten la misma motivación —reducir el esfuerzo manual del usuario— aunque exigen mecanismos técnicos distintos.
+
+Las tácticas evaluadas correspondieron a la categoría de rendimiento y modificabilidad para la captura de notificaciones, y a la de precisión funcional para la sugerencia de categoría. Por el lado de la captura, se consideró *interceptar eventos en el sistema operativo del cliente* frente a *delegar la lectura a un servicio de terceros*. Por el lado de la categorización, se evaluó un motor basado en reglas frente a un modelo de aprendizaje automático embebido o delegado a un servicio externo.
+
+**Candidate Pattern Evaluation Matrix: automatización de registro y categorización**
+
+| Driver ID | Título de Driver | Patrón 1: Sin automatización (registro 100% manual) | | Patrón 2: Reglas/diccionario embebido en el backend | | Patrón 3: Clasificación por prompt a un LLM externo vía API | |
+|---|---|---|---|---|---|---|---|
+| | | **Pro** | **Con** | **Pro** | **Con** | **Pro** | **Con** |
+| D-13 | Automatización inteligente de registro y categorización | No introduce complejidad ni dependencias nuevas al sistema. | Mantiene intacta la fricción de registro identificada como causa raíz del problema desde el Capítulo I. | Se ejecuta dentro del propio contexto Categories & Financial Accounts, sin costo de infraestructura ni dependencia de terceros. | La cobertura de comercios reconocidos crece de forma manual y queda acotada al diccionario mantenido por el equipo; no generaliza ante comercios nuevos o mal escritos. | Generaliza ante comercios nuevos o con nombres ambiguos, sin mantenimiento manual de un diccionario, y constituye la aplicación concreta de una tecnología emergente de IA sobre el dominio del producto. | Introduce una dependencia externa y su disponibilidad debe manejarse con cuidado, además de un costo por consumo que debe acotarse. |
+
+**Decisión adoptada.** Para la captura de transacciones se optó por interceptar las notificaciones directamente en el cliente móvil mediante `NotificationListenerService` de Android, y enviarlas al backend como transacciones sugeridas a través del mismo endpoint REST ya definido para transacciones, en un estado `PENDING_CONFIRMATION` que exige confirmación del usuario antes de afectar cualquier saldo. Para la categorización se optó por enviar la descripción del gasto y la lista de categorías del usuario como *prompt* a un LLM externo, y usar su respuesta de texto como categoría sugerida, en lugar de un motor de reglas o de un modelo de embeddings propio: es la alternativa que exige menos piezas nuevas (una sola llamada HTTP con un prompt, sin cálculo ni almacenamiento de vectores) y a la vez constituye una demostración inequívoca de una tecnología emergente de IA, que un motor de reglas no habría satisfecho. El con del Patrón 3 —dependencia y costo externos— se mitiga aislando la llamada detrás de un adaptador propio (siguiendo el mismo principio que AD-16 aplica a Firebase, Google OAuth2 y Cloudinary) y acotando el consumo a un nivel gratuito o de bajo costo, consistente con C-08.
+
+| ID | Decisión | Fundamento |
+|---|---|---|
+| AD-20 | Capturar transacciones sugeridas en el cliente móvil mediante `NotificationListenerService`, enviándolas al backend como transacciones en estado `PENDING_CONFIRMATION` a través del mismo endpoint REST de transacciones. | Evita infraestructura de backend adicional y reutiliza el contrato REST versionado (C-05), manteniendo coherencia con la persistencia local ya decidida en AD-12. |
+| AD-21 | Encapsular la sugerencia de categoría en un adaptador propio (`ClassifierService`) dentro de Categories & Financial Accounts, que arma un *prompt* con la descripción del gasto y las categorías del usuario, lo envía a un LLM externo vía API, e interpreta la respuesta de texto como la categoría sugerida junto con un nivel de confianza. | Preserva el aislamiento del bounded context establecido en AD-01 y da cumplimiento efectivo a D-13 con la implementación más simple posible de una tecnología de IA real, sin infraestructura de embeddings ni cálculo de similitud propios. |
+| AD-22 | Exigir confirmación explícita del usuario para toda transacción o categoría sugerida por RPA o IA antes de que afecte saldos, límites de gasto o reportes; si el servicio de clasificación no responde, `ClassifierService` degrada a la categoría "Otros" sin bloquear el registro del gasto. | Mantiene el enfoque educativo que diferencia a Intiva frente a Plum (Capítulo II), evita que un falso positivo corrompa la información financiera del usuario, y da cumplimiento a C-07 ante la caída del proveedor de IA. |
+
+#### Iteración 6: orquestación del canal de notificaciones (n8n)
+
+**Drivers considerados:** D-04 (Alertas y recordatorios automáticos).
+
+Con AD-07 ya resuelto —los contextos propagan sus efectos posteriores mediante eventos de dominio— y AD-15 estableciendo que las alertas se entregan como notificaciones push, quedaba pendiente decidir quién traduce cada evento en el mensaje final que ve el usuario y bajo qué regla se envía. Mantener esa lógica escrita directamente en Communications habría funcionado, pero habría significado desplegar una nueva versión del backend cada vez que el equipo quisiera ajustar la redacción de un mensaje, agrupar varias alertas de una misma familia en un solo envío, o incorporar un canal adicional a futuro (correo, SMS). El equipo identificó esto como una segunda oportunidad concreta para incorporar una tecnología emergente de automatización de procesos al proyecto, complementaria a la IA de categorización.
+
+La táctica evaluada fue *externalizar configuración*: mover el formateo, la agrupación y el enrutamiento del mensaje a un motor de flujos visual y versionable por fuera del código del backend, frente a mantener esa lógica embebida en Communications.
+
+**Candidate Pattern Evaluation Matrix: canal de entrega de notificaciones**
+
+| Driver ID | Título de Driver | Patrón 1: Lógica de notificación embebida en Communications | | Patrón 2: n8n como orquestador de flujos, invocado por Communications | | Patrón 3: SaaS de notificaciones (ej. OneSignal) | |
+|---|---|---|---|---|---|---|---|
+| | | **Pro** | **Con** | **Pro** | **Con** | **Pro** | **Con** |
+| D-04 | Alertas y recordatorios automáticos | No agrega infraestructura ni dependencias externas. | Cualquier cambio en la redacción, el canal o la regla de agrupación exige una nueva versión del backend. | Permite editar visualmente el flujo de notificación (formato del mensaje, canal, condiciones de agrupación) sin desplegar el backend; se autoaloja en un plan gratuito compatible con C-08. | Introduce un salto de red adicional y un punto de fallo que debe manejarse con una vía de respaldo. | Delega por completo la entrega y el versionado de plantillas a un proveedor especializado. | Costo recurrente por volumen de envíos, incompatible con C-08 para una startup en etapa inicial. |
+
+**Decisión adoptada.** Communications continúa siendo quien recibe los eventos de dominio, sin cambios sobre AD-06 ni AD-07, pero en lugar de construir el mensaje final y decidir el canal internamente, invoca un webhook de un flujo de n8n autoalojado que centraliza el formateo del mensaje, la agrupación de alertas y la selección de canal. Si n8n no responde, Communications aplica un envío de respaldo directo vía Firebase Cloud Messaging con el mensaje sin formatear, para no perder la alerta.
+
+| ID | Decisión | Fundamento |
+|---|---|---|
+| AD-23 | Delegar el formateo, la agrupación y el enrutamiento de notificaciones a un flujo de n8n autoalojado, invocado por Communications mediante un webhook, manteniendo un envío de respaldo directo vía FCM ante indisponibilidad de n8n. | Permite ajustar la lógica de notificación sin desplegar una nueva versión del backend, da cumplimiento a D-04 con una segunda tecnología emergente de automatización, y preserva C-07 mediante el respaldo directo. |
+
 #### Deuda de diseño asumida
 
 El proceso dejó dos decisiones que el equipo considera incorrectas pero que se mantienen de forma consciente en esta versión. Se registran aquí para que su trazabilidad no dependa de la memoria de quienes participaron.
@@ -207,6 +254,8 @@ El proceso dejó dos decisiones que el equipo considera incorrectas pero que se 
 |---|---|---|---|
 | DT-01 | El contexto Analytics accede de forma directa a los repositorios de Finances y de Savings, sin mediar la interfaz publicada por esos contextos. | Combinación de AD-05, que habilita técnicamente el acceso al compartirse la base de datos, con la presión de plazo de C-10. | Debe resolverse mediante un modelo de lectura propio de Analytics, alimentado por eventos, antes de intentar cualquier extracción de contextos como servicios independientes. |
 | DT-02 | El contexto Profiles escucha un evento definido dentro del paquete de dominio de IAM, en lugar de un evento de integración declarado como lenguaje publicado. | AD-07 no fijó una convención explícita sobre qué eventos son públicos y cuáles internos. | Extraer el evento de integración hacia el kernel compartido cuando se formalice el catálogo de eventos públicos del sistema. |
+| DT-03 | La captura automática de transacciones (AD-20) depende de un permiso sensible de Android (`NotificationListenerService`) que el usuario puede revocar en cualquier momento, y del formato de notificación de cada billetera o banco, que puede cambiar sin previo aviso. | Necesidad de reducir la fricción de registro (D-13) mediante un mecanismo que vive fuera del control del backend, en el sistema operativo del cliente. | El sistema debe degradar con gracia a registro 100% manual cuando el permiso no esté concedido o el formato de notificación no sea reconocido, sin bloquear el resto de la aplicación. |
+| DT-04 | El envío de notificaciones depende de la disponibilidad de la instancia de n8n autoalojada; el respaldo directo vía FCM evita perder la alerta, pero la entrega sin el formateo ni la agrupación definidos en el flujo. | Introducido por AD-23 al externalizar el formateo y enrutamiento de notificaciones fuera del backend. | Evaluar una cola de reintentos o una instancia de n8n en alta disponibilidad si el volumen de notificaciones crece lo suficiente para que el respaldo degradado sea insuficiente. |
 
 
 ### 4.1.5. Quality Attribute Scenario Refinements
