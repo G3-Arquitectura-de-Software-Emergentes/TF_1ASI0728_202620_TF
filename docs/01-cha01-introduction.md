@@ -25,7 +25,8 @@ Balanza es una startup tecnológica que se centra en el desarrollo de soluciones
     <th>Habilidades y conocimientos técnicos</th>
   </tr>
   <tr>
-    <td></td>
+    <td> <img src="../assets/img/cap01/CamilaLoli-C1.jpg" alt="Foto de Camila" style="max-height:330px; display:block; margin:6px auto 0;">
+    </td>
     <td>Loli Ramirez, Camila Cristina</td>
     <td>U202110385</td>
     <td>Ingeniería de Software</td>
