@@ -34,7 +34,7 @@ Producto
 
 | Código     | Apellidos y Nombres           |
 |------------|--------------------------------|
-| u202110385 | Loli Ramirez, Camila Cristina |
+| u202110385   | Loli Ramirez, Camila Cristina |
 | u202319950   | Meza Solórzano,Didier Sebastián          |
 | u20211g163   | Solis Solis, Leonardo José          |
 | u202214214   | Rivera Ticllacuri, Omar Harold          |
@@ -49,7 +49,7 @@ Producto
 
 | Versión | Fecha | Autor | Descripción de modificación |
 | ------- | ----- | ----- | ---------------------------- |
-| AV1     | \<dd/mm/aaaa\> | \<integrantes que participaron\> | \<capítulos/secciones incluidos en esta entrega\> |
+| AV1     | 16/09/2026 | Loli Ramirez, Camila Cristina<br>Meza Solórzano,Didier Sebastián<br>Solis Solis, Leonardo José<br>Rivera Ticllacuri, Omar Harold | Revisión de los capítulos I, II, III y finalización del capítulo IV |
 | TB1     | \<dd/mm/aaaa\> | \<integrantes que participaron\> | \<capítulos/secciones incluidos en esta entrega\> |
 | AV2     | \<dd/mm/aaaa\> | \<integrantes que participaron\> | \<capítulos/secciones incluidos en esta entrega\> |
 | TB2     | \<dd/mm/aaaa\> | \<integrantes que participaron\> | \<capítulos/secciones incluidos en esta entrega\> |
@@ -62,7 +62,9 @@ URL del repositorio del Project Report en GitHub: [G3-Arquitectura-de-Software-E
 
 ## AV1:
 
-\<Cómo el equipo dividió y coordinó las tareas de esta entrega.\>
+El equipo realizó la redacción y revisión de los capítulos I, II, III y finalizó el capítulo IV.
+
+
 
 ## TB1:
 
@@ -195,8 +197,7 @@ URL del repositorio del Project Report en GitHub: [G3-Arquitectura-de-Software-E
 
 | Criterio específico | Acciones Realizadas | Conclusiones |
 | --- | --- | --- |
-| Comunica oralmente sus ideas y/o resultados con objetividad a público de diferentes especialidades y niveles jerárquicos, en el marco del desarrollo de un proyecto en ingeniería. | Meza Solórzano, Didier Sebastian: Participé en la exposición de los hallazgos del análisis competitivo y las entrevistas del Capítulo 2, así como de las decisiones estratégicas de diseño (Attribute-Driven Design) del Capítulo 4, explicando los drivers arquitectónicos y las restricciones técnicas del proyecto a mis compañeros de equipo.<br><br>Rivera Ticllacuri, Omar Harold: Expuse el perfil del equipo (Capítulo 1) y el diseño estratégico DDD del Capítulo 4 (EventStorming, Domain Message Flows, Bounded Context Canvases y Context Mapping) a mis compañeros. | <pendiente de completar con el resto del equipo> |
-| Comunica en forma escrita ideas y/o resultados con objetividad a público de diferentes especialidades y niveles jerárquicos, en el marco del desarrollo de un proyecto en ingeniería. | Meza Solórzano, Didier Sebastian: Redacté el análisis competitivo, el registro y análisis de entrevistas, y el needfinding del Capítulo 2, además del Design Purpose, los Primary User Stories, los Quality Attribute Scenarios, los Constraints y el Architectural Drivers Backlog del Capítulo 4, documentando cada decisión con criterios de aceptación y justificación técnica. | <pendiente de completar con el resto del equipo> |
-| Comunica en forma escrita ideas y/o resultados con objetividad a público de diferentes especialidades y niveles jerárquicos, en el marco del desarrollo de un proyecto en ingeniería. | Rivera Ticllacuri, Omar Harold: Redacté mi perfil en el Capítulo 1 y, en el Capítulo 4, toda la sección 4.2 (Domain Message Flows Modeling, Bounded Context Canvases de los 8 contextos y Context Mapping), incluyendo el hallazgo de que Analytics accede directamente a los repositorios de Finances y Savings sin ACL. | Modelar el dominio a partir del comportamiento real del backend, en lugar de solo la idea teórica del negocio, permitió detectar inconsistencias de arquitectura que de otro modo pasarían desapercibidas hasta la implementación. |
+| Comunica oralmente sus ideas y/o resultados con objetividad a público de diferentes especialidades y niveles jerárquicos, en el marco del desarrollo de un proyecto en ingeniería. | Meza Solórzano, Didier Sebastian: Participé en la exposición de los hallazgos del análisis competitivo y las entrevistas del Capítulo 2, así como de las decisiones estratégicas de diseño (Attribute-Driven Design) del Capítulo 4, explicando los drivers arquitectónicos y las restricciones técnicas del proyecto a mis compañeros de equipo.<br><br>Rivera Ticllacuri, Omar Harold: Expuse el perfil del equipo (Capítulo 1) y el diseño estratégico DDD del Capítulo 4 (EventStorming, Domain Message Flows, Bounded Context Canvases y Context Mapping) a mis compañeros.<br><br>Loli Ramirez, Camila Cristina: Expuse al equipo las decisiones arquitectónicas del Capítulo 4 y el porqué de elegir el monolito modular y la caché cache-aside, además de los resultados del EventStorming y del descubrimiento de contextos candidatos en Miro. | <pendiente de completar con el resto del equipo> |
+| Comunica en forma escrita ideas y/o resultados con objetividad a público de diferentes especialidades y niveles jerárquicos, en el marco del desarrollo de un proyecto en ingeniería. | Meza Solórzano, Didier Sebastian: Redacté el análisis competitivo, el registro y análisis de entrevistas, y el needfinding del Capítulo 2, además del Design Purpose, los Primary User Stories, los Quality Attribute Scenarios, los Constraints y el Architectural Drivers Backlog del Capítulo 4, documentando cada decisión con criterios de aceptación y justificación técnica.<br><br>Rivera Ticllacuri, Omar Harold: Redacté mi perfil en el Capítulo 1 y, en el Capítulo 4, toda la sección 4.2 (Domain Message Flows Modeling, Bounded Context Canvases de los 8 contextos y Context Mapping), incluyendo el hallazgo de que Analytics accede directamente a los repositorios de Finances y Savings sin ACL.<br><br>Loli Ramirez, Camila Cristina: Redacté las secciones 4.1.4 y 4.1.5 (iteraciones del Quality Attribute Workshop, decisiones AD-01 a AD-19, deudas de diseño y refinamiento de los escenarios de calidad) y las secciones 4.2.1 y 4.2.2 (EventStorming y descubrimiento de los ocho contextos candidatos). También realicé la revisión del Capítulo 1. | <pendiente de completar con el resto del equipo><br><br>Rivera Ticllacuri, Omar Harold: Modelar el dominio a partir del comportamiento real del backend, en lugar de solo la idea teórica del negocio, permitió detectar inconsistencias de arquitectura que de otro modo pasarían desapercibidas hasta la implementación.<br><br>Loli Ramirez, Camila Cristina: Documentar el porqué de cada decisión, y no solo el resultado, hace visible que varias opciones se eligieron por ser óptimas bajo las restricciones del proyecto. Dejar por escrito la deuda de diseño asumida resulta tan útil como registrar los acuerdos. |
 
 <div style="page-break-after: always;"></div>
