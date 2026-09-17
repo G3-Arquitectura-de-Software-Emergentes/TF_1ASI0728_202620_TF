@@ -49,11 +49,13 @@ Balanza es una startup tecnológica que se centra en el desarrollo de soluciones
     <td>Soy estudiante del 7mo ciclo de Ingeniería de Software. Me considero una persona responsable, puntual y colaborativa, comprometida con apoyar a mis compañeros para lograr un proyecto de calidad. Mis conocimientos técnicos principales se enfocan en C# junto a frameworks como ASP.NET y Node.js. Además, tengo experiencia trabajando con bases de datos SQL y NoSQL (PostgreSQL, MySQL, MongoDB), Python, Figma y diseño gráfico. Mis pasatiempos incluyen el desarrollo de videojuegos y la música.</td>
   </tr>
   <tr>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
+    <td>
+    <img src="../assets/img/cap01/Leo.jpg" alt="Foto de Leonardo" style="max-height:330px; display:block; margin:6px auto 0;">
+    </td>
+    <td>Solis Solis, Leonardo José</td>
+    <td>U20211G163</td>
+    <td>Ingeniería de Software</td>
+    <td>Soy estudiante de la carrera de Ingeniería de Software. Tengo conocimientos en desarrollo web con frameworks como Angular, VueJS y Astro, asi como tambien conocimiento de desarrollo backend con .NET Framework. Me considero una persona con buen ojo para los detalles, siendo este mi principal aporte al equipo de trabajo.</td>
   </tr>
 </table>
 
