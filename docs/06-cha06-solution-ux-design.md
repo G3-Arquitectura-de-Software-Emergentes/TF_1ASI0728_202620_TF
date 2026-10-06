@@ -465,7 +465,7 @@ Esta sección presenta los mock-ups de la aplicación móvil (Android) y de la a
 
 ### 6.4.4. Applications User Flow Diagrams
 
-Esta sección presenta los User Flows de las aplicaciones de la solución. Están en la sección **Applications User Flow Diagrams** de la página [Mockup - User flow - Prototyping](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2005-721). Hay un User Flow por cada user goal, identificado con el código UF y el código G del objetivo. Cada flujo se deriva de un wireflow de [6.4.2](#642-applications-wireflow-diagrams) (F01, F02 o F03), o es una subruta de uno de ellos cuando el flujo es secundario.
+Esta sección presenta los User Flows de las aplicaciones de la solución. Están en la sección **Applications User Flow Diagrams** de la página [Mockup - User flow - Prototyping](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2045-2348). Hay un User Flow por cada user goal, identificado con el código UF y el código G del objetivo. Cada flujo se deriva de un wireflow de [6.4.2](#642-applications-wireflow-diagrams) (F01, F02 o F03), o es una subruta de uno de ellos cuando el flujo es secundario.
 
 Los actores corresponden a las audiencias de [6.2.1](#621-organization-systems): el **usuario de Intiva** (individual o integrante del grupo), y el **visitante web**. Para los flujos principales se describe además un escenario académico con dos personas de ejemplo: Carlos y María.
 
@@ -473,90 +473,75 @@ Cada diagrama incluye la ruta esperada (**happy path**, línea continua en el di
 
 **Aplicación Android**
 
-**UF01. Registrar un gasto detectado**
+**UF01 · Registrar un gasto con categoría IA (F01).** El usuario ingresa los datos (WF01), solicita una sugerencia (WF02), acepta o elige otra categoría (WF03), revisa y guarda (WF04). Si la IA falla, WF08 mantiene la alternativa manual. Un fallo al guardar conserva datos y saldo anterior.
 
-- **User goal:** "Quiero registrar un gasto detectado sin perder el control de mis datos."
-- **Actor y escenario:** Carlos, que busca reducir la carga de transcribir una compra, pero quiere comprobar el importe y decidir qué se registra.
-- **Happy path:** WF01 (configurar acceso) → WF02 (fuentes guardadas) → WF03 (sugerencia pendiente de confirmación) → WF04 (revisar gasto) → "Confirmar gasto" → WF07 (gasto registrado). El saldo pasa de S/ 1,240.00 a S/ 1,191.10 solo después de una respuesta exitosa.
-- **Unhappy paths:**
-    - Permiso denegado o revocado → WF08 (registro manual disponible).
-    - Notificación de una fuente no autorizada o con formato no reconocido → se descarta sin guardar contenido y no crea sugerencia.
-    - Descarte de la sugerencia → WF11, sin movimiento ni cambio de saldo.
-    - Error al guardar → WF12.
+**UF02 · Consultar gastos hormiga (F02).** El usuario abre WF05, elige período y obtiene WF06 con movimientos verificables. Sin datos suficientes, WF08 informa que el análisis no puede fundamentarse. Consultar no registra gastos.
 
-![Userflow de Registrar un gasto detectado](../assets/img/cap06/Userflow1.png)
-![Userflow de Registrar un gasto detectado](../assets/img/cap06/Userflow2.png)
+**UF03 · Consultar una meta de ahorro (F02).** Desde WF05 o WF06 se abre WF07. El usuario revisa la recomendación y decide si ajusta su planificación en las funciones habituales. La respuesta del asistente no cambia la meta por sí sola.
+
+**UF04 · Proponer un gasto familiar (F03).** Desde WF09, un miembro abre WF10 y envía una propuesta con importe y destinatario fijados. WF11 muestra quién debe aprobar. Crear la propuesta no modifica el saldo.
+
+**UF05 · Aprobar o rechazar el gasto familiar (F03).** Cada miembro consulta WF11 y aprueba con su firma o rechaza. Un voto pendiente mantiene la propuesta; un rechazo la cierra. Con unanimidad, WF12 espera la confirmación y muestra el gasto validado solo después de verificarla. Error de red: consultar estado antes de reintentar. Los votos no se reutilizan si cambian las condiciones.
+
+Los diagramas F01, F02 y F03 de la sección 6.4.2 muestran las pantallas de estos recorridos. Los recorridos vigentes se basan en categorización IA, asistencia financiera y aprobación unánime.
 
 
-*Figura 6.4.4-A. User Flow UF01. [Abrir diagrama editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2045-2348).*
+**Diagramas de decisión de los recorridos vigentes**
 
-**UF02. Aceptar o corregir la categoría sugerida por IA**
+```mermaid
+flowchart TD
+  A["UF01 · Ingresar gasto"] --> B{"¿Solicitar categoría IA?"}
+  B -- "No" --> C["Elegir categoría manual"]
+  B -- "Sí" --> D{"¿Sugerencia válida?"}
+  D -- "No" --> C
+  D -- "Sí" --> E{"¿Aceptar categoría?"}
+  E -- "No" --> C
+  E -- "Sí" --> F["Revisar datos"]
+  C --> F
+  F --> G{"¿Guardado confirmado?"}
+  G -- "Sí" --> H["Gasto registrado · saldo actualizado"]
+  G -- "No" --> I["Conservar datos · saldo anterior · reintentar"]
+  I --> F
+```
 
-- **User goal:** "Quiero aceptar o corregir la categoría sugerida antes de confirmar mi gasto."
-- **Actor y escenario:** María, que quiere que la compra quede en la categoría correcta aunque la propuesta de IA no refleje su criterio.
-- **Happy path:** WF08 (solicitar categoría IA) → WF04 (revisar) → "Aceptar categoría" y "Confirmar gasto" → WF07.
-- **Alternative path (corregir):** WF04 → WF05 (elegir categoría) → WF04 → "Confirmar gasto" → WF07.
-- **Unhappy path:** baja confianza o comercio desconocido → WF06, donde "Otros" exige confirmación explícita. Confirmar la categoría vuelve a WF04 y no guarda el gasto por sí solo.
+```mermaid
+flowchart TD
+  A["UF02 / UF03 · Consultar asistente"] --> B["Elegir período y gastos o meta"]
+  B --> C{"¿Datos suficientes y respuesta válida?"}
+  C -- "No" --> D["Informar limitación · volver o reintentar"]
+  C -- "Sí" --> E["Mostrar análisis y movimientos utilizados"]
+  E --> F["Revisar recomendación"]
+  F --> G["El usuario decide · sin cambios automáticos"]
+  D --> B
+```
 
-![Userflow de Aceptar o corregir la categoría sugerida por IA](../assets/img/cap06/Userflow3.png)
-
-*Figura 6.4.4-B. User Flow UF02. [Abrir diagrama editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2045-2348).*
-
-**UF03. Revisar y actualizar un vencimiento**
-
-- **User goal:** "Quiero revisar un vencimiento y actualizar su estado cuando ya lo pagué."
-- **Actor y escenario:** usuario de Intiva que necesita consultar fecha e importe de un servicio y distinguir los recordatorios atendidos de los pendientes, sin efectuar pagos desde Intiva.
-- **Happy path:** notificación o Alertas → WF09 (estado Pendiente) → WF10 (detalle) → "Marcar como pagado" → WF09 (estado Pagado).
-- **Unhappy paths:**
-    - Salir del detalle sin marcar → WF09 con estado Pendiente, sin cambios.
-    - Si el envío normal falla, se usa el aviso de respaldo sin formato ni agrupación y se abre el mismo detalle WF10.
-- **Restricción:** "Marcar como pagado" solo actualiza el estado del recordatorio. No realiza transferencias ni débitos, y no reduce el saldo.
-
-![Userflow deRevisar y actualizar un vencimiento](../assets/img/cap06/Userflow4.png)
-
-*Figura 6.4.4-C. User Flow UF03. [Abrir diagrama editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2045-2348).*
-
-**UF04. Registrar manualmente sin captura**
-
-- **User goal:** "Quiero registrar un gasto manualmente sin autorizar la captura de notificaciones."
-- **Actor y escenario:** usuario de Intiva que prefiere ingresar el gasto por su cuenta, o que necesita continuar después de denegar o revocar el permiso de captura.
-- **Happy path:** WF01 → "Continuar manualmente" → WF08 → WF04 (revisar) → "Guardar gasto" → WF07 (saldo actualizado tras guardado exitoso).
-- **Alternative paths:** elegir otra categoría → WF05 → WF04. Pedir ayuda de IA → revisión en WF04, y si la confianza es baja se sigue UF02.
-- **Unhappy path:** error al guardar → WF12. Los datos y el saldo previo se conservan, y no se muestra ningún éxito.
-
-![Userflow de Registrar manualmente sin captura](../assets/img/cap06/Userflow5.png)
-
-*Figura 6.4.4-D. User Flow UF04. [Abrir diagrama editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2045-2348).*
-
-**UF05. Controlar fuentes y revocar captura**
-
-- **User goal:** "Quiero elegir mis fuentes financieras y poder desactivar o revocar la captura."
-- **Actor y escenario:** usuario de Intiva que quiere limitar qué notificaciones financieras procesa la app.
-- **Happy path:** Perfil → WF01 (permiso) → WF02 (fuentes) → "Guardar fuentes".
-- **Alternative paths:**
-    - Desactivar la captura dentro de Intiva → WF08. El registro manual sigue disponible.
-    - Desactivar una sola fuente → WF02 guarda la selección. El permiso general de Android sigue concedido.
-    - Denegar o revocar el acceso en los ajustes de Android (nodo externo) → WF08.
-
-Intiva controla qué fuentes procesa, mientras que el acceso general a notificaciones se controla en Android. Desactivar una fuente no revoca el permiso completo.
-
-![Userflow de Controlar fuentes y revocar captura](../assets/img/cap06/Userflow6.png)
-
-*Figura 6.4.4-E. User Flow UF05. [Abrir diagrama editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2045-2348).*
+```mermaid
+flowchart TD
+  A["UF04 · Proponer gasto del fondo"] --> B["Fijar importe, destinatario y miembros"]
+  B --> C["UF05 · Cada miembro revisa"]
+  C --> D{"¿Algún rechazo?"}
+  D -- "Sí" --> E["Rechazada · saldo sin cambios"]
+  D -- "No" --> F{"¿Todos aprobaron?"}
+  F -- "No" --> G["Pendiente · saldo sin cambios"]
+  G --> C
+  F -- "Sí" --> H{"¿Contrato confirma validación?"}
+  H -- "En espera o error" --> I["Consultar estado · no duplicar gasto"]
+  I --> H
+  H -- "Sí" --> J["Registrar una vez · actualizar saldo"]
+```
 
 **Sitio web**
 
 **UF06. Evaluar Intiva desde la landing**
 
 - **User goal:** "Quiero comprender la propuesta de Intiva y decidir si me interesa usarla."
-- **Actor y escenario:** visitante web que busca entender la utilidad del registro asistido, las condiciones de privacidad y qué información queda por confirmar.
+- **Actor y escenario:** visitante web que busca entender la utilidad de la categorización y asistencia con IA, la aprobación unánime y las condiciones de privacidad.
 - **Happy path:** landing → beneficios, control y privacidad → decisión de evaluar → CTA "Descargar app" (ilustrativo).
 - **Unhappy path:** la información del equipo y los planes aún no está confirmada → la landing lo indica como pendiente y el visitante sigue consultando otras secciones.
 - **Límite:** el CTA es ilustrativo. No se dibuja una descarga completada ni una creación de cuenta, y la publicación en Google Play sigue pendiente.
 
 UF06 es una meta web y no deriva de F01, F02 ni F03.
 
-![Userflow Evaluar Intiva desde la landing](../assets/img/cap06/Userflow7.png)
-![Userflow Evaluar Intiva desde la landing](../assets/img/cap06/Userflow8.png)
 
 *Figura 6.4.4-F. User Flow UF06. [Abrir diagrama editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2045-2348).*
+Las composiciones TP1 se importaron como elementos vectoriales y textos editables. Las imágenes del informe son exportaciones PNG de los mismos frames. La interacción del prototipo y las pruebas con usuarios se validarán en la siguiente etapa; los diagramas no acreditan conexiones de prototipo implementadas.
