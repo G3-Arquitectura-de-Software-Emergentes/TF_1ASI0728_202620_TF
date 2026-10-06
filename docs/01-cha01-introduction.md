@@ -8,7 +8,7 @@ A continuación, se presenta una descripción detallada de la startup al incluir
 
 ### 1.1.1. Descripción de la Startup
 
-Balanza es una startup tecnológica que se centra en el desarrollo de soluciones innovadoras, accesibles y didácticas para la gestión de finanzas personales con un enfoque en el manejo de ingresos, gastos y ahorros. De este modo, busca empoderar a los usuarios para que puedan tomar el control de sus finanzas y mejorar su bienestar económico a través de herramientas digitales intuitivas y efectivas.
+Resolum es una startup tecnológica que se centra en el desarrollo de soluciones innovadoras, accesibles y didácticas para la gestión de finanzas personales con un enfoque en el manejo de ingresos, gastos y ahorros. De este modo, busca empoderar a los usuarios para que puedan tomar el control de sus finanzas y mejorar su bienestar económico a través de herramientas digitales intuitivas y efectivas.
 
 | Misión                                                                       | Visión                                                                                                                                                                                                                    | Valores                                                                                             |
 | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
@@ -76,10 +76,9 @@ Aquí se presentan los antecedentes y la problemática que la solución propuest
 
 **Antecedentes**
 
-Para definir el perfil de la solución, es fundamental comprender los antecedentes y la problemática que se desea abordar. En este caso, el problema está relacionado con la falta de conocimiento adecuado respecto al manejo y seguimiento de gastos, ingresos y ahorros, la elaboración de presupusetos, el establecimiento de metas financieras entre otros.
+Para definir el perfil de la solución, es fundamental comprender los antecedentes y la problemática que se desea abordar. En este caso, el problema está relacionado con la falta de conocimiento adecuado respecto al manejo y seguimiento de gastos, ingresos y ahorros, la elaboración de presupuestos, el establecimiento de metas financieras entre otros.
 
-Según Calderón y Pinto (2025), un bajo nivel de conocimiento, habilidades y
-manejo financiero en los jóvenes peruanos genera hábitos deficientes de consumo y una mayor vulnerabilidad a riesgos en la gestión de finanzas personales, incluyendo ingresos y gastos. Además, según Duarte y Noguera (como se citó en Calderón y Pinto, 2025), un mal manejo de las finanzas personales puede llevar a problemas que afectan la calidad de vida de la persona en un corto plazo.
+El trabajo de Calderón y Pinto (2025) aborda la relación entre educación financiera y finanzas personales en estudiantes de una universidad de Lima Sur. Se utiliza como antecedente del tema; las necesidades específicas de Intiva se identifican mediante las entrevistas del capítulo II.
 
 
 ***Técnica de las 5W’s y 2H’s***
@@ -152,9 +151,9 @@ El hecho de no saber cómo y para qué se está gastando el dinero, cuánto dine
 La magnitud del problema puede variar según la situación financiera de cada familia, pero en general, la falta de conocimiento y habilidades para gestionar el ingreso, el gasto y el ahorro personal puede llevar a dificultades económicas significativas, como endeudamiento excesivo, falta de ahorros para situaciones urgentes y estrés financiero.
 
 Para reforzar esta afirmación, se presentan algunos datos estadísticos relevantes:
-* Según un estudio de Burga y Cordoba (2025), de un total de 456 peruanos, solo el 11.18% de ellos presentó un muy alto nivel en sus finanzas personales, mientras que el 8.11% presenta un nivel muy bajo de manejo y el 21.17% presenta un nivel muy bajo respecto del tema.
-* Según una encuesta realizada por la Superintendencia de Banca, Seguros y AFP (SBS) en el año 2022, el 85% de peruanos encuestados dio a conocer que, por lo menos alguna vez, sus ingresos no fueron suficientes para cubrir sus gastos.
-* Según Huamán et al. (2024), a pesar de que las personas independientes valoran la importancia del manejo de finanzas personales, solo el 36.7% de ellas optimiza sus recursos financieros para alcanzar una estabilidad económica en un corto y largo plazo. Además, solo el 56.7% de dichas personas planifican y manejan correctamente sus metas financieras y practican la cultura del ahorro.
+* Burga-Morales y Cordova-Buiza (2025) estudiaron a 456 residentes de Lima de 18 a 65 años. En la tabla 3, el 11.18% presenta un nivel muy alto de percepción de sus finanzas personales, el 8.11% un nivel bajo y el 21.71% un nivel muy bajo. Estas cifras describen la muestra del estudio, no a toda la población peruana. [Consultar el artículo, tabla 3](https://www.businessperspectives.org/index.php/publishing-policies2?controller=pdfview&item_id=22516&task=download).
+* En la Encuesta Nacional de Capacidades Financieras 2022 de SBS y CAF, el 85% de los adultos peruanos declaró que sus ingresos no alcanzaron para cubrir sus gastos al menos una vez durante el último año. [Consultar los resultados publicados por la SBS](https://www.sbs.gob.pe/boletin/detalleboletin/idbulletin/1263).
+* Huamán et al. (2024) estudiaron a 120 estudiantes universitarios. La tabla 3 registra un nivel alto de importancia de las finanzas personales en el 36.7%; la tabla 4 registra un nivel alto de comportamiento financiero en el 56.7%. Los resultados corresponden a estudiantes de esa muestra y no a todas las personas económicamente independientes. [Consultar el artículo, tablas 3 y 4](https://revistas.unaat.edu.pe/index.php/tarama/article/download/82/134?inline=1).
 
 
 ***Diagrama de Ishikawa - Análisis de Causas***
@@ -203,15 +202,13 @@ En la situación actual, los responsables económicos de familias y sus integran
 
 - Se utilizará una plataforma digital accesible a través de dispositivos móviles y navegadores web que permitan a los usuarios acceder a la herramienta en cualquier momento y lugar. 
 
-- Se espera que los usuarios usen regularmente la herramienta ya sea para llevar un 
-
-control de sus gastos y cómo ahorran para el futuro. 
+- Se espera que los usuarios utilicen la herramienta con regularidad para registrar gastos y dar seguimiento al ahorro.
 
 - El modelo de negocio incluye un plan gratuito y un plan premium. El primero, incluirá la mayoría de funciones para familias como seguimiento de ingresos y gastos, visualización básica de datos, gestión de metas de ahorro, entre otras. Por otro lado, el segundo, incluirá un mayor catálogo de gráficos de visualización de datos y menos limitaciones (para familias más grandes). 
 
 - El éxito se medirá a través de métricas como la cantidad de usuarios activos, la retención de usuarios, la satisfacción del cliente y el impacto positivo en la gestión de ingresos, gastos y ahorro de los usuarios. 
 
-- El valor del producto radica en su las funcionalidades para gestión de gastos, ingresos y ahorro, lo que puede traducirse en una base de usuarios leales con gran confianza en el producto y en oportunidades de monetización a través de suscripciones y servicios adicionales. 
+- El valor del producto radica en las funcionalidades para gestión de gastos, ingresos y ahorro, lo que puede traducirse en una base de usuarios leales con gran confianza en el producto y en oportunidades de monetización a través de suscripciones y servicios adicionales.
 
 ##### 1.2.2.2.2 User Assumptions 
 
@@ -223,7 +220,9 @@ control de sus gastos y cómo ahorran para el futuro.
 
 - Les preocupa no saber cómo administrar de manera óptima sus finanzas personales centrándose en el manejo de gastos, ingresos y ahorro; y las consecuencias que esto puede tener en su bienestar económico a largo plazo y en cómo puede afectar a su calidad de vida y de su familia. 
 
-##### 1.2.2.2.3 Business Outcomes 
+##### 1.2.2.2.3 Business Outcomes
+
+Las siguientes cifras son metas propuestas para los primeros seis meses, no resultados alcanzados. Para evaluar incrementos de margen y retención se deberá registrar una línea base; para grupos activos y CSAT se deberá definir el criterio de actividad y el instrumento de medición.
 
 - Incrementar el margen de beneficio neto por la adquisición de suscripciones en un 40% en 6 meses. 
 
@@ -255,21 +254,23 @@ control de sus gastos y cómo ahorran para el futuro.
 
 #### 1.2.2.3. Lean UX Hypothesis Statements
 
+Estas hipótesis se contrastarán durante la validación del producto. Las métricas comerciales sirven para seguir el negocio; la reducción de pagos olvidados, la comprensión del presupuesto y el esfuerzo de registro requieren además tareas de uso, entrevistas y comparación de resultados antes y después.
+
 ##### **● Hypothesis Statement #1** 
 
-**Creemos que** una herramienta que permita gestionar presupuestos personalizados de manera sencilla **para** los responsables de la economía familiar y sus integrantes **logrará** que los usuarios evitan quedarse cortos de dinero o sin dinero tras realizar gastos sin conocimiento de cuánto es lo máximo que deben o pueden gastar. **Sabremos que esto es cierto cuando** se incremente el margen de beneficio neto por la adquisición de suscripciones en un 40% en 6 meses. 
+**Creemos que** una herramienta que permita gestionar presupuestos personalizados de manera sencilla **para** los responsables de la economía familiar y sus integrantes **logrará** que los usuarios eviten quedarse cortos de dinero o sin dinero tras realizar gastos sin conocimiento de cuánto es lo máximo que deben o pueden gastar. **Evaluaremos esta hipótesis cuando** los usuarios puedan definir y consultar sus límites durante las tareas de validación, y se compare la frecuencia de gastos que exceden esos límites. El incremento del margen de suscripciones del 40% en seis meses se seguirá como una meta comercial independiente.
 
 ##### **● Hypothesis Statement #2** 
 
-**Creemos que** los recordatorios automáticos de fechas límite para realizar pagos de servicios y préstamos **para** los responsables de la economía familiar **logrará** que los usuarios reducen la cantidad de ocasiones en las que se les pasa la fecha de vencimiento de algún pago importante y evitan el pago de moras o suspensiones de servicios. **Sabremos que esto es cierto cuando** se incremente la tasa de retención de usuarios dentro de la plataforma en un 30% en 6 meses **.** 
+**Creemos que** los recordatorios automáticos de fechas límite para realizar pagos de servicios y préstamos **para** los responsables de la economía familiar **logrará** que los usuarios reduzcan la cantidad de ocasiones en las que se les pasa la fecha de vencimiento de algún pago importante y evitan el pago de moras o suspensiones de servicios. **Evaluaremos esta hipótesis cuando** se compare la frecuencia de pagos olvidados antes y después de utilizar los recordatorios. La retención se seguirá por separado frente a la meta comercial del 30% en seis meses.
 
 ##### **● Hypothesis Statement #3** 
 
-**Creemos que** la creación, seguimiento y posibilidad de aporte a metas de ahorro planificadas asignadas a objetivos a futuro **para** los responsables de la economía familiar y sus integrantes **logrará** que los usuarios notan una mejora en la seguridad económica de su familia y un mayor poder adquisitivo para gastos imprevistos o urgentes. **Sabremos que esto es cierto cuando** se logre, al menos, 500 grupos familiares registrados y activos en la plataforma en 6 meses. 
+**Creemos que** la creación, seguimiento y posibilidad de aporte a metas de ahorro planificadas asignadas a objetivos a futuro **para** los responsables de la economía familiar y sus integrantes **logrará** que los usuarios noten una mejora en la seguridad económica de su familia y un mayor poder adquisitivo para gastos imprevistos o urgentes. **Evaluaremos esta hipótesis cuando** los usuarios puedan definir una meta, realizar aportes y consultar su progreso en las tareas de validación. La cantidad de grupos activos se seguirá frente a la meta comercial de 500 en seis meses; no mide por sí sola la seguridad económica de una familia.
 
 ##### **● Hypothesis Statement #4** 
 
-**Creemos que** el análisis, gráficos y reportes de la gestión de gastos, ingresos y ahorros de un periodo determinado **para** los responsables de la economía familiar y sus integrantes **logrará** que los usuarios reconozcan estabilidad en los gastos, ingresos y ahorro dentro de la economía familiar y sientan tranquilidad y reducción del estrés de gestionar los gastos familiares. **Sabremos que esto es cierto cuando** se consiga mejorar la puntuación de satisfacción del cliente (CSAT) al 75% en 6 meses.
+**Creemos que** el análisis, gráficos y reportes de la gestión de gastos, ingresos y ahorros de un periodo determinado **para** los responsables de la economía familiar y sus integrantes **logrará** que los usuarios reconozcan estabilidad en los gastos, ingresos y ahorro dentro de la economía familiar y sientan tranquilidad y reducción del estrés de gestionar los gastos familiares. **Evaluaremos esta hipótesis cuando** los usuarios interpreten los gráficos y expliquen decisiones a partir de ellos durante la validación. El CSAT del 75% en seis meses servirá como indicador de satisfacción, junto con las entrevistas, sin asumir que mide directamente una reducción del estrés.
 
 #### 1.2.2.4. Lean UX Canvas
 
@@ -299,7 +300,7 @@ A continuación, se determinan y muestran datos relevantes respecto de los segme
 
 **Segmento Objetivo 1:** Integrantes de familias con problemas de gasto y ahorro 
 
-Según el Instituto Nacional de Estadística e Informática (INEI), en el segundo trimestre de 2025, el 65,5% de los jóvenes entre 18 y 29 años cuenta con algún producto financiero, lo que evidencia un acceso creciente al sistema; sin embargo, aún existe una brecha en la gestión eficiente de sus finanzas personales. 
+Según el INEI, en el segundo trimestre de 2025 el 65,5% de las personas de 18 a 29 años tenía alguna cuenta en el sistema financiero. Este indicador permite contextualizar el acceso a cuentas, pero no mide conocimientos financieros ni demuestra dificultades de gestión. [Consultar la nota del INEI](https://www.gob.pe/institucion/inei/noticias/1251926-el-61-6-de-la-poblacion-de-18-y-mas-anos-de-edad-tiene-alguna-cuenta-en-el-sistema-financiero).
 
 ###### ● **Datos demográficos:** 
 
@@ -329,7 +330,7 @@ Según el Instituto Nacional de Estadística e Informática (INEI), en el segund
 
 **Segmento objetivo 2:** Responsables de la economía familiar 
 
-Según el Instituto Nacional de Estadística e Informática (INEI), en el segundo trimestre de 2025, el 67,3% de las personas entre 30 y 44 años cuenta con productos financieros, siendo el grupo con mayor participación en el sistema, lo que refleja su rol activo en la gestión económica del hogar. 
+Según el INEI, en el segundo trimestre de 2025 el 67,3% de las personas de 30 a 44 años tenía alguna cuenta en el sistema financiero. Este dato contextualiza el segmento por edad; no permite deducir que estas personas administren la economía del hogar. Ese rol se identifica por sus responsabilidades y por las entrevistas. [Consultar la nota del INEI](https://www.gob.pe/institucion/inei/noticias/1251926-el-61-6-de-la-poblacion-de-18-y-mas-anos-de-edad-tiene-alguna-cuenta-en-el-sistema-financiero).
 
 ###### ● **Datos demográficos:** 
 
