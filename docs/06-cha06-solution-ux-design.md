@@ -401,7 +401,7 @@ Los datos son ilustrativos: 8 compras de S/ 10.00 suman S/ 80.00; una meta de S/
 
 ### 6.4.3. Applications Mock-ups
 
-Esta sección presenta los mock-ups de la aplicación móvil (Android) y de la aplicación web. En cada pantalla se aplican los principios de diseño, los elementos visuales, el diseño inclusivo y la arquitectura de información definidos en los apartados [6.1](#61-style-guidelines) y [6.2](#62-information-architecture), así como el Design System de Intiva. Los mock-ups se elaboran en Figma, en el mismo archivo de los wireframes y wireflows. Las pantallas base de la aplicación se toman de Page 1, y las pantallas nuevas (WF01 a WF12) de la sección TP1.
+Esta sección presenta los mock-ups de la aplicación móvil (Android) y de la aplicación web. En cada pantalla se aplican los principios de diseño, los elementos visuales, el diseño inclusivo y la arquitectura de información definidos en los apartados [6.1](#61-style-guidelines) y [6.2](#62-information-architecture), así como el Design System de Intiva. Los mock-ups se elaboran en Figma, en el mismo archivo de los wireframes y wireflows. Las pantallas base de la aplicación se toman de Page 1, y las pantallas nuevas (WF01 a WF12) de la página TP1 · IA y smart contracts.
 
 **Aplicación de la paleta por función.** Cada color cumple un rol fijo en todas las pantallas:
 
@@ -431,35 +431,23 @@ Esta sección presenta los mock-ups de la aplicación móvil (Android) y de la a
 
 *Figura 6.4.3-A. Mock-up de la pantalla Inicio. [Abrir Mockup editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=0-1).*.*
 
-**Registro manual de un movimiento.** Muestra los cinco pasos del registro (tipo, monto, categoría, cuenta y fecha) con teclado numérico propio y botón de guardado en la parte inferior. Corresponde a WF08.
+**Registro manual de un movimiento.** Muestra los cinco pasos del registro (tipo, monto, categoría, cuenta y fecha) con teclado numérico propio y botón de guardado en la parte inferior. Corresponde al formulario base de WF01.
 
 ![Mockup de Manual de un movimiento](../assets/img/cap06/Mockup11.png)
 
-*Figura 6.4.3-B. Mock-up del registro manual de un movimiento.[Abrir Mockup editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2005-721).*
+*Figura 6.4.3-B. Mock-up del registro manual de un movimiento.[Abrir Mockup editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2045-2348).*
 
-**Captura automática: permiso y fuentes.** Explica para qué sirve el permiso de notificaciones, permite elegir las fuentes autorizadas y ofrece continuar manualmente. Corresponde a WF01 y WF02.
+**Ampliación TP1: IA y smart contracts.** Las composiciones revisadas sustituyen las pantallas de permiso y fuentes por el formulario con categorización IA, el asistente financiero y las propuestas del fondo familiar. Mantienen índigo para jerarquía y lima para acciones principales. WF12 distingue las variantes de espera, validación, rechazo y error.
 
-![Mockup de automática: permiso y fuentes](../assets/img/cap06/Mockup12.png)
+![Figura 6.4.3-C · Mock-ups de categorización IA](../assets/img/cap06/mockups-ai-category.png)
 
-*Figura 6.4.3-C. Mock-up de permiso y fuentes autorizadas. [Abrir Mockup editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2005-721).*
+*Figura 6.4.3-C · Mock-ups de categorización IA. [Abrir diseño en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2051-3568).*
+![Figura 6.4.3-D · Mock-ups del asistente IA](../assets/img/cap06/mockups-ai-assistant.png)
 
-**Por confirmar y revisión de un gasto.** Presenta la sugerencia pendiente en tonos neutros, con monto, comercio y fuente, y la pantalla de revisión con las acciones de aceptar o cambiar la categoría, confirmar o descartar. Corresponde a WF03 y WF04.
+*Figura 6.4.3-D · Mock-ups del asistente IA. [Abrir diseño en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2051-3629).*
+![Figura 6.4.3-E · Mock-ups de smart contracts](../assets/img/cap06/mockups-smart-contracts.png)
 
-![Mockup de aconfirmar y revisión de un gasto.](../assets/img/cap06/Mockup13.png)
-
-*Figura 6.4.3-D. Mock-up de la bandeja Por confirmar y de la revisión de un gasto. [Abrir Mockup editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2005-721).*
-
-**Categoría y resultado.** Muestra la selección de otra categoría, la confirmación de "Otros" ante baja confianza y el mensaje de gasto registrado con el saldo actualizado. Corresponde a WF05, WF06 y WF07.
-
-![Mockup de Cateogrias y resultado](../assets/img/cap06/Mock2.png)
-
-*Figura 6.4.3-E. Mock-up de elegir categoría, confirmación de Otros y gasto registrado. [Abrir Mockup editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2005-721).*
-
-**Recordatorios y error al guardar.** Muestra la lista de recordatorios, su detalle (monto, vencimiento y estado) y la pantalla de recuperación ante un error, que conserva los datos. Corresponde a WF09, WF10 y WF12.
-
-![Mockup de recordatorios y errores](../assets/img/cap06/Mock6.png)
-
-*Figura 6.4.3-E. Mock-up de recordatorio y su detalles. [Abrir Mockup editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2005-721).*
+*Figura 6.4.3-E · Mock-ups de smart contracts. [Abrir diseño en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2051-3690).*
 
 **Mock-ups de la aplicación web**
 
