@@ -371,37 +371,33 @@ Los datos son ilustrativos: 8 compras de S/ 10.00 suman S/ 80.00; una meta de S/
 
 ### 6.4.2. Applications Wireflow Diagrams
 
-Los wireflows relacionan representaciones de pantallas con acciones y resultados. Las flechas indican la secuencia principal y las notas de cada composición especifican las ramas alternativas. Cada recorrido permite identificar la pantalla de origen, la acción del usuario y el estado resultante.
+**F01 · Categorización y registro.** WF01 → WF02 → WF04 → confirmación de guardado. Cambiar categoría abre WF03 y vuelve a revisión. Ante sugerencia inválida o fallo de IA se ofrece WF08 y elección manual. Un error al guardar mantiene el formulario y el saldo previo.
 
-**F01. Activación y confirmación RPA.** El usuario configura el acceso, selecciona fuentes, abre la bandeja y revisa el gasto. Confirmar registra el movimiento y actualiza el saldo. Si deniega o revoca el permiso, utiliza WF08; las notificaciones ajenas a fuentes autorizadas se descartan sin guardar contenido y los formatos no reconocidos no crean sugerencias.
+![Figura 6.4.2-A · F01 · Categorización IA](../assets/img/cap06/wireflow-ai-category.png)
 
-![Wireflow de activación y confirmación RPA](../assets/img/cap06/wireflow-rpa.png)
+*Figura 6.4.2-A · F01 · Categorización IA. [Abrir diseño en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2051-4574).*
 
-*Figura 6.4.2-A. F01. [Abrir wireflow editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2007-758).*
+**F02 · Asistente y ahorro.** WF05 → WF06 → consulta de movimientos o WF07 → regreso al asistente. El período y la información utilizada acompañan el análisis. Sin datos suficientes o respuesta válida se muestra WF08. Revisar una recomendación no cambia el presupuesto ni ejecuta una transacción.
 
-**F02. Aceptación y corrección de categoría IA.** La sugerencia se solicita desde el registro manual o acompaña al gasto detectado. El usuario acepta la categoría o abre WF05 para reemplazarla. Ante baja confianza, WF06 solicita confirmar Otros o elegir otra categoría. Tras aplicar la elección se regresa a revisión y se confirma el gasto.
+![Figura 6.4.2-B · F02 · Asistente financiero](../assets/img/cap06/wireflow-ai-assistant.png)
 
-![Wireflow de aceptación y corrección de categoría IA](../assets/img/cap06/wireflow-ai.png)
+*Figura 6.4.2-B · F02 · Asistente financiero. [Abrir diseño en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2051-4614).*
 
-*Figura 6.4.2-B. F02. [Abrir wireflow editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2007-847).*
+**F03 · Aprobación unánime.** WF09 → WF10 → WF11 → WF12. Crear una propuesta fija sus aprobadores sin débito. Con dos votos de tres sigue pendiente; el tercero habilita la verificación del contrato. Solo tras confirmar la validación se refleja el gasto una vez. El rechazo cierra la propuesta sin débito. Un fallo de red exige consultar el estado antes de reenviar; cambiar las condiciones exige una propuesta nueva.
 
-**F03. Recordatorios y continuidad de alertas.** El usuario abre un recordatorio, consulta su detalle y vuelve a las alertas. La nota técnica relaciona esta experiencia con TS 024: Communications invoca n8n para formato, agrupación y canal; si el webhook falla, envía el aviso de respaldo directamente por Firebase Cloud Messaging, sin el formateo ni la agrupación del flujo. La decisión de respaldo ocurre internamente y no agrega una tarea de configuración al usuario.
+![Figura 6.4.2-C · F03 · Fondo familiar](../assets/img/cap06/wireflow-smart-contracts.png)
 
-![Wireflow de recordatorios y continuidad de alertas](../assets/img/cap06/wireflow-alerts.png)
+*Figura 6.4.2-C · F03 · Fondo familiar. [Abrir diseño en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2051-4652).*
 
-*Figura 6.4.2-C. F03. [Abrir wireflow editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2007-920).*
-
-| Condición | Transición | Resultado esperado |
-| --- | --- | --- |
-| Permiso concedido | WF01 → ajustes Android → WF02 → WF03 | Captura habilitada para fuentes autorizadas. |
-| Permiso denegado o revocado | WF01/WF02 → WF08 | Registro manual disponible. |
-| Confirmación de gasto | WF03 → WF04 → WF07 | Registro definitivo y saldo actualizado. |
-| Descarte | WF04 → WF11 → WF03 | Sin movimiento ni cambio de saldo. |
-| Categoría aceptada | WF04 → confirmar → WF07 | Se guarda la categoría sugerida. |
-| Categoría corregida | WF04 → WF05 → WF04 → WF07 | Se guarda la elección y se registra la corrección. |
-| Baja confianza | WF08/WF04 → WF06 → WF04 → WF07 | Otros requiere aceptación explícita; se permite reemplazarlo vía WF05. |
-| Error al guardar | WF04 → WF12 → reintentar o WF04 | Sin éxito anticipado; datos disponibles para recuperación. |
-| Recordatorio | Notificación → WF09 → WF10 → WF09 | Detalle accesible tanto con envío normal como con respaldo. |
+| Condición | Resultado |
+| --- | --- |
+| Categoría aceptada o corregida | Se conserva la decisión y se vuelve a revisión antes de guardar. |
+| IA indisponible o análisis sin base suficiente | Mensaje claro y continuidad manual. |
+| Falta alguna aprobación | Propuesta pendiente, sin cambio de saldo. |
+| Un miembro rechaza | Propuesta rechazada, sin cambio de saldo. |
+| Todos aprueban | Esperar el resultado confirmado del contrato. |
+| Contrato confirma la validación | Registrar el gasto una sola vez. |
+| Red sin respuesta | Consultar estado y evitar duplicar la operación. |
 
 ### 6.4.3. Applications Mock-ups
 
