@@ -113,7 +113,7 @@ Usaremos esquinas redondeadas para que la interfaz se vea amigable: 8 para input
 
 **Tone of voice**
 
-Usaremos un tono cercano y sencillo. En las entrevistas vimos que los términos financieros técnicos confunden a los usuarios, por lo que evitaremos la jerga y trataremos al usuario de "tú" (por ejemplo, "Aquí está el resumen de tus finanzas hoy"). Cuando el usuario logre algo, se lo haremos saber ("¡Cumpliste tu meta de ahorro!"), y las alertas solo informarán lo que pasó, sin regañar ("Has superado tu presupuesto en Entretenimiento"), junto con una opción para resolverlo. Al hablar de la captura automática y de la IA seremos claros sobre lo que hacen y lo que no: por ejemplo, "Este gasto todavía no modifica tu saldo" o "La confianza es orientativa; puedes cambiar la categoría". Queremos que el usuario sienta que Intiva lo ayuda con sus gastos, que no lo juzga y que él mantiene el control de su información.
+Usaremos un tono cercano y sencillo. En las entrevistas vimos que los términos financieros técnicos confunden a los usuarios, por lo que evitaremos la jerga y trataremos al usuario de "tú" (por ejemplo, "Aquí está el resumen de tus finanzas hoy"). Cuando el usuario logre algo, se lo haremos saber ("¡Cumpliste tu meta de ahorro!"), y las alertas solo informarán lo que pasó, sin regañar ("Has superado tu presupuesto en Entretenimiento"), junto con una opción para resolverlo. Al hablar de la aprobación del fondo y de la IA seremos claros sobre lo que hacen y lo que no: por ejemplo, "Este gasto todavía no modifica tu saldo" o "La categoría es una sugerencia; puedes cambiarla". Queremos que el usuario sienta que Intiva lo ayuda con sus gastos, que no lo juzga y que él mantiene el control de su información.
 
 ### 6.1.2. Web, Mobile & Devices Style Guidelines
 
@@ -161,7 +161,8 @@ Se aplicará en los procesos que tienen pasos definidos, para que el usuario sep
 
 - Registro e inicio: presentación de la aplicación (onboarding) → registro o inicio de sesión → configuración inicial.
 - Registro manual de un movimiento: tipo (gasto o ingreso) → monto → categoría → cuenta → fecha → guardar. Este proceso se diseñará para completarse en cinco pasos o menos, tal como se definió en el escenario de usabilidad del Capítulo IV.
-- Captura asistida de un gasto: activar la captura → elegir las apps financieras autorizadas → revisar el gasto detectado → aceptar o cambiar la categoría sugerida → confirmar o descartar. El saldo solo cambiará después de confirmar.
+- Categorización IA: ingresar gasto → pedir sugerencia → aceptar o corregir → revisar y guardar.
+- Fondo familiar: proponer gasto → revisar aprobadores → aprobar o rechazar → consultar el resultado confirmado.
 - Creación de una meta de ahorro: nombre → monto objetivo → fecha límite → individual o familiar → confirmar.
 - Recuperación de contraseña: ingresar correo → verificar código → nueva contraseña.
 - Generación de un reporte en la aplicación web: tipo de reporte → período → integrantes incluidos → descargar.
@@ -170,7 +171,7 @@ En la landing page, las secciones también seguirán un orden pensado para conve
 
 **Esquemas de categorización**
 
-- Por tópico: las funcionalidades de la aplicación móvil se agruparán según el tema que atienden: Transacciones, Captura asistida, Control de presupuesto (límites de gasto), Metas de ahorro, Grupo familiar, Notificaciones y Perfil. La aplicación web se dividirá en Panel y Reportes. Los movimientos también se categorizarán por tópico (Alimentación, Transporte, Vivienda, Salud, Educación, Entretenimiento, Otros para gastos; Salario, Freelance, Negocio, Inversión, Otros para ingresos).
+- Por tópico: las funcionalidades de la aplicación móvil se agruparán según el tema que atienden: Transacciones, Asistente IA, Fondo familiar, Control de presupuesto (límites de gasto), Metas de ahorro, Grupo familiar, Notificaciones y Perfil. La aplicación web se dividirá en Panel y Reportes. Los movimientos también se categorizarán por tópico (Alimentación, Transporte, Vivienda, Salud, Educación, Entretenimiento, Otros para gastos; Salario, Freelance, Negocio, Inversión, Otros para ingresos).
 - Cronológico: el historial de movimientos, las notificaciones y los aportes a metas se mostrarán del más reciente al más antiguo, agrupados por día ("Hoy", "Ayer"). Los recordatorios de pago se ordenarán por la fecha de vencimiento más próxima.
 - Por audiencia: se diferenciará la información según el tipo de usuario. El responsable de la economía familiar (administrador del grupo) podrá invitar integrantes, asignar roles y crear metas o límites familiares, mientras que un integrante solo verá y registrará movimientos del grupo. Además, la aplicación web estará orientada sobre todo al responsable de la economía familiar, que es quien revisa los reportes del hogar.
 - Por estado: los gastos detectados automáticamente se mantendrán separados en una lista de pendientes ("Por confirmar") hasta que el usuario los revise, y no se mezclarán con el historial de movimientos ya registrados.
@@ -208,18 +209,18 @@ Asimismo, se usarán etiquetas de acción como:
 * "Ajustar límite"
 * "Cerrar sesión"
 
-Para la captura asistida y la categorización con IA se usarán etiquetas que dejen claro que el usuario decide:
-* "Captura automática"
-* "Fuentes autorizadas"
-* "Por confirmar"
+Para la aprobación del fondo familiar y la categorización con IA se usarán etiquetas que dejen claro que el usuario decide:
+* "Fondo familiar"
+* "Proponer gasto" / "Ver propuestas"
+* "Pendiente de aprobación"
 * "Revisar gasto"
-* "Confirmar gasto" / "Descartar sugerencia"
+* "Guardar gasto" (personal) / "Aprobar y firmar" / "Rechazar propuesta" (fondo)
 * "Aceptar categoría" / "Cambiar categoría"
 * "Continuar manualmente"
 
 En la aplicación web se usarán las etiquetas "Panel", "Reportes", "Descargar reporte", "Notificaciones" y "Cerrar sesión".
 
-Por último, se usarán etiquetas de estado para que el usuario identifique rápidamente la situación de sus finanzas: "A buen ritmo", "¡Cerca del límite!" y "Límite alcanzado" (límites de gasto), "En progreso" y "Meta alcanzada" (metas de ahorro), "Pendiente de confirmación" y "Categoría sugerida por IA" junto con su nivel de confianza (captura asistida), y "Admin" y "Miembro" (roles del grupo familiar).
+Por último, se usarán etiquetas de estado para que el usuario identifique rápidamente la situación de sus finanzas: "A buen ritmo", "¡Cerca del límite!" y "Límite alcanzado" (límites de gasto), "En progreso" y "Meta alcanzada" (metas de ahorro), "Pendiente de aprobación", "Esperando confirmación", "Validado" y "Rechazado" (fondo familiar), y "Categoría sugerida por IA" (registro de gasto), y "Admin" y "Miembro" (roles del grupo familiar).
 
 ### 6.2.3. Searching Systems
 
@@ -256,7 +257,7 @@ Los metadatos propuestos describen el contenido de la landing y configuran su pr
 
 <!-- Vista previa al compartir el enlace (WhatsApp, Facebook, LinkedIn) -->
 <meta property="og:title" content="Intiva - Menos registro, más control en familia">
-<meta property="og:description" content="Captura asistida de gastos, categorías con IA y alertas para organizar las finanzas de tu familia.">
+<meta property="og:description" content="Categorías y asistencia financiera con IA, y fondos familiares con aprobación unánime mediante smart contracts.">
 <meta property="og:image" content="https://intiva.vercel.app/logo.png">
 <meta property="og:url" content="https://intiva.vercel.app/">
 <meta property="og:type" content="website">
