@@ -24,7 +24,7 @@ Docente
 
 Startup
 
-**Resolum**
+**Balanza**
 
 Producto
 
@@ -51,7 +51,8 @@ Producto
 | ------- | ----- | ----- | ---------------------------- |
 | TB1 | 16/09/2026 | Loli Ramirez, Camila Cristina<br>Meza Solórzano,Didier Sebastián<br>Solis Solis, Leonardo José<br>Rivera Ticllacuri, Omar Harold | Revisión de los capítulos I, II, III y finalización del capítulo IV |
 | TP1 | 05/10/2026 | Meza Solórzano, Didier Sebastián | Desarrollo de las secciones 6.3, 6.3.1, 6.3.2, 6.4.1 y 6.4.2: actualización de la landing de Intiva para IA y automatización, wireframes para escritorio y móvil, doce wireframes de aplicación y tres wireflows. Incorporación de nueve imágenes de evidencia y enlaces a Figma; revisión de la trazabilidad con las historias de usuario y técnicas; corrección de los enlaces de entrevistas y registro del aporte individual en Student Outcome. |
-| TP1 — revisión | 05/10/2026 | Meza Solórzano, Didier Sebastián | Revisión transversal de los capítulos disponibles: corrección de fuentes y cifras, alcance de las entrevistas, coherencia de requisitos y arquitectura, redacción del diseño UX, actualización de conclusiones y bibliografía, y unificación de los enlaces de entrevistas en anexos. Se distinguen las propuestas de diseño de la base implementada y de la validación pendiente. |
+| TP1 — revisión | 05/10/2026 | Meza Solórzano, Didier Sebastián | Revisión transversal de los capítulos disponibles: corrección de fuentes y cifras, alcance de las entrevistas, coherencia de requisitos, redacción del diseño UX, actualización de conclusiones y bibliografía, y unificación de los enlaces de entrevistas en anexos. Se distinguen las propuestas de diseño de el diseño propuesto y de la validación pendiente. |
+| TP1 — corrección | 05/10/2026 | Meza Solórzano, Didier Sebastián | Corrección del nombre de la startup a Balanza, restauración del capítulo IV a su versión previa a la revisión transversal y retiro de enlaces y conclusiones asociados al backend y al informe usados como ejemplos de otro proyecto. |
 
 <div style="page-break-after: always;"></div>
 
@@ -363,9 +364,9 @@ El contenido de diseño táctico está pendiente de incorporación por su respon
 
 Para TP1 actualizamos el diseño de Intiva con tres funciones: captura de gastos desde notificaciones financieras, sugerencia de categorías mediante inteligencia artificial y recordatorios automatizados. Estas funciones se integran al registro de movimientos y al control de las finanzas personales y familiares.
 
-El diseño toma como fuente de requisitos el [capítulo III](docs/03-cha03-requirements-specification.md), especialmente US 001, US 002, US 032, US 033, TS 023 y TS 024. El [reporte del ciclo anterior](https://docs.google.com/document/d/1utbegMuuFidUGZj1odoYluc3qPa8piI2bcIJNg168pM/edit) se utiliza como antecedente, mientras que los nuevos criterios de aceptación se obtienen de la rama `develop` del informe actual.
+El diseño toma como fuente de requisitos el [capítulo III](docs/03-cha03-requirements-specification.md), especialmente US 001, US 002, US 032, US 033, TS 023 y TS 024. Los criterios de aceptación corresponden al informe actual en la rama `develop`.
 
-Los diseños se encuentran en el [archivo Figma de Intiva](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2005-721). La página **TP1 · IA y automatización** contiene los wireframes y wireflows nuevos; **Page 1** conserva la base del ciclo anterior y la landing actualizada. Las pantallas muestran el comportamiento previsto para la aplicación en esta etapa de diseño.
+Los diseños se encuentran en el [archivo Figma de Intiva](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2005-721). La página **TP1 · IA y automatización** contiene los wireframes y wireflows nuevos; **Page 1** contiene la landing actualizada. Las pantallas muestran el comportamiento previsto para la aplicación en esta etapa de diseño.
 
 ### 6.3.1. Landing Page Wireframe
 
@@ -406,7 +407,7 @@ La comunicación evita presentar la captura como sincronización bancaria direct
 
 *Figura 6.3.2-A. Mock-up de la landing adaptado para TP1. [Abrir frame editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=3-2).*
 
-El mock-up conserva las referencias de precios y equipo de la versión anterior. Estos contenidos están pendientes de actualización para su publicación; la adaptación de TP1 se concentra en presentar las nuevas funcionalidades.
+El mock-up conserva los contenidos de precios y equipo del diseño base. Estos contenidos están pendientes de actualización para su publicación; la adaptación de TP1 se concentra en presentar las nuevas funcionalidades.
 
 ## 6.4. Applications UX/UI Design
 

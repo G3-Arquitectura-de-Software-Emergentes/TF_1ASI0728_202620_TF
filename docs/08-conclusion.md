@@ -24,9 +24,7 @@ La entrega reúne el análisis del problema, los requisitos y el diseño estrat�
 
 ### Sobre el Capítulo IV: Strategic-Level Software Design
 
-- El diseño conserva un monolito modular con ocho módulos de dominio en la base de referencia. Subscriptions se registra como contexto previsto. Los bounded contexts internos no equivalen a microservicios desplegados por separado.
-- La inspección de la revisión 3cd9d92 de `intiva-api-platform` confirma el acceso directo de Analytics a repositorios de Finances y Savings. Esa dependencia se mantiene como deuda de diseño.
-- Los listeners de eventos de la base se ejecutan en proceso. No se encontró una configuración asíncrona que permita afirmar que están fuera de la operación o de su transacción. AD-07 requiere concretar esa separación antes de atribuirle mejoras de latencia.
+- El capítulo IV propone un monolito modular y describe los contextos que organizan el dominio. Subscriptions se registra como contexto previsto en el diseño estratégico.
 - La captura pendiente, el clasificador y n8n son ampliaciones propuestas para TP1. La confianza de clasificación, el comportamiento ante errores y los tiempos de respuesta deberán evaluarse en la implementación.
 
 ### Sobre el Capítulo VI: Solution UX Design

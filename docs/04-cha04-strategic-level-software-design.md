@@ -988,7 +988,7 @@ En esta sección se presenta el System Landscape Diagram, el cual ilustra el pan
 ![Software Architecture System Landscape Diagram](../assets/img/cap04/SystemLandscape1.png)
 
 **Explicación del diagrama:**
-El diagrama muestra a la startup Resolum como el límite empresarial ("Enterprise Boundary") que agrupa a sus usuarios registrados (Integrantes de familia y Responsables de la economía familiar) y a su producto central, Intiva Platform. Fuera de este límite se ubican los Visitantes anónimos y los tres sistemas de software externos con los que la empresa interactúa: OAuth2 (para autenticación), Google Play Billing (para procesamiento de pagos) y Firebase Cloud Messaging (para el envío de notificaciones).
+El diagrama muestra a la startup Balanza como el límite empresarial ("Enterprise Boundary") que agrupa a sus usuarios registrados (Integrantes de familia y Responsables de la economía familiar) y a su producto central, Intiva Platform. Fuera de este límite se ubican los Visitantes anónimos y los tres sistemas de software externos con los que la empresa interactúa: OAuth2 (para autenticación), Google Play Billing (para procesamiento de pagos) y Firebase Cloud Messaging (para el envío de notificaciones).
 
 ### 4.3.1. Software Architecture Context Level Diagrams
 

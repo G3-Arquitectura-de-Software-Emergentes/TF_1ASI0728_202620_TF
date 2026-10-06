@@ -1,6 +1,6 @@
 # Capítulo VI: Solution UX Design
 
-En este capítulo se desarrolla el diseño de la solución planteada para Intiva, la propuesta de Resolum para la gestión de ingresos, gastos y ahorros personales y familiares. Para ello, se definen las guías de estilo y la arquitectura de información que se seguirán en la landing page, la aplicación móvil y la aplicación web, para que el diseño sea coherente y fácil de usar para nuestros segmentos objetivo.
+En este capítulo se desarrolla el diseño de la solución planteada para Intiva, la propuesta de Balanza para la gestión de ingresos, gastos y ahorros personales y familiares. Para ello, se definen las guías de estilo y la arquitectura de información que se seguirán en la landing page, la aplicación móvil y la aplicación web, para que el diseño sea coherente y fácil de usar para nuestros segmentos objetivo.
 
 ## 6.1. Style Guidelines
 
@@ -246,7 +246,7 @@ Los metadatos propuestos describen el contenido de la landing y configuran su pr
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Intiva - Menos registro, más control en familia</title>
 <meta name="description" content="Registra tus gastos con ayuda de las notificaciones de tus apps financieras, recibe sugerencias de categoría con IA y organiza las finanzas de tu familia con Intiva.">
-<meta name="author" content="Resolum">
+<meta name="author" content="Balanza">
 <meta name="robots" content="index, follow">
 
 <!-- URLs de diseño: sustituir por las rutas definitivas verificadas al desplegar -->
@@ -303,9 +303,9 @@ Para la aplicación web se usará una barra lateral fija con las secciones "Pane
 
 Para TP1 actualizamos el diseño de Intiva con tres funciones: captura de gastos desde notificaciones financieras, sugerencia de categorías mediante inteligencia artificial y recordatorios automatizados. Estas funciones se integran al registro de movimientos y al control de las finanzas personales y familiares.
 
-El diseño toma como fuente de requisitos el [capítulo III](03-cha03-requirements-specification.md), especialmente US 001, US 002, US 032, US 033, TS 023 y TS 024. El [reporte del ciclo anterior](https://docs.google.com/document/d/1utbegMuuFidUGZj1odoYluc3qPa8piI2bcIJNg168pM/edit) se utiliza como antecedente, mientras que los nuevos criterios de aceptación se obtienen de la rama `develop` del informe actual.
+El diseño toma como fuente de requisitos el [capítulo III](03-cha03-requirements-specification.md), especialmente US 001, US 002, US 032, US 033, TS 023 y TS 024. Los criterios de aceptación corresponden al informe actual en la rama `develop`.
 
-Los diseños se encuentran en el [archivo Figma de Intiva](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2005-721). La página **TP1 · IA y automatización** contiene los wireframes y wireflows nuevos; **Page 1** conserva la base del ciclo anterior y la landing actualizada. Las pantallas muestran el comportamiento previsto para la aplicación en esta etapa de diseño.
+Los diseños se encuentran en el [archivo Figma de Intiva](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2005-721). La página **TP1 · IA y automatización** contiene los wireframes y wireflows nuevos; **Page 1** contiene la landing actualizada. Las pantallas muestran el comportamiento previsto para la aplicación en esta etapa de diseño.
 
 ### 6.3.1. Landing Page Wireframe
 
@@ -346,7 +346,7 @@ La comunicación evita presentar la captura como sincronización bancaria direct
 
 *Figura 6.3.2-A. Mock-up de la landing adaptado para TP1. [Abrir frame editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=3-2).*
 
-El mock-up conserva las referencias de precios y equipo de la versión anterior. Estos contenidos están pendientes de actualización para su publicación; la adaptación de TP1 se concentra en presentar las nuevas funcionalidades.
+El mock-up conserva los contenidos de precios y equipo del diseño base. Estos contenidos están pendientes de actualización para su publicación; la adaptación de TP1 se concentra en presentar las nuevas funcionalidades.
 
 ## 6.4. Applications UX/UI Design
 

@@ -92,7 +92,7 @@ Además, aparte de las historias de usuario convencionales que van dirigidas a l
 
 ### Technical Stories
 
-TS 001 define BCrypt de forma consistente para almacenar y verificar contraseñas, siguiendo el [modelo de PasswordEncoder de Spring Security](https://docs.spring.io/spring-security/reference/features/authentication/password-storage.html). Las versiones del stack indicadas aquí son requisitos de la propuesta. El backend de referencia del ciclo anterior declara Java 24 en su `pom.xml`; TS 005 establece Java 21 LTS, por lo que la compatibilidad del código y de sus dependencias deberá comprobarse antes de adoptar esa versión en la entrega actual.
+TS 001 define BCrypt de forma consistente para almacenar y verificar contraseñas, siguiendo el [modelo de PasswordEncoder de Spring Security](https://docs.spring.io/spring-security/reference/features/authentication/password-storage.html). Las versiones del stack indicadas aquí son requisitos de la propuesta. TS 005 establece Java 21 LTS como requisito del proyecto actual.
 
 | ID | Título | Descripción | Criterios de Aceptación |
 | :--- | :--- | :--- | :--- |

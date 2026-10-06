@@ -21,8 +21,6 @@ Google. (s. f.). *Get started with Search: a developer’s guide*. Google Search
 
 n8n. (s. f.). *Self-hosting n8n*. [Documentación oficial](https://docs.n8n.io/hosting/).
 
-Resolum. (s. f.). *intiva-api-platform* [Código fuente, revisión 3cd9d92912de51c4a9278fb0e320f152f8a12082]. GitHub. [Repositorio de referencia](https://github.com/Resolum/intiva-api-platform/tree/3cd9d92912de51c4a9278fb0e320f152f8a12082).
-
 Fintonic. (s. f.). *Organiza tu dinero y ahorra con la app de Fintonic*. [Sitio oficial](https://www.fintonic.com/es-ES/inicio/).
 
 Monefy. (s. f.). *Budget & track your money*. [Sitio oficial](https://www.monefy.com/).
