@@ -68,6 +68,10 @@ El equipo realizó la redacción y revisión de los capítulos I, II, III y fina
 
 ## TP1
 
+El equipo realizó el diseño táctico y el diseño de experiencia de usuario de Intiva para la entrega TP1. Leonardo Solis desarrolló el Capítulo V, documentando las capas de dominio, interfaz, aplicación e infraestructura de los ocho bounded contexts, junto con sus diagramas de componentes, clases y base de datos. Camila Loli elaboró las guías de estilo y la arquitectura de información de las secciones 6.1 y 6.2. Didier Meza desarrolló el diseño de la landing page, sus wireframes para escritorio y móvil, el mock-up, los wireframes de aplicación y los wireflows de las secciones 6.3, 6.4.1 y 6.4.2. Omar Rivera elaboró los mock-ups de aplicación y los user flows de las secciones 6.4.3 y 6.4.4.
+
+La integración de los aportes permitió relacionar los requisitos con la estructura del software y con los recorridos del usuario. El alcance emergente del TP1 comprende la categorización y asistencia financiera con IA, y la gestión de propuestas del fondo familiar mediante smart contracts con aprobación de todos los miembros. El equipo consolidó el reporte en la rama develop y vinculó las evidencias visuales de Figma con las secciones correspondientes. La entrega documenta el diseño; la implementación, la interacción del prototipo y la validación con usuarios corresponden a las siguientes actividades del proyecto.
+
 <div style="page-break-after: always;"></div>
 
 ## Contenido
