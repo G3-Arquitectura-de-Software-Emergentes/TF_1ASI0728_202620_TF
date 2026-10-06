@@ -305,7 +305,7 @@ Para TP1 actualizamos el diseño de Intiva con tres funciones: captura de gastos
 
 El diseño toma como fuente de requisitos el [capítulo III](03-cha03-requirements-specification.md), especialmente US 001, US 002, US 032, US 033, TS 023 y TS 024. Los criterios de aceptación corresponden al informe actual en la rama `develop`.
 
-Los diseños se encuentran en el [archivo Figma de Intiva](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2005-721). La página **TP1 · IA y automatización** contiene los wireframes y wireflows nuevos; **Page 1** contiene la landing actualizada. Las pantallas muestran el comportamiento previsto para la aplicación en esta etapa de diseño.
+Los diseños se encuentran en el [archivo Figma de Intiva](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2005-721). En el archivo, **Page 1** contiene la información general de la aplicación: la guía de estilo, las pantallas base y los flujos de usuario existentes (onboarding, perfil y cuentas, transacciones, control de presupuesto, metas de ahorro, grupo familiar, y notificaciones y dashboard). La sección **TP1 · IA y automatización** contiene lo nuevo de esta entrega: la landing actualizada, los wireframes WF01 a WF12 y los wireflows F01 a F03. Las pantallas muestran el comportamiento previsto para la aplicación en esta etapa de diseño.
 
 ### 6.3.1. Landing Page Wireframe
 
@@ -423,4 +423,170 @@ Los wireflows relacionan representaciones de pantallas con acciones y resultados
 | Error al guardar | WF04 → WF12 → reintentar o WF04 | Sin éxito anticipado; datos disponibles para recuperación. |
 | Recordatorio | Notificación → WF09 → WF10 → WF09 | Detalle accesible tanto con envío normal como con respaldo. |
 
-Los recorridos y sus estados sirven de base para desarrollar los mock-ups de aplicación de la sección 6.4.3 y el prototipo de la sección 6.5.
+### 6.4.3. Applications Mock-ups
+
+Esta sección presenta los mock-ups de la aplicación móvil (Android) y de la aplicación web. En cada pantalla se aplican los principios de diseño, los elementos visuales, el diseño inclusivo y la arquitectura de información definidos en los apartados [6.1](#61-style-guidelines) y [6.2](#62-information-architecture), así como el Design System de Intiva. Los mock-ups se elaboran en Figma, en el mismo archivo de los wireframes y wireflows. Las pantallas base de la aplicación se toman de Page 1, y las pantallas nuevas (WF01 a WF12) de la sección TP1.
+
+**Aplicación de la paleta por función.** Cada color cumple un rol fijo en todas las pantallas:
+
+| Rol | Color | Uso en los mock-ups |
+| --- | --- | --- |
+| Primario | Índigo `#534AB7` | Botones principales, pestaña activa de la navegación inferior y tarjeta de saldo total. |
+| Secundario | Lima `#CDEB45` | Llamadas a la acción de registro (Guardar, Confirmar gasto) y progreso de metas de ahorro. Sobre el lima se usa texto oscuro para mantener el contraste. |
+| Terciario | Cobre `#8A4900` | Acciones de edición y algunas categorías. |
+| Neutro | Gris violeta `#78767E` | Fondos, bordes, divisores y textos secundarios. |
+| Error | Rojo `#BA1A1A` | Gastos, límites superados y acción de eliminar. |
+| Estados de límite | Verde (a buen ritmo) y ámbar (cerca del límite) | Siempre acompañados de un texto. Los gastos por confirmar se muestran en tonos neutros. |
+
+**Tipografía e iconografía.** Manrope en títulos, Inter en textos y botones, y Space Grotesk en montos, que se muestran con signo ("+" para ingresos y "−" para gastos). Los íconos son Material Symbols en la aplicación móvil y PrimeIcons en la aplicación web.
+
+**Principios de diseño inclusivo aplicados.**
+- Contraste verificado para cada combinación de texto, fondo y estado.
+- Ningún estado depende solo del color: cada uno incluye un texto.
+- Áreas táctiles de al menos 48 dp en Android, y botones principales a todo el ancho en la parte inferior de la pantalla.
+- Dimensiones en dp y textos en sp, para respetar el tamaño de letra configurado en el teléfono.
+- Contorno de foco visible en la aplicación web, para la navegación con teclado.
+
+**Mock-ups de la aplicación móvil**
+
+**Inicio.** Muestra primero el saldo total, después el estado del presupuesto y al final los movimientos recientes, según la jerarquía visual de [6.2.1](#621-organization-systems).
+
+![Mockup de Inicio](../assets/img/cap06/Mockup10.png)
+
+*Figura 6.4.3-A. Mock-up de la pantalla Inicio. [Abrir Mockup editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=0-1).*.*
+
+**Registro manual de un movimiento.** Muestra los cinco pasos del registro (tipo, monto, categoría, cuenta y fecha) con teclado numérico propio y botón de guardado en la parte inferior. Corresponde a WF08.
+
+![Mockup de Manual de un movimiento](../assets/img/cap06/Mockup11.png)
+
+*Figura 6.4.3-B. Mock-up del registro manual de un movimiento.[Abrir Mockup editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2005-721).*
+
+**Captura automática: permiso y fuentes.** Explica para qué sirve el permiso de notificaciones, permite elegir las fuentes autorizadas y ofrece continuar manualmente. Corresponde a WF01 y WF02.
+
+![Mockup de automática: permiso y fuentes](../assets/img/cap06/Mockup12.png)
+
+*Figura 6.4.3-C. Mock-up de permiso y fuentes autorizadas. [Abrir Mockup editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2005-721).*
+
+**Por confirmar y revisión de un gasto.** Presenta la sugerencia pendiente en tonos neutros, con monto, comercio y fuente, y la pantalla de revisión con las acciones de aceptar o cambiar la categoría, confirmar o descartar. Corresponde a WF03 y WF04.
+
+![Mockup de aconfirmar y revisión de un gasto.](../assets/img/cap06/Mockup13.png)
+
+*Figura 6.4.3-D. Mock-up de la bandeja Por confirmar y de la revisión de un gasto. [Abrir Mockup editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2005-721).*
+
+**Categoría y resultado.** Muestra la selección de otra categoría, la confirmación de "Otros" ante baja confianza y el mensaje de gasto registrado con el saldo actualizado. Corresponde a WF05, WF06 y WF07.
+
+![Mockup de Cateogrias y resultado](../assets/img/cap06/Mock2.png)
+
+*Figura 6.4.3-E. Mock-up de elegir categoría, confirmación de Otros y gasto registrado. [Abrir Mockup editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2005-721).*
+
+**Recordatorios y error al guardar.** Muestra la lista de recordatorios, su detalle (monto, vencimiento y estado) y la pantalla de recuperación ante un error, que conserva los datos. Corresponde a WF09, WF10 y WF12.
+
+![Mockup de recordatorios y errores](../assets/img/cap06/Mock6.png)
+
+*Figura 6.4.3-E. Mock-up de recordatorio y su detalles. [Abrir Mockup editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2005-721).*
+
+**Mock-ups de la aplicación web**
+
+**Panel.** Ubica los indicadores principales (balance total, ingresos, gastos y ahorro del mes) en la parte superior y los gráficos de detalle debajo, con la barra lateral fija y el filtro de período (1 mes, 6 meses o 1 año). Los gráficos usan índigo y lima como colores de sus series.
+
+![Mockup de aplicacion web](../assets/img/cap06/Mock7.png)
+
+*Figura 6.4.3-G. Mock-up del Panel de la aplicación web. [Abrir Mockup editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=0-1).*
+
+**Reportes.** Muestra la configuración del reporte por tipo (general, ingresos, gastos o ahorros), período e integrantes, y la acción de descarga.
+
+![Mockup de Mock-up del Panel de la aplicación web](../assets/img/cap06/Mockup14.png)
+
+*Figura 6.4.3-G. Mock-up del Panel de la aplicación web. [Abrir Mockup editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=0-1).*
+
+### 6.4.4. Applications User Flow Diagrams
+
+Esta sección presenta los User Flows de las aplicaciones de la solución. Hay un User Flow por cada user goal, asociado a un User Persona. Los personas corresponden a las audiencias definidas en [6.2.1](#621-organization-systems): el **usuario individual**, el **integrante del grupo familiar** y el **responsable de la economía familiar** (administrador del grupo). Los flujos de la aplicación móvil son coherentes con los wireflows F01 a F03 de [6.4.2](#642-applications-wireflow-diagrams), de los que se derivan. Los flujos existentes de Page 1 cubren las funciones base de la aplicación; UF-M01 a UF-M04 extienden esos mismos flujos (transacciones, control de presupuesto y notificaciones) con la captura asistida, la categorización con IA y los recordatorios de TP1. Los flujos de la aplicación web se derivan de la arquitectura de información, porque aún no tienen wireflows propios.
+
+Cada diagrama incluye la ruta esperada (**happy path**) y las rutas alternativas (**unhappy paths**, identificadas como UP). Las pantallas se citan con su código de wireframe.
+
+**Aplicación móvil**
+
+**UF-M01. Registrar un gasto manualmente**
+
+- **User goal:** registrar un gasto en cinco pasos o menos, sin haber configurado categorías ni cuentas previamente.
+- **User persona:** usuario individual o integrante del grupo familiar.
+- **Happy path:** Inicio → botón "+" → tipo "Gasto" → monto → categoría → cuenta → fecha → "Guardar" → WF07 (gasto registrado).
+- **Unhappy paths:**
+    - UP1: error al guardar → WF12, que conserva los datos y ofrece reintentar o volver a WF08.
+    - UP2: baja confianza o comercio desconocido → WF06, donde "Otros" exige confirmación explícita antes de seguir.
+
+*[Espacio para imagen: Diagrama User Flow UF-M01]*
+
+*Figura 6.4.4-A. User Flow UF-M01. [Abrir diagrama editable](URL pendiente).*
+
+**UF-M02. Confirmar o descartar un gasto detectado**
+
+- **User goal:** revisar un gasto detectado y decidir si se registra, sin que el saldo cambie antes de confirmarlo.
+- **User persona:** usuario individual o integrante del grupo familiar.
+- **Happy path:** notificación o bandeja → WF03 (Por confirmar) → WF04 (Revisar gasto) → "Confirmar gasto" → WF07 (saldo actualizado).
+- **Unhappy paths:**
+    - UP3: permiso denegado o revocado → WF08 (registro manual disponible).
+    - UP4: descarte → WF11, que confirma que no se registra movimiento ni cambia el saldo, y vuelve a WF03.
+    - UP5: error al guardar → WF12.
+    - UP6: notificación de una fuente no autorizada o de un formato no reconocido → se descarta sin guardar contenido y no crea sugerencia.
+
+*[Espacio para imagen: Diagrama User Flow UF-M02]*
+
+*Figura 6.4.4-B. User Flow UF-M02. [Abrir diagrama editable](URL pendiente).*
+
+**UF-M03. Aceptar o corregir la categoría sugerida por IA**
+
+- **User goal:** confirmar que la categoría propuesta por la IA es correcta, o cambiarla si no lo es.
+- **User persona:** usuario individual o integrante del grupo familiar.
+- **Happy path (aceptar):** WF04 → "Aceptar categoría" → "Confirmar gasto" → WF07 (se guarda la categoría sugerida).
+- **Alternative path (corregir):** WF04 → WF05 (elegir categoría) → WF04 → "Confirmar gasto" → WF07 (se guarda la elección y se registra la corrección).
+- **Unhappy path:**
+    - UP7: baja confianza o comercio desconocido → WF06, donde la categoría propuesta es "Otros" y se requiere aceptación explícita, o reemplazo mediante WF05.
+
+*[Espacio para imagen: Diagrama User Flow UF-M03]*
+
+*Figura 6.4.4-C. User Flow UF-M03. [Abrir diagrama editable](URL pendiente).*
+
+**UF-M04. Revisar un recordatorio de pago**
+
+- **User goal:** enterarse de un vencimiento y revisar su monto, fecha y estado.
+- **User persona:** integrante del grupo familiar o responsable de la economía familiar.
+- **Happy path:** notificación → WF09 (Recordatorios) → WF10 (Detalle de recordatorio) → WF09.
+- **Unhappy path:**
+    - UP8: si el envío normal falla, el aviso de respaldo llega sin el formato ni la agrupación del flujo de n8n, pero abre el mismo detalle WF10.
+- **Restricción:** la aplicación nunca ejecuta un pago. La acción disponible es "Marcar como pagado", que se distingue de cualquier pago.
+
+*[Espacio para imagen: Diagrama User Flow UF-M04]*
+
+*Figura 6.4.4-D. User Flow UF-M04. [Abrir diagrama editable](URL pendiente).*
+
+**Aplicación web**
+
+**UF-W01. Consultar el panel y cambiar el período**
+
+- **User goal:** ver el balance, los ingresos, los gastos y el ahorro del mes, y comparar otro período.
+- **User persona:** responsable de la economía familiar.
+- **Happy path:** inicio de sesión → Panel (indicadores principales) → gráficos de detalle → filtro de período (1 mes, 6 meses o 1 año) → gráficos actualizados.
+- **Unhappy paths:**
+    - UP9: sesión expirada → inicio de sesión y regreso al Panel.
+    - UP10: período sin movimientos → mensaje claro con la opción de cambiar el período.
+    - UP11: gastos personales de otro integrante → no aparecen en el panel ni en los totales del grupo.
+
+*[Espacio para imagen: Diagrama User Flow UF-W01]*
+
+*Figura 6.4.4-E. User Flow UF-W01. [Abrir diagrama editable](URL pendiente).*
+
+**UF-W02. Generar y descargar un reporte**
+
+- **User goal:** obtener un reporte del hogar para revisarlo fuera de la aplicación.
+- **User persona:** responsable de la economía familiar.
+- **Happy path:** Reportes → tipo (general, ingresos, gastos o ahorros) → período → integrantes → "Descargar reporte" → archivo descargado.
+- **Unhappy paths:**
+    - UP12: período sin movimientos → mensaje y opción de cambiar la configuración.
+    - UP13: error en la descarga → mensaje de error, con la configuración conservada para reintentar.
+
+*[Espacio para imagen: Diagrama User Flow UF-W02]*
+
+*Figura 6.4.4-F. User Flow UF-W02. [Abrir diagrama editable](URL pendiente).*
+
