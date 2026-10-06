@@ -73,20 +73,20 @@ En esta sección identificamos y priorizamos los principales drivers que deben g
 Los drivers clasificados como (High, High) —D-02 y D-03— son los que se abordan en la primera iteración del proceso de diseño, ya que constituyen simultáneamente el principal diferenciador del producto y el mayor desafío técnico de la arquitectura, al requerir un modelo de permisos y visibilidad granular dentro de un contexto compartido.
 ### 4.1.4. Architectural Design Decisions
 
-Con el Architectural Drivers Backlog ya consolidado, el equipo llevó a cabo el proceso de toma de decisiones siguiendo las etapas del Quality Attribute Workshop. El trabajo no se resolvió en una sola sesión, sino en cuatro iteraciones sucesivas, cada una enfocada en un subconjunto acotado de drivers. Esta forma de avanzar responde a una razón práctica: intentar resolver los doce drivers simultáneamente habría llevado a decisiones apresuradas, mientras que abordarlos por grupos permitió que las decisiones de una iteración sirvieran como punto de partida verificado para la siguiente.
+Una vez armado el Architectural Drivers Backlog, tomamos las decisiones de arquitectura siguiendo las etapas del Quality Attribute Workshop. Lo hicimos en seis iteraciones, cada una con un grupo pequeño de drivers. Resolver todos los drivers a la vez nos habría llevado a decidir apresuradamente; al trabajarlos por grupos, cada iteración partió de lo que ya se había decidido en la anterior.
 
-El criterio de entrada a cada iteración fue el mismo. Primero se seleccionaron los drivers pendientes de mayor prioridad según la clasificación del backlog. Luego se identificaron los patrones y tácticas candidatas capaces de satisfacerlos, limitando la evaluación a los tres más relevantes en cada caso, tal como recomienda el método cuando el abanico de alternativas es amplio. Después se contrastó cada candidato mediante la Candidate Pattern Evaluation Matrix, registrando de forma explícita sus ventajas y desventajas frente al driver evaluado. Finalmente se tomó la decisión, se instanciaron los elementos arquitectónicos correspondientes y se dejó constancia de las consecuencias asumidas.
+En todas las iteraciones seguimos los mismos pasos. Primero escogimos los drivers pendientes con mayor prioridad en el backlog. Luego buscamos los patrones y tácticas que podían resolverlos y nos quedamos con los tres más relevantes, como recomienda el método cuando hay muchas alternativas. Después comparamos cada uno en la Candidate Pattern Evaluation Matrix, anotando sus ventajas y desventajas para cada driver. Por último, tomamos la decisión y registramos sus consecuencias.
 
-Es importante señalar que varias de las decisiones registradas aquí no son óptimas en términos absolutos, sino óptimas bajo las restricciones del proyecto. Las constraints C-08 (despliegue sobre planes gratuitos) y C-10 (plazos académicos) actuaron como filtro permanente: alternativas técnicamente superiores fueron descartadas o pospuestas por resultar inviables dentro de esos límites. Cuando esto ocurrió, se dejó asentada la condición bajo la cual la alternativa descartada volvería a ser pertinente.
+Varias de estas decisiones son las mejores dentro de las restricciones del proyecto, aunque no necesariamente las mejores en general. Las constraints C-08 (despliegue sobre planes gratuitos) y C-10 (plazos académicos) pesaron en todas las iteraciones, y por ellas descartamos o dejamos para después algunas alternativas técnicamente mejores. En esos casos indicamos en qué situación convendría retomarlas.
 
 
 #### Iteración 1: estructura general del sistema
 
 **Drivers considerados:** D-02 (Gestión financiera familiar compartida), D-03 (Privacidad dentro del entorno compartido) y D-07 (Seguridad de las cuentas y los datos).
 
-Esta primera iteración partió de los dos únicos drivers clasificados como (High, High) en el backlog. La razón para atacarlos primero es que ambos definen simultáneamente la propuesta de valor del producto y el punto de mayor dificultad técnica de la arquitectura. Un usuario debe poder compartir su economía con su familia sin perder el control sobre lo que decide mantener en reserva, condición que apareció de forma explícita en las entrevistas del Capítulo II. Resolver esto exige un modelo de visibilidad que no puede quedar librado a la interfaz de usuario, porque cualquier consulta directa a la API lo dejaría sin efecto.
+Empezamos por los dos únicos drivers clasificados como (High, High) en el backlog, porque en ellos está la propuesta de valor del producto y también la parte más difícil de la arquitectura. En las entrevistas del Capítulo II los usuarios pidieron poder compartir su economía con la familia sin perder el control de lo que prefieren mantener en privado. Para cumplirlo, la regla de visibilidad no puede depender solo de la interfaz, ya que cualquier consulta directa a la API la saltaría.
 
-Las tácticas evaluadas correspondieron a la categoría de seguridad y modificabilidad. Por el lado de seguridad se consideraron *limit access* y *authorize actors*, entendiendo que la decisión sobre qué puede ver cada integrante debe tomarse en el modelo de dominio y no en la capa de presentación. Por el lado de modificabilidad se consideró *encapsulate* y *restrict dependencies*, dado que el conjunto de reglas de visibilidad tenderá a crecer y conviene que quede confinado en un lugar identificable.
+Evaluamos tácticas de seguridad y de modificabilidad. En seguridad consideramos *limit access* y *authorize actors*, porque lo que puede ver cada integrante se debe decidir en el modelo de dominio y no en la capa de presentación. En modificabilidad consideramos *encapsulate* y *restrict dependencies*, ya que las reglas de visibilidad irán creciendo y es mejor que estén en un solo lugar.
 
 **Candidate Pattern Evaluation Matrix: estructura general del sistema**
 
@@ -94,12 +94,12 @@ Las tácticas evaluadas correspondieron a la categoría de seguridad y modificab
 |---|---|---|---|---|---|---|---|
 | | | **Pro** | **Con** | **Pro** | **Con** | **Pro** | **Con** |
 | D-02 | Gestión financiera familiar compartida | Permite compartir entidades entre funcionalidades sin ningún costo de integración, ya que todo el dominio vive en un mismo conjunto de servicios. | Las reglas del grupo familiar quedarían mezcladas con las del registro de transacciones, sin un lugar claro donde localizarlas ni un responsable único de mantenerlas. | Concentra el modelo de grupo, roles e invitaciones en un módulo con frontera propia, que el resto del sistema consulta a través de una interfaz publicada. | Obliga al equipo a sostener la disciplina de no cruzar la frontera, porque el lenguaje no impide técnicamente un acceso indebido entre módulos. | Aísla físicamente el servicio de grupos familiares y permite evolucionarlo y escalarlo con independencia del resto. | Introduce consistencia eventual en operaciones que hoy son atómicas y exige coordinación distribuida para algo que ocurre dentro de una misma solicitud. |
-| D-03 | Privacidad dentro del entorno compartido | Facilita aplicar filtros de consulta rápidos sobre un mismo modelo de datos. | Dispersa la regla de privacidad en cada servicio que consulte transacciones, con alto riesgo de que alguna consulta nueva la omita por descuido. | Permite que la titularidad del registro forme parte del modelo de dominio y que la verificación de pertenencia se delegue en un único módulo consultable. | El aislamiento es lógico y no físico, de modo que un error de programación aún podría sortear la frontera sin ser detectado por el compilador. | Ofrece aislamiento real, con superficie de acceso reducida a lo que cada servicio expone deliberadamente. | El costo operativo y de infraestructura resulta desproporcionado frente al beneficio en el estado actual del producto. |
+| D-03 | Privacidad dentro del entorno compartido | Facilita aplicar filtros de consulta rápidos sobre un mismo modelo de datos. | Dispersa la regla de privacidad en cada servicio que consulte transacciones, con alto riesgo de que alguna consulta nueva la omita por descuido. | Permite que la titularidad del registro forme parte del modelo de dominio y que la verificación de pertenencia se delegue en un único módulo consultable. | El aislamiento es lógico y no físico, de modo que un error de programación aún podría sortear la frontera sin ser detectado por el compilador. | Ofrece aislamiento real, y cada servicio solo expone lo que decide exponer. | El costo operativo y de infraestructura resulta desproporcionado frente al beneficio en el estado actual del producto. |
 | D-07 | Seguridad de las cuentas y los datos | Ofrece un único punto de configuración para la cadena de filtros de seguridad. | Sin fronteras internas, cualquier componente termina con acceso potencial a toda la información persistida. | Mantiene la identidad y la emisión de credenciales en un contexto propio, separado del dominio financiero que las consume. | El contexto de identidad comparte proceso con el resto, de modo que una falla grave lo afecta todo por igual. | Permite endurecer y auditar el servicio de identidad de forma independiente al resto del sistema. | Multiplica los puntos de entrada a proteger y la superficie de ataque asociada al tránsito entre servicios. |
 
-**Decisión adoptada.** Se optó por el monolito modular organizado por bounded contexts. El razonamiento fue que este patrón conserva el beneficio central del enfoque orientado a servicios, que es la existencia de fronteras de dominio explícitas, sin asumir el costo de infraestructura y de coordinación distribuida que las constraints C-08 y C-10 vuelven inviable. La alternativa de microservicios no se rechazó por considerarse inadecuada, sino que quedó pospuesta: la descomposición en contextos que se adopta ahora es precisamente la que permitiría extraer un módulo como servicio autónomo más adelante sin rehacer el modelo de dominio.
+**Decisión adoptada.** Escogimos el monolito modular organizado por bounded contexts. Este patrón mantiene fronteras claras entre los dominios, que es lo principal que buscábamos de los microservicios, sin el costo de infraestructura ni la coordinación distribuida que las constraints C-08 y C-10 no permiten asumir. Los microservicios quedaron pospuestos, no descartados: como el backend ya está dividido por contextos, más adelante se podría separar un módulo como servicio independiente sin rehacer el modelo de dominio.
 
-De esta iteración se desprenden las siguientes decisiones concretas.
+Las decisiones que salieron de esta iteración son las siguientes:
 
 | ID | Decisión | Fundamento |
 |---|---|---|
@@ -115,9 +115,9 @@ De esta iteración se desprenden las siguientes decisiones concretas.
 
 **Drivers considerados:** D-01 (Registro centralizado de ingresos y gastos), D-04 (Alertas y recordatorios automáticos) y D-11 (Metas de ahorro personales y compartidas).
 
-Definida la estructura, la segunda iteración tuvo que resolver un problema que la primera dejó abierto. Si los contextos tienen fronteras, hace falta decidir cómo se comunican sin anularlas. El caso que puso el asunto en evidencia fue el registro de un gasto familiar, porque desencadena una secuencia que involucra a cuatro contextos distintos: se valida el saldo de la cuenta, se persiste la transacción, se reevalúan los límites que pudieran verse afectados y se avisa al resto del grupo. Tratar todos esos pasos por igual habría sido un error, ya que solo el primero condiciona si la operación puede aceptarse.
+Con la estructura definida, faltaba decidir cómo se comunican los contextos sin romper sus fronteras. El ejemplo que usamos fue el registro de un gasto familiar, que involucra a cuatro contextos: se valida el saldo de la cuenta, se guarda la transacción, se revisan los límites de gasto afectados y se avisa al resto del grupo. No todos esos pasos pesan igual, porque solo el primero decide si la operación se acepta o no.
 
-Las tácticas evaluadas fueron *use an intermediary* para el desacoplamiento estructural e *introduce concurrency* para el temporal. La distinción resultó determinante: hay colaboraciones que deben completarse antes de responder al usuario y otras que solo necesitan ocurrir, sin que importe si lo hacen dentro de la misma solicitud.
+Evaluamos *use an intermediary* para el desacoplamiento estructural e *introduce concurrency* para el temporal. Separar ambos casos fue importante, porque algunas colaboraciones tienen que terminar antes de responder al usuario y otras pueden ocurrir después sin problema.
 
 **Candidate Pattern Evaluation Matrix: mecanismo de colaboración entre contextos**
 
@@ -128,9 +128,9 @@ Las tácticas evaluadas fueron *use an intermediary* para el desacoplamiento est
 | D-04 | Alertas y recordatorios automáticos | Permitiría consultar directamente las tablas de notificaciones desde el contexto financiero. | Convierte a Finances en responsable de cómo se persiste una notificación, que es una decisión ajena a su dominio. | Deja explícito que Finances solicita una alerta y que Communications decide cómo entregarla. | Mantiene a Finances esperando el resultado del envío, aunque ese resultado no cambie nada de la operación principal. | Permite que la evaluación de límites y el aviso al grupo ocurran fuera del tiempo de respuesta de la transacción. | No garantiza el orden de ejecución ni la entrega si el proceso se interrumpe, ya que no se implementa un patrón outbox. |
 | D-11 | Metas de ahorro personales y compartidas | Facilitaría leer aportes y transacciones desde un mismo lugar. | Impide que la regla de cierre de una meta quede bajo el control del agregado que la representa. | Permite consultar la información de la meta sin exponer su modelo interno al resto del sistema. | Añade un paso de traducción en colaboraciones que son poco frecuentes. | Habilita que el cumplimiento de una meta dispare la felicitación sin que quien registra el aporte deba esperarla. | Dificulta seguir la traza completa de la operación durante la depuración. |
 
-**Decisión adoptada.** Lejos de elegir un único patrón, la iteración concluyó que los dos últimos son complementarios y que el primero debía descartarse como mecanismo general. Toda colaboración que condicione el resultado de una operación se resuelve de forma síncrona mediante una interfaz publicada por el contexto proveedor y consumida a través de un adaptador propio del consumidor. Toda consecuencia posterior, en cambio, se propaga mediante eventos de dominio. El criterio que separa ambos casos quedó formulado así: si el resultado de la colaboración puede cambiar la decisión de aceptar o rechazar la operación, es síncrona; si solo describe algo que debe ocurrir después, es asíncrona.
+**Decisión adoptada.** Decidimos usar los patrones 2 y 3 juntos y descartar el primero como forma general de comunicación. Las colaboraciones que afectan el resultado de una operación se resuelven de forma síncrona, mediante una interfaz publicada por el contexto proveedor y un adaptador del contexto consumidor. Lo que pasa después se comunica con eventos de dominio. La regla que usamos fue: si la colaboración puede cambiar la decisión de aceptar o rechazar la operación, es síncrona; si solo indica algo que debe pasar después, es asíncrona.
 
-Conviene anticipar que este criterio no se aplicó de manera uniforme en toda la implementación. El análisis posterior de los flujos de mensajes reveló que el contexto Analytics accede de forma directa a repositorios de Finances y Savings, precisamente el patrón que aquí se descartó. Ese hallazgo se documenta en detalle en la sección 4.2.5 y se registra como deuda de diseño al cierre de este apartado.
+Sin embargo, esta regla no se cumplió en toda la implementación. Al revisar los flujos de mensajes encontramos que el contexto Analytics accede directamente a los repositorios de Finances y Savings, que es el patrón que descartamos aquí. Esto se explica en la sección 4.2.5 y se registra como deuda de diseño al final de este apartado.
 
 | ID | Decisión | Fundamento |
 |---|---|---|
@@ -146,9 +146,9 @@ Conviene anticipar que este criterio no se aplicó de manera uniforme en toda la
 
 **Drivers considerados:** D-05 (Visualización de datos financieros), D-09 (Rendimiento en consultas frecuentes) y D-12 (Disponibilidad del servicio).
 
-La tercera iteración se ocupó del comportamiento del sistema en tiempo de ejecución. El punto crítico identificado fue el panel de analíticas, que necesita reunir información de tres contextos distintos y agregarla por periodo. A diferencia del registro de una transacción, que trabaja sobre un dato puntual, el cálculo del resumen recorre todo el histórico del titular. El problema se agrava con el uso, ya que cuanto más tiempo lleve una familia en la plataforma, más costoso resulta recalcular sus métricas.
+La tercera iteración trató el comportamiento del sistema en tiempo de ejecución. El punto más delicado fue el panel de analíticas, que junta información de tres contextos y la agrupa por periodo. Registrar una transacción trabaja con un solo dato, pero el resumen recorre todo el historial del usuario, así que mientras más tiempo use una familia la plataforma, más pesado se vuelve recalcular sus métricas.
 
-Las tácticas evaluadas pertenecen a la categoría de rendimiento, en particular *maintain multiple copies of computations* y *bound execution times*, junto con *state resynchronization* para el escenario de pérdida de conectividad asociado a D-12.
+Evaluamos tácticas de rendimiento, en especial *maintain multiple copies of computations* y *bound execution times*, y también *state resynchronization* para el caso de pérdida de conexión de D-12.
 
 **Candidate Pattern Evaluation Matrix: estrategia de cálculo de métricas**
 
@@ -159,7 +159,7 @@ Las tácticas evaluadas pertenecen a la categoría de rendimiento, en particular
 | D-09 | Rendimiento en consultas frecuentes | No requiere gestionar invalidación ni coherencia entre copias. | Cada apertura del panel repite un cálculo idéntico al anterior sin ninguna ganancia. | Reduce la consulta recurrente a una lectura en memoria y el proveedor ofrece un plan gratuito compatible con C-08. | Obliga a definir una política de invalidación por titular y periodo, que agrega lógica a mantener. | Traslada el costo del cálculo a un momento distinto del de la consulta. | El refresco compite por los mismos recursos que la carga transaccional, en la misma instancia. |
 | D-12 | Disponibilidad del servicio | Ninguna: ante indisponibilidad del backend no hay respuesta posible. | Concentra toda la capacidad de respuesta en un único componente. | Permite seguir sirviendo el último resumen disponible aunque el cálculo momentáneamente falle. | Agrega una dependencia externa cuya caída también debe contemplarse. | Mantiene el resultado disponible mientras la base de datos lo esté. | Comparte destino con la base de datos: si ella no responde, la vista tampoco. |
 
-**Decisión adoptada.** Se eligió la caché cache-aside sobre Redis. El argumento decisivo fue que la desactualización acotada por un TTL resulta tolerable para métricas financieras de periodo, que no son valores de precisión instantánea sino agregados de tendencia. Un usuario que consulta cuánto gastó en el mes no necesita que la cifra incluya el gasto registrado hace treinta segundos, mientras que sí necesita que el panel abra sin demora. La vista materializada se descartó porque el panel permite filtrar por periodos arbitrarios y precalcular todas las combinaciones posibles carecía de sentido.
+**Decisión adoptada.** Escogimos la caché cache-aside sobre Redis. Que los datos estén un poco desactualizados durante el TTL es aceptable para métricas de un periodo, ya que muestran tendencias y no valores exactos al segundo. Un usuario que revisa cuánto gastó en el mes no necesita ver el gasto que registró hace treinta segundos, pero sí necesita que el panel cargue rápido. Descartamos la vista materializada porque el panel permite filtrar por cualquier periodo y no tenía sentido precalcular todas las combinaciones.
 
 | ID | Decisión | Fundamento |
 |---|---|---|
@@ -171,7 +171,7 @@ Las tácticas evaluadas pertenecen a la categoría de rendimiento, en particular
 
 **Drivers considerados:** D-06 (Facilidad de uso y lenguaje intuitivo), D-07 (Seguridad de las cuentas y los datos), D-08 (Multiplataforma) y D-10 (Monetización freemium).
 
-La última iteración definió la frontera externa del sistema. Dos asuntos quedaban pendientes: cómo se autentica quien accede y cómo se relacionan los tres clientes exigidos por las constraints con un backend único. El segundo punto tenía además una consecuencia de diseño que no era obvia al principio. Las constraints obligan a construir tres frontends, pero no dicen qué debe hacer cada uno, y asignarles a todos las mismas funciones habría desperdiciado sus diferencias. El User Task Matrix del Capítulo II mostraba que el registro de gastos es una tarea de alta frecuencia y contexto móvil, mientras que la lectura de gráficos es una tarea de menor frecuencia que se beneficia de una pantalla amplia.
+La cuarta iteración definió la parte externa del sistema. Faltaba decidir cómo se autentican los usuarios y cómo se conectan los tres clientes que piden las constraints con un solo backend. Las constraints obligan a tener tres frontends, pero no dicen qué debe hacer cada uno, y darles a todos las mismas funciones no aprovechaba lo que cada uno hace mejor. El User Task Matrix del Capítulo II mostraba que registrar gastos es una tarea frecuente que se hace desde el celular, mientras que revisar gráficos es menos frecuente y se ve mejor en una pantalla grande.
 
 **Candidate Pattern Evaluation Matrix: autenticación y gestión de sesión**
 
@@ -190,7 +190,7 @@ La última iteración definió la frontera externa del sistema. Dos asuntos qued
 | D-08 | Multiplataforma | Reduce el esfuerzo de desarrollo a una sola base de código. | Incumple de forma directa las constraints C-02, C-03 y C-04, que imponen tecnologías distintas por cliente. | Da cumplimiento a las tres constraints de stack y mantiene un contrato único de integración. | Triplica el esfuerzo de interfaz y exige coordinar la evolución del contrato. | Permite optimizar el volumen de datos enviado a cada cliente. | Multiplica los despliegues y el costo asociado, incompatible con C-08. |
 | D-10 | Monetización freemium | Simplifica la integración con la tienda de aplicaciones. | Limita la posibilidad de ofrecer la contratación por canales distintos al móvil. | Permite que la compra ocurra en el cliente móvil y que la validación se resuelva en el servidor. | Requiere que el backend consulte al proveedor de pagos antes de activar beneficios. | Podría adaptar la presentación de planes por canal. | El costo no se justifica para una funcionalidad de uso esporádico. |
 
-**Decisión adoptada.** Se optó por el token JWT firmado, complementado con almacenamiento de contraseñas mediante función de hash y con la posibilidad de autenticación federada con Google como vía alternativa y no excluyente. La delegación total a un proveedor externo se descartó porque habría dejado fuera a quienes no poseen cuenta de Google, situación nada infrecuente en el segmento objetivo. Para los clientes se eligió el esquema de tres frontends especializados sobre una API común, con asignación diferenciada de responsabilidades.
+**Decisión adoptada.** Escogimos el token JWT firmado, con contraseñas guardadas como hash y con la opción de iniciar sesión con Google como alternativa. No delegamos todo el acceso a un proveedor externo porque habría dejado fuera a quienes no tienen cuenta de Google, algo que sí ocurre en nuestro segmento objetivo. Para los clientes escogimos tres frontends especializados sobre una misma API, cada uno con responsabilidades distintas.
 
 | ID | Decisión | Fundamento |
 |---|---|---|
@@ -206,9 +206,9 @@ La última iteración definió la frontera externa del sistema. Dos asuntos qued
 
 **Drivers considerados:** D-13 (Automatización inteligente de registro y categorización).
 
-Esta iteración se incorporó una vez que el equipo revisó el To-Be Scenario Mapping del Capítulo III y encontró una idea mencionada allí para el segmento de Carlos Castillo —lectura automática de notificaciones y análisis predictivo— que nunca había sido traducida a un driver arquitectónico concreto. A esto se sumó un hallazgo recurrente en las entrevistas del Capítulo II: varios usuarios (Rodrigo, Benjamín) señalaron como tedioso tanto el registro manual como la clasificación posterior de sus gastos por categoría. El driver D-13 agrupa ambos hallazgos porque comparten la misma motivación —reducir el esfuerzo manual del usuario— aunque exigen mecanismos técnicos distintos.
+Agregamos esta iteración después de revisar el To-Be Scenario Mapping del Capítulo III. Allí, para el segmento de Carlos Castillo, aparecía la idea de leer automáticamente las notificaciones y hacer análisis predictivo, pero nunca la habíamos convertido en un driver. Además, en las entrevistas del Capítulo II varios usuarios (Rodrigo, Benjamín) dijeron que les resultaba tedioso registrar sus gastos a mano y luego clasificarlos por categoría. El driver D-13 junta ambos hallazgos, ya que los dos buscan reducir el trabajo manual del usuario, aunque cada uno necesita una solución técnica distinta.
 
-Las tácticas evaluadas correspondieron a la categoría de rendimiento y modificabilidad para la captura de notificaciones, y a la de precisión funcional para la sugerencia de categoría. Por el lado de la captura, se consideró *interceptar eventos en el sistema operativo del cliente* frente a *delegar la lectura a un servicio de terceros*. Por el lado de la categorización, se evaluó un motor basado en reglas frente a un modelo de aprendizaje automático embebido o delegado a un servicio externo.
+Para la captura de notificaciones evaluamos tácticas de rendimiento y modificabilidad, y para la sugerencia de categoría, tácticas de precisión funcional. En la captura comparamos *interceptar eventos en el sistema operativo del cliente* con *delegar la lectura a un servicio de terceros*. En la categorización comparamos un motor de reglas con un modelo de aprendizaje automático, ya sea dentro del sistema o en un servicio externo.
 
 **Candidate Pattern Evaluation Matrix: automatización de registro y categorización**
 
@@ -217,7 +217,7 @@ Las tácticas evaluadas correspondieron a la categoría de rendimiento y modific
 | | | **Pro** | **Con** | **Pro** | **Con** | **Pro** | **Con** |
 | D-13 | Automatización inteligente de registro y categorización | No introduce complejidad ni dependencias nuevas al sistema. | Mantiene intacta la fricción de registro identificada como causa raíz del problema desde el Capítulo I. | Se ejecuta dentro del propio contexto Categories & Financial Accounts, sin costo de infraestructura ni dependencia de terceros. | La cobertura de comercios reconocidos crece de forma manual y queda acotada al diccionario mantenido por el equipo; no generaliza ante comercios nuevos o mal escritos. | Generaliza ante comercios nuevos o con nombres ambiguos, sin mantenimiento manual de un diccionario, y constituye la aplicación concreta de una tecnología emergente de IA sobre el dominio del producto. | Introduce una dependencia externa y su disponibilidad debe manejarse con cuidado, además de un costo por consumo que debe acotarse. |
 
-**Decisión adoptada.** Para la captura de transacciones se optó por interceptar las notificaciones directamente en el cliente móvil mediante `NotificationListenerService` de Android, y enviarlas al backend como transacciones sugeridas a través del mismo endpoint REST ya definido para transacciones, en un estado `PENDING_CONFIRMATION` que exige confirmación del usuario antes de afectar cualquier saldo. Para la categorización se optó por enviar la descripción del gasto y la lista de categorías del usuario como *prompt* a un LLM externo, y usar su respuesta de texto como categoría sugerida, en lugar de un motor de reglas o de un modelo de embeddings propio: es la alternativa que exige menos piezas nuevas (una sola llamada HTTP con un prompt, sin cálculo ni almacenamiento de vectores) y a la vez constituye una demostración inequívoca de una tecnología emergente de IA, que un motor de reglas no habría satisfecho. El con del Patrón 3 —dependencia y costo externos— se mitiga aislando la llamada detrás de un adaptador propio (siguiendo el mismo principio que AD-16 aplica a Firebase, Google OAuth2 y Cloudinary) y acotando el consumo a un nivel gratuito o de bajo costo, consistente con C-08.
+**Decisión adoptada.** Para capturar las transacciones decidimos leer las notificaciones directamente en la app móvil con `NotificationListenerService` de Android. Estas se envían al backend como transacciones sugeridas, por el mismo endpoint REST de transacciones, en estado `PENDING_CONFIRMATION`, y no afectan ningún saldo hasta que el usuario las confirma. Para la categorización decidimos enviar la descripción del gasto y la lista de categorías del usuario como *prompt* a un LLM externo, y usar su respuesta como categoría sugerida. Lo preferimos frente a un motor de reglas o a un modelo de embeddings propio porque necesita menos piezas nuevas (una sola llamada HTTP, sin calcular ni guardar vectores) y porque aplica de verdad una tecnología emergente de IA, cosa que un motor de reglas no cumpliría. La desventaja del Patrón 3 es depender de un servicio externo con costo. La reducimos aislando la llamada en un adaptador propio, igual que en AD-16 con Firebase, Google OAuth2 y Cloudinary, y limitando el consumo a un plan gratuito o de bajo costo, de acuerdo con C-08.
 
 | ID | Decisión | Fundamento |
 |---|---|---|
@@ -229,9 +229,9 @@ Las tácticas evaluadas correspondieron a la categoría de rendimiento y modific
 
 **Drivers considerados:** D-04 (Alertas y recordatorios automáticos).
 
-Con AD-07 ya resuelto —los contextos propagan sus efectos posteriores mediante eventos de dominio— y AD-15 estableciendo que las alertas se entregan como notificaciones push, quedaba pendiente decidir quién traduce cada evento en el mensaje final que ve el usuario y bajo qué regla se envía. Mantener esa lógica escrita directamente en Communications habría funcionado, pero habría significado desplegar una nueva versión del backend cada vez que el equipo quisiera ajustar la redacción de un mensaje, agrupar varias alertas de una misma familia en un solo envío, o incorporar un canal adicional a futuro (correo, SMS). El equipo identificó esto como una segunda oportunidad concreta para incorporar una tecnología emergente de automatización de procesos al proyecto, complementaria a la IA de categorización.
+Con AD-07 los contextos ya comunican sus efectos posteriores mediante eventos de dominio, y con AD-15 las alertas se envían como notificaciones push. Faltaba decidir quién convierte cada evento en el mensaje que ve el usuario y con qué regla se envía. Podíamos escribir esa lógica dentro de Communications, pero entonces habría que desplegar una nueva versión del backend cada vez que quisiéramos cambiar el texto de un mensaje, juntar varias alertas de una familia en un solo envío o agregar otro canal más adelante (correo, SMS). Vimos aquí una segunda oportunidad para usar una tecnología emergente, esta vez de automatización de procesos, además de la IA de categorización.
 
-La táctica evaluada fue *externalizar configuración*: mover el formateo, la agrupación y el enrutamiento del mensaje a un motor de flujos visual y versionable por fuera del código del backend, frente a mantener esa lógica embebida en Communications.
+La táctica que evaluamos fue *externalizar configuración*, es decir, sacar el formato, la agrupación y el enrutamiento del mensaje a un motor de flujos visual y versionable fuera del backend, en lugar de dejar esa lógica dentro de Communications.
 
 **Candidate Pattern Evaluation Matrix: canal de entrega de notificaciones**
 
@@ -240,7 +240,7 @@ La táctica evaluada fue *externalizar configuración*: mover el formateo, la ag
 | | | **Pro** | **Con** | **Pro** | **Con** | **Pro** | **Con** |
 | D-04 | Alertas y recordatorios automáticos | No agrega infraestructura ni dependencias externas. | Cualquier cambio en la redacción, el canal o la regla de agrupación exige una nueva versión del backend. | Permite editar visualmente el flujo de notificación (formato del mensaje, canal, condiciones de agrupación) sin desplegar el backend; se autoaloja en un plan gratuito compatible con C-08. | Introduce un salto de red adicional y un punto de fallo que debe manejarse con una vía de respaldo. | Delega por completo la entrega y el versionado de plantillas a un proveedor especializado. | Costo recurrente por volumen de envíos, incompatible con C-08 para una startup en etapa inicial. |
 
-**Decisión adoptada.** Communications continúa siendo quien recibe los eventos de dominio, sin cambios sobre AD-06 ni AD-07, pero en lugar de construir el mensaje final y decidir el canal internamente, invoca un webhook de un flujo de n8n autoalojado que centraliza el formateo del mensaje, la agrupación de alertas y la selección de canal. Si n8n no responde, Communications aplica un envío de respaldo directo vía Firebase Cloud Messaging con el mensaje sin formatear, para no perder la alerta.
+**Decisión adoptada.** Communications sigue recibiendo los eventos de dominio, así que AD-06 y AD-07 no cambian. La diferencia es que ya no arma el mensaje ni escoge el canal: llama al webhook de un flujo de n8n autoalojado, que se encarga del formato del mensaje, la agrupación de alertas y la elección del canal. Si n8n no responde, Communications envía el mensaje sin formato directamente por Firebase Cloud Messaging para no perder la alerta.
 
 | ID | Decisión | Fundamento |
 |---|---|---|
@@ -248,7 +248,7 @@ La táctica evaluada fue *externalizar configuración*: mover el formateo, la ag
 
 #### Deuda de diseño asumida
 
-El proceso dejó dos decisiones que el equipo considera incorrectas pero que se mantienen de forma consciente en esta versión. Se registran aquí para que su trazabilidad no dependa de la memoria de quienes participaron.
+El proceso dejó algunas decisiones que no son las ideales, pero que decidimos mantener en esta versión. Las registramos aquí junto con la condición para resolver cada una.
 
 | ID | Descripción | Origen | Condición para resolverla |
 |---|---|---|---|
@@ -260,11 +260,11 @@ El proceso dejó dos decisiones que el equipo considera incorrectas pero que se 
 
 ### 4.1.5. Quality Attribute Scenario Refinements
 
-Al concluir el Quality Attribute Workshop, el equipo revisó los escenarios formulados en la sección 4.1.2.2 y los reescribió incorporando las decisiones adoptadas. La diferencia entre ambas versiones no es de redacción sino de naturaleza. Los escenarios iniciales describían un comportamiento deseado sin comprometerse con ninguna solución, mientras que los refinados señalan el artefacto concreto que recibe el estímulo, cuantifican la respuesta esperada y dejan constancia de las preguntas que quedaron abiertas y de los problemas detectados durante la discusión.
+Al terminar el Quality Attribute Workshop, revisamos los escenarios de la sección 4.1.2.2 y los reescribimos con las decisiones tomadas. Los escenarios iniciales describían el comportamiento que queríamos sin indicar cómo lograrlo. Los refinados, en cambio, indican el artefacto que recibe el estímulo, ponen una medida concreta a la respuesta y registran las preguntas abiertas y los problemas que encontramos durante la discusión.
 
-Tres decisiones influyeron especialmente en esta revisión. La primera fue el traslado de la regla de privacidad al modelo de dominio mediante AD-03 y AD-04, que convirtió un enunciado genérico sobre visibilidad en un escenario verificable con una medida de cero accesos indebidos. La segunda fue la separación entre colaboraciones síncronas y asíncronas establecida en AD-07, que obligó a distinguir qué parte del tiempo de respuesta corresponde realmente a la operación y qué parte ocurre después de ella. La tercera fue la introducción de la caché de AD-11, que llevó a desdoblar el escenario original de rendimiento en dos escenarios independientes, porque la escritura de una transacción y la lectura del panel de analíticas tienen artefactos, tácticas y medidas distintas, y tratarlos como uno solo ocultaba esa diferencia.
+Las decisiones que más cambiaron los escenarios fueron tres. Con AD-03 y AD-04 la regla de privacidad pasó al modelo de dominio, lo que permitió medirla como cero accesos indebidos. Con AD-07, al separar las colaboraciones síncronas de las asíncronas, tuvimos que distinguir qué parte del tiempo de respuesta corresponde a la operación y qué parte ocurre después. Por último, con la caché de AD-11 dividimos el escenario de rendimiento en dos, porque registrar una transacción y consultar el panel de analíticas tienen artefactos, tácticas y medidas distintas.
 
-Los escenarios se presentan a continuación en orden de prioridad, criterio que combina la importancia asignada por los stakeholders en el Architectural Drivers Backlog con la frecuencia con que el estímulo se presenta durante el uso real del sistema.
+Los escenarios se presentan en orden de prioridad, según la importancia que les dieron los stakeholders en el Architectural Drivers Backlog y la frecuencia con que ocurre el estímulo en el uso real del sistema.
 
 
 
@@ -321,7 +321,7 @@ Los escenarios se presentan a continuación en orden de prioridad, criterio que 
 | Response | El sistema verifica el saldo disponible, persiste la transacción, actualiza el saldo de la cuenta y devuelve la confirmación. La evaluación de los límites de gasto afectados y el aviso al grupo familiar se propagan mediante eventos, fuera de la transacción principal. |
 | Response Measure | Menos de 1.5 segundos en la operación de escritura. Los efectos posteriores se completan fuera de ese tiempo de respuesta. |
 | **Questions** | ¿La validación de saldo debe seguir siendo bloqueante para transacciones asociadas a efectivo, donde el concepto de saldo disponible es menos preciso? ¿Conviene diferenciar la medida según se registre desde el cliente móvil o desde el web? |
-| **Issues** | Al no implementarse un patrón de publicación transaccional de eventos, una caída del proceso entre la persistencia de la transacción y la publicación del evento dejaría el movimiento registrado sin que se emita la alerta ni la notificación correspondiente. La probabilidad es baja pero la inconsistencia sería silenciosa. |
+| **Issues** | Al no implementarse un patrón de publicación transaccional de eventos, una caída del proceso entre la persistencia de la transacción y la publicación del evento dejaría el movimiento registrado sin que se emita la alerta ni la notificación correspondiente. Es poco probable, pero si pasa, nadie se daría cuenta de la inconsistencia. |
 
 
 
@@ -357,7 +357,7 @@ Los escenarios se presentan a continuación en orden de prioridad, criterio que 
 | Environment | Producción, sobre un histórico acumulado de transacciones, límites de gasto y metas de ahorro. |
 | Artifact (if Known) | Manejador de la consulta de resumen analítico en el contexto Analytics, con caché cache-aside sobre Redis. |
 | Response | Si existe un resumen vigente en caché para ese titular y periodo, se devuelve directamente. En caso contrario, el contexto recalcula el resumen, lo almacena con tiempo de vida acotado y lo entrega. |
-| Response Measure | Menos de 2 segundos en la consulta. La consulta servida desde caché debe resultar sensiblemente más rápida que el recálculo completo. |
+| Response Measure | Menos de 2 segundos en la consulta. La consulta servida desde caché debe ser bastante más rápida que el recálculo completo. |
 | **Questions** | ¿Qué tiempo de vida resulta aceptable antes de que la desactualización se vuelva perceptible para el usuario? ¿Debe invalidarse la caché al registrarse una transacción, o basta con esperar el vencimiento natural de la entrada? |
 | **Issues** | El cálculo del resumen accede de forma directa a los repositorios de Finances y de Savings, incumpliendo el mecanismo de colaboración acordado en AD-06. Esto hace que un cambio de esquema en esos contextos pueda romper Analytics sin aviso. Corresponde a la deuda DT-01. |
 
@@ -378,7 +378,7 @@ Los escenarios se presentan a continuación en orden de prioridad, criterio que 
 | Response | La aplicación registra el movimiento en el almacenamiento local y lo sincroniza contra el servidor cuando la conexión se restablece, sin que la persona deba repetir la operación. El servicio responde al mecanismo de verificación de estado definido. |
 | Response Measure | Disponibilidad mensual no inferior al 95 por ciento. Ninguna transacción perdida por registro sin conexión. |
 | **Questions** | ¿Cómo debe resolverse el conflicto si el mismo movimiento se registra desde dos dispositivos distintos antes de sincronizar? ¿Qué debe mostrarse al usuario mientras un registro permanece pendiente de sincronización? |
-| **Issues** | El objetivo de disponibilidad depende de infraestructura en planes gratuitos, cuyos acuerdos de nivel de servicio no garantizan el valor comprometido. La medida es, en rigor, una aspiración del equipo antes que una garantía contractual del proveedor. |
+| **Issues** | El objetivo de disponibilidad depende de infraestructura en planes gratuitos, cuyos acuerdos de nivel de servicio no garantizan el valor comprometido. Por eso, esta medida es más una meta del equipo que una garantía del proveedor. |
 
 
 
@@ -416,19 +416,19 @@ Los escenarios se presentan a continuación en orden de prioridad, criterio que 
 | Response | El cambio se implementa dentro de un solo bounded context. Los contextos consumidores continúan operando a través de la interfaz publicada, sin requerir modificaciones en su capa de dominio. |
 | Response Measure | Modificación localizada en un único módulo del backend, sin cambios en el dominio de los contextos consumidores. |
 | **Questions** | ¿Cómo se verifica de forma automática que una modificación no ha cruzado la frontera del contexto? ¿Conviene incorporar pruebas de arquitectura que fallen ante una dependencia no permitida? |
-| **Issues** | Mientras persista la deuda DT-01, este escenario no se cumple para Analytics. Un cambio en el esquema de Finances o de Savings se propagaría a Analytics de forma inmediata, precisamente porque el acceso no pasa por ninguna interfaz publicada. |
+| **Issues** | Mientras persista la deuda DT-01, este escenario no se cumple para Analytics. Un cambio en el esquema de Finances o de Savings se propagaría a Analytics de forma inmediata, porque el acceso no pasa por ninguna interfaz publicada. |
 
 ## 4.2. Strategic-Level Domain-Driven Design
 
 ### 4.2.1. EventStorming
 
-Para construir un entendimiento común del dominio antes de proponer cualquier descomposición en módulos, el equipo realizó una sesión de EventStorming en su modalidad Big Picture. La sesión se desarrolló de forma remota sobre un lienzo de Miro y tuvo una duración aproximada de dos horas, ajustándose al rango recomendado para este tipo de taller. La decisión de trabajar primero sobre los eventos del negocio, y no sobre entidades ni sobre tablas, respondió a una preocupación concreta: el equipo venía de redactar treinta y una historias de usuario agrupadas en nueve épicas, y esa organización, aunque útil para planificar el trabajo, no revelaba por sí sola dónde estaban las fronteras naturales del dominio.
+Antes de dividir el sistema en módulos, necesitábamos que todo el equipo entendiera el dominio de la misma forma. Para eso hicimos una sesión de EventStorming en modalidad Big Picture, de forma remota en Miro, que duró unas dos horas, dentro del rango recomendado para este taller. Empezamos por los eventos del negocio y no por entidades o tablas porque veníamos de escribir treinta y una historias de usuario agrupadas en nueve épicas, y esa organización servía para planificar, pero no mostraba dónde estaban las fronteras del dominio.
 
-Los insumos de entrada fueron las historias de usuario del Capítulo III, los mapas To-Be de la sección 3.1 y los hallazgos de las entrevistas de la sección 2.2. Ninguno de los integrantes del equipo es experto en finanzas personales, de modo que el rol de conocedor del dominio se asumió de forma rotativa apoyándose en la evidencia recogida durante el needfinding. Cuando surgió una duda que la evidencia no resolvía, se anotó como punto caliente en lugar de zanjarla por consenso improvisado.
+Como insumos usamos las historias de usuario del Capítulo III, los mapas To-Be de la sección 3.1 y los hallazgos de las entrevistas de la sección 2.2. Nadie del equipo es experto en finanzas personales, así que el rol de experto del dominio lo fuimos rotando, apoyándonos en lo que recogimos en el needfinding. Cuando aparecía una duda que esa información no resolvía, la marcábamos como punto caliente en vez de decidirla en el momento.
 
 **Notación empleada**
 
-Se respetó la convención de colores habitual del método, que asigna un significado fijo a cada tipo de nota adhesiva. Mantenerla resultó importante porque permite leer el lienzo sin necesidad de explicarlo.
+Usamos la convención de colores del método, en la que cada tipo de nota adhesiva tiene un significado fijo. Así el tablero se puede leer sin que alguien tenga que explicarlo.
 
 | Color | Elemento | Qué representa en el lienzo |
 |---|---|---|
@@ -441,21 +441,21 @@ Se respetó la convención de colores habitual del método, que asigna un signif
 
 **Desarrollo de la sesión**
 
-La sesión avanzó en cinco momentos claramente diferenciados.
+La sesión tuvo cinco etapas.
 
-El primero fue la exploración caótica. Durante los primeros veinte minutos cada participante escribió, sin coordinarse con los demás y sin preocuparse por el orden, todos los eventos que reconocía en la gestión financiera personal y familiar. El resultado fue deliberadamente desordenado y contenía duplicados evidentes. Esto no se corrigió en el momento, porque el propósito de la etapa es recoger la mayor cantidad posible de hechos antes de empezar a filtrar.
+La primera fue la exploración libre. Durante los primeros veinte minutos, cada participante escribió por su cuenta, sin importar el orden, todos los eventos que se le ocurrían sobre la gestión financiera personal y familiar. Salieron muchos eventos desordenados y algunos repetidos, pero no los corregimos en ese momento, porque la idea de esta etapa es juntar la mayor cantidad de hechos antes de filtrar.
 
-El segundo momento fue la ordenación temporal. Los eventos se acomodaron en una línea única, desde la llegada de una persona visitante a la landing hasta la consulta de sus métricas financieras. Aquí apareció el primer trabajo de lenguaje: notas como "gasto guardado", "movimiento anotado" y "egreso registrado" describían el mismo hecho con tres nombres distintos, y hubo que acordar cuál se conservaba. Se optó por "Transacción registrada", que es el término que el equipo terminó usando también en el código.
+La segunda fue ordenar los eventos en el tiempo, en una sola línea que va desde que un visitante entra a la landing hasta que consulta sus métricas financieras. Aquí tuvimos que ponernos de acuerdo con el lenguaje: "gasto guardado", "movimiento anotado" y "egreso registrado" describían el mismo hecho con tres nombres distintos. Nos quedamos con "Transacción registrada", que es también el término que terminamos usando en el código.
 
-El tercer momento consistió en identificar los eventos pivote. Se marcaron aquellos hechos que cambian de manera irreversible el estado del negocio y que, una vez ocurridos, abren posibilidades que antes no existían. El registro de una persona usuaria es uno de ellos, porque a partir de allí la persona puede hacer cosas que como visitante no podía. La creación de un grupo familiar es otro, porque inaugura la dimensión compartida del producto. Estos eventos sirvieron después para cortar la línea de tiempo en tramos.
+La tercera fue marcar los eventos pivote, es decir, los hechos que cambian el estado del negocio y permiten hacer cosas que antes no se podían. Uno de ellos es el registro de una persona usuaria, porque desde ahí puede hacer cosas que como visitante no podía. Otro es la creación de un grupo familiar, que es donde empieza la parte compartida del producto. Con estos eventos dividimos después la línea de tiempo en tramos.
 
-El cuarto momento fue el de comandos, actores y políticas. Hacia atrás desde cada evento se preguntó qué acción lo provoca y quién la ejecuta. Hacia adelante se preguntó qué debe ocurrir de forma automática a continuación. Esta última pregunta resultó ser la más productiva de toda la sesión, porque cada política que conecta dos tramos distintos de la línea de tiempo anticipa una colaboración entre partes del sistema que hasta ese momento parecían independientes.
+La cuarta fue agregar comandos, actores y políticas. Para cada evento nos preguntamos qué acción lo provoca y quién la hace, y también qué debería pasar automáticamente después. Esta segunda pregunta fue la que más nos ayudó, porque cada política que une dos tramos distintos de la línea de tiempo muestra una colaboración entre partes del sistema que hasta ese momento parecían separadas.
 
-El quinto y último momento fue la identificación de agregados y puntos calientes. Los comandos y eventos se agruparon alrededor del elemento del dominio que decide si el evento ocurre o no. Las dudas que no pudieron resolverse con la evidencia disponible se marcaron en rojo y se trataron al final.
+La quinta fue identificar agregados y puntos calientes. Agrupamos los comandos y eventos alrededor del elemento del dominio que decide si el evento ocurre o no. Las dudas que no pudimos resolver con la información que teníamos las marcamos en rojo y las vimos al final.
 
 **Eventos de dominio identificados**
 
-La siguiente tabla recoge el resultado de la ordenación temporal, ya depurado de duplicados. Los eventos marcados con asterisco son los eventos pivote que delimitan los tramos de la línea de tiempo.
+La siguiente tabla muestra los eventos ordenados y sin duplicados. Los eventos con asterisco son los eventos pivote que separan los tramos de la línea de tiempo.
 
 | Evento de dominio | Comando que lo provoca | Actor | Agregado que decide |
 |---|---|---|---|
@@ -500,7 +500,7 @@ La siguiente tabla recoge el resultado de la ordenación temporal, ya depurado d
 
 **Políticas identificadas**
 
-Las políticas fueron el hallazgo de mayor utilidad para el diseño estratégico, y conviene detenerse en por qué. Cada una de ellas describe algo que debe ocurrir sin que nadie lo ordene explícitamente, lo que significa que conecta dos partes del dominio que podrían pertenecer a responsables distintos. Al mapearlas sobre la línea de tiempo se hizo visible el patrón de colaboración que después se formalizó en el Context Map.
+Las políticas fueron lo que más nos sirvió para el diseño estratégico. Cada una describe algo que pasa automáticamente, sin que nadie lo pida, y por eso conecta dos partes del dominio que podrían estar a cargo de responsables distintos. Al ubicarlas en la línea de tiempo pudimos ver cómo colaboran las partes del sistema, y eso es lo que después formalizamos en el Context Map.
 
 | Política | Formulación | Tramos que conecta |
 |---|---|---|
@@ -516,11 +516,11 @@ Las políticas fueron el hallazgo de mayor utilidad para el diseño estratégico
 
 **Modelos de lectura identificados**
 
-Durante la sesión se anotaron también las vistas que alguien necesita consultar para poder decidir. Estas son: historial de transacciones, saldo por cuenta financiera, consumo actual de un límite, progreso de una meta de ahorro, lista de integrantes del grupo, bandeja de notificaciones y resumen analítico del periodo.
+También anotamos las vistas que el usuario necesita consultar para tomar decisiones: historial de transacciones, saldo por cuenta financiera, consumo actual de un límite, progreso de una meta de ahorro, lista de integrantes del grupo, bandeja de notificaciones y resumen analítico del periodo.
 
 **Puntos calientes y su resolución**
 
-Seis dudas quedaron sin resolver durante la sesión y se marcaron en rojo. Todas se discutieron al cierre y sus resoluciones condicionaron decisiones posteriores del diseño.
+Durante la sesión quedaron seis dudas marcadas en rojo. Las discutimos al final y lo que acordamos influyó en decisiones posteriores del diseño.
 
 | Punto caliente | Resolución acordada |
 |---|---|
@@ -539,35 +539,35 @@ Por último, se presenta el EventStorming desarrollado en Miro:
 
 ### 4.2.2. Candidate Context Discovery
 
-A partir del dominio ya modelado como EventStorm, el equipo realizó una segunda sesión con un objetivo distinto: identificar dónde conviene trazar las fronteras del sistema. La sesión tomó algo menos de dos horas y se desarrolló sobre el mismo lienzo de Miro, reagrupando las notas adhesivas existentes en lugar de crear nuevas.
+Con el EventStorming terminado, hicimos una segunda sesión para decidir dónde poner las fronteras del sistema. Duró un poco menos de dos horas y la hicimos en el mismo tablero de Miro, reagrupando las notas que ya teníamos en lugar de crear nuevas.
 
-El criterio que guió el trabajo merece una aclaración, porque no es el que resultaría intuitivo. La tentación inicial fue agrupar por entidades compartidas, es decir, reunir en un mismo bloque todo aquello que toca la misma tabla. El equipo descartó ese camino siguiendo lo que plantea la literatura de Domain-Driven Design: un bounded context se delimita por el lenguaje, no por los datos. Allí donde una misma palabra empieza a significar otra cosa, hay una frontera, aunque la información subyacente sea la misma. Este criterio resultó decisivo en al menos tres ocasiones durante la sesión.
+Al principio quisimos agrupar por entidades compartidas, es decir, juntar en un bloque todo lo que usa la misma tabla. Lo descartamos porque, según Domain-Driven Design, un bounded context se define por el lenguaje y no por los datos: cuando una misma palabra empieza a significar otra cosa, hay una frontera, aunque la información de fondo sea la misma. Este criterio nos ayudó a separar contextos en tres casos que explicamos más abajo.
 
 **Técnicas aplicadas**
 
-Se emplearon de forma combinada las tres técnicas sugeridas para este tipo de sesión, cada una en el momento en que resultaba más útil.
+Usamos las tres técnicas sugeridas para esta sesión, cada una en un momento distinto.
 
-La técnica de *look for pivotal events* se aplicó primero, aprovechando que los eventos pivote ya habían quedado marcados en la sesión anterior. Estos hechos funcionan como bisagras del proceso de negocio, y los tramos que quedan entre ellos son candidatos naturales a convertirse en contextos. El registro de una persona usuaria separó el tramo de acceso del resto. La creación de un grupo familiar separó el tramo de economía compartida. El registro de una transacción separó el núcleo financiero de todo lo que ocurre a partir de él.
+Primero aplicamos *look for pivotal events*, aprovechando que ya habíamos marcado los eventos pivote en el EventStorming. Estos eventos separan etapas del negocio, y lo que queda entre ellos suele convertirse en un contexto. El registro de una persona usuaria separó la parte de acceso del resto, la creación de un grupo familiar separó la economía compartida y el registro de una transacción separó el núcleo financiero de lo que pasa después.
 
-La técnica de *start with value* se aplicó a continuación, para decidir dónde concentrar el esfuerzo de modelado. El equipo se preguntó qué partes del dominio sostienen efectivamente la propuesta de valor frente a los competidores analizados en la sección 2.1. La respuesta apuntó al registro de transacciones con evaluación de límites, a la economía familiar compartida con reserva de lo personal y a las metas de ahorro con aportes individuales y grupales. Esos tres bloques se clasificaron como núcleo del dominio y son los que recibieron mayor atención en el modelado posterior.
+Luego aplicamos *start with value* para decidir en qué partes poner más esfuerzo de modelado. Nos preguntamos qué partes del dominio sostienen la propuesta de valor frente a los competidores de la sección 2.1, y llegamos a tres: el registro de transacciones con evaluación de límites, la economía familiar compartida que respeta lo personal y las metas de ahorro con aportes individuales y grupales. Estos tres bloques los clasificamos como núcleo del dominio y fueron los que más trabajamos después.
 
-La técnica de *start with simple* se aplicó al final, como verificación. Cada agrupación propuesta se sometió a la prueba de poder describirse en una sola frase que tuviera sentido para alguien ajeno al equipo. Las agrupaciones que no superaron esa prueba fueron revisadas, porque la dificultad para nombrarlas solía indicar que reunían responsabilidades que no tenían relación entre sí.
+Al final aplicamos *start with simple* para revisar el resultado. Cada agrupación tenía que poder explicarse en una sola frase que entendiera alguien de fuera del equipo. Las que no pasaron esta prueba las revisamos, porque si costaba nombrarlas, normalmente era porque juntaban responsabilidades que no tenían relación.
 
-**Fronteras reveladas por la prueba del lenguaje**
+**Fronteras encontradas por el lenguaje**
 
-Tres casos merecen comentario porque no eran evidentes al observar únicamente el modelo de datos.
+Hubo tres casos que no se notaban mirando solo el modelo de datos.
 
-El primero es la palabra cuenta. En el tramo de acceso significa identidad digital con credenciales asociadas. En el tramo financiero significa medio de pago con saldo, ya sea una billetera, una tarjeta o el efectivo disponible. Son dos conceptos sin nada en común más allá del nombre, y esa colisión confirmó la separación entre el contexto de identidad y el de cuentas financieras.
+El primero es la palabra "cuenta". En la parte de acceso significa identidad digital con credenciales. En la parte financiera significa un medio de pago con saldo, como una billetera, una tarjeta o el efectivo. Solo comparten el nombre, y por eso separamos el contexto de identidad del de cuentas financieras.
 
-El segundo es la palabra integrante. En el tramo familiar designa a una persona con un rol y unos permisos dentro de un grupo. En el tramo de perfiles designa simplemente a una persona con datos personales y preferencias de uso. Nuevamente, dos significados distintos que justificaron separar Household de Profiles.
+El segundo es la palabra "integrante". En la parte familiar es una persona con un rol y permisos dentro de un grupo. En la parte de perfiles es solo una persona con sus datos y preferencias. Por estos dos significados separamos Household de Profiles.
 
-El tercero es la palabra transacción. En el núcleo financiero es un hecho que modifica un saldo y que debe validarse antes de aceptarse. En el tramo analítico es un dato de entrada para una agregación por periodo, sobre el que ya no se ejerce ninguna regla. Aunque ambos leen la misma información, las reglas que la gobiernan son distintas, y esto llevó a separar Analytics del núcleo transaccional en lugar de incluir los reportes dentro de Finances.
+El tercero es la palabra "transacción". En el núcleo financiero es algo que cambia un saldo y que debe validarse antes de aceptarse. En la parte de analítica es solo un dato para calcular totales por periodo, sin reglas que validar. Aunque usan la misma información, las reglas son distintas, así que separamos Analytics de Finances en vez de poner los reportes dentro de Finances.
 
-Un cuarto caso se resolvió en sentido contrario y conviene mencionarlo para no dar la impresión de que la separación es siempre la respuesta. Categoría y cuenta financiera son conceptos distintos, pero comparten el lenguaje de la clasificación del gasto, se crean juntas durante la preparación inicial de una persona usuaria y ninguna concentra todavía un volumen de reglas propio que justifique separarlas. Se mantuvieron en un mismo contexto, dejando constancia de que es el candidato más claro a dividirse cuando el dominio de medios de pago crezca.
+También hubo un caso en el que decidimos no separar. Categoría y cuenta financiera son conceptos distintos, pero las dos sirven para clasificar el gasto, se crean juntas al registrarse una persona y todavía no tienen suficientes reglas propias como para separarlas. Las dejamos en un mismo contexto, aunque es el primero que convendría dividir si la parte de medios de pago crece.
 
 **Contextos candidatos resultantes**
 
-La sesión concluyó con ocho contextos candidatos. La tabla siguiente los presenta junto con el vocabulario que los distingue, los agregados que contienen y su clasificación estratégica.
+Al final de la sesión quedaron ocho contextos candidatos. La tabla muestra el vocabulario que los distingue, sus agregados y su clasificación estratégica.
 
 | Bounded Context candidato | Lenguaje que lo distingue | Agregados | Clasificación |
 |---|---|---|---|
@@ -582,19 +582,19 @@ La sesión concluyó con ocho contextos candidatos. La tabla siguiente los prese
 
 **Fundamento de la clasificación estratégica**
 
-Los tres contextos clasificados como núcleo concentran aquello que distingue a Intiva de las alternativas existentes en el mercado. Ninguno de los competidores analizados combina el registro con evaluación de límites, la economía familiar con reserva de lo personal y las metas de ahorro compartidas. Son también los contextos con mayor cantidad de eventos de dominio y mayor número de relaciones entrantes, lo cual es coherente con su rol.
+Los tres contextos núcleo son los que diferencian a Intiva de otras opciones del mercado: ninguno de los competidores analizados junta el registro con evaluación de límites, la economía familiar que respeta lo personal y las metas de ahorro compartidas. Además, son los contextos con más eventos de dominio y más relaciones entrantes, lo que coincide con su importancia.
 
-Los cuatro contextos de soporte resultan necesarios para que los anteriores funcionen y aportan valor perceptible al usuario, pero no constituyen por sí mismos una ventaja competitiva. Cualquier producto del rubro cuenta con perfiles, categorías, notificaciones y algún tipo de reporte.
+Los cuatro contextos de soporte son necesarios para que los núcleo funcionen y el usuario los valora, pero no son una ventaja competitiva por sí solos, ya que cualquier producto del rubro tiene perfiles, categorías, notificaciones y algún tipo de reporte.
 
-El contexto de identidad se clasificó como genérico porque el registro, la autenticación y la emisión de credenciales son un problema ya resuelto por la industria, que conviene atender con mecanismos estándar antes que con modelado propio. Se le añadió la calificación de alto riesgo por una razón distinta de su valor: no diferencia al producto, pero su falla bloquea el acceso a todo lo demás.
+El contexto de identidad es genérico porque el registro, la autenticación y la emisión de credenciales son problemas ya resueltos en la industria, y es mejor usar mecanismos estándar que modelarlos desde cero. Lo marcamos como de alto riesgo porque, aunque no diferencia al producto, si falla nadie puede acceder al resto del sistema.
 
 **Sobre un noveno contexto candidato**
 
-Durante la agrupación apareció un noveno bloque, formado alrededor de la adquisición y validación de suscripciones, con un vocabulario propio compuesto por plan, suscripción, beneficio y facturación. Corresponde a las historias US 008, US 009 y US 010 y sostiene el modelo freemium descrito en el driver D-10. El equipo lo reconoce como un bounded context legítimo, ya que su lenguaje no se solapa con ningún otro, y así figura en el diagrama de contenedores de la sección 4.3.2.
+Al agrupar apareció un noveno bloque sobre la compra y validación de suscripciones, con su propio vocabulario: plan, suscripción, beneficio y facturación. Corresponde a las historias US 008, US 009 y US 010 y permite el modelo freemium del driver D-10. Lo consideramos un bounded context válido, porque su lenguaje no se cruza con el de ningún otro, y por eso aparece en el diagrama de contenedores de la sección 4.3.2.
 
-Sin embargo, este contexto no se desarrolla en los Bounded Context Canvases de la sección 4.2.4 ni aparece en el Context Map de la sección 4.2.5. La razón es que a la fecha de esta entrega su modelo todavía no está implementado, y documentarlo con el mismo nivel de detalle que los demás supondría describir un diseño que no ha sido contrastado contra el código. Se prefiere dejar constancia de su existencia como contexto previsto y postergar su desarrollo detallado, señalando que la decisión AD-19 ya establece su restricción principal, que es validar toda compra del lado del servidor.
+Aun así, no lo incluimos en los Bounded Context Canvases de la sección 4.2.4 ni en el Context Map de la sección 4.2.5, porque en esta entrega su modelo todavía no está implementado y no queríamos documentar con el mismo detalle un diseño que aún no comparamos con el código. Por ahora lo dejamos registrado como contexto previsto. Su restricción principal ya está definida en la decisión AD-19: toda compra se valida del lado del servidor.
 
-Los ocho contextos restantes son los que se detallan de forma individual en la sección 4.2.4. Sus colaboraciones, anticipadas aquí por las políticas P-01 a P-09, se modelan como flujos de mensajes en la sección 4.2.3 y se formalizan como relaciones estructurales en la sección 4.2.5.
+Los otros ocho contextos se detallan uno por uno en la sección 4.2.4. Sus colaboraciones, que aquí se ven en las políticas P-01 a P-09, se modelan como flujos de mensajes en la sección 4.2.3 y como relaciones entre contextos en la sección 4.2.5.
 
 ### 4.2.3. Domain Message Flows Modeling
 
