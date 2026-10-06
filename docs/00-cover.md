@@ -65,9 +65,7 @@ URL del repositorio del Project Report en GitHub: [TF_1ASI0728_202620_TF — dev
 
 El equipo realizó la redacción y revisión de los capítulos I, II, III y finalizó el capítulo IV. La coordinación de esta entrega se realizó distribuyendo las actividades de análisis, redacción, diseño y revisión entre los integrantes, consolidando los avances para la entrega del TB1.
 
-## TP1 — aporte de Didier:
-
-Didier desarrolló la landing, los wireframes y los wireflows de las secciones 6.3 a 6.4.2, incorporó las evidencias de Figma y documentó su trazabilidad con los requisitos de captura, clasificación y notificaciones. Los aportes de estilo, arquitectura de información, diseño táctico y prototipado se distribuyen entre los demás responsables de TP1.
+## TP1 
 
 <div style="page-break-after: always;"></div>
 
