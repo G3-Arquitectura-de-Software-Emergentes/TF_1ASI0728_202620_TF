@@ -26,7 +26,7 @@ A continuación, se muestra el logo diseñado para Intiva:
 
 *Logo de Intiva. Fuente: elaboración propia.*
 
-El logo de Intiva está compuesto por un isotipo y un logotipo. El isotipo es un rombo blanco de esquinas redondeadas que contiene un cuadrado índigo con un rayo, símbolo que representa la energía y la rapidez con la que la aplicación permitirá tomar el control del dinero: registrar un movimiento o revisar el presupuesto tomará solo unos segundos. El logotipo "Intiva" se escribe en una tipografía sans-serif de trazo grueso, que transmite solidez y confianza. Se presenta sobre el color índigo principal de la marca y se acompaña del eslogan. En espacios reducidos, como el favicon, la barra de navegación de la landing page o la barra lateral de la aplicación web, se usará una versión simplificada: un cuadrado índigo con la inicial de la marca.
+El logo de Intiva está compuesto por un isotipo y un logotipo. El isotipo es un rombo blanco de esquinas redondeadas que contiene un cuadrado índigo con un rayo, símbolo que representa la energía y la rapidez con la que la aplicación permitirá tomar el control del dinero: el registro y la consulta del presupuesto son tareas principales del producto. El tiempo de ejecución se evaluará mediante las pruebas de usabilidad definidas en QAS-01. El logotipo "Intiva" se escribe en una tipografía sans-serif de trazo grueso, que transmite solidez y confianza. Se presenta sobre el color índigo principal de la marca y se acompaña del eslogan. En espacios reducidos, como el favicon, la barra de navegación de la landing page o la barra lateral de la aplicación web, se usará una versión simplificada: un cuadrado índigo con la inicial de la marca.
 
 **Typography**
 
@@ -63,7 +63,7 @@ El color terciario es un tono cobrizo (`#8A4900`). Lo usaremos como acento en ac
 
 El color neutro es un gris con un ligero tono violeta (`#78767E`). Con su escala de tonos lo usaremos en fondos, bordes y textos secundarios, y combina bien con el índigo.
 
-Además, usaremos un rojo (`#BA1A1A`) para los gastos, los límites superados y la acción de eliminar. Cada color tiene una escala de tonos, de oscuro a claro, que nos permite crear fondos suaves, estados de botones y un modo oscuro sin perder contraste en los textos.
+Además, usaremos un rojo (`#BA1A1A`) para los gastos, los límites superados y la acción de eliminar. Cada color tiene una escala de tonos, de oscuro a claro, que nos permite crear fondos suaves, estados de botones y un modo oscuro. El contraste debe comprobarse para cada combinación de texto, fondo y estado; la existencia de una escala de tonos no garantiza por sí sola su legibilidad.
 
 A continuación se presenta la guía de estilo de Intiva, que reúne la paleta de colores, las tipografías y algunos componentes base (botones, buscador, barras de progreso, barra de navegación y botones de íconos):
 
@@ -117,11 +117,11 @@ Usaremos un tono cercano y sencillo. En las entrevistas vimos que los términos 
 
 ### 6.1.2. Web, Mobile & Devices Style Guidelines
 
-Intiva contará con tres productos: una landing page, que será el sitio web estático para dar a conocer la solución; una aplicación móvil nativa para Android, donde se hará el registro diario de movimientos; y una aplicación web, pensada para revisar gráficos y reportes en una pantalla más grande. Se priorizó Android porque, según las entrevistas, la mayoría de usuarios de ambos segmentos utiliza dispositivos con este sistema operativo, mientras que la aplicación web cubre el uso desde laptops con Windows, el segundo dispositivo más usado.
+Intiva contempla una landing informativa, una aplicación móvil Android para el registro diario y una aplicación web para consultar gráficos y reportes. Las entrevistas mencionan el uso de celulares y computadoras. La elección de Android también responde a TS 007 y al acceso a notificaciones requerido por TS 023; no se fundamenta en porcentajes de dispositivos cuya base de cálculo aún no está documentada.
 
 **Landing Page**
 
-- Diseño responsive con enfoque *mobile first*, ya que gran parte del tráfico llegará desde el celular, por ejemplo al compartir el enlace por WhatsApp.
+- Diseño responsive con enfoque *mobile first*, para permitir el acceso desde el celular, por ejemplo al compartir el enlace por WhatsApp.
 - Puntos de quiebre: móvil (< 768 px), tablet (768 a 1023 px) y escritorio (≥ 1024 px). En móvil, el contenido pasará a una sola columna y el menú superior se convertirá en un menú hamburguesa.
 - Usará fondos claros con acentos índigo, y el botón principal será de color Secondary (lima) para que destaque; el botón secundario será transparente con borde.
 - Estará disponible en español e inglés, con un selector de idioma en la barra de navegación.
@@ -131,7 +131,7 @@ Intiva contará con tres productos: una landing page, que será el sitio web est
 
 - Seguirá los lineamientos de Material Design 3, para que la aplicación se sienta natural para los usuarios de Android, utilizando sus componentes: barra superior, barra de navegación inferior, botón flotante, chips, paneles inferiores (*bottom sheets*) y diálogos.
 - Las dimensiones se definirán en `dp` y los textos en `sp`, para respetar el tamaño de letra configurado por el usuario en su teléfono.
-- Se diseñará sobre un ancho de referencia de 360 a 390 dp, que corresponde a los dispositivos Android de gama media que usan nuestros segmentos objetivo.
+- Se diseñará sobre un ancho de referencia de 360 a 390 dp, como referencia de diseño adaptable; la distribución se verificará en distintos tamaños de pantalla.
 - Los botones de acción principal ocuparán todo el ancho de la pantalla y estarán en la parte inferior, para alcanzarlos fácilmente con el pulgar.
 - Para registrar montos se usará un teclado numérico propio con dígitos grandes, evitando abrir el teclado del sistema.
 - El permiso para leer notificaciones se pedirá con una pantalla propia que explique para qué sirve, antes de llevar al usuario a los ajustes de Android, y siempre habrá una opción para continuar con el registro manual.
@@ -237,7 +237,7 @@ En la aplicación web no habrá búsqueda por texto, ya que muestra información
 
 ### 6.2.4. SEO Tags and Meta Tags
 
-Para los SEO Tags y Meta Tags se decidió implementar palabras clave que mejoren la probabilidad de encontrar Intiva en los motores de búsqueda.
+Los metadatos propuestos describen el contenido de la landing y configuran su presentación en buscadores y redes sociales. Su aplicación deberá verificarse en el sitio desplegado; no garantiza una posición determinada en los resultados de búsqueda.
 
 **Landing Page:**
 
@@ -246,10 +246,10 @@ Para los SEO Tags y Meta Tags se decidió implementar palabras clave que mejoren
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Intiva - Menos registro, más control en familia</title>
 <meta name="description" content="Registra tus gastos con ayuda de las notificaciones de tus apps financieras, recibe sugerencias de categoría con IA y organiza las finanzas de tu familia con Intiva.">
-<meta name="keywords" content="finanzas personales, finanzas familiares, control de gastos, registro automático de gastos, categorías con IA, presupuesto familiar, metas de ahorro, Intiva">
 <meta name="author" content="Resolum">
 <meta name="robots" content="index, follow">
 
+<!-- URLs de diseño: sustituir por las rutas definitivas verificadas al desplegar -->
 <!-- Versiones de idioma -->
 <link rel="alternate" hreflang="es" href="https://intiva.vercel.app/es/">
 <link rel="alternate" hreflang="en" href="https://intiva.vercel.app/en/">
@@ -262,17 +262,17 @@ Para los SEO Tags y Meta Tags se decidió implementar palabras clave que mejoren
 <meta property="og:type" content="website">
 ```
 
-Con estos tags, la landing page tendrá más oportunidades de aparecer entre las primeras opciones cuando una persona busque cómo organizar sus finanzas o las de su familia. Las etiquetas `hreflang` indicarán al buscador qué versión mostrar según el idioma del usuario, y las etiquetas Open Graph permitirán mostrar una vista previa con imagen, título y descripción cuando el enlace se comparta por WhatsApp, la aplicación más usada por los entrevistados.
+El título y la descripción permiten comunicar el contenido de la página; Google puede utilizar la descripción en el fragmento de búsqueda. La etiqueta `keywords` no se incluye porque Google no la utiliza para indexación ni ranking. `hreflang` identifica las versiones de idioma y Open Graph define la vista previa al compartir. Las URL y la imagen del ejemplo deberán corresponder a recursos publicados antes de su uso. [Referencia: Google Search Central](https://developers.google.com/search/docs/crawling-indexing/special-tags).
 
 **Aplicación web:**
 
-La aplicación web contiene información financiera privada, por lo que no buscará aparecer en los buscadores. Solo la pantalla de inicio de sesión tendrá un título y una descripción, y las páginas a las que se entra con sesión iniciada usarán `<meta name="robots" content="noindex, nofollow">` para que no sean indexadas.
+La aplicación web contiene información financiera privada, por lo que no buscará aparecer en los buscadores. Solo la pantalla de inicio de sesión tendrá un título y una descripción, y las páginas a las que se entra con sesión iniciada usarán `<meta name="robots" content="noindex, nofollow">` como instrucción de indexación. La privacidad depende de la autenticación y autorización del backend; `noindex` no es un control de acceso. [Referencia: Google Search Central](https://developers.google.com/search/docs/fundamentals/get-started-developers).
 
 **Aplicación Móvil (App Store Optimization):**
 
 * App Title: Intiva - Finanzas en Familia
-* App Subtitle: Registra gastos más rápido, define límites y ahorra en familia
-* App Keywords: control de gastos, registro automático de gastos, categorías con IA, presupuesto, ahorro, finanzas familiares, metas de ahorro
+* Mensaje breve propuesto para la ficha de Google Play: Registra gastos más rápido, define límites y ahorra en familia
+* Términos para redactar la ficha de Google Play: control de gastos, registro automático de gastos, categorías con IA, presupuesto, ahorro, finanzas familiares, metas de ahorro
 * App Category: Finanzas
 * App Description: "Intiva te ayuda a tomar el control de tu dinero. Detecta tus gastos a partir de las notificaciones de tus apps financieras y te sugiere su categoría, para que solo tengas que revisarlos y confirmarlos. Define límites de gasto y recibe alertas antes de superarlos. Crea metas de ahorro solo o con tu familia y revisa a dónde va tu dinero desde un solo lugar."
 
