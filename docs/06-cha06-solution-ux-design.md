@@ -302,40 +302,29 @@ Para la aplicación web se usará una barra lateral fija con las secciones "Pane
 
 ## 6.3. Landing Page UI Design
 
-Para TP1 actualizamos el diseño de Intiva con tres funciones: captura de gastos desde notificaciones financieras, sugerencia de categorías mediante inteligencia artificial y recordatorios automatizados. Estas funciones se integran al registro de movimientos y al control de las finanzas personales y familiares.
+La entrega TP1 de Balanza presenta dos tecnologías emergentes para Intiva: **inteligencia artificial** para categorización y asistencia financiera personal, y **blockchain mediante smart contracts** para aprobar gastos del fondo familiar. La IA ayuda a identificar gastos hormiga y orientar metas; el contrato exige que todos los miembros aprueben una misma propuesta antes de validar el gasto.
 
-El diseño toma como fuente de requisitos el [capítulo III](03-cha03-requirements-specification.md), especialmente US 001, US 002, US 032, US 033, TS 023 y TS 024. Los criterios de aceptación corresponden al informe actual en la rama `develop`.
-
-Los diseños se encuentran en el [archivo Figma de Intiva](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2005-721). En el archivo, **Page 1** contiene la información general de la aplicación: la guía de estilo, las pantallas base y los flujos de usuario existentes (onboarding, perfil y cuentas, transacciones, control de presupuesto, metas de ahorro, grupo familiar, y notificaciones y dashboard). La sección **TP1 · IA y automatización** contiene lo nuevo de esta entrega: la landing actualizada, los wireframes WF01 a WF12 y los wireflows F01 a F03. Las pantallas muestran el comportamiento previsto para la aplicación en esta etapa de diseño.
+La trazabilidad corresponde a US 032 (fondo familiar), US 033 (categoría IA), US 034 (asistente), TS 023 (smart contracts) y TS 024 (adaptador IA) del [capítulo III](03-cha03-requirements-specification.md). Los diseños vigentes se encuentran en la página **TP1 · IA y smart contracts** del [archivo Figma de Intiva](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2045-2348). Las pantallas representan diseño académico; no acreditan un modelo validado ni un contrato desplegado.
 
 ### 6.3.1. Landing Page Wireframe
 
-El wireframe organiza la comunicación de valor desde el problema hasta la acción de descargar la aplicación. La propuesta central es **“Menos registro, más control en familia”**: la automatización reduce el esfuerzo de registro y la IA ayuda a clasificar, manteniendo la decisión final en el usuario. La captura mediante notificaciones se presenta como una función opcional de Android, coherente con TS 023.
+La propuesta **“Tus finanzas, con IA y acuerdos en familia”** organiza la landing en navegación, hero, llamada a la acción, categorización, asistencia para el ahorro, aprobación del fondo y explicación del control del usuario. El escritorio de 1440 px presenta una lectura vertical y la versión móvil de 390 px conserva el orden de los bloques en una columna.
 
-| Bloque | Contenido y propósito | Trazabilidad |
+| Bloque | Mensaje y propósito | Requisito |
 | --- | --- | --- |
-| Navegación | Acceso a inicio, funcionalidades, funcionamiento, equipo y planes. | US 001, US 002 |
-| Hero y llamadas a la acción | Propuesta de valor, descarga en Google Play y acceso a la explicación de funcionamiento. | US 001, US 002 |
-| Problema | Tiempo dedicado al registro, gastos sin clasificar y vencimientos olvidados. | US 002 |
-| Funcionalidades | Captura asistida, categorías con confianza visible y recordatorios. | US 032, US 033, US 030 |
-| Cómo funciona | Crear cuenta, autorizar fuentes y revisar/confirmar movimientos; espacio previsto para video explicativo. | US 002, TS 023, US 032 |
-| Privacidad y control | Fuentes financieras autorizadas, revocación del permiso y alternativa manual. | TS 023 |
-| Equipo y planes | Presentación del equipo actual y comparación de opciones de suscripción. | US 001, US 008 |
-| Escenarios y cierre | Ejemplos académicos de uso familiar, segunda llamada a la acción y enlaces legales. | US 001, US 002 |
+| Hero y navegación | Presentar Intiva y llevar al visitante a la explicación de beneficios. | US 001, US 002 |
+| IA para gastos | Ingresar datos y aceptar o corregir la categoría antes de guardar. | US 033 |
+| Asistente para el ahorro | Consultar gastos hormiga y ajustes orientativos para una meta. | US 034 |
+| Fondo familiar | Proponer un gasto y exigir la aprobación de todos los miembros. | US 032 |
+| Control y privacidad | Datos autorizados para IA; propuestas sin unanimidad no alteran el saldo. | TS 023, TS 024 |
+| Equipo y planes | Identificar Balanza y reservar las condiciones de publicación y suscripción. | US 001, US 008 |
 
-**Desktop.** La vista de 1440 px ordena las secciones en una lectura vertical, con acciones distinguibles y bloques independientes que facilitan la posterior implementación adaptable.
+![Figura 6.3.1-A · Wireframe desktop](../assets/img/cap06/landing-wireframe-desktop-v2.png)
 
-![Wireframe desktop de la landing de Intiva](../assets/img/cap06/landing-wireframe-desktop.png)
+*Figura 6.3.1-A · Wireframe desktop. [Abrir diseño en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2051-3866).*
+![Figura 6.3.1-B · Wireframe móvil](../assets/img/cap06/landing-wireframe-mobile-v2.png)
 
-*Figura 6.3.1-A. Wireframe de la landing para escritorio. [Abrir frame editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2007-675).*
-
-**Mobile.** La vista de 390 px reorganiza los contenidos en una columna, reduce la navegación a un menú y mantiene visibles las acciones de descarga y la explicación del control sobre la automatización.
-
-![Wireframe móvil de la landing de Intiva](../assets/img/cap06/landing-wireframe-mobile.png)
-
-*Figura 6.3.1-B. Wireframe de la landing móvil. [Abrir frame editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2007-725).*
-
-El wireframe reserva espacios para presentar al equipo, explicar el uso de la aplicación mediante un video y comparar los planes. Los casos de uso ilustran situaciones de las finanzas familiares. La asignación de las nuevas funciones a cada plan se definirá con las condiciones de suscripción.
+*Figura 6.3.1-B · Wireframe móvil. [Abrir diseño en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2051-3893).*
 
 ### 6.3.2. Landing Page Mock-up
 
