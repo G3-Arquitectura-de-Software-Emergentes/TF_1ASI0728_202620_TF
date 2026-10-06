@@ -35,7 +35,7 @@ En esta sección se detallan los escenarios de atributos de calidad que tienen m
 | **Interoperabilidad** | Servicio externo (Firebase Cloud Messaging, Google Play Billing, Cloudinary) | Devuelve un error, un token inválido o no está disponible | Adaptadores de integración del backend | Producción | El sistema maneja la excepción sin interrumpir el flujo principal de la aplicación | 100% de fallos de terceros manejados sin caída del servicio |
 | **Modificabilidad** | Equipo de desarrollo | Necesita añadir un nuevo tipo de cuenta financiera o una nueva categoría de análisis | Bounded Contexts del backend | Desarrollo | El cambio se realiza dentro de un solo bounded context sin afectar a los demás | Modificación localizada en un único módulo del backend |
 | **Precisión funcional** | Usuario | Registra un gasto cuyo comercio es reconocible | Servicio de sugerencia de categoría (Categories & Financial Accounts) | Producción | El sistema sugiere una categoría junto con un nivel de confianza, permitiendo al usuario corregirla | ≥ 80% de aciertos en comercios frecuentes; el usuario siempre puede corregir la sugerencia |
-| **Privacidad** | Sistema operativo Android | Intercepta el contenido de una notificación push del dispositivo | Servicio de captura de notificaciones (RPA) en el cliente móvil | Producción, dispositivo del usuario | El sistema procesa únicamente notificaciones de aplicaciones financieras autorizadas y descarta el resto sin almacenarlas | 0% de notificaciones no financieras persistidas |
+| **Privacidad** | Usuario autenticado | Solicita un análisis con IA | Adaptador de IA | Producción | Solo comparte movimientos autorizados y datos mínimos; no envía credenciales | 0 registros de otros grupos expuestos |
 #### 4.1.2.3. Constraints
 En esta sección reunimos aquellas condiciones que no son opcionales y son restricciones establecidas por necesidades propias del negocio y del contexto académico del proyecto, las cuales debemos respetar para asegurar que la solución propuesta sea viable y cumpla con las expectativas. A continuación, se presentan los principales constraints en forma de Technical Stories, sirviendo como guía concreta para el desarrollo del sistema.
 
@@ -68,7 +68,8 @@ En esta sección identificamos y priorizamos los principales drivers que deben g
 | D-10 | Monetización freemium | Definir planes gratuito y premium, con validación de suscripciones a través del proveedor de pagos. | Medium | Medium |
 | D-11 | Metas de ahorro personales y compartidas | Registrar, modificar y hacer seguimiento de metas con aportes individuales y grupales. | Medium | Medium |
 | D-12 | Disponibilidad del servicio | Mantener la plataforma accesible con un uptime mensual no menor al 95% sobre infraestructura en planes gratuitos. | Medium | Low |
-| D-13 | Automatización inteligente de registro y categorización | Reducir la fricción de registro manual mediante lectura de notificaciones financieras (RPA) y sugerencia de categoría (IA), sin comprometer la precisión ni la privacidad del usuario. | High | High |
+| D-13 | Categorización y asistencia financiera con IA | Sugerir categorías, identificar gastos hormiga y orientar metas, manteniendo la confirmación del usuario. | High | High |
+| D-14 | Aprobación unánime del fondo familiar | Validar un gasto compartido únicamente cuando todos los miembros aprueban mediante smart contract. | High | High |
 
 Los drivers clasificados como (High, High) —D-02 y D-03— son los que se abordan en la primera iteración del proceso de diseño, ya que constituyen simultáneamente el principal diferenciador del producto y el mayor desafío técnico de la arquitectura, al requerir un modelo de permisos y visibilidad granular dentro de un contexto compartido.
 ### 4.1.4. Architectural Design Decisions
@@ -202,49 +203,43 @@ La cuarta iteración definió la parte externa del sistema. Faltaba decidir cóm
 | AD-19 | Validar toda suscripción del lado del servidor contra el proveedor de pagos, sin confiar en el resultado que informe el cliente. | Previene la activación fraudulenta de beneficios premium, requisito implícito de D-10 y US 010. |
 
 
-#### Iteración 5: automatización inteligente de registro y categorización
+#### Iteración 5: categorización y asistencia financiera con IA
 
-**Drivers considerados:** D-13 (Automatización inteligente de registro y categorización).
+**Driver considerado:** D-13. El registro inicia con los datos ingresados por el usuario. Categories & Financial Accounts solicita categorías sugeridas; Analytics prepara resúmenes autorizados para el asistente y sus recomendaciones sobre gastos hormiga y metas.
 
-Agregamos esta iteración después de revisar el To-Be Scenario Mapping del Capítulo III. Allí, para el segmento de Carlos Castillo, aparecía la idea de leer automáticamente las notificaciones y hacer análisis predictivo, pero nunca la habíamos convertido en un driver. Además, en las entrevistas del Capítulo II varios usuarios (Rodrigo, Benjamín) dijeron que les resultaba tedioso registrar sus gastos a mano y luego clasificarlos por categoría. El driver D-13 junta ambos hallazgos, ya que los dos buscan reducir el trabajo manual del usuario, aunque cada uno necesita una solución técnica distinta.
+| Alternativa | Ventaja | Limitación |
+| --- | --- | --- |
+| Categorías manuales | Control directo y disponibilidad local. | Mayor esfuerzo de clasificación; no ofrece asistencia contextual. |
+| Reglas por comercio | Resultados explicables para casos conocidos. | Cobertura limitada a reglas mantenidas por el equipo. |
+| Proveedor de IA mediante adaptador | Permite sugerencias y asistencia contextual. | Requiere validar respuestas, privacidad, costos y disponibilidad. |
 
-Para la captura de notificaciones evaluamos tácticas de rendimiento y modificabilidad, y para la sugerencia de categoría, tácticas de precisión funcional. En la captura comparamos *interceptar eventos en el sistema operativo del cliente* con *delegar la lectura a un servicio de terceros*. En la categorización comparamos un motor de reglas con un modelo de aprendizaje automático, ya sea dentro del sistema o en un servicio externo.
-
-**Candidate Pattern Evaluation Matrix: automatización de registro y categorización**
-
-| Driver ID | Título de Driver | Patrón 1: Sin automatización (registro 100% manual) | | Patrón 2: Reglas/diccionario embebido en el backend | | Patrón 3: Clasificación por prompt a un LLM externo vía API | |
-|---|---|---|---|---|---|---|---|
-| | | **Pro** | **Con** | **Pro** | **Con** | **Pro** | **Con** |
-| D-13 | Automatización inteligente de registro y categorización | No introduce complejidad ni dependencias nuevas al sistema. | Mantiene intacta la fricción de registro identificada como causa raíz del problema desde el Capítulo I. | Se ejecuta dentro del propio contexto Categories & Financial Accounts, sin costo de infraestructura ni dependencia de terceros. | La cobertura de comercios reconocidos crece de forma manual y queda acotada al diccionario mantenido por el equipo; no generaliza ante comercios nuevos o mal escritos. | Generaliza ante comercios nuevos o con nombres ambiguos, sin mantenimiento manual de un diccionario, y constituye la aplicación concreta de una tecnología emergente de IA sobre el dominio del producto. | Introduce una dependencia externa y su disponibilidad debe manejarse con cuidado, además de un costo por consumo que debe acotarse. |
-
-**Decisión adoptada.** Para capturar las transacciones decidimos leer las notificaciones directamente en la app móvil con `NotificationListenerService` de Android. Estas se envían al backend como transacciones sugeridas, por el mismo endpoint REST de transacciones, en estado `PENDING_CONFIRMATION`, y no afectan ningún saldo hasta que el usuario las confirma. Para la categorización decidimos enviar la descripción del gasto y la lista de categorías del usuario como *prompt* a un LLM externo, y usar su respuesta como categoría sugerida. Lo preferimos frente a un motor de reglas o a un modelo de embeddings propio porque necesita menos piezas nuevas (una sola llamada HTTP, sin calcular ni guardar vectores) y porque aplica de verdad una tecnología emergente de IA, cosa que un motor de reglas no cumpliría. La desventaja del Patrón 3 es depender de un servicio externo con costo. La reducimos aislando la llamada en un adaptador propio, igual que en AD-16 con Firebase, Google OAuth2 y Cloudinary, y limitando el consumo a un plan gratuito o de bajo costo, de acuerdo con C-08.
+**Decisión propuesta:** proveedor de IA aislado mediante un adaptador. La elección del proveedor y el rendimiento se validarán durante la implementación.
 
 | ID | Decisión | Fundamento |
-|---|---|---|
-| AD-20 | Capturar transacciones sugeridas en el cliente móvil mediante `NotificationListenerService`, enviándolas al backend como transacciones en estado `PENDING_CONFIRMATION` a través del mismo endpoint REST de transacciones. | Evita infraestructura de backend adicional y reutiliza el contrato REST versionado (C-05), manteniendo coherencia con la persistencia local ya decidida en AD-12. |
-| AD-21 | Encapsular la sugerencia de categoría en un adaptador propio (`ClassifierService`) dentro de Categories & Financial Accounts, que arma un *prompt* con la descripción del gasto y las categorías del usuario, lo envía a un LLM externo vía API, e interpreta la respuesta de texto como la categoría sugerida junto con un nivel de confianza. | Preserva el aislamiento del bounded context establecido en AD-01 y da cumplimiento efectivo a D-13 con la implementación más simple posible de una tecnología de IA real, sin infraestructura de embeddings ni cálculo de similitud propios. |
-| AD-22 | Exigir confirmación explícita del usuario para toda transacción o categoría sugerida por RPA o IA antes de que afecte saldos, límites de gasto o reportes; si el servicio de clasificación no responde, `ClassifierService` degrada a la categoría "Otros" sin bloquear el registro del gasto. | Mantiene el enfoque educativo que diferencia a Intiva frente a Plum (Capítulo II), evita que un falso positivo corrompa la información financiera del usuario, y da cumplimiento a C-07 ante la caída del proveedor de IA. |
+| --- | --- | --- |
+| AD-20 | Ingresar gastos mediante formulario y solicitar ayuda de IA sobre datos autorizados, con registro manual disponible. | Conserva el control de los movimientos y evita depender de acceso a notificaciones del dispositivo. |
+| AD-21 | Encapsular clasificación y asistencia en un adaptador que valida respuestas y restringe los datos enviados. | Aísla el proveedor y evita exponer información de otros grupos. |
+| AD-22 | Exigir aceptación o corrección de categorías antes de guardar. Ante fallo, permitir elección manual. | Una sugerencia no modifica saldos ni constituye una decisión del usuario. |
 
-#### Iteración 6: orquestación del canal de notificaciones (n8n)
+#### Iteración 6: fondos compartidos con smart contracts
 
-**Drivers considerados:** D-04 (Alertas y recordatorios automáticos).
+**Driver considerado:** D-14. Groups mantiene las identidades y pertenencia; Finances coordina la propuesta y su reflejo contable. Un adaptador de blockchain conecta la aplicación con un contrato que aplica aprobación unánime.
 
-Con AD-07 los contextos ya comunican sus efectos posteriores mediante eventos de dominio, y con AD-15 las alertas se envían como notificaciones push. Faltaba decidir quién convierte cada evento en el mensaje que ve el usuario y con qué regla se envía. Podíamos escribir esa lógica dentro de Communications, pero entonces habría que desplegar una nueva versión del backend cada vez que quisiéramos cambiar el texto de un mensaje, juntar varias alertas de una familia en un solo envío o agregar otro canal más adelante (correo, SMS). Vimos aquí una segunda oportunidad para usar una tecnología emergente, esta vez de automatización de procesos, además de la IA de categorización.
-
-La táctica que evaluamos fue *externalizar configuración*, es decir, sacar el formato, la agrupación y el enrutamiento del mensaje a un motor de flujos visual y versionable fuera del backend, en lugar de dejar esa lógica dentro de Communications.
-
-**Candidate Pattern Evaluation Matrix: canal de entrega de notificaciones**
-
-| Driver ID | Título de Driver | Patrón 1: Lógica de notificación embebida en Communications | | Patrón 2: n8n como orquestador de flujos, invocado por Communications | | Patrón 3: SaaS de notificaciones (ej. OneSignal) | |
-|---|---|---|---|---|---|---|---|
-| | | **Pro** | **Con** | **Pro** | **Con** | **Pro** | **Con** |
-| D-04 | Alertas y recordatorios automáticos | No agrega infraestructura ni dependencias externas. | Cualquier cambio en la redacción, el canal o la regla de agrupación exige una nueva versión del backend. | Permite editar visualmente el flujo de notificación (formato del mensaje, canal, condiciones de agrupación) sin desplegar el backend; se autoaloja en un plan gratuito compatible con C-08. | Introduce un salto de red adicional y un punto de fallo que debe manejarse con una vía de respaldo. | Delega por completo la entrega y el versionado de plantillas a un proveedor especializado. | Costo recurrente por volumen de envíos, incompatible con C-08 para una startup en etapa inicial. |
-
-**Decisión adoptada.** Communications sigue recibiendo los eventos de dominio, así que AD-06 y AD-07 no cambian. La diferencia es que ya no arma el mensaje ni escoge el canal: llama al webhook de un flujo de n8n autoalojado, que se encarga del formato del mensaje, la agrupación de alertas y la elección del canal. Si n8n no responde, Communications envía el mensaje sin formato directamente por Firebase Cloud Messaging para no perder la alerta.
+| Alternativa | Ventaja | Limitación |
+| --- | --- | --- |
+| Aprobación solo en base de datos | Menor complejidad operativa. | La regla depende por completo del backend. |
+| Smart contract con unanimidad | La regla de aprobación se verifica en el contrato y deja trazabilidad de estados. | Introduce firmas, costos de red, latencia y conciliación con la base de datos. |
+| Smart contract con mayoría | Menos bloqueos por miembros ausentes. | No satisface que todos los miembros aprueben. |
 
 | ID | Decisión | Fundamento |
-|---|---|---|
-| AD-23 | Delegar el formateo, la agrupación y el enrutamiento de notificaciones a un flujo de n8n autoalojado, invocado por Communications mediante un webhook, manteniendo un envío de respaldo directo vía FCM ante indisponibilidad de n8n. | Permite ajustar la lógica de notificación sin desplegar una nueva versión del backend, da cumplimiento a D-04 con una segunda tecnología emergente de automatización, y preserva C-07 mediante el respaldo directo. |
+| --- | --- | --- |
+| AD-23 | Fijar los miembros aprobadores al crear cada propuesta y exigir N aprobaciones válidas de N miembros. Cambiar importe, destinatario o miembros requiere nueva propuesta. | Cumple US 032 sin reutilizar aprobaciones sobre condiciones distintas. |
+| AD-24 | Reflejar el gasto una sola vez después de verificar el resultado confirmado del contrato; preservar estados pendiente, rechazado y error. | Evita debitar ante un envío sin confirmar o duplicar movimientos por reintentos. |
+| AD-25 | Mantener datos personales y descripciones fuera de cadena, y firmas bajo control del miembro. | Limita la exposición de información financiera y credenciales. |
+
+TP1 documenta el diseño, sin acreditar un contrato desplegado ni custodia de dinero real. La red, el mecanismo de firma, los costos y el criterio de confirmación quedan como decisiones de implementación. El importe en soles se representa para el registro financiero y no implica conversión a un token. Las notificaciones habituales siguen en Communications mediante FCM (TS 017).
+
+La propuesta de aprobación múltiple se apoya en la [introducción a smart contracts de Ethereum](https://ethereum.org/developers/docs/smart-contracts/) y la [documentación de multisig de OpenZeppelin](https://docs.openzeppelin.com/contracts/5.x/multisig). La regla específica de unanimidad corresponde al requisito del equipo.
 
 #### Deuda de diseño asumida
 
@@ -254,8 +249,8 @@ El proceso dejó algunas decisiones que no son las ideales, pero que decidimos m
 |---|---|---|---|
 | DT-01 | El contexto Analytics accede de forma directa a los repositorios de Finances y de Savings, sin mediar la interfaz publicada por esos contextos. | Combinación de AD-05, que habilita técnicamente el acceso al compartirse la base de datos, con la presión de plazo de C-10. | Debe resolverse mediante un modelo de lectura propio de Analytics, alimentado por eventos, antes de intentar cualquier extracción de contextos como servicios independientes. |
 | DT-02 | El contexto Profiles escucha un evento definido dentro del paquete de dominio de IAM, en lugar de un evento de integración declarado como lenguaje publicado. | AD-07 no fijó una convención explícita sobre qué eventos son públicos y cuáles internos. | Extraer el evento de integración hacia el kernel compartido cuando se formalice el catálogo de eventos públicos del sistema. |
-| DT-03 | La captura automática de transacciones (AD-20) depende de un permiso sensible de Android (`NotificationListenerService`) que el usuario puede revocar en cualquier momento, y del formato de notificación de cada billetera o banco, que puede cambiar sin previo aviso. | Necesidad de reducir la fricción de registro (D-13) mediante un mecanismo que vive fuera del control del backend, en el sistema operativo del cliente. | El sistema debe degradar con gracia a registro 100% manual cuando el permiso no esté concedido o el formato de notificación no sea reconocido, sin bloquear el resto de la aplicación. |
-| DT-04 | El envío de notificaciones depende de la disponibilidad de la instancia de n8n autoalojada; el respaldo directo vía FCM evita perder la alerta, pero la entrega sin el formateo ni la agrupación definidos en el flujo. | Introducido por AD-23 al externalizar el formateo y enrutamiento de notificaciones fuera del backend. | Evaluar una cola de reintentos o una instancia de n8n en alta disponibilidad si el volumen de notificaciones crece lo suficiente para que el respaldo degradado sea insuficiente. |
+| DT-03 | La IA puede producir sugerencias incorrectas o no estar disponible. | AD-21 y AD-22. | Evaluar respuestas con casos de gastos y metas; mantener elección manual y no presentar precisión sin medición. |
+| DT-04 | La red blockchain puede demorar o fallar y debe conciliarse con la persistencia contable. | AD-23 y AD-24. | Definir red, firmas, confirmaciones y pruebas de reintentos, unanimidad, rechazo y ejecución única antes de desplegar. |
 
 
 ### 4.1.5. Quality Attribute Scenario Refinements
@@ -1006,7 +1001,7 @@ En esta sección se presenta el Container Diagram de la plataforma Intiva. Dicho
 ![Software Architecture Container Level Diagram](../assets/img/cap04/containerdiagram.png)
 
 **Explicación del diagrama:**
-En el diagrama se observan los diversos contenedores que componen el sistema. El flujo inicia con los visitantes accediendo a la Landing Page estática. Una vez registrados, utilizan la aplicación móvil nativa para operaciones diarias o la aplicación web para visualizar analíticas avanzadas. Ambos clientes consumen servicios web enviando peticiones HTTPS mediante JSON al API Gateway (NGINX), el cual enruta la información hacia los contextos correspondientes (microservicios lógicos en Spring Boot).
+En el diagrama se observan los diversos contenedores que componen el sistema. El flujo inicia con los visitantes accediendo a la Landing Page estática. Una vez registrados, utilizan la aplicación móvil nativa para operaciones diarias o la aplicación web para visualizar analíticas avanzadas. Ambos clientes consumen servicios web enviando peticiones HTTPS mediante JSON al API Gateway (NGINX), el cual enruta la información hacia los contextos correspondientes (módulos del monolito modular en Spring Boot).
 
 A continuación, se detallan las responsabilidades y tecnologías de cada contenedor:
 
@@ -1028,7 +1023,7 @@ A continuación, se detallan las responsabilidades y tecnologías de cada conten
 | **Household Context** | Java, Spring Boot | Core Bounded Context que se encarga de la gestión de grupos familiares para el control en conjunto de la economía. |
 | **Communications Context** | Java, Spring Boot | Bounded Context que delega notificaciones push a los dispositivos de los usuarios mediante Firebase. |
 | **PostgreSQL Database** | PostgreSQL | Base de datos relacional principal donde se almacena en tablas toda la información del sistema. |
-| **Cache Server Database** | Redis | Base de datos clave-valor en memoria que almacena métricas para agilizar la carga de los gráficos esstadísticos. |
+| **Cache Server Database** | Redis | Base de datos clave-valor en memoria que almacena métricas para agilizar la carga de los gráficos estadísticos. |
 
 ### 4.3.3. Software Architecture Deployment Diagrams
 
