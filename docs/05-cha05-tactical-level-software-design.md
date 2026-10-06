@@ -401,6 +401,8 @@ El componente **`Savings REST Controllers`** recibe las solicitudes HTTP desde e
 
 Este contexto modela la colaboración financiera familiar (*Core Subdomain*): gestiona la creación de grupos familiares, la administración de membresías y roles de acceso, y el ciclo de vida de invitaciones mediante enlaces diferidos (*Deferred Deep Links*) y códigos QR. Además, concentra la verificación de pertenencia y rol como servicio consultable según la decisión arquitectónica **AD-04**.
 
+Para el fondo de US 032, Household proporciona la instantánea de miembros activos a Finances. El rol de administrador no permite validar una propuesta sin las aprobaciones de todos. Las firmas de cada miembro se verifican sobre las mismas condiciones (AD-23).
+
 ### 5.6.1. Domain Layer
 
 En esta capa se definen los agregados `Family`, `FamilyMember` e `Invitation`, junto con las reglas que garantizan que solo el responsable económico administre el grupo y que las invitaciones no se dupliquen ni se reutilicen una vez expiradas.
