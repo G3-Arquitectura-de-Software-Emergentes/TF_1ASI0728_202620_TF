@@ -474,7 +474,7 @@ El componente **`Household REST Controllers`** recibe las solicitudes de gestió
 
 ## 5.7. Bounded Context: Communications
 
-Este contexto centraliza la generación y entrega de notificaciones *in-app* y alertas *push* originadas por eventos de negocio de toda la plataforma. Como parte de la incorporación de tecnologías emergentes de automatización de procesos (**AD-23**, **TS 024**), delega el formateo, la agrupación y el enrutamiento de los mensajes a un flujo configurable en **n8n** mediante un *webhook*, manteniendo un envío de respaldo directo (*fallback*) vía **Firebase Cloud Messaging (FCM)** ante cualquier indisponibilidad del orquestador.
+Communications centraliza las notificaciones in-app y las alertas push de los eventos de negocio. Persiste la alerta y la envía directamente mediante Firebase Cloud Messaging (TS 017). Si el canal push falla, la notificación permanece consultable en la aplicación.
 
 ### 5.7.1. Domain Layer
 
@@ -482,7 +482,7 @@ En esta capa se modelan los agregados `Notification` y `NotificationDevice`, los
 
 | Clase / Interfaz | Categoría Táctica | Propósito | Atributos | Métodos | Relaciones |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **`Notification`** | Aggregate Root | Representa una alerta o recordatorio dirigido a un usuario, almacenando su estado de lectura, origen y canal de entrega. | `- id: Long`<br>`- recipientUserId: UserId`<br>`- title: String`<br>`- message: String`<br>`- type: NotificationType`<br>`- source: NotificationSource`<br>`- status: NotificationStatus`<br>`- deliveredViaOrchestrator: boolean` | `+ Notification(CreateInAppNotificationCommand)`<br>`+ markAsRead(): void`<br>`+ markDelivered(boolean viaN8n): void` | Extiende de `AuditableAbstractAggregate`; utiliza `NotificationType`, `NotificationSource` y `NotificationStatus`. |
+| **`Notification`** | Aggregate Root | Representa una alerta o recordatorio dirigido a un usuario, almacenando su estado de lectura, origen y canal de entrega. | `- id: Long`<br>`- recipientUserId: UserId`<br>`- title: String`<br>`- message: String`<br>`- type: NotificationType`<br>`- source: NotificationSource`<br>`- status: NotificationStatus`<br>`- pushDelivered: boolean` | `+ Notification(CreateInAppNotificationCommand)`<br>`+ markAsRead(): void`<br>`+ markPushDelivered(): void` | Extiende de `AuditableAbstractAggregate`; utiliza `NotificationType`, `NotificationSource` y `NotificationStatus`. |
 | **`NotificationDevice`** | Aggregate Root | Representa el dispositivo móvil registrado por un usuario junto con su token FCM para recibir notificaciones *push* (TS 017). | `- id: Long`<br>`- userId: UserId`<br>`- fcmToken: String`<br>`- devicePlatform: String`<br>`- active: boolean` | `+ NotificationDevice(RegisterNotificationDeviceCommand)`<br>`+ deactivateDevice(): void`<br>`+ refreshToken(String newToken): void` | Extiende de `AuditableAbstractAggregate`; contiene `UserId` (Shared Kernel). |
 | **`NotificationType`** | Enumeration | Clasifica el propósito de negocio de la alerta generada. | `SPENDING_LIMIT_WARNING`<br>`SPENDING_LIMIT_EXCEEDED`<br>`PAYMENT_DUE_SOON`<br>`PAYMENT_EXPIRED`<br>`FAMILY_TRANSACTION_CREATED`<br>`FAMILY_INVITATION`<br>`SAVING_GOAL_COMPLETED`<br>`SAVING_GOAL_NOT_COMPLETED` | `+ valueOf(String): NotificationType` | Utilizado por `Notification` (`1`). |
 | **`NotificationStatus`** | Enumeration | Indica si la notificación in-app ha sido leída por el destinatario. | `UNREAD`<br>`READ` | `+ valueOf(String): NotificationStatus` | Utilizado por `Notification` (`1`). |
@@ -491,7 +491,7 @@ En esta capa se modelan los agregados `Notification` y `NotificationDevice`, los
 | **`RegisterNotificationDeviceCommand`** | Command | Solicita asociar un token FCM de dispositivo móvil a la cuenta del usuario. | `- userId: Long`<br>`- fcmToken: String`<br>`- platform: String` | `+ fcmToken(): String` | Consumido por `NotificationDeviceCommandService`. |
 | **`DeactivateNotificationDeviceCommand`** | Command | Ordena inhabilitar un token FCM cuando el usuario cierra sesión o cuando Firebase reporta token inválido. | `- fcmToken: String` | `+ fcmToken(): String` | Consumido por `NotificationDeviceCommandService`. |
 | **`MarkNotificationAsReadCommand`** | Command | Marca una notificación específica como leída por el usuario. | `- notificationId: Long` | `+ notificationId(): Long` | Consumido por `NotificationCommandService`. |
-| **`NotificationOrchestratorPort`** | Domain Port (Interface) | Define el contrato para enviar eventos de alerta al orquestador de flujos externo (**n8n**, decisión **AD-23**). | *(Interface)* | `+ dispatchToWorkflow(NotificationPayload payload, List<String> deviceTokens): boolean` | Implementado en infraestructura por `N8nWebhookOrchestratorAdapter`. |
+| **`FirebaseMessagingGatewayPort`** | Domain Port | Contrato del envío push directo a los dispositivos activos. | Interfaz | `sendDirectPush(tokens, title, body)` | Implementado por FirebaseMessagingGatewayAdapter. |
 
 ### 5.7.2. Interface Layer
 
@@ -505,43 +505,43 @@ Expone los endpoints REST para consultar la bandeja de notificaciones y registra
 
 ### 5.7.3. Application Layer
 
-Coordina la persistencia de la alerta en la bandeja *in-app*, la invocación primaria al flujo de **n8n** y la activación del envío de respaldo directo por **FCM** en caso de fallo (**AD-23**, **TS 024**).
+Persiste la alerta, comprueba los dispositivos activos y solicita el envío directo mediante FCM. Una falla del proveedor no elimina la notificación de la bandeja.
 
 | Clase | Categoría Táctica | Propósito | Atributos | Métodos | Relaciones |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **`NotificationCommandServiceImpl`** | Command Handler | Persiste la notificación en PostgreSQL, obtiene los tokens activos del usuario e invoca primero a `NotificationOrchestratorPort` (**n8n**); si el webhook no responde o da timeout, ejecuta el envío de respaldo directo mediante `FirebaseMessagingGatewayPort` (**AD-23**). | `- notificationRepository: NotificationRepository`<br>`- deviceRepository: NotificationDeviceRepository`<br>`- n8nOrchestratorPort: NotificationOrchestratorPort`<br>`- fcmGatewayPort: FirebaseMessagingGatewayPort` | `+ handle(CreateInAppNotificationCommand): Optional<Notification>`<br>`+ handle(SendPushNotificationCommand): void`<br>`+ handle(MarkNotificationAsReadCommand): Optional<Notification>` | Implementa `NotificationCommandService`; coordina repositorios y adaptadores hacia **n8n** y **FCM**. |
+| **`NotificationCommandServiceImpl`** | Command Handler | Persiste la alerta, obtiene tokens activos y utiliza FCM directamente (TS 017). | `notificationRepository`, `deviceRepository`, `fcmGatewayPort` | `handle(CreateInAppNotificationCommand)`, `handle(SendPushNotificationCommand)`, `handle(MarkNotificationAsReadCommand)` | El fallo push conserva la bandeja y no propaga excepciones del proveedor. |
 | **`NotificationDeviceCommandServiceImpl`** | Command Handler | Registra los tokens FCM de los dispositivos móviles e invalida automáticamente aquellos tokens que Firebase reporta como expirados o no registrados (TS 017). | `- deviceRepository: NotificationDeviceRepository` | `+ handle(RegisterNotificationDeviceCommand): Optional<NotificationDevice>`<br>`+ handle(DeactivateNotificationDeviceCommand): void` | Implementa `NotificationDeviceCommandService`. |
 | **`DomainEventsNotificationListener`** | Event Handler | Escucha eventos de dominio (transacciones familiares, pagos próximos a vencer/vencidos e invitaciones) y dispara la creación y envío de las notificaciones correspondientes. | `- notificationCommandService: NotificationCommandService`<br>`- externalHouseholdService: CommunicationsExternalHouseholdService` | `+ onFamilyTransaction(FamilyTransactionCreatedEvent): void`<br>`+ onPaymentDueSoon(PaymentDueSoonEvent): void`<br>`+ onPaymentExpired(PaymentExpiredEvent): void` | Invoca a `NotificationCommandService` y consulta miembros activos de la familia. |
 
 ### 5.7.4. Infrastructure Layer
 
-Contiene los repositorios JPA, el adaptador hacia el **Webhook de n8n** y el adaptador hacia **Firebase Cloud Messaging** (con su *stub* para entornos de desarrollo).
+Contiene repositorios JPA y el adaptador Firebase Cloud Messaging, con su stub para desarrollo.
 
 | Clase / Interfaz | Categoría Táctica | Propósito | Atributos | Métodos | Relaciones |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **`NotificationRepository`** | Repository (JPA) | Persiste las notificaciones en la tabla `notifications` de PostgreSQL. | *(Interface JPA)* | `+ findByRecipientUserIdOrderByCreatedAtDesc(UserId): List<Notification>`<br>`+ findByRecipientUserIdAndStatus(UserId, NotificationStatus): List<Notification>` | Extiende `JpaRepository<Notification, Long>`. |
 | **`NotificationDeviceRepository`** | Repository (JPA) | Persiste los dispositivos y tokens FCM en la tabla `notification_devices` de PostgreSQL. | *(Interface JPA)* | `+ findByUserIdAndActiveTrue(UserId): List<NotificationDevice>`<br>`+ findByFcmToken(String): Optional<NotificationDevice>` | Extiende `JpaRepository<NotificationDevice, Long>`. |
-| **`N8nWebhookOrchestratorAdapter`** | Emerging Tech Automation Adapter | Implementa **AD-23** y **TS 024**: envía por HTTP POST el evento de alerta al webhook del flujo autoalojado en **n8n** para que este formatee el texto, aplique reglas de agrupación familiar y enrute el mensaje sin requerir redespliegues del backend. | `- restClient: RestClient`<br>`- n8nWebhookUrl: String`<br>`- timeoutMillis: int` | `+ dispatchToWorkflow(NotificationPayload payload, List<String> deviceTokens): boolean` | Implementa `NotificationOrchestratorPort`; se comunica con el sistema externo `n8n Workflow Engine`. |
-| **`FirebaseMessagingGatewayAdapter`** | External Service Adapter | Envía notificaciones *push* mediante el SDK de Firebase Cloud Messaging como canal de respaldo directo ante fallos de n8n (**AD-23**), e incluye `DevFirebaseMessagingGatewayStub` para desarrollo. | `- firebaseMessaging: FirebaseMessaging` | `+ sendDirectPush(List<String> tokens, String title, String body): List<String>` | Se comunica con el sistema externo `Firebase Cloud Messaging`. |
+
+| **`FirebaseMessagingGatewayAdapter`** | External Service Adapter | Envía alertas por el SDK de FCM y devuelve tokens inválidos para desactivarlos. | `firebaseMessaging` | `sendDirectPush(tokens, title, body)` | Implementa FirebaseMessagingGatewayPort; incluye DevFirebaseMessagingGatewayStub. |
 
 ### 5.7.5. Bounded Context Software Architecture Component Level Diagrams
 
-En esta sección se presenta el diagrama de componentes del contenedor **Communications Context**, evidenciando la orquestación primaria mediante **n8n** y el canal de respaldo con **Firebase Cloud Messaging**.
+El diagrama muestra la persistencia in-app y el canal push directo Firebase Cloud Messaging.
 
-![Communications Context Component Diagram](../assets/img/cap05/5_7_Communications_Components.png)
+![Communications Context Component Diagram](../assets/img/cap05/communications-components-tp1.png)
 
 **Explicación del diagrama:**
-El componente **`Communications REST Controllers`** gestiona las consultas de bandeja y el registro de tokens desde el API Gateway, mientras que **`CommunicationsContextFacade`** recibe las solicitudes de alerta internas. Todo el flujo converge en **`Communications Application Services`**, que construye la entidad `Notification` apoyándose en **`Communications Domain Layer`** y la persiste en PostgreSQL mediante **`Communications Repositories`**. Para el despacho externo, el servicio invoca primero a **`N8nWebhookOrchestratorAdapter`**, el cual delega el formateo, agrupación y enrutamiento al motor **`n8n Workflow Engine`** (**AD-23**); en caso de que n8n no responda dentro del umbral de tiempo, activa **`FirebaseMessagingGatewayAdapter`** para entregar la alerta de respaldo directamente a través de **`Firebase Cloud Messaging`**.
+Los controladores y la fachada interna delegan en Communications Application Services. El servicio construye y persiste Notification mediante los repositorios JPA, obtiene los tokens activos y utiliza FirebaseMessagingGatewayAdapter para enviar la alerta directamente a FCM. Si el envío falla, conserva la alerta in-app y registra el resultado controlado; los tokens inválidos se desactivan.
 
 ### 5.7.6. Bounded Context Software Architecture Code Level Diagrams
 
 #### 5.7.6.1. Bounded Context Domain Layer Class Diagrams
 
-![Communications Domain Layer Class Diagram](../assets/img/cap05/5_7_Communications_ClassDiagram.png)
+![Communications Domain Layer Class Diagram](../assets/img/cap05/communications-domain-tp1.png)
 
 #### 5.7.6.2. Bounded Context Database Design Diagram
 
-![Communications Database Design Diagram](../assets/img/cap05/5_7_Communications_DbDiagram.png)
+![Communications Database Design Diagram](../assets/img/cap05/communications-database-tp1.png)
 
 ---
 
