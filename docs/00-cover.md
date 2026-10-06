@@ -51,16 +51,21 @@ Producto
 | ------- | ----- | ----- | ---------------------------- |
 | TB1 | 16/09/2026 | Loli Ramirez, Camila Cristina<br>Meza Solórzano,Didier Sebastián<br>Solis Solis, Leonardo José<br>Rivera Ticllacuri, Omar Harold | Revisión de los capítulos I, II, III y finalización del capítulo IV |
 | TP1 | 05/10/2026 | Meza Solórzano, Didier Sebastián | Desarrollo de las secciones 6.3, 6.3.1, 6.3.2, 6.4.1 y 6.4.2: actualización de la landing de Intiva para IA y automatización, wireframes para escritorio y móvil, doce wireframes de aplicación y tres wireflows. Incorporación de nueve imágenes de evidencia y enlaces a Figma; revisión de la trazabilidad con las historias de usuario y técnicas; corrección de los enlaces de entrevistas y registro del aporte individual en Student Outcome. |
+| TP1 — revisión | 05/10/2026 | Meza Solórzano, Didier Sebastián | Revisión transversal de los capítulos disponibles: corrección de fuentes y cifras, alcance de las entrevistas, coherencia de requisitos y arquitectura, redacción del diseño UX, actualización de conclusiones y bibliografía, y unificación de los enlaces de entrevistas en anexos. Se distinguen las propuestas de diseño de la base implementada y de la validación pendiente. |
 
 <div style="page-break-after: always;"></div>
 
 ## Project Report Collaboration Insights
 
-URL del repositorio del Project Report en GitHub: [G3-Arquitectura-de-Software-Emergentes](https://github.com/G3-Arquitectura-de-Software-Emergentes)
+URL del repositorio del Project Report en GitHub: [TF_1ASI0728_202620_TF — develop](https://github.com/G3-Arquitectura-de-Software-Emergentes/TF_1ASI0728_202620_TF/tree/develop)
 
 ## TB1:
 
 El equipo realizó la redacción y revisión de los capítulos I, II, III y finalizó el capítulo IV. La coordinación de esta entrega se realizó distribuyendo las actividades de análisis, redacción, diseño y revisión entre los integrantes, consolidando los avances para la entrega del TB1.
+
+## TP1 — aporte de Didier:
+
+Didier desarrolló la landing, los wireframes y los wireflows de las secciones 6.3 a 6.4.2, incorporó las evidencias de Figma y documentó su trazabilidad con los requisitos de captura, clasificación y notificaciones. Los aportes de estilo, arquitectura de información, diseño táctico y prototipado se distribuyen entre los demás responsables de TP1.
 
 <div style="page-break-after: always;"></div>
 
@@ -119,7 +124,7 @@ El equipo realizó la redacción y revisión de los capítulos I, II, III y fina
     - [4.3.3. Software Architecture Container Level Diagrams](#433-software-architecture-container-level-diagrams)
     - [4.3.4. Software Architecture Deployment Diagrams](#434-software-architecture-deployment-diagrams)
 - [Capítulo V: Tactical-Level Software Design](#capítulo-v-tactical-level-software-design)
-  - [5.1. Bounded Context: \<Nombre del Bounded Context\>](#51-bounded-context-nombre-del-bounded-context)
+  - [5.1. Bounded Context: por desarrollar](#51-bounded-context-por-desarrollar)
     - [5.1.1. Domain Layer](#511-domain-layer)
     - [5.1.2. Interface Layer](#512-interface-layer)
     - [5.1.3. Application Layer](#513-application-layer)

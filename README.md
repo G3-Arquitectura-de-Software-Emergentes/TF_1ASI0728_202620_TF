@@ -34,11 +34,10 @@ Producto
 
 | Código     | Apellidos y Nombres           |
 |------------|--------------------------------|
-| u202110385 | Loli Ramirez, Camila Cristina |
-| \<código\>   | \<Apellidos y Nombres\>          |
-| \<código\>   | \<Apellidos y Nombres\>          |
-| \<código\>   | \<Apellidos y Nombres\>          |
-| \<código\>   | \<Apellidos y Nombres\>          |
+| u202110385   | Loli Ramirez, Camila Cristina |
+| u202319950   | Meza Solórzano,Didier Sebastián          |
+| u20211g163   | Solis Solis, Leonardo José          |
+| u202214214   | Rivera Ticllacuri, Omar Harold          |
 
 **Setiembre 2026**
 
@@ -52,28 +51,21 @@ Producto
 | ------- | ----- | ----- | ---------------------------- |
 | TB1 | 16/09/2026 | Loli Ramirez, Camila Cristina<br>Meza Solórzano,Didier Sebastián<br>Solis Solis, Leonardo José<br>Rivera Ticllacuri, Omar Harold | Revisión de los capítulos I, II, III y finalización del capítulo IV |
 | TP1 | 05/10/2026 | Meza Solórzano, Didier Sebastián | Desarrollo de las secciones 6.3, 6.3.1, 6.3.2, 6.4.1 y 6.4.2: actualización de la landing de Intiva para IA y automatización, wireframes para escritorio y móvil, doce wireframes de aplicación y tres wireflows. Incorporación de nueve imágenes de evidencia y enlaces a Figma; revisión de la trazabilidad con las historias de usuario y técnicas; corrección de los enlaces de entrevistas y registro del aporte individual en Student Outcome. |
+| TP1 — revisión | 05/10/2026 | Meza Solórzano, Didier Sebastián | Revisión transversal de los capítulos disponibles: corrección de fuentes y cifras, alcance de las entrevistas, coherencia de requisitos y arquitectura, redacción del diseño UX, actualización de conclusiones y bibliografía, y unificación de los enlaces de entrevistas en anexos. Se distinguen las propuestas de diseño de la base implementada y de la validación pendiente. |
 
 <div style="page-break-after: always;"></div>
 
 ## Project Report Collaboration Insights
 
-URL del repositorio del Project Report en GitHub: [\<URL del repositorio\>](<URL del repositorio>)
-
-## AV1:
-
-\<Cómo el equipo dividió y coordinó las tareas de esta entrega.\>
+URL del repositorio del Project Report en GitHub: [TF_1ASI0728_202620_TF — develop](https://github.com/G3-Arquitectura-de-Software-Emergentes/TF_1ASI0728_202620_TF/tree/develop)
 
 ## TB1:
 
-\<Cómo el equipo dividió y coordinó las tareas de esta entrega.\>
+El equipo realizó la redacción y revisión de los capítulos I, II, III y finalizó el capítulo IV. La coordinación de esta entrega se realizó distribuyendo las actividades de análisis, redacción, diseño y revisión entre los integrantes, consolidando los avances para la entrega del TB1.
 
-## AV2:
+## TP1 — aporte de Didier:
 
-\<Cómo el equipo dividió y coordinó las tareas de esta entrega.\>
-
-## TB2:
-
-\<Cómo el equipo dividió y coordinó las tareas de esta entrega.\>
+Didier desarrolló la landing, los wireframes y los wireflows de las secciones 6.3 a 6.4.2, incorporó las evidencias de Figma y documentó su trazabilidad con los requisitos de captura, clasificación y notificaciones. Los aportes de estilo, arquitectura de información, diseño táctico y prototipado se distribuyen entre los demás responsables de TP1.
 
 <div style="page-break-after: always;"></div>
 
@@ -132,7 +124,7 @@ URL del repositorio del Project Report en GitHub: [\<URL del repositorio\>](<URL
     - [4.3.3. Software Architecture Container Level Diagrams](#433-software-architecture-container-level-diagrams)
     - [4.3.4. Software Architecture Deployment Diagrams](#434-software-architecture-deployment-diagrams)
 - [Capítulo V: Tactical-Level Software Design](#capítulo-v-tactical-level-software-design)
-  - [5.1. Bounded Context: \<Nombre del Bounded Context\>](#51-bounded-context-nombre-del-bounded-context)
+  - [5.1. Bounded Context: por desarrollar](#51-bounded-context-por-desarrollar)
     - [5.1.1. Domain Layer](#511-domain-layer)
     - [5.1.2. Interface Layer](#512-interface-layer)
     - [5.1.3. Application Layer](#513-application-layer)
@@ -194,12 +186,14 @@ URL del repositorio del Project Report en GitHub: [\<URL del repositorio\>](<URL
 
 | Criterio específico | Acciones Realizadas | Conclusiones |
 | --- | --- | --- |
-| Comunica oralmente sus ideas y/o resultados con objetividad a público de diferentes especialidades y niveles jerárquicos, en el marco del desarrollo de un proyecto en ingeniería. | **AV1: Meza Solórzano, Didier Sebastian:** Participé en la exposición de los hallazgos del análisis competitivo y las entrevistas del Capítulo 2, así como de las decisiones estratégicas de diseño (Attribute-Driven Design) del Capítulo 4, explicando los drivers arquitectónicos y las restricciones técnicas del proyecto a mis compañeros de equipo.<br><br>**AV1: Rivera Ticllacuri, Omar Harold:** Expuse el perfil del equipo (Capítulo 1) y el diseño estratégico DDD del Capítulo 4 (EventStorming, Domain Message Flows, Bounded Context Canvases y Context Mapping) a mis compañeros.<br><br>**AV1: Loli Ramirez, Camila Cristina:** Expuse al equipo las decisiones arquitectónicas del Capítulo 4 y el porqué de elegir el monolito modular y la caché cache-aside, además de los resultados del EventStorming y del descubrimiento de contextos candidatos en Miro.<br><br>**AV1: Solis Solis, Leonardo José:** Participé en la sustentación de los mapas de escenarios (As-Is y To-Be) del Capítulo 3, y en la exposición de los diagramas de arquitectura C4 (Contexto y Contenedores) del Capítulo 4, detallando de forma clara la interacción entre nuestros componentes internos y los servicios externos. <br><br>**TP1: Meza Solórzano, Didier Sebastián:** Preparé los wireframes y los tres wireflows de Intiva como apoyo visual para explicar la captura de gastos, la revisión de categorías y los recordatorios. Organicé los recorridos y sus alternativas para mostrar cuándo se actualiza el saldo, qué ocurre si se deniega el permiso y cómo se corrige una categoría sugerida. Estos materiales están disponibles en la [página TP1 de Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2005-721) para la sustentación. | **TB1:** La participación en las exposiciones permitió comunicar de manera clara y objetiva los resultados obtenidos, las decisiones de diseño y la arquitectura del proyecto, facilitando que el equipo comprenda los principales aspectos técnicos y estratégicos desarrollados. <br><br>**TP1 — aporte de Didier:** Los recorridos visuales permiten explicar las decisiones de interacción con ejemplos concretos y relacionarlas con los requisitos. La exposición oral de TP1 queda pendiente de sustentación. |
-| Comunica en forma escrita ideas y/o resultados con objetividad a público de diferentes especialidades y niveles jerárquicos, en el marco del desarrollo de un proyecto en ingeniería. | **AV1: Meza Solórzano, Didier Sebastian:** Redacté el análisis competitivo, el registro y análisis de entrevistas, y el needfinding del Capítulo 2, además del Design Purpose, los Primary User Stories, los Quality Attribute Scenarios, los Constraints y el Architectural Drivers Backlog del Capítulo 4, documentando cada decisión con criterios de aceptación y justificación técnica.<br><br>**AV1: Rivera Ticllacuri, Omar Harold:** Redacté mi perfil en el Capítulo 1 y, en el Capítulo 4, toda la sección 4.2 (Domain Message Flows Modeling, Bounded Context Canvases de los 8 contextos y Context Mapping), incluyendo el hallazgo de que Analytics accede directamente a los repositorios de Finances y Savings sin ACL.<br><br>**AV1: Loli Ramirez, Camila Cristina:** Redacté las secciones 4.1.4 y 4.1.5 (iteraciones del Quality Attribute Workshop, decisiones AD-01 a AD-19, deudas de diseño y refinamiento de los escenarios de calidad) y las secciones 4.2.1 y 4.2.2 (EventStorming y descubrimiento de los ocho contextos candidatos). También realicé la revisión del Capítulo 1.<br><br>**AV1: Solis Solis, Leonardo Jose:** Estructuré y redacté las Historias de Usuario, Historias Técnicas y Spike Stories del Capítulo 3 con sus respectivos criterios de aceptación. Asimismo, documenté la explicación técnica de los diagramas de Landscape, Contexto y Contenedores en el Capítulo 4. <br><br>**TP1: Meza Solórzano, Didier Sebastián:** Desarrollé y documenté las secciones 6.3, 6.3.1, 6.3.2, 6.4.1 y 6.4.2 del [Capítulo VI](docs/06-cha06-solution-ux-design.md#63-landing-page-ui-design). Adapté la landing de Intiva, elaboré sus wireframes para escritorio y móvil, doce wireframes de aplicación y tres wireflows. Incorporé nueve imágenes de evidencia y vinculé las pantallas con US 032, US 033, US 030, TS 023 y TS 024. Revisé las descripciones frente a los criterios de aceptación, precisé los datos ilustrativos y corregí la presentación de los enlaces de las seis entrevistas. | **TB1:** La documentación realizada permitió organizar y comunicar de forma clara los requerimientos, hallazgos y decisiones técnicas del proyecto, dejando evidencia del análisis y sustento utilizado para definir la solución arquitectónica. <br><br>**TP1 — aporte de Didier:** La documentación permite revisar las pantallas junto con sus requisitos y distinguir las acciones principales, los estados alternativos y los contenidos pendientes de implementación. Las evidencias y los enlaces a Figma facilitan continuar con los mock-ups y el prototipado. |
+| Comunica oralmente sus ideas y/o resultados con objetividad a público de diferentes especialidades y niveles jerárquicos, en el marco del desarrollo de un proyecto en ingeniería. | **AV1: Meza Solórzano, Didier Sebastian:** Participé en la exposición de los hallazgos del análisis competitivo y las entrevistas del Capítulo 2, así como de las decisiones estratégicas de diseño (Attribute-Driven Design) del Capítulo 4, explicando los drivers arquitectónicos y las restricciones técnicas del proyecto a mis compañeros de equipo.<br><br>**AV1: Rivera Ticllacuri, Omar Harold:** Expuse el perfil del equipo (Capítulo 1) y el diseño estratégico DDD del Capítulo 4 (EventStorming, Domain Message Flows, Bounded Context Canvases y Context Mapping) a mis compañeros.<br><br>**AV1: Loli Ramirez, Camila Cristina:** Expuse al equipo las decisiones arquitectónicas del Capítulo 4 y el porqué de elegir el monolito modular y la caché cache-aside, además de los resultados del EventStorming y del descubrimiento de contextos candidatos en Miro.<br><br>**AV1: Solis Solis, Leonardo José:** Participé en la sustentación de los mapas de escenarios (As-Is y To-Be) del Capítulo 3, y en la exposición de los diagramas de arquitectura C4 (Contexto y Contenedores) del Capítulo 4, detallando de forma clara la interacción entre nuestros componentes internos y los servicios externos. <br><br>**TP1: Meza Solórzano, Didier Sebastián:** Preparé los wireframes y los tres wireflows de Intiva como apoyo visual para explicar la captura de gastos, la revisión de categorías y los recordatorios. Organicé los recorridos y sus alternativas para mostrar cuándo se actualiza el saldo, qué ocurre si se deniega el permiso y cómo se corrige una categoría sugerida. Estos materiales están disponibles en la [página TP1 de Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2005-721) para la sustentación. | **TB1:** La participación en las exposiciones permitió comunicar de manera clara y objetiva los resultados obtenidos, las decisiones de diseño y la arquitectura del proyecto, facilitando que el equipo comprenda los principales aspectos técnicos y estratégicos desarrollados. <br><br>|
+| Comunica en forma escrita ideas y/o resultados con objetividad a público de diferentes especialidades y niveles jerárquicos, en el marco del desarrollo de un proyecto en ingeniería. | **AV1: Meza Solórzano, Didier Sebastian:** Redacté el análisis competitivo, el registro y análisis de entrevistas, y el needfinding del Capítulo 2, además del Design Purpose, los Primary User Stories, los Quality Attribute Scenarios, los Constraints y el Architectural Drivers Backlog del Capítulo 4, documentando cada decisión con criterios de aceptación y justificación técnica.<br><br>**AV1: Rivera Ticllacuri, Omar Harold:** Redacté mi perfil en el Capítulo 1 y, en el Capítulo 4, toda la sección 4.2 (Domain Message Flows Modeling, Bounded Context Canvases de los 8 contextos y Context Mapping), incluyendo el hallazgo de que Analytics accede directamente a los repositorios de Finances y Savings sin ACL.<br><br>**AV1: Loli Ramirez, Camila Cristina:** Redacté las secciones 4.1.4 y 4.1.5 (iteraciones del Quality Attribute Workshop, decisiones AD-01 a AD-19, deudas de diseño y refinamiento de los escenarios de calidad) y las secciones 4.2.1 y 4.2.2 (EventStorming y descubrimiento de los ocho contextos candidatos). También realicé la revisión del Capítulo 1.<br><br>**AV1: Solis Solis, Leonardo Jose:** Estructuré y redacté las Historias de Usuario, Historias Técnicas y Spike Stories del Capítulo 3 con sus respectivos criterios de aceptación. Asimismo, documenté la explicación técnica de los diagramas de Landscape, Contexto y Contenedores en el Capítulo 4. <br><br>**TP1: Meza Solórzano, Didier Sebastián:** Desarrollé y documenté las secciones 6.3, 6.3.1, 6.3.2, 6.4.1 y 6.4.2 del [Capítulo VI](docs/06-cha06-solution-ux-design.md#63-landing-page-ui-design). Adapté la landing de Intiva, elaboré sus wireframes para escritorio y móvil, doce wireframes de aplicación y tres wireflows. Incorporé nueve imágenes de evidencia y vinculé las pantallas con US 032, US 033, US 030, TS 023 y TS 024. Revisé las descripciones frente a los criterios de aceptación, precisé los datos ilustrativos y corregí la presentación de los enlaces de las seis entrevistas. | **TB1:** La documentación realizada permitió organizar y comunicar de forma clara los requerimientos, hallazgos y decisiones técnicas del proyecto, dejando evidencia del análisis y sustento utilizado para definir la solución arquitectónica. <br><br>|
 
 <div style="page-break-after: always;"></div>
 
 # Capítulo I: Introducción
+
+[Consultar el contenido del documento](docs/01-cha01-introduction.md).
 
 ## 1.1. Startup Profile
 
@@ -226,6 +220,8 @@ URL del repositorio del Project Report en GitHub: [\<URL del repositorio\>](<URL
 <div style="page-break-after: always;"></div>
 
 # Capítulo II: Requirements Elicitation & Analysis
+
+[Consultar el contenido del documento](docs/02-cha02-requirements-elicitation-and-analysis.md).
 
 ## 2.1. Competidores
 
@@ -257,6 +253,8 @@ URL del repositorio del Project Report en GitHub: [\<URL del repositorio\>](<URL
 
 # Capítulo III: Requirements Specification
 
+[Consultar el contenido del documento](docs/03-cha03-requirements-specification.md).
+
 ## 3.1. To-Be Scenario Mapping
 
 ## 3.2. User Stories
@@ -268,6 +266,8 @@ URL del repositorio del Project Report en GitHub: [\<URL del repositorio\>](<URL
 <div style="page-break-after: always;"></div>
 
 # Capítulo IV: Strategic-Level Software Design
+
+[Consultar el contenido del documento](docs/04-cha04-strategic-level-software-design.md).
 
 ## 4.1. Strategic-Level Attribute-Driven Design
 
@@ -313,9 +313,11 @@ URL del repositorio del Project Report en GitHub: [\<URL del repositorio\>](<URL
 
 # Capítulo V: Tactical-Level Software Design
 
+El contenido de diseño táctico está pendiente de incorporación por su responsable de TP1.
+
 <!-- Duplicar el bloque 5.X (con su numeración 5.2, 5.3...) por cada Bounded Context identificado en el Capítulo IV -->
 
-## 5.1. Bounded Context: \<Nombre del Bounded Context\>
+## 5.1. Bounded Context: por desarrollar
 
 ### 5.1.1. Domain Layer
 
@@ -336,6 +338,8 @@ URL del repositorio del Project Report en GitHub: [\<URL del repositorio\>](<URL
 <div style="page-break-after: always;"></div>
 
 # Capítulo VI: Solution UX Design
+
+[Consultar el contenido del documento](docs/06-cha06-solution-ux-design.md).
 
 ## 6.1. Style Guidelines
 
@@ -491,6 +495,8 @@ Los recorridos y sus estados sirven de base para desarrollar los mock-ups de apl
 
 # Capítulo VII: Product Implementation, Validation & Deployment
 
+[Consultar el contenido del documento](docs/07-cha07-product-implementation-validation-and-deployment.md).
+
 ## 7.1. Software Configuration Management
 
 ### 7.1.1. Software Development Environment Configuration
@@ -537,6 +543,8 @@ Los recorridos y sus estados sirven de base para desarrollar los mock-ups de apl
 
 # Conclusiones
 
+[Consultar el contenido del documento](docs/08-conclusion.md).
+
 ## Conclusiones y recomendaciones
 
 ## Video About-the-Team
@@ -545,8 +553,12 @@ Los recorridos y sus estados sirven de base para desarrollar los mock-ups de apl
 
 # Bibliografía
 
+[Consultar el contenido del documento](docs/09-bibliography.md).
+
 <div style="page-break-after: always;"></div>
 
 # Anexos
+
+[Consultar el contenido del documento](docs/10-annexes.md).
 
 ## Anexo A: Videos de Exposiciones
