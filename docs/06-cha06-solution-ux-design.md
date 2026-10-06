@@ -1,10 +1,10 @@
 # Capítulo VI: Solution UX Design
 
-En este capítulo se desarrolla el diseño de la solución planteada para Intiva, la propuesta de Resolum para la gestión de ingresos, gastos y ahorros personales y familiares. Para ello, se definen las guías de estilo y la arquitectura de información que se seguirán en la landing page y en la aplicación móvil, para que el diseño sea coherente y fácil de usar para nuestros segmentos objetivo.
+En este capítulo se desarrolla el diseño de la solución planteada para Intiva, la propuesta de Resolum para la gestión de ingresos, gastos y ahorros personales y familiares. Para ello, se definen las guías de estilo y la arquitectura de información que se seguirán en la landing page, la aplicación móvil y la aplicación web, para que el diseño sea coherente y fácil de usar para nuestros segmentos objetivo.
 
 ## 6.1. Style Guidelines
 
-En esta sección se explican las guías de estilo para la landing page y la aplicación móvil. Con ellas buscamos que ambos productos se vean coherentes entre sí y que los usuarios reconozcan el estilo de Intiva.
+En esta sección se explican las guías de estilo para la landing page, la aplicación móvil y la aplicación web. Con ellas buscamos que los tres productos se vean coherentes entre sí y que los usuarios reconozcan el estilo de Intiva.
 
 ### 6.1.1. General Style Guidelines
 
@@ -12,7 +12,7 @@ En esta sección se explican las guías de estilo para la landing page y la apli
 
 *Brand Overview*
 
-Intiva es una plataforma digital que ayudará a las personas y a las familias a registrar sus ingresos y gastos, controlar su presupuesto mediante límites de gasto y planificar metas de ahorro de forma individual o compartida. Nace de una problemática identificada en las entrevistas: la mayoría de usuarios lleva sus finanzas en hojas de Excel, notas del celular o revisando manualmente sus billeteras digitales (Yape, Plin, apps bancarias), lo que vuelve el registro tedioso y deja la información fragmentada entre los integrantes del hogar. Intiva busca centralizar esa información, presentarla de forma visual y acompañar al usuario con alertas y recordatorios para que tome mejores decisiones financieras. Su eslogan, "Controla tus finanzas, transforma tu vida", resume esa promesa.
+Intiva es una plataforma digital que ayudará a las personas y a las familias a registrar sus ingresos y gastos, controlar su presupuesto mediante límites de gasto y planificar metas de ahorro de forma individual o compartida. Nace de una problemática identificada en las entrevistas: la mayoría de usuarios lleva sus finanzas en hojas de Excel, notas del celular o revisando manualmente sus billeteras digitales (Yape, Plin, apps bancarias), lo que vuelve el registro tedioso y deja la información fragmentada entre los integrantes del hogar. Intiva busca centralizar esa información, presentarla de forma visual y acompañar al usuario con alertas y recordatorios para que tome mejores decisiones financieras. Para reducir el registro manual, la aplicación podrá detectar gastos a partir de las notificaciones de las apps financieras y sugerir su categoría con inteligencia artificial, pero siempre será el usuario quien revise y confirme cada movimiento. Su eslogan, "Controla tus finanzas, transforma tu vida", resume esa promesa, y en la landing page se comunica con el mensaje "Menos registro, más control en familia".
 
 *Brand Name*
 
@@ -26,22 +26,24 @@ A continuación, se muestra el logo diseñado para Intiva:
 
 *Logo de Intiva. Fuente: elaboración propia.*
 
-El logo de Intiva está compuesto por un isotipo y un logotipo. El isotipo es un rombo blanco de esquinas redondeadas que contiene un cuadrado índigo con un rayo, símbolo que representa la energía y la rapidez con la que la aplicación permitirá tomar el control del dinero: registrar un movimiento o revisar el presupuesto tomará solo unos segundos. El logotipo "Intiva" se escribe en una tipografía sans-serif de trazo grueso, que transmite solidez y confianza. Se presenta sobre el color índigo principal de la marca y se acompaña del eslogan. En espacios reducidos, como el favicon o la barra de navegación de la landing page, se usará una versión simplificada: un cuadrado índigo con la inicial de la marca.
+El logo de Intiva está compuesto por un isotipo y un logotipo. El isotipo es un rombo blanco de esquinas redondeadas que contiene un cuadrado índigo con un rayo, símbolo que representa la energía y la rapidez con la que la aplicación permitirá tomar el control del dinero: registrar un movimiento o revisar el presupuesto tomará solo unos segundos. El logotipo "Intiva" se escribe en una tipografía sans-serif de trazo grueso, que transmite solidez y confianza. Se presenta sobre el color índigo principal de la marca y se acompaña del eslogan. En espacios reducidos, como el favicon, la barra de navegación de la landing page o la barra lateral de la aplicación web, se usará una versión simplificada: un cuadrado índigo con la inicial de la marca.
 
 **Typography**
 
-Para la tipografía escogimos tres fuentes de Google Fonts, cada una para un tipo de texto distinto. Así es más fácil distinguir qué es más importante en cada pantalla.
+Para la tipografía escogimos fuentes de Google Fonts, cada una para un tipo de texto distinto. Así es más fácil distinguir qué es más importante en cada pantalla.
 
-Para los títulos y encabezados usaremos Manrope (Headline). Es una fuente moderna y algo compacta, por lo que los títulos se ven bien sin ocupar mucho espacio en pantallas pequeñas.
+Para los títulos y encabezados de la aplicación móvil y de la aplicación web usaremos Manrope (Headline). Es una fuente moderna y algo compacta, por lo que los títulos se ven bien sin ocupar mucho espacio en pantallas pequeñas.
 
-Para los textos de cuerpo, descripciones, formularios y botones usaremos Inter (Body). Esta fuente fue creada para pantallas y se lee bien incluso en tamaños pequeños, lo que ayuda en las listas de movimientos y en los mensajes de alerta.
+En la landing page, los títulos usarán Plus Jakarta Sans. Tiene trazos más gruesos en sus pesos altos, por lo que funciona bien en titulares grandes, que son lo primero que ve un visitante.
+
+Para los textos de cuerpo, descripciones, formularios y botones usaremos Inter (Body) en los tres productos. Esta fuente fue creada para pantallas y se lee bien incluso en tamaños pequeños, lo que ayuda en las listas de movimientos y en los mensajes de alerta.
 
 Para las etiquetas y los montos de dinero usaremos Space Grotesk (Label). Escogimos una fuente aparte para los números porque los montos son el dato más importante en una aplicación de finanzas y queremos que el usuario los encuentre rápido.
 
-| Estilo | Fuente | Uso | Tamaño (landing / app) | Peso |
+| Estilo | Fuente | Uso | Tamaño (web / app) | Peso |
 | --- | --- | --- | --- | --- |
-| Display | Manrope | Titular principal de la landing y saldo total | 64 px / 32 sp | Bold / ExtraBold |
-| Headline | Manrope | Títulos de sección y de pantalla | 36 a 48 px / 24 sp | Bold |
+| Display | Plus Jakarta Sans (landing) / Manrope (app y web) | Titular principal de la landing y saldo total | 64 px / 32 sp | ExtraBold / Bold |
+| Headline | Plus Jakarta Sans (landing) / Manrope (app y web) | Títulos de sección y de pantalla | 36 a 48 px / 24 sp | Bold |
 | Title | Manrope | Títulos de tarjetas y subsecciones | 20 a 24 px / 18 sp | Bold |
 | Body | Inter | Textos descriptivos y contenido de formularios | 16 a 18 px / 16 sp | Regular |
 | Body small | Inter | Textos secundarios, fechas y ayudas | 14 px / 12 a 13 sp | Regular |
@@ -69,13 +71,13 @@ A continuación se presenta la guía de estilo de Intiva, que reúne la paleta d
 
 *Guía de estilo de Intiva: paleta de colores, tipografías y componentes base. Fuente: elaboración propia en Figma.*
 
-También usaremos colores para indicar el estado de las finanzas, de modo que el usuario lo entienda sin leer el detalle: verde cuando un límite de gasto va bien, ámbar cuando está cerca de alcanzarse y rojo cuando se supera. Para no depender solo del color, cada estado irá acompañado de un texto, y los montos se mostrarán con signo ("+" para ingresos y "−" para gastos).
+También usaremos colores para indicar el estado de las finanzas, de modo que el usuario lo entienda sin leer el detalle: verde cuando un límite de gasto va bien, ámbar cuando está cerca de alcanzarse y rojo cuando se supera. Los gastos detectados automáticamente que todavía no se confirman se mostrarán en tonos neutros, para diferenciarlos de los movimientos ya registrados. Para no depender solo del color, cada estado irá acompañado de un texto, y los montos se mostrarán con signo ("+" para ingresos y "−" para gastos).
 
 **Spacing**
 
 El espaciado se basará en múltiplos de 4 y 8 para que la información se vea ordenada. Los valores cambian según el producto:
 
-Para Landing Page:
+Para Landing Page y aplicación web:
 - Button padding:
     - Vertical: 16px
     - Horizontal: 32px
@@ -84,8 +86,9 @@ Para Landing Page:
     - Espacio entre campos: 16px
 - Ancho máximo del contenido: 1280px
 - Margen lateral: 24px (móvil) a 32px (escritorio)
-- Margin entre secciones: 96px (móvil) a 128px (escritorio)
+- Margin entre secciones de la landing: 96px (móvil) a 128px (escritorio)
 - Espacio entre título y subtítulo de sección: 24px
+- Espacio entre tarjetas del panel web: 24px
 
 Para Android:
 - Button padding:
@@ -110,18 +113,17 @@ Usaremos esquinas redondeadas para que la interfaz se vea amigable: 8 para input
 
 **Tone of voice**
 
-Usaremos un tono cercano y sencillo. En las entrevistas vimos que los términos financieros técnicos confunden a los usuarios, por lo que evitaremos la jerga y trataremos al usuario de "tú" (por ejemplo, "Aquí está el resumen de tus finanzas hoy"). Cuando el usuario logre algo, se lo haremos saber ("¡Cumpliste tu meta de ahorro!"), y las alertas solo informarán lo que pasó, sin regañar ("Has superado tu presupuesto en Entretenimiento"), junto con una opción para resolverlo. Queremos que el usuario sienta que Intiva lo ayuda con sus gastos y que no lo juzga.
+Usaremos un tono cercano y sencillo. En las entrevistas vimos que los términos financieros técnicos confunden a los usuarios, por lo que evitaremos la jerga y trataremos al usuario de "tú" (por ejemplo, "Aquí está el resumen de tus finanzas hoy"). Cuando el usuario logre algo, se lo haremos saber ("¡Cumpliste tu meta de ahorro!"), y las alertas solo informarán lo que pasó, sin regañar ("Has superado tu presupuesto en Entretenimiento"), junto con una opción para resolverlo. Al hablar de la captura automática y de la IA seremos claros sobre lo que hacen y lo que no: por ejemplo, "Este gasto todavía no modifica tu saldo" o "La confianza es orientativa; puedes cambiar la categoría". Queremos que el usuario sienta que Intiva lo ayuda con sus gastos, que no lo juzga y que él mantiene el control de su información.
 
 ### 6.1.2. Web, Mobile & Devices Style Guidelines
 
-Intiva contará con dos productos: una landing page, que será el sitio web estático para dar a conocer la solución, y una aplicación móvil nativa para Android. Se priorizó Android porque, según las entrevistas, la mayoría de usuarios de ambos segmentos utiliza dispositivos con este sistema operativo.
+Intiva contará con tres productos: una landing page, que será el sitio web estático para dar a conocer la solución; una aplicación móvil nativa para Android, donde se hará el registro diario de movimientos; y una aplicación web, pensada para revisar gráficos y reportes en una pantalla más grande. Se priorizó Android porque, según las entrevistas, la mayoría de usuarios de ambos segmentos utiliza dispositivos con este sistema operativo, mientras que la aplicación web cubre el uso desde laptops con Windows, el segundo dispositivo más usado.
 
 **Landing Page**
 
 - Diseño responsive con enfoque *mobile first*, ya que gran parte del tráfico llegará desde el celular, por ejemplo al compartir el enlace por WhatsApp.
 - Puntos de quiebre: móvil (< 768 px), tablet (768 a 1023 px) y escritorio (≥ 1024 px). En móvil, el contenido pasará a una sola columna y el menú superior se convertirá en un menú hamburguesa.
-- Alternará secciones oscuras (con un índigo casi negro) y claras para marcar el ritmo de lectura.
-- El botón principal será de color Secondary (lima) con texto oscuro, para destacar sobre los fondos índigo y oscuros; el botón secundario será transparente con borde.
+- Usará fondos claros con acentos índigo, y el botón principal será de color Secondary (lima) para que destaque; el botón secundario será transparente con borde.
 - Estará disponible en español e inglés, con un selector de idioma en la barra de navegación.
 - Todos los elementos interactivos tendrán un contorno visible al recibir foco con el teclado, y las imágenes tendrán texto alternativo.
 
@@ -132,50 +134,62 @@ Intiva contará con dos productos: una landing page, que será el sitio web est�
 - Se diseñará sobre un ancho de referencia de 360 a 390 dp, que corresponde a los dispositivos Android de gama media que usan nuestros segmentos objetivo.
 - Los botones de acción principal ocuparán todo el ancho de la pantalla y estarán en la parte inferior, para alcanzarlos fácilmente con el pulgar.
 - Para registrar montos se usará un teclado numérico propio con dígitos grandes, evitando abrir el teclado del sistema.
+- El permiso para leer notificaciones se pedirá con una pantalla propia que explique para qué sirve, antes de llevar al usuario a los ajustes de Android, y siempre habrá una opción para continuar con el registro manual.
 - Se usarán los íconos de Material Symbols, con un ícono propio por cada categoría de gasto (por ejemplo, un carrito para supermercado o cubiertos para alimentación).
+
+**Aplicación web**
+
+- Estará pensada para laptops y computadoras de escritorio, con una barra lateral fija de navegación y un área de contenido organizada en tarjetas y gráficos.
+- En pantallas menores a 768 px, la barra lateral se reemplazará por una barra de navegación inferior con íconos.
+- Usará las mismas fuentes y colores de la aplicación móvil, para que el usuario reconozca la información al pasar de un dispositivo a otro. Los gráficos usarán el índigo y el lima como colores principales de sus series.
+- Contará con modo claro y modo oscuro, y permitirá cambiar el idioma entre español e inglés.
+- Se usarán los íconos de PrimeIcons, que acompañan a la librería de componentes PrimeVue.
 
 ## 6.2. Information Architecture
 
-En esta parte del informe se presenta la arquitectura de información planeada para los productos de Intiva (landing page y aplicación móvil): la organización de la información, las etiquetas, el sistema de búsqueda, los meta tags y la forma de navegación. Con esto buscamos que la interfaz sea fácil de entender para nuestros segmentos objetivo.
+En esta parte del informe se presenta la arquitectura de información planeada para los productos de Intiva (landing page, aplicación móvil y aplicación web): la organización de la información, las etiquetas, el sistema de búsqueda, los meta tags y la forma de navegación. Con esto buscamos que la interfaz sea fácil de entender para nuestros segmentos objetivo.
 
 ### 6.2.1. Organization Systems
 
 **Organización visual (jerárquica)**
 
-Se utilizará una jerarquía visual para que el usuario siga el contenido en orden de importancia. Para ello, se usarán distintos tamaños y pesos de texto, de modo que los títulos y los montos sean lo primero que se lea, y las descripciones y fechas queden en un segundo plano. Por ejemplo, en la pantalla de inicio de la aplicación se mostrará primero el saldo total, luego el estado del presupuesto y, finalmente, los movimientos recientes. En la landing page, la propuesta de valor y el botón de descarga aparecerán antes que cualquier otra información.
+Se utilizará una jerarquía visual para que el usuario siga el contenido en orden de importancia. Para ello, se usarán distintos tamaños y pesos de texto, de modo que los títulos y los montos sean lo primero que se lea, y las descripciones y fechas queden en un segundo plano. Por ejemplo, en la pantalla de inicio de la aplicación móvil se mostrará primero el saldo total, luego el estado del presupuesto y, finalmente, los movimientos recientes. En el panel de la aplicación web, los indicadores principales (balance total, ingresos, gastos y ahorro del mes) aparecerán arriba y los gráficos de detalle debajo. En la landing page, la propuesta de valor y el botón de descarga aparecerán antes que cualquier otra información.
 
 **Organización secuencial**
 
 Se aplicará en los procesos que tienen pasos definidos, para que el usuario sepa en todo momento en qué paso se encuentra:
 
 - Registro e inicio: presentación de la aplicación (onboarding) → registro o inicio de sesión → configuración inicial.
-- Registro de un movimiento: tipo (gasto o ingreso) → monto → categoría → cuenta → fecha → guardar. Este proceso se diseñará para completarse en cinco pasos o menos, tal como se definió en el escenario de usabilidad del Capítulo IV.
+- Registro manual de un movimiento: tipo (gasto o ingreso) → monto → categoría → cuenta → fecha → guardar. Este proceso se diseñará para completarse en cinco pasos o menos, tal como se definió en el escenario de usabilidad del Capítulo IV.
+- Captura asistida de un gasto: activar la captura → elegir las apps financieras autorizadas → revisar el gasto detectado → aceptar o cambiar la categoría sugerida → confirmar o descartar. El saldo solo cambiará después de confirmar.
 - Creación de una meta de ahorro: nombre → monto objetivo → fecha límite → individual o familiar → confirmar.
 - Recuperación de contraseña: ingresar correo → verificar código → nueva contraseña.
+- Generación de un reporte en la aplicación web: tipo de reporte → período → integrantes incluidos → descargar.
 
-En la landing page, las secciones también seguirán un orden pensado para convencer al visitante: propuesta de valor → funcionalidades → beneficios → cómo funciona → planes → testimonios → equipo → llamada a la acción final.
+En la landing page, las secciones también seguirán un orden pensado para convencer al visitante: propuesta de valor → problema que resolvemos → funcionalidades → cómo funciona → privacidad y control → equipo → planes → escenarios de uso → llamada a la acción final.
 
 **Esquemas de categorización**
 
-- Por tópico: las funcionalidades de la aplicación se agruparán según el tema que atienden: Transacciones, Control de presupuesto (límites de gasto), Metas de ahorro, Grupo familiar, Notificaciones y Perfil. Los movimientos también se categorizarán por tópico (Alimentación, Transporte, Vivienda, Salud, Educación, Entretenimiento, Otros para gastos; Salario, Freelance, Negocio, Inversión, Otros para ingresos).
+- Por tópico: las funcionalidades de la aplicación móvil se agruparán según el tema que atienden: Transacciones, Captura asistida, Control de presupuesto (límites de gasto), Metas de ahorro, Grupo familiar, Notificaciones y Perfil. La aplicación web se dividirá en Panel y Reportes. Los movimientos también se categorizarán por tópico (Alimentación, Transporte, Vivienda, Salud, Educación, Entretenimiento, Otros para gastos; Salario, Freelance, Negocio, Inversión, Otros para ingresos).
 - Cronológico: el historial de movimientos, las notificaciones y los aportes a metas se mostrarán del más reciente al más antiguo, agrupados por día ("Hoy", "Ayer"). Los recordatorios de pago se ordenarán por la fecha de vencimiento más próxima.
-- Por audiencia: se diferenciará la información según el tipo de usuario. El responsable de la economía familiar (administrador del grupo) podrá invitar integrantes, asignar roles y crear metas o límites familiares, mientras que un integrante solo verá y registrará movimientos del grupo. En la landing page, los planes estarán orientados a cada tipo de usuario (individual o familiar).
+- Por audiencia: se diferenciará la información según el tipo de usuario. El responsable de la economía familiar (administrador del grupo) podrá invitar integrantes, asignar roles y crear metas o límites familiares, mientras que un integrante solo verá y registrará movimientos del grupo. Además, la aplicación web estará orientada sobre todo al responsable de la economía familiar, que es quien revisa los reportes del hogar.
+- Por estado: los gastos detectados automáticamente se mantendrán separados en una lista de pendientes ("Por confirmar") hasta que el usuario los revise, y no se mezclarán con el historial de movimientos ya registrados.
 - Alfabético: se usará en listas de selección largas, como la lista de categorías (después de las más usadas) y la lista de integrantes del grupo familiar.
 
 ### 6.2.2. Labeling Systems
 
-Para el sistema de etiquetas se usarán palabras cortas, en español y sin tecnicismos financieros, acompañadas de íconos que faciliten entender cada función a simple vista. Para la aplicación móvil se usarán los íconos de Material Symbols (https://fonts.google.com/icons), que siguen la guía de estilo de Android.
+Para el sistema de etiquetas se usarán palabras cortas, en español y sin tecnicismos financieros, acompañadas de íconos que faciliten entender cada función a simple vista. Para la aplicación móvil se usarán los íconos de Material Symbols (https://fonts.google.com/icons), que siguen la guía de estilo de Android, y para la aplicación web, los de PrimeIcons.
 
 En la landing page se usarán las siguientes etiquetas:
 * "Inicio"
 * "Funcionalidades"
-* "Beneficios"
 * "Cómo funciona"
-* "Planes"
 * "Equipo"
-* "Testimonios"
-* "Iniciar Sesión"
-* "Descargar App"
+* "Planes"
+* "Descargar en Google Play"
+* "Ver cómo funciona"
+* "Descargar app"
+* "Términos de Servicio", "Privacidad" y "Ayuda" (pie de página)
 
 En la aplicación móvil, la navegación principal tendrá las siguientes etiquetas:
 * "Inicio"
@@ -194,7 +208,18 @@ Asimismo, se usarán etiquetas de acción como:
 * "Ajustar límite"
 * "Cerrar sesión"
 
-Por último, se usarán etiquetas de estado para que el usuario identifique rápidamente la situación de sus finanzas: "A buen ritmo", "¡Cerca del límite!" y "Límite alcanzado" (límites de gasto), "En progreso" y "Meta alcanzada" (metas de ahorro), y "Admin" y "Miembro" (roles del grupo familiar).
+Para la captura asistida y la categorización con IA se usarán etiquetas que dejen claro que el usuario decide:
+* "Captura automática"
+* "Fuentes autorizadas"
+* "Por confirmar"
+* "Revisar gasto"
+* "Confirmar gasto" / "Descartar sugerencia"
+* "Aceptar categoría" / "Cambiar categoría"
+* "Continuar manualmente"
+
+En la aplicación web se usarán las etiquetas "Panel", "Reportes", "Descargar reporte", "Notificaciones" y "Cerrar sesión".
+
+Por último, se usarán etiquetas de estado para que el usuario identifique rápidamente la situación de sus finanzas: "A buen ritmo", "¡Cerca del límite!" y "Límite alcanzado" (límites de gasto), "En progreso" y "Meta alcanzada" (metas de ahorro), "Pendiente de confirmación" y "Categoría sugerida por IA" junto con su nivel de confianza (captura asistida), y "Admin" y "Miembro" (roles del grupo familiar).
 
 ### 6.2.3. Searching Systems
 
@@ -208,6 +233,8 @@ En el caso de la aplicación móvil, la búsqueda se usará principalmente en el
 
 En otras secciones, como las metas de ahorro o las notificaciones, la información se filtrará mediante pestañas (por ejemplo, metas "Personales" y "Familiares"). Si una búsqueda no tiene resultados, se mostrará un mensaje claro con la opción de limpiar los filtros.
 
+En la aplicación web no habrá búsqueda por texto, ya que muestra información resumida. En su lugar, el usuario podrá filtrar los gráficos por período (1 mes, 6 meses o 1 año) y configurar los reportes por tipo (general, ingresos, gastos o ahorros), período e integrantes del grupo familiar.
+
 ### 6.2.4. SEO Tags and Meta Tags
 
 Para los SEO Tags y Meta Tags se decidió implementar palabras clave que mejoren la probabilidad de encontrar Intiva en los motores de búsqueda.
@@ -217,9 +244,9 @@ Para los SEO Tags y Meta Tags se decidió implementar palabras clave que mejoren
 ```html
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Intiva - Administra tus finanzas en familia</title>
-<meta name="description" content="Controla tus gastos, ahorra en familia y alcanza tus metas con Intiva. Simple, visual y en equipo.">
-<meta name="keywords" content="finanzas personales, finanzas familiares, control de gastos, presupuesto familiar, metas de ahorro, app de ahorro, Intiva">
+<title>Intiva - Menos registro, más control en familia</title>
+<meta name="description" content="Registra tus gastos con ayuda de las notificaciones de tus apps financieras, recibe sugerencias de categoría con IA y organiza las finanzas de tu familia con Intiva.">
+<meta name="keywords" content="finanzas personales, finanzas familiares, control de gastos, registro automático de gastos, categorías con IA, presupuesto familiar, metas de ahorro, Intiva">
 <meta name="author" content="Resolum">
 <meta name="robots" content="index, follow">
 
@@ -228,8 +255,8 @@ Para los SEO Tags y Meta Tags se decidió implementar palabras clave que mejoren
 <link rel="alternate" hreflang="en" href="https://intiva.vercel.app/en/">
 
 <!-- Vista previa al compartir el enlace (WhatsApp, Facebook, LinkedIn) -->
-<meta property="og:title" content="Intiva - Administra tus finanzas en familia">
-<meta property="og:description" content="Controla tus gastos, ahorra en familia y alcanza tus metas.">
+<meta property="og:title" content="Intiva - Menos registro, más control en familia">
+<meta property="og:description" content="Captura asistida de gastos, categorías con IA y alertas para organizar las finanzas de tu familia.">
 <meta property="og:image" content="https://intiva.vercel.app/logo.png">
 <meta property="og:url" content="https://intiva.vercel.app/">
 <meta property="og:type" content="website">
@@ -237,32 +264,40 @@ Para los SEO Tags y Meta Tags se decidió implementar palabras clave que mejoren
 
 Con estos tags, la landing page tendrá más oportunidades de aparecer entre las primeras opciones cuando una persona busque cómo organizar sus finanzas o las de su familia. Las etiquetas `hreflang` indicarán al buscador qué versión mostrar según el idioma del usuario, y las etiquetas Open Graph permitirán mostrar una vista previa con imagen, título y descripción cuando el enlace se comparta por WhatsApp, la aplicación más usada por los entrevistados.
 
+**Aplicación web:**
+
+La aplicación web contiene información financiera privada, por lo que no buscará aparecer en los buscadores. Solo la pantalla de inicio de sesión tendrá un título y una descripción, y las páginas a las que se entra con sesión iniciada usarán `<meta name="robots" content="noindex, nofollow">` para que no sean indexadas.
+
 **Aplicación Móvil (App Store Optimization):**
 
 * App Title: Intiva - Finanzas en Familia
-* App Subtitle: Controla tus gastos, define límites y ahorra en familia
-* App Keywords: control de gastos, presupuesto, ahorro, finanzas personales, finanzas familiares, metas de ahorro
+* App Subtitle: Registra gastos más rápido, define límites y ahorra en familia
+* App Keywords: control de gastos, registro automático de gastos, categorías con IA, presupuesto, ahorro, finanzas familiares, metas de ahorro
 * App Category: Finanzas
-* App Description: "Intiva te ayuda a tomar el control de tu dinero. Registra tus gastos e ingresos en segundos, define límites de gasto y recibe alertas antes de superarlos. Crea metas de ahorro solo o con tu familia y revisa a dónde va tu dinero desde un solo lugar. Una solución simple, visual y en equipo."
+* App Description: "Intiva te ayuda a tomar el control de tu dinero. Detecta tus gastos a partir de las notificaciones de tus apps financieras y te sugiere su categoría, para que solo tengas que revisarlos y confirmarlos. Define límites de gasto y recibe alertas antes de superarlos. Crea metas de ahorro solo o con tu familia y revisa a dónde va tu dinero desde un solo lugar."
 
 ### 6.2.5. Navigation Systems
 
-Para la landing page se usará una navegación jerárquica de una sola página, con un menú superior fijo cuyos enlaces llevarán a cada sección. "Descargar App" e "Iniciar Sesión" serán las principales llamadas a la acción, y el botón de descarga se repetirá en varias secciones para que el visitante pueda actuar desde cualquier punto de la página. En pantallas pequeñas, el menú se agrupará en un menú hamburguesa.
+Para la landing page se usará una navegación jerárquica de una sola página, con un menú superior fijo cuyos enlaces ("Inicio", "Funcionalidades", "Cómo funciona", "Equipo" y "Planes") llevarán a cada sección. "Descargar en Google Play" será la principal llamada a la acción y se repetirá al final de la página para que el visitante pueda actuar desde cualquier punto. En pantallas pequeñas, el menú se agrupará en un menú hamburguesa.
 
 Para la aplicación móvil se escogieron distintos patrones conocidos de Mobile UI. A continuación se explica cómo funcionará cada uno:
 
 * "Sticky" Fixed Navigation: se usará una barra de navegación inferior fija con los botones "Inicio", "Transacciones", "Metas", "Familia" y "Perfil", siempre al alcance del pulgar.
-* Content-based Navigation: al tocar un elemento del contenido se accederá a su detalle. Por ejemplo, al tocar un movimiento se verá su información completa; al tocar una meta, su progreso y aportes; y al tocar una notificación, la pantalla relacionada con ella (por ejemplo, el límite de gasto superado).
+* Content-based Navigation: al tocar un elemento del contenido se accederá a su detalle. Por ejemplo, al tocar un movimiento se verá su información completa; al tocar una meta, su progreso y aportes; al tocar un gasto detectado, la pantalla para revisarlo; y al tocar una notificación, la pantalla relacionada con ella (por ejemplo, el límite de gasto superado o el detalle de un recordatorio).
 * Floating Action Button: se usará un botón flotante "+" para la acción más frecuente de cada sección, como crear una nueva meta o un nuevo límite de gasto.
-* Vertical Navigation: se usará para que los usuarios recorran listas como el historial de movimientos, las metas, los integrantes del grupo y las notificaciones.
+* Vertical Navigation: se usará para que los usuarios recorran listas como el historial de movimientos, los gastos por confirmar, las metas, los integrantes del grupo y las notificaciones.
 * Tabs: se usarán pestañas para separar información relacionada dentro de una misma sección, como metas "Personales" y "Familiares".
 * Swipe Navigation: en las pantallas de bienvenida (onboarding), el usuario avanzará deslizando hacia la izquierda.
-* Bottom Sheets: se usarán paneles inferiores para acciones rápidas sin salir de la pantalla actual, como aplicar filtros al historial.
+* Bottom Sheets: se usarán paneles inferiores para acciones rápidas sin salir de la pantalla actual, como aplicar filtros al historial o elegir otra categoría para un gasto.
 * Popovers: se usarán ventanas emergentes en distintos casos:
     * Confirmar la eliminación de un movimiento, una meta o una categoría.
     * Avisar que se superó un límite de gasto, con la opción de ajustarlo.
+    * Pedir confirmación cuando la IA no esté segura de la categoría y proponga "Otros".
+    * Confirmar que se descarta un gasto detectado, sin registrar ningún movimiento.
     * Aceptar o rechazar una invitación a un grupo familiar.
     * Confirmar la salida de un grupo familiar o la eliminación de un integrante.
+
+Para la aplicación web se usará una barra lateral fija con las secciones "Panel" y "Reportes" y la opción "Cerrar sesión". En la barra superior estarán el título de la página, el acceso a las notificaciones, el cambio de idioma y el cambio entre modo claro y oscuro.
 
 ## 6.3. Landing Page UI Design
 
