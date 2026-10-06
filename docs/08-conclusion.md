@@ -2,42 +2,47 @@
 
 ## Conclusiones y recomendaciones
 
-A partir del trabajo desarrollado hasta el momento en los Capítulos I, II, III y IV para el producto **Intiva** de la startup **Resolum**, el equipo llega a las siguientes conclusiones generales:
+La entrega reúne el análisis del problema, los requisitos y el diseño estratégico de Intiva, junto con el avance de UX documentado para TP1. Las conclusiones distinguen lo diseñado de los resultados que todavía requieren implementación y validación.
 
 ### Sobre el Capítulo I: Introducción
 
-- La aplicación de la técnica de las 5W y 2H, junto con el diagrama de Ishikawa, permitió confirmar que el manejo inadecuado de ingresos, gastos y ahorros no responde a una causa única, sino a factores educativos, informativos, contextuales y de gestión que se refuerzan entre sí. Esto valida que Intiva debe atacar el problema desde varios frentes (educación financiera, automatización del registro y visualización de datos) y no solo con una funcionalidad puntual.
-- El proceso Lean UX permitió pasar de una idea general de "app de finanzas" a un conjunto de hipótesis medibles (retención, CSAT, grupos familiares activos, margen por suscripciones), lo que le dio una base validable al resto del proyecto.
-- Se identificaron dos segmentos objetivo claramente diferenciados —jóvenes con problemas de gasto y ahorro, y responsables de la economía familiar—, cuyas necesidades, si bien relacionadas, requieren distintos niveles de control y colaboración dentro del producto.
+- Las 5W y 2H y el diagrama de Ishikawa organizan posibles causas de las dificultades de gestión financiera. Las fuentes consultadas permiten contextualizar el problema, pero no prueban que la solución propuesta produzca mejoras en los usuarios.
+- Lean UX define hipótesis y metas de negocio. Los incrementos de retención y margen, los 500 grupos activos y el CSAT del 75% son objetivos propuestos; necesitan una línea base e instrumentos de medición.
+- Los segmentos se distinguen por su responsabilidad en las finanzas personales y del hogar. Los datos por edad del INEI contextualizan el acceso a cuentas, sin demostrar por sí solos el rol financiero de una persona.
 
 ### Sobre el Capítulo II: Requirements Elicitation & Analysis
 
-- El análisis competitivo frente a Fintonic, Monefy y Plum evidenció que la ventaja competitiva de Intiva no está en la automatización bancaria ni en la simplicidad extrema del registro, sino en un enfoque educativo y de gamificación que ayuda al usuario a comprender sus propios hábitos financieros.
-- Las entrevistas a ambos segmentos confirmaron los hallazgos del Capítulo I: existe una fuerte dependencia de herramientas informales (Excel, notas, billeteras digitales) que resultan tediosas de mantener, además de dificultades recurrentes para recordar fechas de pago y para tener visibilidad conjunta de las finanzas familiares.
-- Los User Personas, el User Task Matrix, el Empathy Mapping y el As-Is Scenario Mapping coinciden en un mismo diagnóstico: la carga operativa del registro manual genera frustración (Carlos Castillo) y agotamiento por conciliación de gastos compartidos (María Palacios), lo que sustenta directamente la necesidad de automatizar el registro y centralizar la información familiar.
+- Las seis entrevistas registran necesidades de facilidad de uso, seguimiento de gastos, privacidad y recordatorios. Se emplean para orientar el diseño, sin generalizar sus hallazgos a toda la población.
+- Los porcentajes de los gráficos heredados no tienen una matriz de respuestas que permita verificar su base de cálculo. El análisis mantiene una lectura cualitativa hasta conciliar esos datos.
+- La comparación de Fintonic, Monefy y Plum orienta el posicionamiento de Intiva hacia la gestión personal y familiar. No demuestra exclusividad ni valida una ventaja competitiva en el mercado.
 
 ### Sobre el Capítulo III: Requirements Specification
 
-- El To-Be Scenario Mapping tradujo los puntos de dolor identificados en journeys concretos de mejora, mostrando que el valor percibido del producto depende tanto de la automatización técnica (lectura de notificaciones, alertas, dashboards) como de la experiencia emocional que se busca generar (seguridad, control, tranquilidad).
-- La descomposición en Epics y User Stories (US 001 a US 031, más las historias técnicas) demuestra una cobertura funcional completa del ciclo de vida del usuario: desde el conocimiento de la plataforma y la autenticación, pasando por el manejo de cuentas financieras, categorías, límites de gasto y metas de ahorro, hasta la gestión de grupos familiares, las alertas y la visualización de datos.
-- Los criterios de aceptación redactados en formato Given-When-Then dejan una base clara y verificable para las etapas de diseño técnico, implementación y pruebas de los siguientes capítulos.
+- El alcance incorpora US 001 a US 033 y diez épicas. US 032 establece una captura de gastos pendiente de confirmación; US 033 define aceptación, corrección y confirmación de la categoría Otros ante baja confianza.
+- TS 023 mantiene el registro manual cuando se deniega o revoca el acceso a notificaciones. TS 024 propone orquestación con n8n y un intento de envío de respaldo por FCM cuando el flujo no responde.
+- Los criterios de aceptación permiten preparar pruebas funcionales. Describir un escenario esperado no acredita que ya haya sido implementado ni que la prueba haya pasado.
 
 ### Sobre el Capítulo IV: Strategic-Level Software Design
 
-- El Attribute-Driven Design permitió priorizar los drivers arquitectónicos (usabilidad, escalabilidad, seguridad y rendimiento) a partir de las historias de usuario más críticas, en lugar de definir la arquitectura de forma aislada de los requisitos del negocio.
-- El EventStorming y el Domain Message Flows Modeling, documentados mediante Domain Storytelling sobre el comportamiento real de `intiva-api-platform`, hicieron visibles ocho bounded contexts (IAM, Profiles, Categories & Financial Accounts, Finances, Financial Goals/Savings, Household, Communications y Analytics) y dos mecanismos de integración que conviven en el sistema: llamadas explícitas a un Anti-Corruption Layer y suscripción directa a eventos de dominio.
-- El Context Mapping y la discusión de diseño "¿qué pasaría si...?" identificaron un hallazgo relevante para la arquitectura: *Analytics* accede a los repositorios de *Finances* y *Savings* de forma directa, rompiendo el patrón ACL usado en el resto del sistema, lo cual queda registrado como un punto a revisar en el diseño táctico.
-- Los diagramas de Software Architecture (system landscape, contexto, contenedores y despliegue) trasladan las decisiones estratégicas del negocio a una representación técnica concreta, dejando la base necesaria para el diseño a nivel táctico (Capítulo V) y la implementación (Capítulo VII).
+- El diseño conserva un monolito modular con ocho módulos de dominio en la base de referencia. Subscriptions se registra como contexto previsto. Los bounded contexts internos no equivalen a microservicios desplegados por separado.
+- La inspección de la revisión 3cd9d92 de `intiva-api-platform` confirma el acceso directo de Analytics a repositorios de Finances y Savings. Esa dependencia se mantiene como deuda de diseño.
+- Los listeners de eventos de la base se ejecutan en proceso. No se encontró una configuración asíncrona que permita afirmar que están fuera de la operación o de su transacción. AD-07 requiere concretar esa separación antes de atribuirle mejoras de latencia.
+- La captura pendiente, el clasificador y n8n son ampliaciones propuestas para TP1. La confianza de clasificación, el comportamiento ante errores y los tiempos de respuesta deberán evaluarse en la implementación.
 
-### Conclusión general
+### Sobre el Capítulo VI: Solution UX Design
 
-En conjunto, los cuatro capítulos desarrollados muestran una progresión coherente: el problema identificado en el Capítulo I se valida con evidencia real en el Capítulo II, se traduce en requisitos verificables en el Capítulo III y se resuelve mediante decisiones arquitectónicas trazables a esos mismos requisitos en el Capítulo IV. Los Capítulos V, VI y VII (diseño táctico, diseño UX de la solución e implementación, validación y despliegue del producto) quedan pendientes de desarrollo y son necesarios para cerrar el ciclo completo del proyecto, en particular para resolver el hallazgo de acceso directo a repositorios detectado en el Context Mapping y para validar con usuarios reales el producto implementado.
+- El capítulo contiene guías de estilo y arquitectura de información, así como la landing adaptada, sus wireframes para escritorio y móvil, doce wireframes de aplicación y tres wireflows elaborados para TP1.
+- Las pantallas representan permiso opcional, revisión del gasto, corrección de categoría, descarte y continuidad manual. La trazabilidad permite relacionar esos estados con US 030, US 032, US 033, TS 023 y TS 024.
+- Las nueve imágenes y los frames editables de Figma evidencian el diseño. Los montos y porcentajes mostrados son ejemplos; no representan precisión del modelo ni resultados de pruebas con usuarios.
 
 ### Recomendaciones
 
-- Priorizar en el diseño táctico una solución para el acceso directo de *Analytics* a los repositorios de *Finances* y *Savings* (por ejemplo, mediante ACL o vistas materializadas), de modo que la arquitectura sea consistente en todos los bounded contexts.
-- Completar las entrevistas de validación (Capítulo VII) retomando a los mismos segmentos objetivo entrevistados en el Capítulo II, para verificar si las hipótesis de Lean UX planteadas en el Capítulo I se cumplen con el producto implementado.
-- Mantener la trazabilidad ya lograda entre User Stories, Quality Attribute Scenarios y bounded contexts al momento de avanzar con el diseño táctico y la implementación, de manera que cada decisión técnica siga siendo justificable frente a una necesidad real del usuario.
+- Completar el diseño táctico del Capítulo V y las secciones restantes de mock-ups y prototipado. El Capítulo VII aún no contiene evidencias de implementación, pruebas, validación o despliegue de la entrega actual.
+- Conciliar la matriz de respuestas de las entrevistas, los precios y datos del equipo de la landing y las versiones del stack con sus fuentes correspondientes.
+- Actualizar los diagramas gráficos de arquitectura para incorporar el proveedor de clasificación y n8n, manteniendo la distinción entre módulos internos y unidades desplegables.
+- Probar la confirmación y el descarte sin efectos anticipados sobre el saldo, los permisos revocados, los formatos desconocidos, la baja confianza y la indisponibilidad de n8n o del proveedor de IA.
+- Definir el cálculo de confianza y contrastar las sugerencias con casos del dominio. Verificar también autorización entre grupos, ejecución de listeners y respuestas del envío de notificaciones.
+- Validar la facilidad de uso con personas de ambos segmentos antes de concluir que el producto reduce el esfuerzo de registro o mejora la coordinación familiar.
 
 ## Video About-the-Team
 
