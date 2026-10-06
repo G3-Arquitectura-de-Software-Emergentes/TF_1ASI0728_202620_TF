@@ -183,7 +183,8 @@ El equipo desarrolló el diseño táctico y la experiencia de usuario de Intiva 
   - [Video About-the-Team](#video-about-the-team)
 - [Bibliografía](#bibliografía)
 - [Anexos](#anexos)
-  - [Anexo A: Videos de Exposiciones](#anexo-a-videos-de-exposiciones)
+  - [Anexo A: Vídeos de entrevistas realizadas](docs/10-annexes.md#anexo-a-vídeos-de-entrevistas-realizadas)
+  - [Anexo B: Diseños de Intiva en Figma — TP1](docs/10-annexes.md#anexo-b-diseños-de-intiva-en-figma--tp1)
 
 <div style="page-break-after: always;"></div>
 
@@ -1621,4 +1622,13 @@ El equipo consolidó el diseño táctico y la experiencia de usuario de Intiva, 
 
 [Consultar el contenido del documento](docs/10-annexes.md).
 
-## Anexo A: Videos de Exposiciones
+## Anexo A: Vídeos de entrevistas realizadas
+
+[Consultar los vídeos de entrevistas](docs/10-annexes.md#anexo-a-vídeos-de-entrevistas-realizadas).
+
+## Anexo B: Diseños de Intiva en Figma — TP1
+
+El archivo reúne la landing page, los wireframes, los mock-ups y los flujos de usuario de Intiva. La página TP1 presenta los diseños de categorización y asistencia financiera con IA y de aprobación unánime del fondo familiar mediante smart contracts, documentados en el Capítulo VI.
+
+[Abrir los diseños TP1 de Intiva en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2045-2348).
+

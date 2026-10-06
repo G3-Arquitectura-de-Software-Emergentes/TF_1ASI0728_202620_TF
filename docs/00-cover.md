@@ -183,7 +183,8 @@ El equipo desarrolló el diseño táctico y la experiencia de usuario de Intiva 
   - [Video About-the-Team](#video-about-the-team)
 - [Bibliografía](#bibliografía)
 - [Anexos](#anexos)
-  - [Anexo A: Videos de Exposiciones](#anexo-a-videos-de-exposiciones)
+  - [Anexo A: Vídeos de entrevistas realizadas](10-annexes.md#anexo-a-vídeos-de-entrevistas-realizadas)
+  - [Anexo B: Diseños de Intiva en Figma — TP1](10-annexes.md#anexo-b-diseños-de-intiva-en-figma--tp1)
 
 <div style="page-break-after: always;"></div>
 

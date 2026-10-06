@@ -19,3 +19,9 @@ Para la identificación de necesidades de los usuarios, se entrevistó a una peq
 - <https://upcedupe-my.sharepoint.com/:v:/g/personal/u202319950_upc_edu_pe/IQC-DiH_D3iVQIgNE1cZV4GhAXBqWOdnzm7fFe1JlW5z_UA?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D&e=EZZiby>
 
 - <https://upcedupe-my.sharepoint.com/:v:/g/personal/u202319950_upc_edu_pe/IQDnib8xHM57SIOoY3zScJBIAZjdqr-l7sqdPl7n1LU4y4I?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D&e=K7gQMe>
+
+## Anexo B: Diseños de Intiva en Figma — TP1
+
+El archivo reúne la landing page, los wireframes, los mock-ups y los flujos de usuario de Intiva. La página TP1 presenta los diseños de categorización y asistencia financiera con IA y de aprobación unánime del fondo familiar mediante smart contracts, documentados en el Capítulo VI.
+
+[Abrir los diseños TP1 de Intiva en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2045-2348).
