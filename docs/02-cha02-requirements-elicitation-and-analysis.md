@@ -2,9 +2,11 @@
 
 ### 2.1. Competidores
 
+La comparación combina características publicadas por los productos y apreciaciones del equipo sobre la propuesta de Intiva. Las fortalezas, debilidades y oportunidades son hipótesis de posicionamiento, no resultados de pruebas con los competidores. Se consultaron las páginas de [Fintonic](https://www.fintonic.com/es-ES/inicio/), [Monefy](https://www.monefy.com/) y [Plum](https://withplum.com/); la disponibilidad de funciones y planes puede variar por país y versión.
+
 #### 2.1.1. Análisis competitivo
 
-Mediante un análisis comparativo, se organizó la información clave de cada propuesta de valor, tanto de la competencia directa como indirecta de Intiva. Esto permite comprender mejor en qué se diferencia la solución frente a otras alternativas del mercado.
+Se comparan las funciones y el posicionamiento de Intiva con Fintonic, Monefy y Plum para orientar la propuesta de valor.
 
 **Competitive Analysis Landscape**
 
@@ -13,33 +15,33 @@ Este análisis se realiza con el objetivo de identificar la posición de Intiva 
 | | Intiva | Fintonic | Monefy | Plum |
 |---|---|---|---|---|
 | **Logo** | ![Intiva](https://i.imgur.com/qxprsQB.png) | ![Fintonic](https://i.imgur.com/q6Yw3aj.png) | ![Monefy](https://i.imgur.com/L29Tx7I.png) | ![Plum](https://i.imgur.com/2T8TBNm.png) |
-| **Overview** | Plataforma tecnológica orientada a la gestión de ingresos, gastos y ahorro personal, que permite visualizar patrones de gasto recurrentes. | Plataforma de finanzas personales que centraliza el dinero del usuario, analiza hábitos financieros y da acceso a servicios financieros. | Aplicación de finanzas enfocada en el registro simple y rápido de gastos personales. | Aplicación financiera que combina inteligencia artificial con funciones de ahorro e inversión para apoyar la gestión del dinero. |
+| **Overview** | Plataforma tecnológica orientada a la gestión de ingresos, gastos y ahorro personal, que permite visualizar patrones de gasto recurrentes. | Plataforma de finanzas personales que centraliza el dinero del usuario, analiza hábitos financieros y da acceso a servicios financieros. | Aplicación de finanzas enfocada en el registro simple y rápido de gastos personales. | Aplicación financiera que ofrece ahorro automatizado e inversión para apoyar la gestión del dinero. |
 | **Ventaja competitiva** (¿qué valor ofrece al cliente?) | Herramienta digital intuitiva que ayuda a mejorar el manejo de ingresos y gastos, fortaleciendo la toma de decisiones para alcanzar estabilidad económica. | Integra el análisis financiero con acceso a productos financieros, ampliando la funcionalidad más allá del control de gastos. | Destaca por su facilidad de uso, permitiendo un registro rápido del gasto diario. | Automatiza pequeñas transferencias de ahorro según la capacidad del usuario y ofrece opciones sencillas de inversión desde una interfaz simple y segura. |
 | **Perfil de mercado objetivo** | Personas que buscan mejorar su manejo de gastos y planificación del ahorro a futuro, especialmente jóvenes con responsabilidades económicas que necesitan organizar mejor sus recursos. | Usuarios que desean una visión completa de sus finanzas y acceso a servicios financieros. | Usuarios que buscan una solución sencilla para el control diario de gastos. | Usuarios que buscan automatizar el ahorro y comenzar a invertir de forma sencilla. |
-| **Estrategias de marketing** | Basada en educación financiera y comunicación digital, posicionando la solución como accesible, práctica y enfocada en el bienestar económico del usuario. | Prioriza el marketing digital y la promoción de sus beneficios financieros y servicios asociados. | Centra su estrategia en la simplicidad y facilidad de uso del producto. | Promueve la automatización del ahorro mediante inteligencia artificial y una experiencia digital sencilla. |
-| **Perfil de producto y servicios** | Solución digital para el seguimiento de gastos e ingresos, elaboración de presupuestos y apoyo en la definición de metas financieras personales. | Ofrece control financiero, análisis de gastos y acceso a productos financieros como préstamos y seguros. | Ofrece registro de gastos, categorización básica y visualización simple del flujo de dinero. | Ofrece automatización del ahorro, análisis mediante inteligencia artificial y opciones de inversión sencillas. |
-| **Precios y costos** | Modelo freemium, con posibilidad de servicios financieros complementarios. | Modelo freemium basado en servicios financieros, con funcionalidades básicas gratuitas. | Modelo freemium, con funciones adicionales en planes premium. | Modelo freemium, con funciones adicionales en planes premium. |
-| **Canales de distribución** | Web y aplicación móvil. | Principalmente aplicación móvil. | Aplicación móvil y plataforma web. | Aplicación móvil y plataforma web. |
-| **Fortalezas** | Se caracteriza por su enfoque educativo, además de fácil accesibilidad y facilidad de uso. | Cuenta con integración de servicios financieros y análisis avanzado. | Destaca por su simplicidad y rapidez de uso. | Combina inteligencia artificial con automatización del ahorro y opciones de inversión sencillas. |
-| **Debilidades** | Presenta bajo posicionamiento en el mercado y recursos limitados, al ser una startup. | Puede presentar un enfoque menor en educación financiera didáctica. | Carece de funciones avanzadas y de automatización. | Puede depender de la conexión bancaria y del nivel de confianza del usuario en la automatización. |
+| **Estrategias de marketing** | Basada en educación financiera y comunicación digital, posicionando la solución como accesible, práctica y enfocada en el bienestar económico del usuario. | Prioriza el marketing digital y la promoción de sus beneficios financieros y servicios asociados. | Centra su estrategia en la simplicidad y facilidad de uso del producto. | Comunica el ahorro automatizado y las opciones de inversión. |
+| **Perfil de producto y servicios** | Solución digital para el seguimiento de gastos e ingresos, elaboración de presupuestos y apoyo en la definición de metas financieras personales. | Ofrece control financiero, análisis de gastos y acceso a productos financieros como préstamos y seguros. | Ofrece registro de gastos, categorización básica y visualización simple del flujo de dinero. | Ofrece ahorro automatizado y opciones de inversión, según el país y el plan. |
+| **Precios y costos** | Modelo propuesto con plan gratuito y suscripción premium; no se incluyen préstamos ni intermediación financiera. | Modelo freemium basado en servicios financieros, con funcionalidades básicas gratuitas. | Modelo freemium, con funciones adicionales en planes premium. | Modelo freemium, con funciones adicionales en planes premium. |
+| **Canales de distribución** | Landing, aplicación web y aplicación móvil Android previstas. | Sitio web y aplicación móvil. | Aplicación móvil para Android e iOS. | Sitio web informativo y aplicación móvil. |
+| **Fortalezas** | Se caracteriza por su enfoque educativo, además de fácil accesibilidad y facilidad de uso. | Cuenta con integración de servicios financieros y análisis avanzado. | Destaca por su simplicidad y rapidez de uso. | Combina ahorro automatizado y opciones de inversión. |
+| **Debilidades** | Presenta bajo posicionamiento en el mercado y recursos limitados, al ser una startup. | Puede presentar un enfoque menor en educación financiera didáctica. | Su enfoque de registro manual puede exigir más esfuerzo al usuario; esta apreciación debe contrastarse con la versión evaluada. | Puede depender de la conexión bancaria y del nivel de confianza del usuario en la automatización. |
 | **Oportunidades** | Existe una alta demanda de educación financiera y de uso de aplicaciones digitales. | Puede expandir su base de usuarios mediante servicios financieros. | Puede captar usuarios que buscan simplicidad. | Puede crecer entre usuarios que buscan automatizar el ahorro e iniciarse en la inversión. |
 | **Amenazas** | Enfrenta competencia de aplicaciones consolidadas y hábitos financieros deficientes en los usuarios. | Enfrenta competencia de aplicaciones más simples y educativas. | Puede ser desplazada por soluciones más completas. | Compite con aplicaciones que ofrecen automatización financiera más avanzada. |
 
 #### 2.1.2. Estrategias y tácticas frente a competidores
 
-A partir del diagnóstico FODA realizado sobre los competidores directos, se definieron las acciones estratégicas necesarias para que Resolum alcance un posicionamiento sólido en el mercado. El enfoque no se centra únicamente en competir a nivel de funcionalidades técnicas, sino en capitalizar la experiencia educativa como el principal diferenciador del producto.
+El análisis FODA orienta la propuesta de Intiva hacia el control de gastos, las metas de ahorro y la colaboración familiar. Las siguientes estrategias describen decisiones de posicionamiento que deberán evaluarse con usuarios.
 
 A continuación, se detallan las estrategias y tácticas diseñadas para responder al contexto competitivo actual:
 
 **1. Estrategia de diferenciación por valor educativo**
 
-*Contexto:* A diferencia de Plum, que prioriza la automatización mediante inteligencia artificial, o de Monefy, enfocada exclusivamente en la velocidad del registro manual, Resolum busca que el usuario comprenda la lógica detrás de sus gastos, ingresos y objetivos de ahorro.
+*Contexto:* Intiva propone combinar registro de movimientos, límites de gasto y metas personales o familiares. El usuario revisa las sugerencias automáticas antes de confirmar un gasto.
 
-*Táctica:* Se implementará una estructura de gamificación interactiva. En lugar de limitarse a un monitoreo pasivo como el de Fintonic, Resolum incorporará metas de ahorro y niveles de progresión. Con esto, la propuesta didáctica se convierte en el eje central del software, transformando la gestión financiera en un proceso dinámico y recompensable.
+*Táctica:* Mostrar el avance de las metas de ahorro, el consumo de los límites y avisos comprensibles. Estas funciones corresponden a EP 005, EP 006 y EP 008; el alcance actual no define niveles, recompensas ni un sistema de gamificación.
 
 **2. Estrategia de abordaje de segmentos desatendidos**
 
-*Contexto:* Las soluciones actuales suelen ser generalistas y asumen que el usuario ya posee conocimientos financieros previos o confianza plena para vincular sus cuentas bancarias, lo que genera una barrera de entrada para el público joven.
+*Contexto:* Las entrevistas registran necesidades de facilidad de uso y comprensión de la información financiera. La propuesta se dirige a personas que registran gastos propios o administran pagos del hogar.
 
 *Táctica:* Utilizar dentro de la aplicación un lenguaje intuitivo, evitando la terminología técnica financiera que pueda generar confusión en los usuarios.
 
@@ -158,9 +160,11 @@ En esta sección se registra cada entrevista realizada. En total, se realizaron 
 |---|---|
 | ![evidencia-entrevista](https://i.imgur.com/iTpBDD4.png) | **Distrito:** Villa el Salvador (Lima) <br> **Entrevistado:** Diego <br> **Edad:** 28 años |
 | <https://upcedupe-my.sharepoint.com/:v:/g/personal/u202319950_upc_edu_pe/IQDnib8xHM57SIOoY3zScJBIAZjdqr-l7sqdPl7n1LU4y4I?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D&e=K7gQMe> | **Entrevistador:** Didier Sebastian Meza Solórzano |
-| **Timing:** 00:00 | **Resumen:** Diego accede a contenido mediante su celular, usando principalmente uno de la marca Xiaomi. La aplicación que más usa es WhatsApp para comunicarse con su familia, mientras que el navegador que utiliza es Google Chrome.<br><br>Actualmente es padre de un bebé recién nacido, por lo que gestiona el presupuesto destinado a su hijo, el alquiler y los alimentos para poder progresar. Anota sus gastos en la aplicación de notas por defecto de su celular; sin embargo, presenta dificultades al momento de ahorrar, ya que suele usar ese dinero para cubrir gastos imprevistos relacionados con su hijo.<br><br>Diego menciona que una de las cosas que más valora es que la aplicación sea fácil e intuitiva de usar, ya que esto le ayudaría a gestionar y priorizar qué gastos son más importantes que otros.<br><br>Además, tiende a olvidar con frecuencia fechas importantes de sus pagos, por lo que le gustaría ser notificado sobre pagos pendientes o próximos a vencer, para poder cumplir con ellos a tiempo.<br><br>Por último, suele revisar sus gastos semanalmente y menciona que le resulta tedioso tener que ingresar manualmente cada uno de ellos, por lo que le gustaría que este proceso fuera automático. |
+| **Timing:** Duración no consignada en el registro | **Resumen:** Diego accede a contenido mediante su celular, usando principalmente uno de la marca Xiaomi. La aplicación que más usa es WhatsApp para comunicarse con su familia, mientras que el navegador que utiliza es Google Chrome.<br><br>Actualmente es padre de un bebé recién nacido, por lo que gestiona el presupuesto destinado a su hijo, el alquiler y los alimentos para poder progresar. Anota sus gastos en la aplicación de notas por defecto de su celular; sin embargo, presenta dificultades al momento de ahorrar, ya que suele usar ese dinero para cubrir gastos imprevistos relacionados con su hijo.<br><br>Diego menciona que una de las cosas que más valora es que la aplicación sea fácil e intuitiva de usar, ya que esto le ayudaría a gestionar y priorizar qué gastos son más importantes que otros.<br><br>Además, tiende a olvidar con frecuencia fechas importantes de sus pagos, por lo que le gustaría ser notificado sobre pagos pendientes o próximos a vencer, para poder cumplir con ellos a tiempo.<br><br>Por último, suele revisar sus gastos semanalmente y menciona que le resulta tedioso tener que ingresar manualmente cada uno de ellos, por lo que le gustaría que este proceso fuera automático. |
 
 #### 2.2.3. Análisis de entrevistas
+
+El registro incluye seis entrevistas, tres por segmento. Sus resultados se usan para identificar necesidades y orientar el diseño; no permiten estimar la frecuencia de esas necesidades en la población. Los gráficos heredados no incluyen la matriz de respuestas ni la base de cálculo de cada porcentaje. Por ello, se conservan como material de referencia y se interpretan cualitativamente, sin tratar sus porcentajes como proporciones de los tres entrevistados. La base de cálculo deberá conciliarse con las respuestas antes de reutilizar las cifras en una conclusión cuantitativa.
 
 En primer lugar, se presentan gráficos circulares con los porcentajes destacados en las respuestas dadas por los entrevistados del primer segmento objetivo:
 
@@ -170,7 +174,7 @@ En primer lugar, se presentan gráficos circulares con los porcentajes destacado
   <img src="https://i.imgur.com/LcI6Wsl.png" alt="Uso de herramientas de control de finanzas personales">
 </p>
 
-A partir del gráfico, se concluye que los usuarios de este segmento están acostumbrados y prefieren utilizar las hojas de cálculo de Excel para manejar sus finanzas de forma efectiva. Se observa, en menor medida, el uso de registros en billeteras bancarias y de cuadernos de apuntes tradicionales para el registro de ingresos y gastos. Finalmente, en la misma proporción, un 16.7% de los entrevistados no utiliza ninguna herramienta para controlar sus finanzas.
+En los resúmenes del primer segmento aparecen hojas de cálculo, cuadernos y registros de billeteras digitales como medios de control financiero. Estas herramientas no centralizan por sí solas la información familiar.
 
 **Navegador utilizado**
 
@@ -186,7 +190,7 @@ Se observa que la totalidad de los usuarios entrevistados en este primer segment
   <img src="https://i.imgur.com/HoW4Vgh.png" alt="Aportación en la gestión financiera familiar">
 </p>
 
-Se aprecia que los tres entrevistados apoyan a sus padres en la gestión del dinero del hogar, ya sea al revisar el dinero, los gastos, o al planificar a futuro.
+Los resúmenes del primer segmento describen situaciones de participación o interés en las finanzas del hogar. No todos registran el mismo nivel de responsabilidad, por lo que se distinguen las tareas personales de las compartidas.
 
 **Adquirir una mejor herramienta para el control de sus finanzas**
 
@@ -202,7 +206,7 @@ Se concluye que todos los entrevistados coinciden en la necesidad de contar con 
   <img src="https://i.imgur.com/uchgo85.png" alt="Tecnologías utilizadas">
 </p>
 
-Se observa que la mayoría de los entrevistados (62.5%) utiliza dispositivos con sistema operativo Android. En menor proporción, también se identifican dispositivos con sistema operativo Windows (25.0%) y iOS (12.5%).
+Los registros del primer segmento mencionan celulares Android y computadoras. Como una persona puede usar varios dispositivos y no se dispone del recuento de respuestas del gráfico, no se atribuye su distribución a porcentajes de personas entrevistadas.
 
 A partir de las entrevistas realizadas al primer segmento, integrado por miembros de familias con problemas de gestión financiera, se puede concluir lo siguiente:
 
@@ -251,7 +255,7 @@ Se identifica que la mayoría de los entrevistados ayuda a otros miembros de su 
   <img src="https://i.imgur.com/tg1Wfct.png" alt="Tecnologías utilizadas">
 </p>
 
-Se observa que, en igual proporción (40.0% cada uno), los entrevistados utilizan dispositivos con sistema operativo Android y dispositivos portátiles con sistema operativo Windows. En menor proporción, se identifican dispositivos con sistema operativo iOS, con un 20.0%.
+En el segundo segmento se mencionan celulares, laptops y tablets. El gráfico presenta distintos sistemas operativos, pero su base de respuestas no está documentada; no se usa esa distribución para afirmar una mayoría de usuarios de un sistema.
 
 A partir de las entrevistas realizadas al segundo segmento, integrado por los responsables de la economía familiar, se puede concluir lo siguiente:
 
@@ -341,7 +345,7 @@ En el As-Is Scenario Map se representa el proceso real que viven los usuarios de
   <img src="https://i.imgur.com/nbWLYmS.png" alt="As-Is Scenario Map - Segmento 1">
 </p>
 
-El ecosistema actual de Carlos es reactivo y manual, dependiendo de una hoja de Excel que genera alta fricción en el registro diario. La falta de automatización al usar métodos de pago como Yape provoca una desconexión entre sus metas de ahorro y sus gastos reales, lo que deriva en pereza y desidia. El ciclo cierra con frustración e inseguridad, ya que el usuario no logra tener un rastro claro de su dinero ni el cumplimiento de sus objetivos, lo cual valida la urgencia de una solución que elimine la carga operativa del registro manual.
+El mapa de Carlos representa un registro manual con información dispersa y dificultades para mantener el seguimiento de gastos. El equipo interpreta esa carga de registro como una oportunidad para proponer captura asistida y un historial centralizado. Los pensamientos y emociones del mapa son una síntesis del arquetipo, no mediciones de un cambio producido por la aplicación.
 
 **Segmento 2: Responsables de la economía familiar**
 
@@ -349,6 +353,6 @@ El ecosistema actual de Carlos es reactivo y manual, dependiendo de una hoja de 
   <img src="https://i.imgur.com/yxIKokq.png" alt="As-Is Scenario Map - Segmento 2">
 </p>
 
-Para María, la gestión financiera es una fuente de agotamiento y agobio debido a la fragmentación de la información familiar. Al intentar centralizar manualmente los gastos de varios miembros, enfrenta una carga cognitiva elevada y pierde tiempo personal en tareas de conciliación que rara vez cuadran. Este escenario culmina en sentimientos de culpa e irritación por el pago de moras evitables, lo que evidencia la necesidad de una plataforma colaborativa que centralice el control y reduzca el estrés administrativo del hogar.
+El mapa de María representa la conciliación manual de información del hogar y la revisión de fechas de pago. El equipo identifica oportunidades para centralizar los movimientos compartidos y ofrecer recordatorios. Los pensamientos y emociones corresponden al arquetipo construido para el diseño; la reducción de tiempo y estrés debe comprobarse con usuarios.
 
 De esta forma, se diseñaron ambos mapas As-Is de cada User Persona en la aplicación Miro. El proceso de diseño comenzó con la identificación de las fases o eventos más resaltantes en la experiencia de cada User Persona. Luego, para cada fase, se identificaron las labores que comúnmente realiza cada persona. A continuación, se adoptó la perspectiva de cada usuario para imaginar qué pensamientos surgirían al realizar cada actividad. Finalmente, se identificó el sentimiento asociado a dicho pensamiento y se analizó el porqué de su aparición. Además, se identificaron áreas positivas y negativas para cada persona según su situación.
