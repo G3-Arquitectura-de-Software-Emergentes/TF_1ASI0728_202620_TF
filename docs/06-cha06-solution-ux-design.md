@@ -12,7 +12,7 @@ En esta sección se explican las guías de estilo para la landing page, la aplic
 
 *Brand Overview*
 
-Intiva es una plataforma digital que ayudará a las personas y a las familias a registrar sus ingresos y gastos, controlar su presupuesto mediante límites de gasto y planificar metas de ahorro de forma individual o compartida. Nace de una problemática identificada en las entrevistas: la mayoría de usuarios lleva sus finanzas en hojas de Excel, notas del celular o revisando manualmente sus billeteras digitales (Yape, Plin, apps bancarias), lo que vuelve el registro tedioso y deja la información fragmentada entre los integrantes del hogar. Intiva busca centralizar esa información, presentarla de forma visual y acompañar al usuario con alertas y recordatorios para que tome mejores decisiones financieras. Para reducir el registro manual, la aplicación podrá detectar gastos a partir de las notificaciones de las apps financieras y sugerir su categoría con inteligencia artificial, pero siempre será el usuario quien revise y confirme cada movimiento. Su eslogan, "Controla tus finanzas, transforma tu vida", resume esa promesa, y en la landing page se comunica con el mensaje "Menos registro, más control en familia".
+Intiva es una plataforma digital que ayudará a las personas y a las familias a registrar sus ingresos y gastos, controlar su presupuesto mediante límites de gasto y planificar metas de ahorro de forma individual o compartida. Nace de una problemática identificada en las entrevistas: la mayoría de usuarios lleva sus finanzas en hojas de Excel, notas del celular o revisando manualmente sus billeteras digitales (Yape, Plin, apps bancarias), lo que vuelve el registro tedioso y deja la información fragmentada entre los integrantes del hogar. Intiva busca centralizar esa información, presentarla de forma visual y acompañar al usuario con alertas y recordatorios para que tome mejores decisiones financieras. La IA sugerirá categorías a partir de la descripción ingresada y ofrecerá orientación sobre gastos hormiga y metas. El usuario revisará cada sugerencia antes de guardar o tomar una decisión. Los fondos familiares requerirán aprobación de todos sus miembros mediante smart contracts. Su eslogan, "Controla tus finanzas, transforma tu vida", resume esa promesa, y en la landing page se comunica con el mensaje "Menos registro, más control en familia".
 
 *Brand Name*
 
@@ -71,7 +71,7 @@ A continuación se presenta la guía de estilo de Intiva, que reúne la paleta d
 
 *Guía de estilo de Intiva: paleta de colores, tipografías y componentes base. Fuente: elaboración propia en Figma.*
 
-También usaremos colores para indicar el estado de las finanzas, de modo que el usuario lo entienda sin leer el detalle: verde cuando un límite de gasto va bien, ámbar cuando está cerca de alcanzarse y rojo cuando se supera. Los gastos detectados automáticamente que todavía no se confirman se mostrarán en tonos neutros, para diferenciarlos de los movimientos ya registrados. Para no depender solo del color, cada estado irá acompañado de un texto, y los montos se mostrarán con signo ("+" para ingresos y "−" para gastos).
+También usaremos colores para indicar el estado de las finanzas, de modo que el usuario lo entienda sin leer el detalle: verde cuando un límite de gasto va bien, ámbar cuando está cerca de alcanzarse y rojo cuando se supera. Las propuestas del fondo pendientes de aprobación se mostrarán en tonos neutros para diferenciarlas de los gastos validados. Para no depender solo del color, cada estado irá acompañado de un texto, y los montos se mostrarán con signo ("+" para ingresos y "−" para gastos).
 
 **Spacing**
 
@@ -134,7 +134,7 @@ Intiva contempla una landing informativa, una aplicación móvil Android para el
 - Se diseñará sobre un ancho de referencia de 360 a 390 dp, como referencia de diseño adaptable; la distribución se verificará en distintos tamaños de pantalla.
 - Los botones de acción principal ocuparán todo el ancho de la pantalla y estarán en la parte inferior, para alcanzarlos fácilmente con el pulgar.
 - Para registrar montos se usará un teclado numérico propio con dígitos grandes, evitando abrir el teclado del sistema.
-- El permiso para leer notificaciones se pedirá con una pantalla propia que explique para qué sirve, antes de llevar al usuario a los ajustes de Android, y siempre habrá una opción para continuar con el registro manual.
+- La solicitud de categorización con IA explicará qué datos del formulario se usarán y ofrecerá selección manual. La aprobación del fondo mostrará las condiciones antes de que cada miembro firme.
 - Se usarán los íconos de Material Symbols, con un ícono propio por cada categoría de gasto (por ejemplo, un carrito para supermercado o cubiertos para alimentación).
 
 **Aplicación web**
@@ -174,7 +174,7 @@ En la landing page, las secciones también seguirán un orden pensado para conve
 - Por tópico: las funcionalidades de la aplicación móvil se agruparán según el tema que atienden: Transacciones, Asistente IA, Fondo familiar, Control de presupuesto (límites de gasto), Metas de ahorro, Grupo familiar, Notificaciones y Perfil. La aplicación web se dividirá en Panel y Reportes. Los movimientos también se categorizarán por tópico (Alimentación, Transporte, Vivienda, Salud, Educación, Entretenimiento, Otros para gastos; Salario, Freelance, Negocio, Inversión, Otros para ingresos).
 - Cronológico: el historial de movimientos, las notificaciones y los aportes a metas se mostrarán del más reciente al más antiguo, agrupados por día ("Hoy", "Ayer"). Los recordatorios de pago se ordenarán por la fecha de vencimiento más próxima.
 - Por audiencia: se diferenciará la información según el tipo de usuario. El responsable de la economía familiar (administrador del grupo) podrá invitar integrantes, asignar roles y crear metas o límites familiares, mientras que un integrante solo verá y registrará movimientos del grupo. Además, la aplicación web estará orientada sobre todo al responsable de la economía familiar, que es quien revisa los reportes del hogar.
-- Por estado: los gastos detectados automáticamente se mantendrán separados en una lista de pendientes ("Por confirmar") hasta que el usuario los revise, y no se mezclarán con el historial de movimientos ya registrados.
+- Por estado: las propuestas del fondo se separarán en pendientes de aprobación, pendientes de red, validadas, rechazadas y con error. Solo las validadas aparecerán como gastos conciliados.
 - Alfabético: se usará en listas de selección largas, como la lista de categorías (después de las más usadas) y la lista de integrantes del grupo familiar.
 
 ### 6.2.2. Labeling Systems
@@ -273,7 +273,7 @@ La aplicación web contiene información financiera privada, por lo que no busca
 
 * App Title: Intiva - Finanzas en Familia
 * Mensaje breve propuesto para la ficha de Google Play: Registra gastos más rápido, define límites y ahorra en familia
-* Términos para redactar la ficha de Google Play: control de gastos, registro automático de gastos, categorías con IA, presupuesto, ahorro, finanzas familiares, metas de ahorro
+* Términos para redactar la ficha de Google Play: control de gastos, categorización de gastos con IA, categorías con IA, presupuesto, ahorro, finanzas familiares, metas de ahorro
 * App Category: Finanzas
 * App Description: "Intiva te ayuda a tomar el control de tu dinero. Detecta tus gastos a partir de las notificaciones de tus apps financieras y te sugiere su categoría, para que solo tengas que revisarlos y confirmarlos. Define límites de gasto y recibe alertas antes de superarlos. Crea metas de ahorro solo o con tu familia y revisa a dónde va tu dinero desde un solo lugar."
 
@@ -284,9 +284,9 @@ Para la landing page se usará una navegación jerárquica de una sola página, 
 Para la aplicación móvil se escogieron distintos patrones conocidos de Mobile UI. A continuación se explica cómo funcionará cada uno:
 
 * "Sticky" Fixed Navigation: se usará una barra de navegación inferior fija con los botones "Inicio", "Transacciones", "Metas", "Familia" y "Perfil", siempre al alcance del pulgar.
-* Content-based Navigation: al tocar un elemento del contenido se accederá a su detalle. Por ejemplo, al tocar un movimiento se verá su información completa; al tocar una meta, su progreso y aportes; al tocar un gasto detectado, la pantalla para revisarlo; y al tocar una notificación, la pantalla relacionada con ella (por ejemplo, el límite de gasto superado o el detalle de un recordatorio).
+* Content-based Navigation: al tocar un elemento del contenido se accederá a su detalle. Por ejemplo, al tocar un movimiento se verá su información completa; al tocar una meta, su progreso y aportes; al tocar una propuesta del fondo, sus condiciones y aprobaciones; y al tocar una notificación, la pantalla relacionada con ella (por ejemplo, el límite de gasto superado o el detalle de un recordatorio).
 * Floating Action Button: se usará un botón flotante "+" para la acción más frecuente de cada sección, como crear una nueva meta o un nuevo límite de gasto.
-* Vertical Navigation: se usará para que los usuarios recorran listas como el historial de movimientos, los gastos por confirmar, las metas, los integrantes del grupo y las notificaciones.
+* Vertical Navigation: se usará para que los usuarios recorran listas como el historial de movimientos, las propuestas pendientes de aprobación, las metas, los integrantes del grupo y las notificaciones.
 * Tabs: se usarán pestañas para separar información relacionada dentro de una misma sección, como metas "Personales" y "Familiares".
 * Swipe Navigation: en las pantallas de bienvenida (onboarding), el usuario avanzará deslizando hacia la izquierda.
 * Bottom Sheets: se usarán paneles inferiores para acciones rápidas sin salir de la pantalla actual, como aplicar filtros al historial o elegir otra categoría para un gasto.
@@ -294,7 +294,7 @@ Para la aplicación móvil se escogieron distintos patrones conocidos de Mobile 
     * Confirmar la eliminación de un movimiento, una meta o una categoría.
     * Avisar que se superó un límite de gasto, con la opción de ajustarlo.
     * Pedir confirmación cuando la IA no esté segura de la categoría y proponga "Otros".
-    * Confirmar que se descarta un gasto detectado, sin registrar ningún movimiento.
+    * Confirmar el rechazo de una propuesta del fondo, sin registrar ningún gasto ni modificar el saldo.
     * Aceptar o rechazar una invitación a un grupo familiar.
     * Confirmar la salida de un grupo familiar o la eliminación de un integrante.
 
@@ -412,7 +412,7 @@ Esta sección presenta los mock-ups de la aplicación móvil (Android) y de la a
 | Terciario | Cobre `#8A4900` | Acciones de edición y algunas categorías. |
 | Neutro | Gris violeta `#78767E` | Fondos, bordes, divisores y textos secundarios. |
 | Error | Rojo `#BA1A1A` | Gastos, límites superados y acción de eliminar. |
-| Estados de límite | Verde (a buen ritmo) y ámbar (cerca del límite) | Siempre acompañados de un texto. Los gastos por confirmar se muestran en tonos neutros. |
+| Estados de límite | Verde (a buen ritmo) y ámbar (cerca del límite) | Siempre acompañados de un texto. Las propuestas pendientes de aprobación se muestran en tonos neutros. |
 
 **Tipografía e iconografía.** Manrope en títulos, Inter en textos y botones, y Space Grotesk en montos, que se muestran con signo ("+" para ingresos y "−" para gastos). Los íconos son Material Symbols en la aplicación móvil y PrimeIcons en la aplicación web.
 
