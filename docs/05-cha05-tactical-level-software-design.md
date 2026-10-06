@@ -566,6 +566,9 @@ En esta capa se modelan los objetos de resumen analítico (`AnalyticsSummary`, `
 | **`GetIncomeVsExpenseTrendQuery`** | Query | Solicita la serie comparativa de ingresos versus egresos entre periodos. | `- ownerType: String`<br>`- ownerId: Long`<br>`- period: String` | `+ period(): String` | Consumido por `AnalyticsQueryService`. |
 | **`AnalyticsCachePort`** | Domain Port (Interface) | Define el contrato de acceso a la caché para recuperar o almacenar resúmenes precalculados con TTL (**AD-11**). | *(Interface)* | `+ getSummary(String key): Optional<AnalyticsSummary>`<br>`+ putSummary(String key, AnalyticsSummary summary, Duration ttl): void` | Implementado en infraestructura por `AnalyticsRedisCacheAdapter`. |
 
+| **`FinancialAdvice`** | Value Object | Orientación IA sobre gastos hormiga y metas, sin ejecutar cambios (US 034). | `period`, `observations`, `referencedMovementIds`, `limitations`, `status` | `hasSufficientData()` | No modifica Transaction ni SavingGoal. |
+| **`FinancialAssistantPort`** | Domain Port | Solicita orientación a partir de datos mínimos autorizados. | Interfaz | `analyze(authorizedSummary): FinancialAdvice` | Implementado por AiFinancialAssistantAdapter. |
+
 ### 5.8.2. Interface Layer
 
 Expone los endpoints REST consumidos exclusivamente por la aplicación web en Vue.js para renderizar los gráficos estadísticos y descargar reportes.
@@ -574,6 +577,8 @@ Expone los endpoints REST consumidos exclusivamente por la aplicación web en Vu
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **`AnalyticsController`** | REST Controller | Expone los endpoints bajo `/api/v1/analytics` para consultar el resumen general del *dashboard*, métricas de límites, progreso de metas, ranking por categorías y exportación de reportes. | `- analyticsQueryService: AnalyticsQueryService`<br>`- analyticsCommandService: AnalyticsCommandService` | `+ getSummaryByOwner(String ownerType, Long ownerId, String period): ResponseEntity<AnalyticsSummaryResource>`<br>`+ getCategoryRanking(...): ResponseEntity<List<CategoryExpenseResource>>`<br>`+ exportReport(GenerateReportResource): ResponseEntity<byte[]>` | Invoca a `AnalyticsQueryService` y `AnalyticsCommandService`. |
 | **`AnalyticsSummaryResourceFromEntityAssembler`** | Assembler | Transforma el modelo `AnalyticsSummary` en un DTO estructurado para las librerías de gráficos del frontend web. | *(Clase utilitaria estática)* | `+ toResourceFromEntity(AnalyticsSummary): AnalyticsSummaryResource` | Utilizado por `AnalyticsController`. |
+
+| **`FinancialAssistantController`** | REST Controller | Consulta orientación para el titular autenticado y período elegido. | `assistantService` | `analyze(period)` | Devuelve datos insuficientes o fallo sin inventar recomendaciones. |
 
 ### 5.8.3. Application Layer
 
@@ -585,6 +590,8 @@ Implementa la estrategia **cache-aside** sobre Redis (**AD-11**, **QAS-05**): ve
 | **`AnalyticsCommandServiceImpl`** | Command Handler | Genera los archivos de reporte exportables según el formato y filtros solicitados por el usuario. | `- analyticsQueryService: AnalyticsQueryService` | `+ handle(GenerateReportCommand): byte[]` | Implementa `AnalyticsCommandService`. |
 | **`AnalyticsExternalTransactionService`** | Data Aggregation Service | Recupera los registros de transacciones, límites de gasto y metas de ahorro del titular para el cálculo del periodo (documentado en **DT-01** como lectura directa a repositorios dentro del monolito modular). | `- transactionRepository: TransactionRepository`<br>`- spendingLimitRepository: SpendingLimitRepository`<br>`- savingGoalRepository: SavingGoalRepository` | `+ fetchTransactionsForPeriod(...): List<Transaction>`<br>`+ fetchLimitsForOwner(...): List<SpendingLimit>`<br>`+ fetchGoalsForOwner(...): List<SavingGoal>` | Lee los repositorios de persistencia en PostgreSQL. |
 
+| **`FinancialAssistantService`** | Application Service | Autoriza el acceso, construye resumen mínimo y valida referencias y respuesta IA. | `analyticsService`, `savingsFacade`, `assistantPort` | `analyze(ownerId, period)` | Entrega orientación revisable; nunca ejecuta gastos ni modifica metas. |
+
 ### 5.8.4. Infrastructure Layer
 
 Contiene el adaptador de caché conectado a **Redis Cloud** mediante TLS y el acceso de lectura a la base de datos PostgreSQL.
@@ -594,6 +601,8 @@ Contiene el adaptador de caché conectado a **Redis Cloud** mediante TLS y el ac
 | **`AnalyticsRedisCacheAdapter`** | Cache Adapter | Implementa `AnalyticsCachePort` serializando en JSON los objetos `AnalyticsSummary` dentro de Redis Cloud con un TTL definido para garantizar tiempos de respuesta menores a 2 segundos (TS 010, TS 014). | `- redisTemplate: RedisTemplate<String, String>`<br>`- objectMapper: ObjectMapper`<br>`- defaultTtlMinutes: long` | `+ getSummary(String key): Optional<AnalyticsSummary>`<br>`+ putSummary(String key, AnalyticsSummary summary, Duration ttl): void` | Implementa `AnalyticsCachePort`; se conecta a `Intiva Redis Database`. |
 | **`AnalyticsReadRepositories`** | Read Repository (JPA) | Provee las consultas de solo lectura sobre las tablas relacionales de transacciones, límites y metas en PostgreSQL. | *(Interfaces JPA de lectura)* | `+ findTransactionsByOwnerAndDateBetween(...): List<Transaction>` | Se conecta a `Intiva PostgreSQL Database`. |
 
+| **`AiFinancialAssistantAdapter`** | External Service Adapter | Integración con proveedor IA aislado; errores y timeout controlados (AD-21, TS 024). | `providerClient`, `timeout`, `responseValidator` | `analyze(authorizedSummary)` | Implementa FinancialAssistantPort; proveedor pendiente de comparación. |
+
 ### 5.8.5. Bounded Context Software Architecture Component Level Diagrams
 
 En esta sección se presenta el diagrama de componentes del contenedor **Analytics Context**, reflejando el flujo *cache-aside* con Redis y las lecturas de agregación en PostgreSQL.
@@ -602,6 +611,12 @@ En esta sección se presenta el diagrama de componentes del contenedor **Analyti
 
 **Explicación del diagrama:**
 Cuando el usuario abre el *dashboard* en la aplicación web, el API Gateway enruta la petición hacia **`Analytics REST Controllers`**, el cual invoca a **`Analytics Application Services`**. Siguiendo el patrón *cache-aside* (**AD-11**), el servicio consulta primero a **`AnalyticsRedisCacheAdapter`** para verificar si existe un resumen vigente en **`Intiva Redis Database`**. Si no está disponible o ha expirado, extrae los registros necesarios a través de **`Analytics Read Repositories`** desde **`Intiva PostgreSQL Database`**, calcula las métricas apoyándose en **`Analytics Domain Layer`**, guarda el nuevo resumen con TTL en Redis y devuelve la respuesta para renderizar los gráficos.
+
+**Extensión IA del asistente financiero (US 034)**
+
+![Componentes del asistente financiero IA](../assets/img/cap05/analytics-assistant-components-tp1.png)
+
+El diseño base de analítica se complementa con FinancialAssistantController, FinancialAssistantService y AiFinancialAssistantAdapter. La respuesta conserva período, movimientos de referencia y limitaciones, y no ejecuta cambios en las metas. FinancialAdvice es un objeto de respuesta, por lo que no requiere una tabla nueva para conservar conversaciones.
 
 ### 5.8.6. Bounded Context Software Architecture Code Level Diagrams
 
