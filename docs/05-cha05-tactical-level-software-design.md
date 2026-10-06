@@ -239,21 +239,21 @@ Las solicitudes externas llegan a **`Categories & Accounts Controllers`** a trav
 
 ## 5.4. Bounded Context: Finances
 
-Este contexto constituye el núcleo transaccional (*Core Subdomain*) de Intiva: gestiona el registro de ingresos y gastos, la evaluación de límites de presupuesto y la programación de transacciones recurrentes tanto individuales como familiares. Incorpora soporte para la captura automática de gastos mediante lectura de notificaciones (**RPA**, decisión **AD-20**), gestionando transacciones sugeridas en estado `PENDING_CONFIRMATION` que requieren confirmación explícita del usuario antes de afectar saldos o reportes (**AD-22**).
+Este contexto gestiona ingresos, gastos, límites y pagos recurrentes. Para US 032 y TS 023 incorpora propuestas de gasto del fondo familiar, separadas de los movimientos confirmados: todos los miembros deben aprobar la misma propuesta y el smart contract debe confirmar su validación antes de registrar el gasto (AD-23 a AD-25). Para US 033, el gasto personal se guarda después de revisar la categoría sugerida por IA.
 
 ### 5.4.1. Domain Layer
 
-En esta capa se modelan los tres agregados centrales (`Transaction`, `SpendingLimit` y `RecurringTransaction`), sus estados de confirmación y la colección de eventos de dominio que disparan alertas financieras.
+En esta capa se modelan Transaction, SpendingLimit, RecurringTransaction y SharedFundProposal, separando movimientos confirmados de acuerdos pendientes.
 
 | Clase / Interfaz | Categoría Táctica | Propósito | Atributos | Métodos | Relaciones |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **`Transaction`** | Aggregate Root | Representa un movimiento financiero (ingreso o gasto) individual o familiar, incluyendo transacciones sugeridas por RPA pendientes de confirmación. | `- id: Long`<br>`- financialAccountId: Long`<br>`- categoryId: Long`<br>`- amount: Money`<br>`- type: TransactionType`<br>`- status: TransactionStatus`<br>`- source: TransactionSource`<br>`- merchantName: String`<br>`- description: String`<br>`- transactionDate: LocalDateTime`<br>`- ownerType: OwnerTypes`<br>`- ownerId: Long` | `+ Transaction(RegisterTransactionCommand)`<br>`+ confirmSuggestedTransaction(): void`<br>`+ discardSuggestedTransaction(): void`<br>`+ updateAmount(Money newAmount): void`<br>`+ isFamilyTransaction(): boolean` | Extiende de `AuditableAbstractAggregate`; utiliza `Money`, `OwnerTypes`, `TransactionStatus` y emite `FamilyTransactionCreatedEvent`. |
+| **`Transaction`** | Aggregate Root | Movimiento confirmado, personal o familiar. La propuesta familiar se modela por separado. | `id`, `financialAccountId`, `categoryId`, `amount: Money`, `type`, `status`, `description`, `transactionDate`, `ownerType`, `ownerId`, `proposalId: UUID?` | `register()`, `isFamilyTransaction()` | Publica FamilyTransactionCreatedEvent tras conciliación; proposalId único si proviene del fondo. |
 | **`SpendingLimit`** | Aggregate Root | Representa un tope presupuestario configurado por periodo sobre una categoría o cuenta financiera. | `- id: Long`<br>`- targetType: SpendingLimitTargetType`<br>`- targetId: Long`<br>`- limitAmount: Money`<br>`- currentSpentAmount: Money`<br>`- warningThresholdPercent: int`<br>`- period: PeriodTypes`<br>`- status: SpendingLimitStatus`<br>`- ownerType: OwnerTypes`<br>`- ownerId: Long` | `+ evaluateExpense(Money expenseAmount): SpendingLimitStatus`<br>`+ isWarningReached(): boolean`<br>`+ isExceeded(): boolean`<br>`+ activate(): void` | Extiende de `AuditableAbstractAggregate`; emite `SpendingLimitWarningReachedEvent` y `SpendingLimitExceededEvent`. |
 | **`RecurringTransaction`** | Aggregate Root | Representa un gasto o ingreso fijo programado con fecha de vencimiento y frecuencia periódica. | `- id: Long`<br>`- financialAccountId: Long`<br>`- categoryId: Long`<br>`- amount: Money`<br>`- frequency: PeriodTypes`<br>`- nextDueDate: LocalDate`<br>`- active: boolean`<br>`- ownerType: OwnerTypes`<br>`- ownerId: Long` | `+ isDueSoon(LocalDate today): boolean`<br>`+ isExpired(LocalDate today): boolean`<br>`+ advanceNextDueDate(): void`<br>`+ activate(): void` | Extiende de `AuditableAbstractAggregate`; emite `PaymentDueSoonEvent` y `PaymentExpiredEvent`. |
-| **`TransactionStatus`** | Enumeration | Define el estado del ciclo de vida de una transacción, soportando el flujo RPA (**AD-20**). | `PENDING_CONFIRMATION`<br>`CONFIRMED`<br>`DISCARDED`<br>`FAILED_INSUFFICIENT_FUNDS` | `+ valueOf(String): TransactionStatus` | Utilizado por `Transaction` (`1`). |
+| **`TransactionStatus`** | Enumeration | Resultado del registro de un movimiento; no equivale al estado de una propuesta. | `CONFIRMED`, `FAILED_INSUFFICIENT_FUNDS` | `valueOf(String)` | Utilizado por Transaction. |
 | **`SpendingLimitTargetType`** | Enumeration | Define sobre qué elemento se aplica el límite de gasto. | `CATEGORY`<br>`FINANCIAL_ACCOUNT`<br>`PERIOD` | `+ valueOf(String): SpendingLimitTargetType` | Utilizado por `SpendingLimit` (`1`). |
-| **`RegisterTransactionCommand`** | Command | Solicita registrar una transacción manual (`CONFIRMED`) o capturada vía RPA móvil (`PENDING_CONFIRMATION`). | `- accountId: Long`<br>`- categoryId: Long`<br>`- amount: BigDecimal`<br>`- type: String`<br>`- status: String`<br>`- merchant: String`<br>`- ownerType: String`<br>`- ownerId: Long` | `+ amount(): BigDecimal`<br>`+ isRpaSuggested(): boolean` | Consumido por `TransactionCommandService`. |
-| **`ConfirmSuggestedTransactionCommand`** | Command | Ordena confirmar o descartar una transacción sugerida por RPA para que impacte (o no) en el saldo real (US 032, AD-22). | `- transactionId: Long`<br>`- confirmed: boolean`<br>`- confirmedCategoryId: Long` | `+ transactionId(): Long`<br>`+ confirmed(): boolean` | Consumido por `TransactionCommandService`. |
+| **`RegisterTransactionCommand`** | Command | Registra un movimiento personal revisado; el cliente no puede usar este comando para eludir el contrato del fondo. | `accountId`, `categoryId`, `amount`, `type`, `description`, `ownerId` | `amount()` | Consumido por TransactionCommandService. |
+
 | **`CreateSpendingLimitCommand`** | Command | Solicita configurar un nuevo límite de gasto por categoría, cuenta o periodo. | `- targetType: String`<br>`- targetId: Long`<br>`- limitAmount: BigDecimal`<br>`- period: String`<br>`- ownerType: String`<br>`- ownerId: Long` | `+ limitAmount(): BigDecimal` | Consumido por `SpendingLimitCommandService`. |
 | **`CreateRecurringTransactionCommand`** | Command | Solicita programar un ingreso o gasto recurrente con fecha de pago. | `- accountId: Long`<br>`- categoryId: Long`<br>`- amount: BigDecimal`<br>`- frequency: String`<br>`- nextDueDate: LocalDate`<br>`- ownerId: Long` | `+ nextDueDate(): LocalDate` | Consumido por `RecurringTransactionCommandService`. |
 | **`FamilyTransactionCreatedEvent`** | Domain Event | Notifica que un integrante ha registrado una transacción dentro del grupo familiar. | `- transactionId: Long`<br>`- familyId: Long`<br>`- authorUserId: Long`<br>`- amount: BigDecimal` | `+ getFamilyId(): Long` | Publicado por `Transaction`. |
@@ -261,28 +261,37 @@ En esta capa se modelan los tres agregados centrales (`Transaction`, `SpendingLi
 | **`SpendingLimitExceededEvent`** | Domain Event | Notifica que un gasto registrado ha superado el límite de presupuesto establecido (US 026). | `- spendingLimitId: Long`<br>`- ownerId: Long`<br>`- exceededAmount: BigDecimal` | `+ getExceededAmount(): BigDecimal` | Publicado por `SpendingLimit`. |
 | **`PaymentDueSoonEvent`** | Domain Event | Notifica que un pago recurrente programado está próximo a su fecha de vencimiento (US 030). | `- recurringTransactionId: Long`<br>`- ownerId: Long`<br>`- dueDate: LocalDate` | `+ getDueDate(): LocalDate` | Publicado por `RecurringTransaction`. |
 
+| **`SharedFundProposal`** | Aggregate Root | Gasto propuesto, separado del movimiento; US 032 y TS 023. | `id: UUID`, `familyId`, `amount: Money`, `recipient`, `termsHash`, `requiredMemberIds: Set<UserId>`, `status: ProposalStatus` | `approve(member, signature)`, `reject(member)`, `isUnanimous()` | Composición de ProposalApproval; instantánea de miembros y condiciones inmutables. |
+| **`ProposalApproval`** | Entity | Un voto por miembro sobre el hash de la misma propuesta. | `proposalId`, `memberId`, `decision`, `signature`, `signedAt` | `matchesTermsHash(hash)` | UNIQUE(proposalId, memberId); una firma no sustituye otras aprobaciones. |
+| **`ProposalStatus`** | Enumeration | Distingue acuerdo, envío y confirmación del contrato. | `PENDING_APPROVAL`, `READY_FOR_SUBMISSION`, `PENDING_CHAIN`, `CONFIRMED`, `REJECTED`, `ERROR` | `valueOf(String)` | El saldo no cambia antes de CONFIRMED. |
+| **`SmartContractGatewayPort`** | Domain Port | Envía aprobaciones firmadas y consulta resultado sin custodiar claves privadas. | Interfaz | `submitApprovedProposal(proposal, signatures)`, `getResult(reference)` | Implementado por SmartContractGatewayAdapter. |
+
 ### 5.4.2. Interface Layer
 
-Expone los endpoints RESTful para transacciones (manuales y sugeridas por RPA), límites de gasto y pagos recurrentes.
+Expone endpoints para movimientos confirmados, propuestas del fondo familiar, aprobaciones firmadas, límites y pagos recurrentes.
 
 | Clase | Categoría Táctica | Propósito | Atributos | Métodos | Relaciones |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **`TransactionsController`** | REST Controller | Expone `/api/v1/transactions` para registrar ingresos/gastos, recibir transacciones sugeridas en estado `PENDING_CONFIRMATION` desde el servicio RPA móvil (**AD-20**), confirmarlas y consultar el historial filtrado. | `- transactionCommandService: TransactionCommandService`<br>`- transactionQueryService: TransactionQueryService` | `+ registerTransaction(RegisterTransactionResource): ResponseEntity<TransactionResource>`<br>`+ confirmRpaTransaction(Long id, ConfirmTransactionResource): ResponseEntity<TransactionResource>`<br>`+ getTransactionsByOwner(...): ResponseEntity<List<TransactionResource>>` | Invoca a `TransactionCommandService` y `TransactionQueryService`. |
+| **`TransactionsController`** | REST Controller | Registra movimientos personales revisados y consulta historial. | `transactionCommandService`, `transactionQueryService` | `registerTransaction(resource)`, `getTransactionsByOwner(...)` | No expone un parámetro para confirmar arbitrariamente gastos del fondo. |
 | **`SpendingLimitsController`** | REST Controller | Expone `/api/v1/spending-limits` para crear, activar y consultar límites de gasto y su monto utilizado/disponible. | `- limitCommandService: SpendingLimitCommandService`<br>`- limitQueryService: SpendingLimitQueryService` | `+ createSpendingLimit(CreateSpendingLimitResource): ResponseEntity<SpendingLimitResource>`<br>`+ getLimitsByOwner(Long ownerId): ResponseEntity<List<SpendingLimitResource>>` | Invoca a `SpendingLimitCommandService` y `SpendingLimitQueryService`. |
 | **`RecurringTransactionsController`** | REST Controller | Expone `/api/v1/recurring-transactions` para configurar y listar pagos e ingresos programados. | `- recurringCommandService: RecurringTransactionCommandService`<br>`- recurringQueryService: RecurringTransactionQueryService` | `+ createRecurring(CreateRecurringResource): ResponseEntity<RecurringTransactionResource>`<br>`+ getRecurringByOwner(Long ownerId): ResponseEntity<List<RecurringTransactionResource>>` | Invoca a `RecurringTransactionCommandService` y `RecurringTransactionQueryService`. |
 
+| **`SharedFundProposalsController`** | REST Controller | Crear propuesta, aprobar/firmar, rechazar y consultar estado. | `proposalService` | `propose(resource)`, `approve(id, signedVote)`, `reject(id)`, `getStatus(id)` | Autoriza al miembro autenticado; no hay excepción administrativa. |
+
 ### 5.4.3. Application Layer
 
-Coordina el flujo transaccional: valida saldos antes de afectar cuentas, separa el manejo de transacciones RPA pendientes de confirmación, evalúa límites de gasto y ejecuta los *schedulers* de vencimientos (**AD-13**).
+Valida saldos, coordina propuestas y aprobaciones unánimes, verifica el resultado del contrato y concilia cada gasto una sola vez. Los procesos programados de vencimiento se conservan (AD-13).
 
 | Clase | Categoría Táctica | Propósito | Atributos | Métodos | Relaciones |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **`TransactionCommandServiceImpl`** | Command Handler | Si la transacción proviene de RPA (`PENDING_CONFIRMATION`), la persiste sin descontar saldo (**AD-20**, **AD-22**); si es manual o confirmada, valida saldo suficiente vía ACL, aplica el movimiento en la cuenta, reevalúa los `SpendingLimit` activos y publica los eventos correspondientes. | `- transactionRepository: TransactionRepository`<br>`- limitRepository: SpendingLimitRepository`<br>`- externalAccountService: FinancesExternalFinancialAccountService`<br>`- externalNotificationsService: FinancesExternalNotificationsService`<br>`- eventPublisher: ApplicationEventPublisher` | `+ handle(RegisterTransactionCommand): Optional<Transaction>`<br>`+ handle(ConfirmSuggestedTransactionCommand): Optional<Transaction>`<br>`+ handle(UpdateTransactionAmountCommand): Optional<Transaction>` | Implementa `TransactionCommandService`; coordina repositorios y servicios ACL. |
+| **`TransactionCommandServiceImpl`** | Command Handler | Valida permisos y saldo del movimiento personal. Para el fondo solo admite conciliación interna de un resultado confirmado del contrato. | `transactionRepository`, `limitRepository`, `externalAccountService`, `eventPublisher` | `handle(RegisterTransactionCommand)`, `applyConfirmedProposal(result)` | Actualiza saldo y publica eventos en una unidad transaccional; evita duplicación por proposalId. |
 | **`TransactionQueryServiceImpl`** | Query Handler | Ejecuta consultas de historial de transacciones (`GetTransactionsByOwnerIdQuery`, `GetLastTransactionsByOwnerIdQuery`) respetando la marca de privacidad `OwnerTypes` (**AD-03**). | `- transactionRepository: TransactionRepository` | `+ handle(GetTransactionsByOwnerIdQuery): List<Transaction>`<br>`+ handle(GetLastTransactionsByOwnerIdQuery): List<Transaction>` | Implementa `TransactionQueryService` y consume `TransactionRepository`. |
 | **`SpendingLimitCommandServiceImpl`** | Command Handler | Gestiona la creación y activación de límites de presupuesto por categoría, cuenta o periodo. | `- limitRepository: SpendingLimitRepository` | `+ handle(CreateSpendingLimitCommand): Optional<SpendingLimit>`<br>`+ handle(ActivateSpendingLimitCommand): Optional<SpendingLimit>` | Implementa `SpendingLimitCommandService`; consume `SpendingLimitRepository`. |
 | **`PaymentReminderScheduler`** | Application Scheduler | Proceso programado (**AD-13**) que inspecciona diariamente las `RecurringTransaction` activas y publica `PaymentDueSoonEvent` o `PaymentExpiredEvent`. | `- recurringRepository: RecurringTransactionRepository`<br>`- eventPublisher: ApplicationEventPublisher` | `+ checkUpcomingAndExpiredPayments(): void` | Consulta `RecurringTransactionRepository` y publica eventos de vencimiento. |
 | **`FinancesExternalFinancialAccountService`** | Outbound ACL Service | Adaptador ACL que consulta disponibilidad de saldo y solicita aplicar cargos/abonos al contexto de cuentas financieras. | `- accountFacade: FinancialAccountContextFacade` | `+ hasSufficientBalance(Long accountId, BigDecimal amount): boolean`<br>`+ registerAccountMovement(...): void` | Consume `FinancialAccountContextFacade`. |
 | **`FinancesExternalNotificationsService`** | Outbound ACL Service | Adaptador ACL que solicita el envío de alertas cuando un límite de gasto alcanza su umbral o se excede. | `- commsFacade: CommunicationsContextFacade` | `+ notifySpendingLimitAlert(Long ownerId, String alertType): void` | Consume `CommunicationsContextFacade`. |
+
+| **`SharedFundProposalService`** | Application Service | Valida miembros, hash y firmas; exige unanimidad y concilia una sola vez después de confirmación. | `proposalRepository`, `householdFacade`, `contractGateway`, `transactionService` | `propose(...)`, `approve(...)`, `reject(...)`, `reconcile(...)` | Cambiar condiciones o miembros exige nueva propuesta; fallo requiere consultar estado antes de reenviar. |
 
 ### 5.4.4. Infrastructure Layer
 
@@ -290,28 +299,31 @@ Implementa los repositorios de persistencia relacional en PostgreSQL para transa
 
 | Clase / Interfaz | Categoría Táctica | Propósito | Atributos | Métodos | Relaciones |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **`TransactionRepository`** | Repository (JPA) | Persiste y filtra entidades `Transaction` en PostgreSQL por titular (`OwnerTypes`, `ownerId`), fecha, categoría y estado de confirmación RPA. | *(Interface JPA)* | `+ findByOwnerTypeAndOwnerId(OwnerTypes, Long): List<Transaction>`<br>`+ findByOwnerIdAndStatus(Long, TransactionStatus): List<Transaction>` | Extiende `JpaRepository<Transaction, Long>`. |
+| **`TransactionRepository`** | Repository (JPA) | Persiste movimientos confirmados y evita duplicar el gasto conciliado del fondo. | Interfaz JPA | `findByOwnerTypeAndOwnerId(...)`, `existsByProposalId(UUID)` | Restricción UNIQUE sobre proposal_id cuando existe. |
 | **`SpendingLimitRepository`** | Repository (JPA) | Persiste y consulta los límites de gasto activos asociados a un titular, categoría o cuenta. | *(Interface JPA)* | `+ findByOwnerTypeAndOwnerIdAndStatus(OwnerTypes, Long, SpendingLimitStatus): List<SpendingLimit>` | Extiende `JpaRepository<SpendingLimit, Long>`. |
 | **`RecurringTransactionRepository`** | Repository (JPA) | Persiste transacciones recurrentes y permite a los *schedulers* consultar pagos próximos a vencer. | *(Interface JPA)* | `+ findByActiveTrueAndNextDueDateLessThanEqual(LocalDate): List<RecurringTransaction>` | Extiende `JpaRepository<RecurringTransaction, Long>`. |
 
+| **`SharedFundProposalRepository`** | Repository (JPA) | Persiste propuestas, votos y referencia de red fuera de blockchain. | Interfaz JPA | `findById(UUID)`, `save(proposal)` | Concurrencia con versión; índice único por propuesta y miembro. |
+| **`SmartContractGatewayAdapter`** | External Service Adapter | Verifica el contrato configurado, envía firmas y consulta confirmaciones (AD-24/25). | `rpcClient`, `contractAddress`, `networkId` | `submitApprovedProposal(...)`, `getResult(...)` | Implementa SmartContractGatewayPort; proveedor, red y confirmaciones se validarán en pruebas. |
+
 ### 5.4.5. Bounded Context Software Architecture Component Level Diagrams
 
-En esta sección se presenta el diagrama de componentes del contenedor **Finances Context**, mostrando la estructura que soporta el registro transaccional, la confirmación de capturas RPA y los procesos programados de vencimiento.
+El diagrama muestra el registro personal, la validación unánime del fondo mediante smart contracts y los recordatorios existentes.
 
-![Finances Context Component Diagram](../assets/img/cap05/5_4_Finances_Components.png)
+![Finances Context Component Diagram](../assets/img/cap05/finances-components-tp1.png)
 
 **Explicación del diagrama:**
-El componente **`Finances REST Controllers`** recibe desde el API Gateway tanto los registros manuales como las transacciones en estado `PENDING_CONFIRMATION` enviadas desde el servicio RPA de la aplicación móvil (**AD-20**). Estas solicitudes son procesadas por **`Finances Application Services`**, mientras que **`Payment & Recurring Schedulers`** ejecuta periódicamente la detección de pagos próximos a vencer o vencidos (**AD-13**). Toda la lógica de negocio, evaluación de umbrales de gasto y validación de estados recae sobre **`Finances Domain Layer`**, persistiendo finalmente las entidades en PostgreSQL a través de **`Finances Persistence Repositories`**.
+Los controladores reciben movimientos personales revisados y propuestas del fondo. Los servicios de aplicación verifican membresía mediante Household, recopilan firmas sobre la misma propuesta y consultan el contrato a través de SmartContractGatewayAdapter. Solo un resultado confirmado permite conciliar el gasto de forma idempotente; rechazo, error o aprobaciones incompletas no modifican el saldo. Los repositorios guardan los datos fuera de blockchain y los schedulers conservan los recordatorios de vencimiento.
 
 ### 5.4.6. Bounded Context Software Architecture Code Level Diagrams
 
 #### 5.4.6.1. Bounded Context Domain Layer Class Diagrams
 
-![Finances Domain Layer Class Diagram](../assets/img/cap05/5_4_Finances_ClassDiagram.png)
+![Finances Domain Layer Class Diagram](../assets/img/cap05/finances-domain-tp1.png)
 
 #### 5.4.6.2. Bounded Context Database Design Diagram
 
-![Finances Database Design Diagram](../assets/img/cap05/5_4_Finances_DbDiagram.png)
+![Finances Database Design Diagram](../assets/img/cap05/finances-database-tp1.png)
 
 ## 5.5. Bounded Context: Financial Goals (Savings)
 
