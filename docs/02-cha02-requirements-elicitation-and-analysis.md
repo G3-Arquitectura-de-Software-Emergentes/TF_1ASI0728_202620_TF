@@ -345,7 +345,7 @@ En el As-Is Scenario Map se representa el proceso real que viven los usuarios de
   <img src="https://i.imgur.com/nbWLYmS.png" alt="As-Is Scenario Map - Segmento 1">
 </p>
 
-El mapa de Carlos representa un registro manual con información dispersa y dificultades para mantener el seguimiento de gastos. El equipo interpreta esa carga de registro como una oportunidad para proponer captura asistida y un historial centralizado. Los pensamientos y emociones del mapa son una síntesis del arquetipo, no mediciones de un cambio producido por la aplicación.
+El mapa de Carlos representa un registro manual con información dispersa y dificultades para mantener el seguimiento de gastos. El equipo interpreta esa carga de registro como una oportunidad para proponer categorización y asistencia con IA, junto con un historial centralizado. Los pensamientos y emociones del mapa son una síntesis del arquetipo, no mediciones de un cambio producido por la aplicación.
 
 **Segmento 2: Responsables de la economía familiar**
 
