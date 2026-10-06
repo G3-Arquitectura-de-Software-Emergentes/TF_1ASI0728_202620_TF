@@ -301,11 +301,11 @@ Para la aplicación web se usará una barra lateral fija con las secciones "Pane
 
 ## 6.3. Landing Page UI Design
 
-La propuesta de TP1 adapta el diseño de Intiva desarrollado en Fundamentos de Arquitectura de Software a los requisitos de Arquitecturas de Software Emergentes. Se conserva la gestión financiera personal y familiar y se incorpora la captura asistida de gastos desde notificaciones, la sugerencia de categorías con inteligencia artificial y la automatización de alertas. Resolum corresponde a la startup e Intiva al producto.
+Para TP1 actualizamos el diseño de Intiva con tres funciones: captura de gastos desde notificaciones financieras, sugerencia de categorías mediante inteligencia artificial y recordatorios automatizados. Estas funciones se integran al registro de movimientos y al control de las finanzas personales y familiares.
 
 El diseño toma como fuente de requisitos el [capítulo III](03-cha03-requirements-specification.md), especialmente US 001, US 002, US 032, US 033, TS 023 y TS 024. El [reporte del ciclo anterior](https://docs.google.com/document/d/1utbegMuuFidUGZj1odoYluc3qPa8piI2bcIJNg168pM/edit) se utiliza como antecedente, mientras que los nuevos criterios de aceptación se obtienen de la rama `develop` del informe actual.
 
-Los entregables editables están en el [archivo Figma de Intiva](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2005-721). La página **TP1 · IA y automatización** contiene los wireframes y wireflows nuevos; **Page 1** conserva la base del ciclo anterior y la landing actualizada. Esta sección documenta diseño propuesto, sin atribuir a las tecnologías una implementación o una validación con usuarios que todavía no se ha realizado.
+Los diseños se encuentran en el [archivo Figma de Intiva](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2005-721). La página **TP1 · IA y automatización** contiene los wireframes y wireflows nuevos; **Page 1** conserva la base del ciclo anterior y la landing actualizada. Las pantallas muestran el comportamiento previsto para la aplicación en esta etapa de diseño.
 
 ### 6.3.1. Landing Page Wireframe
 
@@ -334,7 +334,7 @@ El wireframe organiza la comunicación de valor desde el problema hasta la acci�
 
 *Figura 6.3.1-B. Wireframe de la landing móvil. [Abrir frame editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2007-725).*
 
-Las áreas de equipo, video y planes del wireframe indican contenido que deberá completarse o validarse con el equipo. Los escenarios académicos no representan testimonios de clientes reales. La distribución de las nuevas funciones por plan no queda definida por estas pantallas.
+El wireframe reserva espacios para presentar al equipo, explicar el uso de la aplicación mediante un video y comparar los planes. Los casos de uso ilustran situaciones de las finanzas familiares. La asignación de las nuevas funciones a cada plan se definirá con las condiciones de suscripción.
 
 ### 6.3.2. Landing Page Mock-up
 
@@ -346,13 +346,13 @@ La comunicación evita presentar la captura como sincronización bancaria direct
 
 *Figura 6.3.2-A. Mock-up de la landing adaptado para TP1. [Abrir frame editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=3-2).*
 
-Los precios y nombres de integrantes conservados en el diseño previo son referencias visuales y deben conciliarse con los planes y la composición del equipo actual antes de publicar una landing funcional. El mock-up no acredita disponibilidad comercial de las nuevas funcionalidades.
+El mock-up conserva las referencias de precios y equipo de la versión anterior. Estos contenidos están pendientes de actualización para su publicación; la adaptación de TP1 se concentra en presentar las nuevas funcionalidades.
 
 ## 6.4. Applications UX/UI Design
 
 ### 6.4.1. Applications Wireframes
 
-Los doce wireframes complementan las pantallas existentes de registro, movimientos, cuentas, metas, grupo familiar y notificaciones. La ampliación se concentra en los estados nuevos que exige EP 010 y en las alertas automatizadas. Las pantallas utilizan capas editables, contenedores con disposición automática y botones como instancias reutilizables. Se mantiene Manrope para encabezados de la aplicación e Inter para el contenido.
+Los doce wireframes complementan las pantallas existentes de registro, movimientos, cuentas, metas, grupo familiar y notificaciones. La ampliación se concentra en los estados nuevos que exige EP 010 y en las alertas automatizadas. La distribución mantiene los encabezados, campos y acciones en el mismo orden para facilitar la revisión de cada movimiento. Se mantiene Manrope para encabezados de la aplicación e Inter para el contenido.
 
 | ID | Pantalla | Decisión o estado representado | Requisito |
 | --- | --- | --- | --- |
@@ -375,7 +375,7 @@ Los doce wireframes complementan las pantallas existentes de registro, movimient
 
 *Figura 6.4.1-A. WF01–WF04. [Abrir composición editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2006-594).*
 
-**IA y resultados.** La segunda composición incluye corrección, baja confianza, registro definitivo y continuidad mediante registro manual. El 92% mostrado ilustra cómo comunicar la confianza; no es una medición de precisión del modelo ni define un umbral técnico.
+**IA y resultados.** La segunda composición incluye corrección, baja confianza, registro definitivo y continuidad mediante registro manual. El valor de confianza del 92% es un dato de ejemplo para el diseño. El umbral de baja confianza y la forma de obtener ese valor deberán definirse y comprobarse durante la implementación del clasificador.
 
 ![Wireframes WF05 a WF08 de categorías y resultados](../assets/img/cap06/wireframes-ai.png)
 
@@ -387,11 +387,11 @@ Los doce wireframes complementan las pantallas existentes de registro, movimient
 
 *Figura 6.4.1-C. WF09–WF12. [Abrir composición editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2006-806).*
 
-Los montos, comercios, fuentes y fechas son datos de demostración. En el ejemplo de confirmación, S/ 1,240.00 − S/ 48.90 = S/ 1,191.10. El mismo saldo inicial permanece en los ejemplos de descarte y error. Los campos representados describen la estructura del formulario; la interacción completa, el teclado, las validaciones de entrada y los estados de carga se concretarán en los mock-ups y prototipos de aplicación a cargo del equipo.
+Los montos, comercios, fuentes y fechas son datos de demostración. En el ejemplo de confirmación, S/ 1,240.00 − S/ 48.90 = S/ 1,191.10. El mismo saldo inicial permanece en los ejemplos de descarte y error. Los wireframes definen la estructura de los formularios y sus acciones principales. Las validaciones de campos, el teclado y los estados de carga se detallarán en el diseño y prototipado de la aplicación.
 
 ### 6.4.2. Applications Wireflow Diagrams
 
-Los wireflows relacionan representaciones de pantallas con acciones y resultados. Las flechas indican la secuencia principal y las notas de cada composición especifican las ramas alternativas. Son diagramas de navegación para diseño; no constituyen un prototipo interactivo terminado.
+Los wireflows relacionan representaciones de pantallas con acciones y resultados. Las flechas indican la secuencia principal y las notas de cada composición especifican las ramas alternativas. Cada recorrido permite identificar la pantalla de origen, la acción del usuario y el estado resultante.
 
 **F01. Activación y confirmación RPA.** El usuario configura el acceso, selecciona fuentes, abre la bandeja y revisa el gasto. Confirmar registra el movimiento y actualiza el saldo. Si deniega o revoca el permiso, utiliza WF08; las notificaciones ajenas a fuentes autorizadas se descartan sin guardar contenido y los formatos no reconocidos no crean sugerencias.
 
@@ -405,7 +405,7 @@ Los wireflows relacionan representaciones de pantallas con acciones y resultados
 
 *Figura 6.4.2-B. F02. [Abrir wireflow editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2007-847).*
 
-**F03. Recordatorios y continuidad de alertas.** El usuario abre un recordatorio, consulta su detalle y vuelve a las alertas. La nota técnica relaciona esta experiencia con TS 024: Communications invoca n8n para formato, agrupación y canal; si el webhook falla, envía el aviso de respaldo directamente por Firebase Cloud Messaging, sin la agrupación del flujo. La decisión de respaldo ocurre internamente y no agrega una tarea de configuración al usuario.
+**F03. Recordatorios y continuidad de alertas.** El usuario abre un recordatorio, consulta su detalle y vuelve a las alertas. La nota técnica relaciona esta experiencia con TS 024: Communications invoca n8n para formato, agrupación y canal; si el webhook falla, envía el aviso de respaldo directamente por Firebase Cloud Messaging, sin el formateo ni la agrupación del flujo. La decisión de respaldo ocurre internamente y no agrega una tarea de configuración al usuario.
 
 ![Wireflow de recordatorios y continuidad de alertas](../assets/img/cap06/wireflow-alerts.png)
 
@@ -423,4 +423,4 @@ Los wireflows relacionan representaciones de pantallas con acciones y resultados
 | Error al guardar | WF04 → WF12 → reintentar o WF04 | Sin éxito anticipado; datos disponibles para recuperación. |
 | Recordatorio | Notificación → WF09 → WF10 → WF09 | Detalle accesible tanto con envío normal como con respaldo. |
 
-La numeración de estas secciones sigue el índice vigente del repositorio: **6.4.2** corresponde a Wireflow Diagrams, **6.4.3** a Applications Mock-ups y **6.4.4** a Applications User Flow Diagrams. Las secciones de estilo, arquitectura de información, mock-ups de aplicación y prototipado quedan bajo las responsabilidades acordadas con los otros integrantes.
+Los recorridos y sus estados sirven de base para desarrollar los mock-ups de aplicación de la sección 6.4.3 y el prototipo de la sección 6.5.
