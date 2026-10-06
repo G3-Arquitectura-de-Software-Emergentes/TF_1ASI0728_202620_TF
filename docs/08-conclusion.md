@@ -18,28 +18,28 @@ La entrega reúne el análisis del problema, los requisitos y el diseño estrat�
 
 ### Sobre el Capítulo III: Requirements Specification
 
-- El alcance incorpora US 001 a US 033 y diez épicas. US 032 establece una captura de gastos pendiente de confirmación; US 033 define aceptación, corrección y confirmación de la categoría Otros ante baja confianza.
-- TS 023 mantiene el registro manual cuando se deniega o revoca el acceso a notificaciones. TS 024 propone orquestación con n8n y un intento de envío de respaldo por FCM cuando el flujo no responde.
+- El alcance incorpora US 001 a US 034 y once épicas. US 032 exige aprobación unánime del fondo familiar, US 033 permite aceptar o corregir categorías IA y US 034 define asistencia para gastos hormiga y metas.
+- TS 023 define autorización, unanimidad y conciliación del smart contract; TS 024 restringe datos y valida respuestas del adaptador de IA. Las notificaciones habituales conservan FCM (TS 017).
 - Los criterios de aceptación permiten preparar pruebas funcionales. Describir un escenario esperado no acredita que ya haya sido implementado ni que la prueba haya pasado.
 
 ### Sobre el Capítulo IV: Strategic-Level Software Design
 
 - El capítulo IV propone un monolito modular y describe los contextos que organizan el dominio. Subscriptions se registra como contexto previsto en el diseño estratégico.
-- La captura pendiente, el clasificador y n8n son ampliaciones propuestas para TP1. La confianza de clasificación, el comportamiento ante errores y los tiempos de respuesta deberán evaluarse en la implementación.
+- La clasificación, la asistencia IA y la aprobación por contrato son propuestas de TP1. La calidad de las respuestas, la red, las firmas y la confirmación deben validarse en la implementación.
 
 ### Sobre el Capítulo VI: Solution UX Design
 
 - El capítulo contiene guías de estilo y arquitectura de información, así como la landing adaptada, sus wireframes para escritorio y móvil, doce wireframes de aplicación y tres wireflows elaborados para TP1.
-- Las pantallas representan permiso opcional, revisión del gasto, corrección de categoría, descarte y continuidad manual. La trazabilidad permite relacionar esos estados con US 030, US 032, US 033, TS 023 y TS 024.
-- Las nueve imágenes y los frames editables de Figma evidencian el diseño. Los montos y porcentajes mostrados son ejemplos; no representan precisión del modelo ni resultados de pruebas con usuarios.
+- Las pantallas representan categorización, asistencia financiera, propuestas, aprobación unánime y estados de confirmación, rechazo y error. Se relacionan con US 032, US 033, US 034, TS 023 y TS 024.
+- Las imágenes y composiciones vectoriales de Figma documentan el diseño corregido. Sus montos son ilustrativos; no representan precisión de IA ni contratos desplegados.
 
 ### Recomendaciones
 
 - Completar el diseño táctico del Capítulo V y las secciones restantes de mock-ups y prototipado. El Capítulo VII aún no contiene evidencias de implementación, pruebas, validación o despliegue de la entrega actual.
 - Conciliar la matriz de respuestas de las entrevistas, los precios y datos del equipo de la landing y las versiones del stack con sus fuentes correspondientes.
-- Actualizar los diagramas gráficos de arquitectura para incorporar el proveedor de clasificación y n8n, manteniendo la distinción entre módulos internos y unidades desplegables.
-- Probar la confirmación y el descarte sin efectos anticipados sobre el saldo, los permisos revocados, los formatos desconocidos, la baja confianza y la indisponibilidad de n8n o del proveedor de IA.
-- Definir el cálculo de confianza y contrastar las sugerencias con casos del dominio. Verificar también autorización entre grupos, ejecución de listeners y respuestas del envío de notificaciones.
+- Extender los diagramas estratégicos con los adaptadores de IA y blockchain, manteniendo la distinción entre módulos y servicios externos.
+- Probar unanimidad, rechazo, votos duplicados o no autorizados, cambios de propuesta y fallos de red, sin débitos anticipados ni duplicados.
+- Evaluar la categorización y las recomendaciones con casos del dominio, sin presentar confianza como precisión medida. Verificar continuidad manual e información mínima autorizada.
 - Validar la facilidad de uso con personas de ambos segmentos antes de concluir que el producto reduce el esfuerzo de registro o mejora la coordinación familiar.
 
 ## Video About-the-Team
