@@ -449,6 +449,8 @@ Esta sección presenta los mock-ups de la aplicación móvil (Android) y de la a
 
 *Figura 6.4.3-E · Mock-ups de smart contracts. [Abrir diseño en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2051-3690).*
 
+Las pantallas de los tres flujos, junto con la pantalla de inicio con el agente (HOME) y la lista de movimientos (MOV), se agrupan en la sección *6.4.2 · Mock-ups* de la página **Prototipo** del archivo de Figma. Esa agrupación es la base de los User Flows de [6.4.4](#644-applications-user-flow-diagrams) y del prototipo de [6.5](#65-applications-prototyping). [Abrir sección de mock-ups en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2082-763).
+
 **Mock-ups de la aplicación web**
 
 **Panel.** Ubica los indicadores principales (balance total, ingresos, gastos y ahorro del mes) en la parte superior y los gráficos de detalle debajo, con la barra lateral fija y el filtro de período (1 mes, 6 meses o 1 año). Los gráficos usan índigo y lima como colores de sus series.
