@@ -588,4 +588,74 @@ UF06 es una meta web y no deriva de F01, F02 ni F03.
 
 
 *Figura 6.4.4-F. User Flow UF06. [Abrir diagrama editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2045-2348).*
-Las composiciones TP1 se importaron como elementos vectoriales y textos editables. Las imágenes del informe son exportaciones PNG de los mismos frames. La interacción del prototipo y las pruebas con usuarios se validarán en la siguiente etapa; los diagramas no acreditan conexiones de prototipo implementadas.
+Las composiciones TP1 se importaron como elementos vectoriales y textos editables. Las imágenes del informe son exportaciones PNG de los mismos frames. La interacción de estos recorridos se simula en el prototipo de [6.5](#65-applications-prototyping); las pruebas con usuarios se validarán en la siguiente etapa.
+
+## 6.5. Applications Prototyping
+
+Esta sección presenta el prototipo de interfaz de la aplicación móvil Android de Intiva. Se construyó en Figma, en la página **Prototipo** del mismo archivo de los wireframes, wireflows, mock-ups y User Flows, y simula la interacción y la navegación de los tres recorridos definidos en [6.4.4](#644-applications-user-flow-diagrams). Las pantallas del prototipo son las mismas de [6.4.3](#643-applications-mock-ups), por lo que el prototipo es consistente con el Design System de [6.1](#61-style-guidelines). El alcance del prototipo es la aplicación móvil; la aplicación web y la landing page se representan en los wireframes y mock-ups, y no tienen prototipo interactivo en esta entrega.
+
+- **Prototipo interactivo en Figma:** [Abrir prototipo](https://www.figma.com/proto/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2082-3297&page-id=2045%3A2348&starting-point-node-id=2082%3A3152&scaling=min-zoom&content-scaling=fixed)
+- **Diseño editable (sección 6.5 · Prototipo interactivo):** [Abrir en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2082-3151)
+- **Video de demostración (Microsoft Stream):** [Pendiente](#65-applications-prototyping)
+
+### 6.5.1. Criterios de interacción
+
+Las decisiones de interacción del prototipo se derivan de la arquitectura de información de [6.2](#62-information-architecture):
+
+- **Sistema de navegación.** La barra de navegación inferior fija ("Inicio", "Movimientos", "Agente", "Familia" y "Perfil") es el patrón *Sticky Fixed Navigation* de [6.2.5](#625-navigation-systems). En el prototipo, las pestañas "Agente" y "Familia" son el punto de entrada de los flujos 2 y 3.
+- **Navegación por contenido y botón de retorno.** Al tocar una acción de la pantalla se avanza a la siguiente (Content-based Navigation), y la flecha de la barra superior y los botones "Volver a editar", "Volver al asistente" y "Volver al fondo" permiten regresar sin perder los datos ingresados.
+- **Acción principal en la parte inferior.** Cada pantalla tiene un botón principal lima de ancho completo y, debajo, una acción secundaria con borde. Esto sigue el principio de [6.1.2](#612-web-mobile--devices-style-guidelines) de alcanzar la acción con el pulgar y mantiene un único camino claro por pantalla.
+- **El usuario decide.** La IA solo sugiere: "Aceptar categoría" y "Cambiar categoría" siempre aparecen juntos, y el saldo se actualiza únicamente tras el guardado confirmado. En el fondo familiar, el saldo cambia solo cuando todos aprueban y la red confirma.
+- **Rutas alternativas visibles.** El prototipo incluye los *unhappy paths*: IA no disponible (WF08), cambio de categoría (WF03), propuesta rechazada (WF12c) y error de red (WF12d).
+
+### 6.5.2. Estructura del prototipo
+
+El prototipo contiene cinco puntos de partida, que se pueden elegir en el panel **Flows** del reproductor de Figma:
+
+| Punto de partida en Figma | Recorrido que simula |
+| --- | --- |
+| IA agéntica · App completa · Inicio | Recorrido completo de la aplicación; abre en WF01 Registrar gasto. |
+| IA agéntica · Flujo 1 · Registrar gasto | Registro y categorización con IA: WF01 → WF02 → WF04 → WF04b (con WF03 y WF08 como alternas). |
+| IA agéntica · Flujo 2 · Asistente financiero | Pestaña "Agente": WF05 → WF06 → WF07 y movimientos. |
+| IA agéntica · Flujo 3 · Fondo familiar | Pestaña "Familia": WF09 → WF10 → WF11 → WF12a → WF12b (con WF12c y WF12d como alternas). |
+| IA agéntica · Alterno · IA no disponible | Caso en que la IA no responde: WF08 y continuación manual. |
+
+La siguiente imagen reúne todas las pantallas que forman parte del prototipo, ordenadas por flujo. Las conexiones entre ellas (toque de un botón o de una pestaña) son las que muestran los User Flows de [6.4.4](#644-applications-user-flow-diagrams).
+
+![Figura 6.5-A · Pantallas del prototipo por flujo](../assets/img/cap06/prototype-overview.png)
+
+*Figura 6.5-A · Pantallas del prototipo por flujo. [Abrir diseño en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2082-3151).*
+
+### 6.5.3. Recorrido de demostración
+
+Las siguientes capturas se tomaron al ejecutar el prototipo en el reproductor de Figma y corresponden a la ruta esperada de cada flujo. Las cifras son ilustrativas.
+
+**Captura del reproductor.** El reproductor muestra a la izquierda la lista de flujos disponibles y, a la derecha, la pantalla WF01 en tamaño móvil.
+
+![Figura 6.5-B · Reproductor del prototipo](../assets/img/cap06/prototype-player.png)
+
+*Figura 6.5-B · Reproductor del prototipo de Intiva con el panel de flujos. [Abrir prototipo](https://www.figma.com/proto/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2082-3297&page-id=2045%3A2348&starting-point-node-id=2082%3A3152&scaling=min-zoom&content-scaling=fixed).*
+
+**Flujo 1 · Registro y categorización con IA.** El usuario ingresa el monto y la descripción (WF01), pide una sugerencia (WF02), revisa el resumen del gasto y el saldo resultante (WF04) y guarda (WF04b).
+
+![Figura 6.5-C · Flujo 1 en el prototipo: WF01, WF02, WF04 y WF04b](../assets/img/cap06/prototype-flow1-screens.png)
+
+*Figura 6.5-C · Flujo 1 en el prototipo (de izquierda a derecha: WF01, WF02, WF04 y WF04b). Fuente: capturas del prototipo en Figma.*
+
+**Flujo 2 · Asistente financiero.** Desde la pantalla de inicio, el usuario abre la pestaña "Agente" (WF05), analiza sus gastos hormiga (WF06) y consulta el avance de su meta (WF07).
+
+![Figura 6.5-D · Flujo 2 en el prototipo: HOME, WF05, WF06 y WF07](../assets/img/cap06/prototype-flow2-screens.png)
+
+*Figura 6.5-D · Flujo 2 en el prototipo (de izquierda a derecha: HOME, WF05, WF06 y WF07). Fuente: capturas del prototipo en Figma.*
+
+**Flujo 3 · Fondo familiar con aprobación unánime.** Desde la pestaña "Familia" (WF09), el usuario propone un gasto (WF10), revisa las aprobaciones y firma (WF11). Con 3 de 3 aprobaciones, el prototipo muestra la espera de la red (WF12a) y, al confirmarse, el gasto validado (WF12b).
+
+![Figura 6.5-E · Flujo 3 en el prototipo: WF09, WF10, WF11, WF12a y WF12b](../assets/img/cap06/prototype-flow3-screens.png)
+
+*Figura 6.5-E · Flujo 3 en el prototipo (de izquierda a derecha: WF09, WF10, WF11, WF12a y WF12b). Fuente: capturas del prototipo en Figma.*
+
+### 6.5.4. Video del prototipo
+
+El video demuestra y explica los principales flujos de interacción que cubre el prototipo: el registro de un gasto con categoría sugerida por IA, la consulta al asistente financiero y la aprobación de un gasto del fondo familiar. La captura de la Figura 6.5-B corresponde a la vista del reproductor con la que inicia la demostración.
+
+- **Enlace al video (Microsoft Stream):** [Pendiente](#654-video-del-prototipo)
