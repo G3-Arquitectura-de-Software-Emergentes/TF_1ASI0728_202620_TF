@@ -487,6 +487,48 @@ Cada diagrama incluye la ruta esperada (**happy path**, línea continua en el di
 
 Los diagramas F01, F02 y F03 de la sección 6.4.2 muestran las pantallas de estos recorridos. Los recorridos vigentes se basan en categorización IA, asistencia financiera y aprobación unánime.
 
+**Diagramas User Flow en Figma**
+
+Los siguientes diagramas incluyen los mock-ups de cada pantalla (HOME, WF01 a WF12 y MOV), las acciones que conectan una pantalla con otra y las rutas alternativas. Todos parten de la pantalla de inicio de la aplicación, que es el punto de entrada real del usuario. Se encuentran en la página **Prototipo** del archivo de Figma, en la sección *6.4.3 · User Flow Diagrams*.
+
+**User Flow 1 · Registro y categorización con IA (UF01, US 033)**
+
+- **User goal:** "Quiero registrar un gasto sin tener que elegir la categoría a mano, pero sin perder el control de lo que se guarda."
+- **Persona:** usuario individual de Intiva, que lleva sus gastos del día a día desde el celular.
+- **Happy path (línea continua):** HOME → toca «+ Gasto» → WF01 Registrar gasto → «Sugerir categoría con IA» → WF02 Categoría sugerida → «Aceptar categoría» → WF04 Revisar y guardar → «Guardar gasto» → WF04b Gasto guardado → «Ver movimientos» → MOV Movimientos. El saldo cambia de S/ 1,240.00 a S/ 1,191.10 solo después de guardar.
+- **Unhappy paths:** desde WF01, si la IA no está disponible (TS 024) se muestra WF08 Ayuda no disponible, que conserva los datos del formulario y permite elegir la categoría manualmente (WF03). Desde WF02, «Cambiar categoría» abre WF03 Elegir categoría, y al «Aplicar selección» se vuelve a WF04 para revisar antes de guardar.
+- **Condiciones:** la sugerencia nunca guarda por sí sola; el usuario siempre revisa y confirma. Un fallo al guardar mantiene los datos y el saldo anterior.
+
+![Figura 6.4.4-A · User Flow 1 · Registro y categorización con IA](../assets/img/cap06/userflow-uf1-categoria-ia.png)
+
+*Figura 6.4.4-A · User Flow 1 · Registro y categorización con IA. [Abrir diagrama en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2082-1831).*
+
+**User Flow 2 · Asistente financiero (UF02 y UF03, US 034)**
+
+- **User goal:** "Quiero saber dónde se me va el dinero en gastos pequeños y cuánto me falta para mi meta de ahorro, sin que nada cambie solo."
+- **Persona:** usuario individual que quiere reducir gastos hormiga y cumplir una meta de ahorro.
+- **Happy path:** HOME → pestaña «Agente» → WF05 Asistente financiero (período y datos autorizados) → «Analizar mis gastos» → WF06 Gastos hormiga (8 compras de S/ 10.00 = S/ 80.00) → «Consultar meta de ahorro» → WF07 Plan para mi meta (S/ 300.00 ahorrados, faltan S/ 200.00) → «Volver al asistente» → WF05.
+- **Rutas alternativas:** desde WF06, «Ver movimientos» lleva a MOV para verificar los movimientos en los que se basa el análisis. Si no hay datos suficientes o la IA no responde, se muestra WF08 con la opción de continuar manualmente o reintentar.
+- **Condiciones:** el asistente solo orienta. Revisar una sugerencia no modifica el presupuesto ni ejecuta una transacción, y los montos son ilustrativos.
+
+![Figura 6.4.4-B · User Flow 2 · Asistente financiero](../assets/img/cap06/userflow-uf2-asistente.png)
+
+*Figura 6.4.4-B · User Flow 2 · Asistente financiero. [Abrir diagrama en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2082-2301).*
+
+**User Flow 3 · Fondo familiar con aprobación unánime (UF04 y UF05, US 032 y TS 023)**
+
+- **User goal:** "Quiero proponer un gasto compartido y que solo se registre cuando todos los miembros del fondo estén de acuerdo."
+- **Personas:** Carlos, María y Ana, integrantes del fondo familiar "Hogar".
+- **Happy path:** HOME → pestaña «Familia» → WF09 Fondo familiar → «Proponer gasto» → WF10 Proponer gasto → «Enviar propuesta» → WF11 Revisar aprobaciones (2 de 3) → «Aprobar y firmar» → WF12a Esperando red (3 de 3 aprobaciones, el saldo no cambia) → «La red confirma» → WF12b Gasto validado. Solo en este último paso el saldo del fondo pasa de S/ 1,240.00 a S/ 1,191.10.
+- **Unhappy paths:** desde WF11, «Rechazar propuesta» lleva a WF12c Propuesta rechazada, sin cambio de saldo. Desde WF12a, un error de red (TS 023) lleva a WF12d No se pudo confirmar, donde el usuario consulta el estado antes de reintentar para no duplicar el gasto.
+- **Condiciones:** crear la propuesta no modifica el saldo; con una aprobación pendiente la propuesta sigue abierta, y si cambian las condiciones se exige una propuesta nueva.
+
+![Figura 6.4.4-C · User Flow 3 · Fondo familiar](../assets/img/cap06/userflow-uf3-fondo-familiar.png)
+
+*Figura 6.4.4-C · User Flow 3 · Fondo familiar con aprobación unánime. [Abrir diagrama en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2082-2681).*
+
+Los tres User Flows son consistentes con los wireflows F01, F02 y F03 de [6.4.2](#642-applications-wireflow-diagrams): mantienen los mismos códigos de pantalla, y los mismos estados y mensajes, y añaden la pantalla de inicio como punto de partida.
+
 
 **Diagramas de decisión de los recorridos vigentes**
 
