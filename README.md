@@ -1597,7 +1597,7 @@ Los mock-ups de [6.4.3](#643-applications-mock-ups) muestran el nuevo flujo. La 
 
 ## 7.3. Validation Interviews
 
-La validación busca comprobar si los dos segmentos entienden la propuesta de Intiva en la landing y pueden usar la aplicación para registrar un gasto, revisar una recomendación y preparar un plan mensual. Se proponen **seis entrevistas: tres por segmento**, el mínimo del enunciado. Se usará la versión disponible y se indicará si se prueba una aplicación desplegada o un prototipo.
+La validación busca comprobar si los dos segmentos entienden la propuesta de Intiva en la landing y pueden usar la aplicación para registrar un gasto, revisar una recomendación y preparar un plan mensual. Esta ronda incluye **dos entrevistas: una por segmento**. Se usará la versión disponible y se indicará si se prueba una aplicación desplegada o un prototipo.
 
 ### 7.3.1. Diseño de Entrevistas
 
