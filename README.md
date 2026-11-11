@@ -1622,6 +1622,80 @@ La validación busca comprobar si los dos segmentos entienden la propuesta de In
 
 **Registro por tarea:** ✓ sin ayuda · ~ con ayuda · ✗ no completada · N/E no evaluable en la versión probada. Anotar primer clic, duda, ayuda, resultado y minuto. No guiar de entrada; si la persona se atasca, preguntar «¿Qué esperarías encontrar aquí?» y registrar la ayuda si la recibe.
 
+### 7.3.2. Registro de Entrevistas
+
+El registro se organiza por segmento. Los nombres y datos de las fichas corresponden a los perfiles del guion; se actualizarán con los datos autorizados de quienes participen. Al finalizar la sesión, se incorporarán la captura, el enlace de OneDrive, el minuto de inicio y la duración.
+
+#### Segmento 1: Integrantes de familias con problemas de gestión financiera
+
+**Entrevista S1-01 — Mateo Rivas**
+
+| Evidencia | Datos de la entrevista |
+| --- | --- |
+| **Captura:** | **Nombres y apellidos:** Mateo Rivas |
+| **Video (OneDrive):** | **Edad:** 20 años |
+| **Inicio:** | **Distrito:** Villa María del Triunfo |
+| **Duración:** | **Fecha:** |
+| | **Tarea:** Registro de compra |
+| | **Resumen:** La sesión revisará si la persona entiende que Intiva sirve para registrar y consultar sus gastos. Se mostrará una compra de supermercado de S/ 48.90 para comprobar si distingue la sugerencia «Alimentación» del guardado del movimiento. Se le preguntará si los mensajes «Gasto sin guardar» y «Gasto registrado» le ayudarían a reconocer ambos estados. |
+
+**Entrevista S1-02 — Valeria Ponce**
+
+| Evidencia | Datos de la entrevista |
+| --- | --- |
+| **Captura:** | **Nombres y apellidos:** Valeria Ponce |
+| **Video (OneDrive):** | **Edad:** 21 años |
+| **Inicio:** | **Distrito:** San Juan de Miraflores |
+| **Duración:** | **Fecha:** |
+| | **Tarea:** Corrección de categoría |
+| | **Resumen:** La sesión se centrará en la corrección de una categoría sugerida. Con una compra de comida clasificada como «Otros», se observará si la persona toca primero la categoría o encuentra «Cambiar categoría». Se le preguntará dónde esperaría ver el control y si tendría sentido colocarlo junto a la sugerencia. |
+
+**Entrevista S1-03 — Nicolás Vega**
+
+| Evidencia | Datos de la entrevista |
+| --- | --- |
+| **Captura:** | **Nombres y apellidos:** Nicolás Vega |
+| **Video (OneDrive):** | **Edad:** 19 años |
+| **Inicio:** | **Distrito:** Villa El Salvador |
+| **Duración:** | **Fecha:** |
+| | **Tarea:** Gastos hormiga y proyección |
+| | **Resumen:** La sesión mostrará ocho compras de S/ 10, que en conjunto suman S/ 80, y una proyección de S/ 580 para Comida. Se comprobará si la persona diferencia lo ya gastado de lo previsto para el próximo mes. Se le pedirá que proponga cómo rotular ambos montos para distinguirlos. |
+
+#### Segmento 2: Responsables de la economía familiar
+
+**Entrevista S2-01 — Ricardo Medina**
+
+| Evidencia | Datos de la entrevista |
+| --- | --- |
+| **Captura:** | **Nombres y apellidos:** Ricardo Medina |
+| **Video (OneDrive):** | **Edad:** 34 años |
+| **Inicio:** | **Distrito:** Chorrillos |
+| **Duración:** | **Fecha:** |
+| | **Tarea:** Presupuesto familiar |
+| | **Resumen:** La sesión mostrará un límite de S/ 500 y una proyección de S/ 580 para Comida. Se comprobará si la persona identifica la diferencia de S/ 80 y qué revisaría antes de ajustar el presupuesto. Se le preguntará si necesita consultar los meses y las compras que explican el estimado. |
+
+**Entrevista S2-02 — Lucas Salazar**
+
+| Evidencia | Datos de la entrevista |
+| --- | --- |
+| **Captura:** | **Nombres y apellidos:** Lucas Salazar |
+| **Video (OneDrive):** | **Edad:** 31 años |
+| **Inicio:** | **Distrito:** Santiago de Surco |
+| **Duración:** | **Fecha:** |
+| | **Tarea:** Aporte previsto y aprobación |
+| | **Resumen:** La sesión mostrará un aporte previsto de S/ 100 y planteará ajustarlo a S/ 80. Se observará qué información necesita la persona antes de aprobar y si distingue un monto previsto de un débito. Se le pedirá que sugiera un mensaje para aclarar qué pasará con su saldo. |
+
+**Entrevista S2-03 — Javier Torres**
+
+| Evidencia | Datos de la entrevista |
+| --- | --- |
+| **Captura:** | **Nombres y apellidos:** Javier Torres |
+| **Video (OneDrive):** | **Edad:** 39 años |
+| **Inicio:** | **Distrito:** San Juan de Lurigancho |
+| **Duración:** | **Fecha:** |
+| | **Tarea:** Recordatorios y estado del plan |
+| | **Resumen:** La sesión revisará un recordatorio para un pago del día 15. Se preguntará cómo distingue la persona «Aplicando» de «Plan activo» y qué información necesitaría si aparece un error. Se comprobará si puede identificar qué acciones se aplicaron y cuáles debe volver a intentar. |
+
 <div style="page-break-after: always;"></div>
 
 # Conclusiones
