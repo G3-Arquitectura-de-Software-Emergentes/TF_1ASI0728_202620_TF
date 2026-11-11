@@ -69,7 +69,7 @@ En esta sección identificamos y priorizamos los principales drivers que deben g
 | D-11 | Metas de ahorro personales y compartidas | Registrar, modificar y hacer seguimiento de metas con aportes individuales y grupales. | Medium | Medium |
 | D-12 | Disponibilidad del servicio | Mantener la plataforma accesible con un uptime mensual no menor al 95% sobre infraestructura en planes gratuitos. | Medium | Low |
 | D-13 | Categorización y asistencia financiera con IA | Sugerir categorías, identificar gastos hormiga y orientar metas, manteniendo la confirmación del usuario. | High | High |
-| D-14 | Aprobación unánime del fondo familiar | Validar un gasto compartido únicamente cuando todos los miembros aprueban mediante smart contract. | High | High |
+| D-14 | Plan mensual bajo control del usuario | Proyectar gastos y aplicar solo la versión editada y aprobada por su titular. | High | High |
 
 Los drivers clasificados como (High, High) —D-02 y D-03— son los que se abordan en la primera iteración del proceso de diseño, ya que constituyen simultáneamente el principal diferenciador del producto y el mayor desafío técnico de la arquitectura, al requerir un modelo de permisos y visibilidad granular dentro de un contexto compartido.
 ### 4.1.4. Architectural Design Decisions
@@ -221,25 +221,17 @@ La cuarta iteración definió la parte externa del sistema. Faltaba decidir cóm
 | AD-21 | Encapsular clasificación y asistencia en un adaptador que valida respuestas y restringe los datos enviados. | Aísla el proveedor y evita exponer información de otros grupos. |
 | AD-22 | Exigir aceptación o corrección de categorías antes de guardar. Ante fallo, permitir elección manual. | Una sugerencia no modifica saldos ni constituye una decisión del usuario. |
 
-#### Iteración 6: fondos compartidos con smart contracts
+#### Iteración 6: planificación financiera con IA agéntica
 
-**Driver considerado:** D-14. Groups mantiene las identidades y pertenencia; Finances coordina la propuesta y su reflejo contable. Un adaptador de blockchain conecta la aplicación con un contrato que aplica aprobación unánime.
+**Driver considerado:** D-14. Analytics coordina la planificación y consulta datos autorizados de Finances y Savings. La proyección usa cálculos reproducibles por categoría; la IA explica el riesgo y propone acciones. Para la demo se propone evaluar Gemini mediante Spring AI, con datos sintéticos.
 
-| Alternativa | Ventaja | Limitación |
+| Decisión | Diseño | Justificación |
 | --- | --- | --- |
-| Aprobación solo en base de datos | Menor complejidad operativa. | La regla depende por completo del backend. |
-| Smart contract con unanimidad | La regla de aprobación se verifica en el contrato y deja trazabilidad de estados. | Introduce firmas, costos de red, latencia y conciliación con la base de datos. |
-| Smart contract con mayoría | Menos bloqueos por miembros ausentes. | No satisface que todos los miembros aprueben. |
+| AD-23 | Crear un borrador versionado y editable; validar titular y versión al aprobar. | Un borrador no cambia límites, metas ni avisos. |
+| AD-24 | Aplicar mediante interfaces de Finances, Savings y Communications, con claves idempotentes y estado por acción. | Reintentar solo lo pendiente; activar el plan al confirmar todas las acciones requeridas. |
+| AD-25 | Generar el borrador al cierre de mes como ampliación y evaluar el gasto registrado con reglas; enviar push deduplicado al cruzar un umbral. | El seguimiento no necesita invocar el modelo en cada movimiento y no aplica ajustes sin aprobación. |
 
-| ID | Decisión | Fundamento |
-| --- | --- | --- |
-| AD-23 | Fijar los miembros aprobadores al crear cada propuesta y exigir N aprobaciones válidas de N miembros. Cambiar importe, destinatario o miembros requiere nueva propuesta. | Cumple US 032 sin reutilizar aprobaciones sobre condiciones distintas. |
-| AD-24 | Reflejar el gasto una sola vez después de verificar el resultado confirmado del contrato; preservar estados pendiente, rechazado y error. | Evita debitar ante un envío sin confirmar o duplicar movimientos por reintentos. |
-| AD-25 | Mantener datos personales y descripciones fuera de cadena, y firmas bajo control del miembro. | Limita la exposición de información financiera y credenciales. |
-
-TP1 documenta el diseño, sin acreditar un contrato desplegado ni custodia de dinero real. La red, el mecanismo de firma, los costos y el criterio de confirmación quedan como decisiones de implementación. El importe en soles se representa para el registro financiero y no implica conversión a un token. Las notificaciones habituales siguen en Communications mediante FCM (TS 017).
-
-La propuesta de aprobación múltiple se apoya en la [introducción a smart contracts de Ethereum](https://ethereum.org/developers/docs/smart-contracts/) y la [documentación de multisig de OpenZeppelin](https://docs.openzeppelin.com/contracts/5.x/multisig). La regla específica de unanimidad corresponde al requisito del equipo.
+En el diseño actual estas interfaces separan módulos. Si el equipo migra a microservicios, se exponen mediante APIs autenticadas. Un aporte previsto es parte del plan, no una transferencia.
 
 #### Deuda de diseño asumida
 
@@ -250,7 +242,7 @@ El proceso dejó algunas decisiones que no son las ideales, pero que decidimos m
 | DT-01 | El contexto Analytics accede de forma directa a los repositorios de Finances y de Savings, sin mediar la interfaz publicada por esos contextos. | Combinación de AD-05, que habilita técnicamente el acceso al compartirse la base de datos, con la presión de plazo de C-10. | Debe resolverse mediante un modelo de lectura propio de Analytics, alimentado por eventos, antes de intentar cualquier extracción de contextos como servicios independientes. |
 | DT-02 | El contexto Profiles escucha un evento definido dentro del paquete de dominio de IAM, en lugar de un evento de integración declarado como lenguaje publicado. | AD-07 no fijó una convención explícita sobre qué eventos son públicos y cuáles internos. | Extraer el evento de integración hacia el kernel compartido cuando se formalice el catálogo de eventos públicos del sistema. |
 | DT-03 | La IA puede producir sugerencias incorrectas o no estar disponible. | AD-21 y AD-22. | Evaluar respuestas con casos de gastos y metas; mantener elección manual y no presentar precisión sin medición. |
-| DT-04 | La red blockchain puede demorar o fallar y debe conciliarse con la persistencia contable. | AD-23 y AD-24. | Definir red, firmas, confirmaciones y pruebas de reintentos, unanimidad, rechazo y ejecución única antes de desplegar. |
+| DT-04 | Aplicación parcial entre módulos o servicios. | AD-23 a AD-25. | Probar edición concurrente, fallos parciales y reintentos sin duplicados. |
 
 
 ### 4.1.5. Quality Attribute Scenario Refinements
@@ -1025,6 +1017,20 @@ A continuación, se detallan las responsabilidades y tecnologías de cada conten
 | **PostgreSQL Database** | PostgreSQL | Base de datos relacional principal donde se almacena en tablas toda la información del sistema. |
 | **Cache Server Database** | Redis | Base de datos clave-valor en memoria que almacena métricas para agilizar la carga de los gráficos estadísticos. |
 
+**Integración del plan financiero (US 032 y TS 023).**
+
+```mermaid
+flowchart LR
+ U[Usuario] --> A[Analytics e IA]
+ A --> P[Proyección y borrador versionado]
+ P --> R[Revisión y aprobación del titular]
+ R --> O[Aplicación idempotente del plan]
+ O --> F[Finances: límites]
+ O --> S[Savings: aportes previstos]
+ O --> C[Communications: recordatorios]
+ F -. Seguimiento posterior .-> C
+```
+
 ### 4.3.3. Software Architecture Deployment Diagrams
 
 En esta sección se presenta y explica el Deployment Diagram, el cual ilustra cómo los contenedores de software descritos anteriormente se mapean a la infraestructura física y de nube para su ejecución en entornos de producción.
@@ -1035,4 +1041,3 @@ En esta sección se presenta y explica el Deployment Diagram, el cual ilustra c�
 El despliegue de la arquitectura se basa en un enfoque de alta disponibilidad en la nube. Por el lado del cliente, la aplicación móvil de Kotlin se ejecuta en los dispositivos Android de los usuarios (versión 8.0 o superior), mientras que las aplicaciones web (Vue.js) y el sitio estático (Astro.js) se renderizan en los navegadores web de los clientes.
 
 En el backend, el núcleo del sistema se aloja en **Microsoft Azure**. Las peticiones entrantes son recibidas por un servidor NGINX que actúa como proxy inverso y API Gateway, protegiendo los puertos internos y enrutando el tráfico hacia el monolito modular desarrollado en Spring Boot. Para la persistencia de datos, el sistema se conecta a una instancia gestionada de **PostgreSQL**, mientras que el almacenamiento en caché para optimizar las analíticas y la gestión de tokens se delega a un clúster manejado por **Redis Cloud**, garantizando seguridad y baja latencia a través de conexiones cifradas TLS.
-

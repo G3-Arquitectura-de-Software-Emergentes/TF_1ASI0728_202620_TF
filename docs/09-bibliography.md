@@ -29,7 +29,3 @@ Plum. (s. f.). *Money for life*. [Sitio oficial](https://withplum.com/).
 Spring. (s. f.). *Additional capabilities of the ApplicationContext*. Spring Framework Reference. [Documentación oficial](https://docs.spring.io/spring-framework/reference/core/beans/context-introduction.html).
 
 Prisma. (s. f.). *Prisma Postgres*. [Documentación oficial](https://www.prisma.io/docs/postgres).
-
-Ethereum. (s. f.). *Introduction to smart contracts*. [Documentación oficial](https://ethereum.org/developers/docs/smart-contracts/).
-
-OpenZeppelin. (s. f.). *Multisig Account*. [Documentación oficial](https://docs.openzeppelin.com/contracts/5.x/multisig).
