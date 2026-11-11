@@ -22,6 +22,6 @@ Para la identificación de necesidades de los usuarios, se entrevistó a una peq
 
 ## Anexo B: Diseños de Intiva en Figma — TP1
 
-El archivo reúne la landing page, los wireframes, los mock-ups y los flujos de usuario de Intiva. La página TP1 presenta los diseños de categorización y asistencia financiera con IA y de aprobación unánime del fondo familiar mediante smart contracts, documentados en el Capítulo VI.
+El archivo reúne la landing page, los wireframes, los mock-ups y los flujos de usuario de Intiva. La página Prototipo presenta los diseños de categorización y asistencia financiera con IA y de planificación financiera mensual con IA, documentados en el Capítulo VI.
 
 [Abrir los diseños TP1 de Intiva en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2045-2348).

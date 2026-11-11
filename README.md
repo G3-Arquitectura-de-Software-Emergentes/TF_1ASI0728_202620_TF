@@ -50,14 +50,15 @@ Producto
 | Versión | Fecha | Autor | Descripción de modificación |
 | ------- | ----- | ----- | ---------------------------- |
 | TB1 | 16/09/2026 | Loli Ramirez, Camila Cristina<br>Meza Solórzano,Didier Sebastián<br>Solis Solis, Leonardo José<br>Rivera Ticllacuri, Omar Harold | Revisión de los capítulos I, II, III y finalización del capítulo IV |
-| TP1 | 05/10/2026 | Meza Solórzano, Didier Sebastián | Desarrollo de las secciones 6.3, 6.3.1, 6.3.2, 6.4.1 y 6.4.2: actualización de la landing de Intiva para IA y smart contracts, wireframes para escritorio y móvil, doce wireframes de aplicación y tres wireflows. Incorporación de nueve imágenes de evidencia y enlaces a Figma; revisión de la trazabilidad con las historias de usuario y técnicas; corrección de los enlaces de entrevistas y registro del aporte individual en Student Outcome. |
+| TP1 | 05/10/2026 | Meza Solórzano, Didier Sebastián | Desarrollo de las secciones 6.3, 6.3.1, 6.3.2, 6.4.1 y 6.4.2: primera actualización de la landing de Intiva, wireframes para escritorio y móvil, doce wireframes de aplicación y tres wireflows. Incorporación de nueve imágenes de evidencia y enlaces a Figma; revisión de la trazabilidad con las historias de usuario y técnicas; corrección de los enlaces de entrevistas y registro del aporte individual en Student Outcome. |
 | TP1 — corrección | 05/10/2026 | Meza Solórzano, Didier Sebastián | Corrección del nombre de la startup a Balanza, restauración del capítulo IV a su versión previa a la revisión transversal y retiro de enlaces y conclusiones asociados al backend y al informe usados como ejemplos de otro proyecto. |
 | TP1 — 6.4.3 y 6.4.4 | 06/10/2026 | Rivera Ticllacuri, Omar Harold | Desarrollo de las secciones 6.4.3 y 6.4.4: mock-ups de la aplicación Android y del sitio web, y User Flows UF01 a UF06 de la página Mockup - User flow - Prototyping de Figma, con su trazabilidad a los wireflows F01 a F03 y su vinculación con la sección TP1. |
-| TP1 — alcance tecnológico | 06/10/2026 | Meza Solórzano, Didier Sebastián | Alineación transversal a IA y smart contracts: revisión de US 032, incorporación de US 034 y EP 011, corrección de TS 023 y TS 024, decisiones estratégicas y diseño táctico del capítulo V, landing, wireframes, wireflows y mock-ups afectados; actualización de evidencias, conclusiones, bibliografía y Student Outcome. |
+| TP1 — alcance tecnológico | 06/10/2026 | Meza Solórzano, Didier Sebastián | Revisión del alcance tecnológico de octubre: revisión de US 032, incorporación de US 034 y EP 011, corrección de TS 023 y TS 024, decisiones estratégicas y diseño táctico del capítulo V, landing, wireframes, wireflows y mock-ups afectados; actualización de evidencias, conclusiones, bibliografía y Student Outcome. |
 | TP1 — Capítulo V | 06/10/2026 | Solis Solis, Leonardo José | Desarrollo del diseño táctico de IAM, Profiles, Categories, Finances, Savings, Household, Communications y Analytics: capas de dominio, interfaz, aplicación e infraestructura; diagramas de componentes, clases de dominio y diseño de base de datos. |
 | TP1 — 6.1 y 6.2 | 06/10/2026 | Loli Ramirez, Camila Cristina | Desarrollo de las guías de estilo generales y por plataforma: marca, tipografías, colores, espaciado y tono. Documentación de los sistemas de organización, etiquetado, búsqueda y navegación, y de los SEO tags y meta tags de Intiva. |
-| TP1 — 6.3, 6.4.1 y 6.4.2 | 06/10/2026 | Meza Solórzano, Didier Sebastián | Consolidación del diseño de landing, wireframes de escritorio y móvil, landing mock-up, doce wireframes de aplicación y tres wireflows para categorización IA, asistencia financiera y aprobación unánime del fondo. Incorporación de imágenes y enlaces a los frames de Figma. |
+| TP1 — 6.3, 6.4.1 y 6.4.2 | 06/10/2026 | Meza Solórzano, Didier Sebastián | Consolidación del diseño de landing, wireframes de escritorio y móvil, landing mock-up, doce wireframes de aplicación y tres wireflows para categorización IA, asistencia financiera y planificación mensual. Incorporación de imágenes y enlaces a los frames de Figma. |
 | TP1 — consolidación UX de aplicación | 06/10/2026 | Rivera Ticllacuri, Omar Harold | Consolidación de mock-ups y user flows de aplicación, con acciones principales, rutas alternativas y relación con los wireflows del entregable. Se documentan las pantallas de IA y del fondo familiar, manteniendo el prototipado interactivo pendiente de validación. |
+| Actualización de alcance | 11/11/2026 | Meza Solórzano, Didier Sebastián | Revisión de EP 011, US 032 y TS 023; incorporación de US 035 y actualización de pantallas, flujos y evidencias de planificación financiera con IA. |
 
 <div style="page-break-after: always;"></div>
 
@@ -71,7 +72,7 @@ El equipo realizó la redacción y revisión de los capítulos I, II, III y fina
 
 ## TP1
 
-El equipo desarrolló el diseño táctico y la experiencia de usuario de Intiva para el TP1. Leonardo elaboró el Capítulo V; Camila, las guías de estilo y la arquitectura de información; Didier, la landing, los wireframes y wireflows; y Omar, los mock-ups y user flows. Los aportes se integraron en el reporte y Figma, considerando IA para la asistencia financiera y smart contracts para la aprobación unánime de gastos familiares.
+El equipo desarrolló el diseño táctico y la experiencia de usuario de Intiva para el TP1. Leonardo elaboró el Capítulo V; Camila, las guías de estilo y la arquitectura de información; Didier, la landing, los wireframes y wireflows; y Omar, los mock-ups y user flows. Los aportes se integraron en el reporte y Figma, considerando IA para categorización, asistencia y planificación financiera.
 
 <div style="page-break-after: always;"></div>
 
@@ -192,8 +193,8 @@ El equipo desarrolló el diseño táctico y la experiencia de usuario de Intiva 
 
 | Criterio específico | Acciones Realizadas | Conclusiones |
 | --- | --- | --- |
-| Comunica oralmente sus ideas y/o resultados con objetividad a público de diferentes especialidades y niveles jerárquicos, en el marco del desarrollo de un proyecto en ingeniería. | **AV1: Meza Solórzano, Didier Sebastian:** Participé en la exposición de los hallazgos del análisis competitivo y las entrevistas del Capítulo 2, así como de las decisiones estratégicas de diseño (Attribute-Driven Design) del Capítulo 4, explicando los drivers arquitectónicos y las restricciones técnicas del proyecto a mis compañeros de equipo.<br><br>**AV1: Rivera Ticllacuri, Omar Harold:** Expuse el perfil del equipo (Capítulo 1) y el diseño estratégico DDD del Capítulo 4 (EventStorming, Domain Message Flows, Bounded Context Canvases y Context Mapping) a mis compañeros.<br><br>**AV1: Loli Ramirez, Camila Cristina:** Expuse al equipo las decisiones arquitectónicas del Capítulo 4 y el porqué de elegir el monolito modular y la caché cache-aside, además de los resultados del EventStorming y del descubrimiento de contextos candidatos en Miro.<br><br>**AV1: Solis Solis, Leonardo José:** Participé en la sustentación de los mapas de escenarios (As-Is y To-Be) del Capítulo 3, y en la exposición de los diagramas de arquitectura C4 (Contexto y Contenedores) del Capítulo 4, detallando de forma clara la interacción entre nuestros componentes internos y los servicios externos.<br><br>**TP1: Solis Solis, Leonardo José:** Preparé los diagramas del Capítulo V como apoyo visual para explicar las responsabilidades de las cuatro capas de cada bounded context y la relación entre sus componentes, clases y tablas. Organicé el material del diseño táctico para su sustentación.<br><br>**TP1: Loli Ramirez, Camila Cristina:** Organicé las guías de estilo y los sistemas de información de 6.1 y 6.2 como material para explicar la identidad visual, las etiquetas, las búsquedas y la navegación de Intiva en web y móvil.<br><br>**TP1: Meza Solórzano, Didier Sebastián:** Preparé la landing, los wireframes y los tres wireflows como apoyo para explicar la categorización IA, la asistencia financiera y la aprobación unánime del fondo. Representé las alternativas de corrección, rechazo, espera y error.<br><br>**TP1: Rivera Ticllacuri, Omar Harold:** Organicé los mock-ups y los user flows de 6.4.3 y 6.4.4 como apoyo visual para explicar los objetivos del usuario, las acciones de cada pantalla y las rutas principales y alternativas. | **TB1:** La participación en las exposiciones permitió comunicar de manera clara y objetiva los resultados obtenidos, las decisiones de diseño y la arquitectura del proyecto, facilitando que el equipo comprenda los principales aspectos técnicos y estratégicos desarrollados.<br><br>**TP1:** La organización de los diagramas y diseños como apoyo visual permitió preparar una explicación común del diseño táctico, las guías de estilo y los recorridos de Intiva, incluyendo la revisión de sugerencias de IA y la aprobación unánime del fondo familiar. |
-| Comunica en forma escrita ideas y/o resultados con objetividad a público de diferentes especialidades y niveles jerárquicos, en el marco del desarrollo de un proyecto en ingeniería. | **AV1: Meza Solórzano, Didier Sebastian:** Redacté el análisis competitivo, el registro y análisis de entrevistas, y el needfinding del Capítulo 2, además del Design Purpose, los Primary User Stories, los Quality Attribute Scenarios, los Constraints y el Architectural Drivers Backlog del Capítulo 4, documentando cada decisión con criterios de aceptación y justificación técnica.<br><br>**AV1: Rivera Ticllacuri, Omar Harold:** Redacté mi perfil en el Capítulo 1 y, en el Capítulo 4, toda la sección 4.2 (Domain Message Flows Modeling, Bounded Context Canvases de los 8 contextos y Context Mapping), incluyendo el hallazgo de que Analytics accede directamente a los repositorios de Finances y Savings sin ACL.<br><br>**AV1: Loli Ramirez, Camila Cristina:** Redacté las secciones 4.1.4 y 4.1.5 (iteraciones del Quality Attribute Workshop, decisiones AD-01 a AD-19, deudas de diseño y refinamiento de los escenarios de calidad) y las secciones 4.2.1 y 4.2.2 (EventStorming y descubrimiento de los ocho contextos candidatos). También realicé la revisión del Capítulo 1.<br><br>**AV1: Solis Solis, Leonardo Jose:** Estructuré y redacté las Historias de Usuario, Historias Técnicas y Spike Stories del Capítulo 3 con sus respectivos criterios de aceptación. Asimismo, documenté la explicación técnica de los diagramas de Landscape, Contexto y Contenedores en el Capítulo 4.<br><br>**TP1: Solis Solis, Leonardo José:** Documenté el Capítulo V: Domain Layer, Interface Layer, Application Layer e Infrastructure Layer de los ocho bounded contexts, con diccionarios de clases y diagramas de componentes, clases de dominio y base de datos.<br><br>**TP1: Loli Ramirez, Camila Cristina:** Redacté las secciones 6.1 y 6.2: marca, tipografías, paleta, espaciado, tono y lineamientos por plataforma; sistemas de organización, etiquetado, búsqueda y navegación; SEO tags y meta tags.<br><br>**TP1: Meza Solórzano, Didier Sebastián:** Documenté 6.3, 6.3.1, 6.3.2, 6.4.1 y 6.4.2: landing, wireframes de escritorio y móvil, mock-up, doce wireframes de aplicación y tres wireflows. Incorporé imágenes y enlaces a Figma y relacioné el diseño con US 032, US 033, US 034, TS 023 y TS 024. Consolidé la revisión del alcance de IA y smart contracts y las evidencias del informe.<br><br>**TP1: Rivera Ticllacuri, Omar Harold:** Documenté los mock-ups de aplicación de 6.4.3 y los user flows de 6.4.4, relacionando objetivos, pantallas, acciones y alternativas con los wireflows y las evidencias de Figma. | **TB1:** La documentación realizada permitió organizar y comunicar de forma clara los requerimientos, hallazgos y decisiones técnicas del proyecto, dejando evidencia del análisis y sustento utilizado para definir la solución arquitectónica.<br><br>**TP1:** La documentación de los capítulos V y VI integra las responsabilidades del software, los lineamientos visuales y los recorridos del usuario. La relación entre requisitos, diagramas, pantallas y evidencias permite revisar el alcance de IA y smart contracts y orientar la implementación. |
+| Comunica oralmente sus ideas y/o resultados con objetividad a público de diferentes especialidades y niveles jerárquicos, en el marco del desarrollo de un proyecto en ingeniería. | **AV1: Meza Solórzano, Didier Sebastian:** Participé en la exposición de los hallazgos del análisis competitivo y las entrevistas del Capítulo 2, así como de las decisiones estratégicas de diseño (Attribute-Driven Design) del Capítulo 4, explicando los drivers arquitectónicos y las restricciones técnicas del proyecto a mis compañeros de equipo.<br><br>**AV1: Rivera Ticllacuri, Omar Harold:** Expuse el perfil del equipo (Capítulo 1) y el diseño estratégico DDD del Capítulo 4 (EventStorming, Domain Message Flows, Bounded Context Canvases y Context Mapping) a mis compañeros.<br><br>**AV1: Loli Ramirez, Camila Cristina:** Expuse al equipo las decisiones arquitectónicas del Capítulo 4 y el porqué de elegir el monolito modular y la caché cache-aside, además de los resultados del EventStorming y del descubrimiento de contextos candidatos en Miro.<br><br>**AV1: Solis Solis, Leonardo José:** Participé en la sustentación de los mapas de escenarios (As-Is y To-Be) del Capítulo 3, y en la exposición de los diagramas de arquitectura C4 (Contexto y Contenedores) del Capítulo 4, detallando de forma clara la interacción entre nuestros componentes internos y los servicios externos.<br><br>**TP1: Solis Solis, Leonardo José:** Preparé los diagramas del Capítulo V como apoyo visual para explicar las responsabilidades de las cuatro capas de cada bounded context y la relación entre sus componentes, clases y tablas. Organicé el material del diseño táctico para su sustentación.<br><br>**TP1: Loli Ramirez, Camila Cristina:** Organicé las guías de estilo y los sistemas de información de 6.1 y 6.2 como material para explicar la identidad visual, las etiquetas, las búsquedas y la navegación de Intiva en web y móvil.<br><br>**TP1: Meza Solórzano, Didier Sebastián:** Preparé la landing, los wireframes y los tres wireflows como apoyo para explicar la categorización IA, la asistencia financiera y la aprobación del plan mensual. Representé las alternativas de corrección, rechazo, espera y error.<br><br>**TP1: Rivera Ticllacuri, Omar Harold:** Organicé los mock-ups y los user flows de 6.4.3 y 6.4.4 como apoyo visual para explicar los objetivos del usuario, las acciones de cada pantalla y las rutas principales y alternativas. | **TB1:** La participación en las exposiciones permitió comunicar de manera clara y objetiva los resultados obtenidos, las decisiones de diseño y la arquitectura del proyecto, facilitando que el equipo comprenda los principales aspectos técnicos y estratégicos desarrollados.<br><br>**TP1:** La organización de los diagramas y diseños como apoyo visual permitió preparar una explicación común del diseño táctico, las guías de estilo y los recorridos de Intiva, incluyendo la revisión de sugerencias de IA y la aprobación del plan mensual. |
+| Comunica en forma escrita ideas y/o resultados con objetividad a público de diferentes especialidades y niveles jerárquicos, en el marco del desarrollo de un proyecto en ingeniería. | **AV1: Meza Solórzano, Didier Sebastian:** Redacté el análisis competitivo, el registro y análisis de entrevistas, y el needfinding del Capítulo 2, además del Design Purpose, los Primary User Stories, los Quality Attribute Scenarios, los Constraints y el Architectural Drivers Backlog del Capítulo 4, documentando cada decisión con criterios de aceptación y justificación técnica.<br><br>**AV1: Rivera Ticllacuri, Omar Harold:** Redacté mi perfil en el Capítulo 1 y, en el Capítulo 4, toda la sección 4.2 (Domain Message Flows Modeling, Bounded Context Canvases de los 8 contextos y Context Mapping), incluyendo el hallazgo de que Analytics accede directamente a los repositorios de Finances y Savings sin ACL.<br><br>**AV1: Loli Ramirez, Camila Cristina:** Redacté las secciones 4.1.4 y 4.1.5 (iteraciones del Quality Attribute Workshop, decisiones AD-01 a AD-19, deudas de diseño y refinamiento de los escenarios de calidad) y las secciones 4.2.1 y 4.2.2 (EventStorming y descubrimiento de los ocho contextos candidatos). También realicé la revisión del Capítulo 1.<br><br>**AV1: Solis Solis, Leonardo Jose:** Estructuré y redacté las Historias de Usuario, Historias Técnicas y Spike Stories del Capítulo 3 con sus respectivos criterios de aceptación. Asimismo, documenté la explicación técnica de los diagramas de Landscape, Contexto y Contenedores en el Capítulo 4.<br><br>**TP1: Solis Solis, Leonardo José:** Documenté el Capítulo V: Domain Layer, Interface Layer, Application Layer e Infrastructure Layer de los ocho bounded contexts, con diccionarios de clases y diagramas de componentes, clases de dominio y base de datos.<br><br>**TP1: Loli Ramirez, Camila Cristina:** Redacté las secciones 6.1 y 6.2: marca, tipografías, paleta, espaciado, tono y lineamientos por plataforma; sistemas de organización, etiquetado, búsqueda y navegación; SEO tags y meta tags.<br><br>**TP1: Meza Solórzano, Didier Sebastián:** Documenté 6.3, 6.3.1, 6.3.2, 6.4.1 y 6.4.2: landing, wireframes de escritorio y móvil, mock-up, doce wireframes de aplicación y tres wireflows. Incorporé imágenes y enlaces a Figma y relacioné el diseño con US 032, US 033, US 034, TS 023 y TS 024. Consolidé la revisión del alcance de IA y planificación financiera y las evidencias del informe.<br><br>**TP1: Rivera Ticllacuri, Omar Harold:** Documenté los mock-ups de aplicación de 6.4.3 y los user flows de 6.4.4, relacionando objetivos, pantallas, acciones y alternativas con los wireflows y las evidencias de Figma. | **TB1:** La documentación realizada permitió organizar y comunicar de forma clara los requerimientos, hallazgos y decisiones técnicas del proyecto, dejando evidencia del análisis y sustento utilizado para definir la solución arquitectónica.<br><br>**TP1:** La documentación de los capítulos V y VI integra las responsabilidades del software, los lineamientos visuales y los recorridos del usuario. La relación entre requisitos, diagramas, pantallas y evidencias permite revisar el alcance de IA y planificación financiera y orientar la implementación. |
 
 <div style="page-break-after: always;"></div>
 
@@ -558,21 +559,18 @@ Las solicitudes externas llegan a **`Categories & Accounts Controllers`** a trav
 
 ## 5.4. Bounded Context: Finances
 
-Este contexto gestiona ingresos, gastos, límites y pagos recurrentes. Para US 032 y TS 023 incorpora propuestas de gasto del fondo familiar, separadas de los movimientos confirmados: todos los miembros deben aprobar la misma propuesta y el smart contract debe confirmar su validación antes de registrar el gasto (AD-23 a AD-25). Para US 033, el gasto personal se guarda después de revisar la categoría sugerida por IA.
+Finances gestiona ingresos, gastos, límites y pagos recurrentes. Aplica los límites de la versión aprobada del plan (US 032 y TS 023).
 
 ### 5.4.1. Domain Layer
 
-En esta capa se modelan Transaction, SpendingLimit, RecurringTransaction y SharedFundProposal, separando movimientos confirmados de acuerdos pendientes.
-
 | Clase / Interfaz | Categoría Táctica | Propósito | Atributos | Métodos | Relaciones |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **`Transaction`** | Aggregate Root | Movimiento confirmado, personal o familiar. La propuesta familiar se modela por separado. | `id`, `financialAccountId`, `categoryId`, `amount: Money`, `type`, `status`, `description`, `transactionDate`, `ownerType`, `ownerId`, `proposalId: UUID?` | `register()`, `isFamilyTransaction()` | Publica FamilyTransactionCreatedEvent tras conciliación; proposalId único si proviene del fondo. |
+| **`Transaction`** | Aggregate Root | Representa ingresos y gastos registrados. | `id`, `ownerId`, `accountId`, `categoryId`, `amount`, `status` | `register()` | Persiste mediante TransactionRepository. |
 | **`SpendingLimit`** | Aggregate Root | Representa un tope presupuestario configurado por periodo sobre una categoría o cuenta financiera. | `- id: Long`<br>`- targetType: SpendingLimitTargetType`<br>`- targetId: Long`<br>`- limitAmount: Money`<br>`- currentSpentAmount: Money`<br>`- warningThresholdPercent: int`<br>`- period: PeriodTypes`<br>`- status: SpendingLimitStatus`<br>`- ownerType: OwnerTypes`<br>`- ownerId: Long` | `+ evaluateExpense(Money expenseAmount): SpendingLimitStatus`<br>`+ isWarningReached(): boolean`<br>`+ isExceeded(): boolean`<br>`+ activate(): void` | Extiende de `AuditableAbstractAggregate`; emite `SpendingLimitWarningReachedEvent` y `SpendingLimitExceededEvent`. |
 | **`RecurringTransaction`** | Aggregate Root | Representa un gasto o ingreso fijo programado con fecha de vencimiento y frecuencia periódica. | `- id: Long`<br>`- financialAccountId: Long`<br>`- categoryId: Long`<br>`- amount: Money`<br>`- frequency: PeriodTypes`<br>`- nextDueDate: LocalDate`<br>`- active: boolean`<br>`- ownerType: OwnerTypes`<br>`- ownerId: Long` | `+ isDueSoon(LocalDate today): boolean`<br>`+ isExpired(LocalDate today): boolean`<br>`+ advanceNextDueDate(): void`<br>`+ activate(): void` | Extiende de `AuditableAbstractAggregate`; emite `PaymentDueSoonEvent` y `PaymentExpiredEvent`. |
 | **`TransactionStatus`** | Enumeration | Resultado del registro de un movimiento; no equivale al estado de una propuesta. | `CONFIRMED`, `FAILED_INSUFFICIENT_FUNDS` | `valueOf(String)` | Utilizado por Transaction. |
 | **`SpendingLimitTargetType`** | Enumeration | Define sobre qué elemento se aplica el límite de gasto. | `CATEGORY`<br>`FINANCIAL_ACCOUNT`<br>`PERIOD` | `+ valueOf(String): SpendingLimitTargetType` | Utilizado por `SpendingLimit` (`1`). |
-| **`RegisterTransactionCommand`** | Command | Registra un movimiento personal revisado; el cliente no puede usar este comando para eludir el contrato del fondo. | `accountId`, `categoryId`, `amount`, `type`, `description`, `ownerId` | `amount()` | Consumido por TransactionCommandService. |
-
+| **`RegisterTransactionCommand`** | Command | Registra un movimiento autorizado y revisado. | `accountId`, `categoryId`, `amount`, `type`, `description`, `ownerId` | `amount()` | Consumido por TransactionCommandService. |
 | **`CreateSpendingLimitCommand`** | Command | Solicita configurar un nuevo límite de gasto por categoría, cuenta o periodo. | `- targetType: String`<br>`- targetId: Long`<br>`- limitAmount: BigDecimal`<br>`- period: String`<br>`- ownerType: String`<br>`- ownerId: Long` | `+ limitAmount(): BigDecimal` | Consumido por `SpendingLimitCommandService`. |
 | **`CreateRecurringTransactionCommand`** | Command | Solicita programar un ingreso o gasto recurrente con fecha de pago. | `- accountId: Long`<br>`- categoryId: Long`<br>`- amount: BigDecimal`<br>`- frequency: String`<br>`- nextDueDate: LocalDate`<br>`- ownerId: Long` | `+ nextDueDate(): LocalDate` | Consumido por `RecurringTransactionCommandService`. |
 | **`FamilyTransactionCreatedEvent`** | Domain Event | Notifica que un integrante ha registrado una transacción dentro del grupo familiar. | `- transactionId: Long`<br>`- familyId: Long`<br>`- authorUserId: Long`<br>`- amount: BigDecimal` | `+ getFamilyId(): Long` | Publicado por `Transaction`. |
@@ -580,37 +578,24 @@ En esta capa se modelan Transaction, SpendingLimit, RecurringTransaction y Share
 | **`SpendingLimitExceededEvent`** | Domain Event | Notifica que un gasto registrado ha superado el límite de presupuesto establecido (US 026). | `- spendingLimitId: Long`<br>`- ownerId: Long`<br>`- exceededAmount: BigDecimal` | `+ getExceededAmount(): BigDecimal` | Publicado por `SpendingLimit`. |
 | **`PaymentDueSoonEvent`** | Domain Event | Notifica que un pago recurrente programado está próximo a su fecha de vencimiento (US 030). | `- recurringTransactionId: Long`<br>`- ownerId: Long`<br>`- dueDate: LocalDate` | `+ getDueDate(): LocalDate` | Publicado por `RecurringTransaction`. |
 
-| **`SharedFundProposal`** | Aggregate Root | Gasto propuesto, separado del movimiento; US 032 y TS 023. | `id: UUID`, `familyId`, `amount: Money`, `recipient`, `termsHash`, `requiredMemberIds: Set<UserId>`, `status: ProposalStatus` | `approve(member, signature)`, `reject(member)`, `isUnanimous()` | Composición de ProposalApproval; instantánea de miembros y condiciones inmutables. |
-| **`ProposalApproval`** | Entity | Un voto por miembro sobre el hash de la misma propuesta. | `proposalId`, `memberId`, `decision`, `signature`, `signedAt` | `matchesTermsHash(hash)` | UNIQUE(proposalId, memberId); una firma no sustituye otras aprobaciones. |
-| **`ProposalStatus`** | Enumeration | Distingue acuerdo, envío y confirmación del contrato. | `PENDING_APPROVAL`, `READY_FOR_SUBMISSION`, `PENDING_CHAIN`, `CONFIRMED`, `REJECTED`, `ERROR` | `valueOf(String)` | El saldo no cambia antes de CONFIRMED. |
-| **`SmartContractGatewayPort`** | Domain Port | Envía aprobaciones firmadas y consulta resultado sin custodiar claves privadas. | Interfaz | `submitApprovedProposal(proposal, signatures)`, `getResult(reference)` | Implementado por SmartContractGatewayAdapter. |
-
 ### 5.4.2. Interface Layer
-
-Expone endpoints para movimientos confirmados, propuestas del fondo familiar, aprobaciones firmadas, límites y pagos recurrentes.
 
 | Clase | Categoría Táctica | Propósito | Atributos | Métodos | Relaciones |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **`TransactionsController`** | REST Controller | Registra movimientos personales revisados y consulta historial. | `transactionCommandService`, `transactionQueryService` | `registerTransaction(resource)`, `getTransactionsByOwner(...)` | No expone un parámetro para confirmar arbitrariamente gastos del fondo. |
+| **`TransactionsController`** | REST Controller | Registra movimientos personales revisados y consulta historial. | `transactionCommandService`, `transactionQueryService` | `registerTransaction(resource)`, `getTransactionsByOwner(...)` | Delega en los servicios de Finances. |
 | **`SpendingLimitsController`** | REST Controller | Expone `/api/v1/spending-limits` para crear, activar y consultar límites de gasto y su monto utilizado/disponible. | `- limitCommandService: SpendingLimitCommandService`<br>`- limitQueryService: SpendingLimitQueryService` | `+ createSpendingLimit(CreateSpendingLimitResource): ResponseEntity<SpendingLimitResource>`<br>`+ getLimitsByOwner(Long ownerId): ResponseEntity<List<SpendingLimitResource>>` | Invoca a `SpendingLimitCommandService` y `SpendingLimitQueryService`. |
 | **`RecurringTransactionsController`** | REST Controller | Expone `/api/v1/recurring-transactions` para configurar y listar pagos e ingresos programados. | `- recurringCommandService: RecurringTransactionCommandService`<br>`- recurringQueryService: RecurringTransactionQueryService` | `+ createRecurring(CreateRecurringResource): ResponseEntity<RecurringTransactionResource>`<br>`+ getRecurringByOwner(Long ownerId): ResponseEntity<List<RecurringTransactionResource>>` | Invoca a `RecurringTransactionCommandService` y `RecurringTransactionQueryService`. |
 
-| **`SharedFundProposalsController`** | REST Controller | Crear propuesta, aprobar/firmar, rechazar y consultar estado. | `proposalService` | `propose(resource)`, `approve(id, signedVote)`, `reject(id)`, `getStatus(id)` | Autoriza al miembro autenticado; no hay excepción administrativa. |
-
 ### 5.4.3. Application Layer
-
-Valida saldos, coordina propuestas y aprobaciones unánimes, verifica el resultado del contrato y concilia cada gasto una sola vez. Los procesos programados de vencimiento se conservan (AD-13).
 
 | Clase | Categoría Táctica | Propósito | Atributos | Métodos | Relaciones |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **`TransactionCommandServiceImpl`** | Command Handler | Valida permisos y saldo del movimiento personal. Para el fondo solo admite conciliación interna de un resultado confirmado del contrato. | `transactionRepository`, `limitRepository`, `externalAccountService`, `eventPublisher` | `handle(RegisterTransactionCommand)`, `applyConfirmedProposal(result)` | Actualiza saldo y publica eventos en una unidad transaccional; evita duplicación por proposalId. |
+| **`TransactionCommandServiceImpl`** | Command Handler | Valida permisos, registra el movimiento y publica el evento de gasto registrado. | `transactionRepository`, `accountFacade`, `eventPublisher` | `handle(RegisterTransactionCommand)` | Finances y Categories. |
 | **`TransactionQueryServiceImpl`** | Query Handler | Ejecuta consultas de historial de transacciones (`GetTransactionsByOwnerIdQuery`, `GetLastTransactionsByOwnerIdQuery`) respetando la marca de privacidad `OwnerTypes` (**AD-03**). | `- transactionRepository: TransactionRepository` | `+ handle(GetTransactionsByOwnerIdQuery): List<Transaction>`<br>`+ handle(GetLastTransactionsByOwnerIdQuery): List<Transaction>` | Implementa `TransactionQueryService` y consume `TransactionRepository`. |
 | **`SpendingLimitCommandServiceImpl`** | Command Handler | Gestiona la creación y activación de límites de presupuesto por categoría, cuenta o periodo. | `- limitRepository: SpendingLimitRepository` | `+ handle(CreateSpendingLimitCommand): Optional<SpendingLimit>`<br>`+ handle(ActivateSpendingLimitCommand): Optional<SpendingLimit>` | Implementa `SpendingLimitCommandService`; consume `SpendingLimitRepository`. |
 | **`PaymentReminderScheduler`** | Application Scheduler | Proceso programado (**AD-13**) que inspecciona diariamente las `RecurringTransaction` activas y publica `PaymentDueSoonEvent` o `PaymentExpiredEvent`. | `- recurringRepository: RecurringTransactionRepository`<br>`- eventPublisher: ApplicationEventPublisher` | `+ checkUpcomingAndExpiredPayments(): void` | Consulta `RecurringTransactionRepository` y publica eventos de vencimiento. |
 | **`FinancesExternalFinancialAccountService`** | Outbound ACL Service | Adaptador ACL que consulta disponibilidad de saldo y solicita aplicar cargos/abonos al contexto de cuentas financieras. | `- accountFacade: FinancialAccountContextFacade` | `+ hasSufficientBalance(Long accountId, BigDecimal amount): boolean`<br>`+ registerAccountMovement(...): void` | Consume `FinancialAccountContextFacade`. |
 | **`FinancesExternalNotificationsService`** | Outbound ACL Service | Adaptador ACL que solicita el envío de alertas cuando un límite de gasto alcanza su umbral o se excede. | `- commsFacade: CommunicationsContextFacade` | `+ notifySpendingLimitAlert(Long ownerId, String alertType): void` | Consume `CommunicationsContextFacade`. |
-
-| **`SharedFundProposalService`** | Application Service | Valida miembros, hash y firmas; exige unanimidad y concilia una sola vez después de confirmación. | `proposalRepository`, `householdFacade`, `contractGateway`, `transactionService` | `propose(...)`, `approve(...)`, `reject(...)`, `reconcile(...)` | Cambiar condiciones o miembros exige nueva propuesta; fallo requiere consultar estado antes de reenviar. |
 
 ### 5.4.4. Infrastructure Layer
 
@@ -618,44 +603,71 @@ Implementa los repositorios de persistencia relacional en PostgreSQL para transa
 
 | Clase / Interfaz | Categoría Táctica | Propósito | Atributos | Métodos | Relaciones |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **`TransactionRepository`** | Repository (JPA) | Persiste movimientos confirmados y evita duplicar el gasto conciliado del fondo. | Interfaz JPA | `findByOwnerTypeAndOwnerId(...)`, `existsByProposalId(UUID)` | Restricción UNIQUE sobre proposal_id cuando existe. |
+| **`TransactionRepository`** | Repository (JPA) | Persiste y consulta movimientos autorizados. | Interfaz JPA | `findByOwnerTypeAndOwnerId(...)` | Persistencia PostgreSQL. |
 | **`SpendingLimitRepository`** | Repository (JPA) | Persiste y consulta los límites de gasto activos asociados a un titular, categoría o cuenta. | *(Interface JPA)* | `+ findByOwnerTypeAndOwnerIdAndStatus(OwnerTypes, Long, SpendingLimitStatus): List<SpendingLimit>` | Extiende `JpaRepository<SpendingLimit, Long>`. |
 | **`RecurringTransactionRepository`** | Repository (JPA) | Persiste transacciones recurrentes y permite a los *schedulers* consultar pagos próximos a vencer. | *(Interface JPA)* | `+ findByActiveTrueAndNextDueDateLessThanEqual(LocalDate): List<RecurringTransaction>` | Extiende `JpaRepository<RecurringTransaction, Long>`. |
 
-| **`SharedFundProposalRepository`** | Repository (JPA) | Persiste propuestas, votos y referencia de red fuera de blockchain. | Interfaz JPA | `findById(UUID)`, `save(proposal)` | Concurrencia con versión; índice único por propuesta y miembro. |
-| **`SmartContractGatewayAdapter`** | External Service Adapter | Verifica el contrato configurado, envía firmas y consulta confirmaciones (AD-24/25). | `rpcClient`, `contractAddress`, `networkId` | `submitApprovedProposal(...)`, `getResult(...)` | Implementa SmartContractGatewayPort; proveedor, red y confirmaciones se validarán en pruebas. |
-
 ### 5.4.5. Bounded Context Software Architecture Component Level Diagrams
 
-El diagrama muestra el registro personal, la validación unánime del fondo mediante smart contracts y los recordatorios existentes.
-
-![Finances Context Component Diagram](assets/img/cap05/finances-components-tp1.png)
+```mermaid
+flowchart LR
+ A[Controladores] --> B[Servicios de Finanzas]
+ C[Plan aprobado] --> B
+ B --> D[Movimientos y límites]
+ B --> E[PostgreSQL]
+ B --> F[Evento de gasto registrado]
+```
 
 **Explicación del diagrama:**
-Los controladores reciben movimientos personales revisados y propuestas del fondo. Los servicios de aplicación verifican membresía mediante Household, recopilan firmas sobre la misma propuesta y consultan el contrato a través de SmartContractGatewayAdapter. Solo un resultado confirmado permite conciliar el gasto de forma idempotente; rechazo, error o aprobaciones incompletas no modifican el saldo. Los repositorios guardan los datos fuera de blockchain y los schedulers conservan los recordatorios de vencimiento.
 
 ### 5.4.6. Bounded Context Software Architecture Code Level Diagrams
 
 #### 5.4.6.1. Bounded Context Domain Layer Class Diagrams
 
-![Finances Domain Layer Class Diagram](assets/img/cap05/finances-domain-tp1.png)
+```mermaid
+classDiagram
+ class Transaction
+ class SpendingLimit
+ class RecurringTransaction
+ Transaction ..> SpendingLimit : aporta al consumo
+ RecurringTransaction ..> Transaction : referencia de pago
+```
 
 #### 5.4.6.2. Bounded Context Database Design Diagram
 
-![Finances Database Design Diagram](assets/img/cap05/finances-database-tp1.png)
+```mermaid
+erDiagram
+ TRANSACTION {
+ uuid id PK
+ uuid owner_id
+ uuid category_id
+ decimal amount
+ }
+ SPENDING_LIMIT {
+ uuid id PK
+ uuid owner_id
+ uuid category_id
+ decimal limit_amount
+ }
+ RECURRING_TRANSACTION {
+ uuid id PK
+ uuid owner_id
+ date next_due_date
+ }
+```
 
 ## 5.5. Bounded Context: Financial Goals (Savings)
 
-Este contexto constituye uno de los subdominios núcleo (*Core Subdomain*) de la plataforma: permite definir metas de ahorro individuales o familiares y registrar los aportes progresivos hasta alcanzarlas. Como parte de las tecnologías emergentes incorporadas al diseño, este contexto integra un adaptador hacia una red de **Smart Contracts (Blockchain)** que permite registrar condiciones inmutables de ahorro y verificar automáticamente el cumplimiento de los hitos financieros antes de habilitar o marcar como completado un objetivo.
+Savings administra metas y contribuciones reales, y conserva por separado los aportes previstos en el plan aprobado.
 
 ### 5.5.1. Domain Layer
 
-En esta capa se modela el ciclo de vida de las metas de ahorro (`SavingGoal`), sus contribuciones individuales o grupales (`GoalContribution`), las reglas de reversibilidad de estado y el puerto de dominio para la verificación en cadena (*on-chain*) mediante contratos inteligentes.
+El dominio distingue el aporte previsto de una contribución efectivamente registrada.
 
 | Clase / Interfaz | Categoría Táctica | Propósito | Atributos | Métodos | Relaciones |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **`SavingGoal`** | Aggregate Root | Representa un objetivo de ahorro personal o compartido en familia, controlando el monto acumulado, fechas límite de modificación y estado de cumplimiento. | `- id: Long`<br>`- name: String`<br>`- targetAmount: Money`<br>`- currentSavedAmount: Money`<br>`- deadlineDate: LocalDate`<br>`- modificationLimitDate: LocalDate`<br>`- status: SavingGoalStatus`<br>`- smartContractAddress: String`<br>`- ownerType: OwnerTypes`<br>`- ownerId: Long`<br>`- contributions: List<GoalContribution>` | `+ SavingGoal(CreateSavingGoalCommand)`<br>`+ addContribution(GoalContribution): void`<br>`+ canBeModified(LocalDate today): boolean`<br>`+ completeGoal(): void`<br>`+ uncompleteGoal(): void` | Extiende de `AuditableAbstractAggregate`; contiene una colección de `GoalContribution` (`0..*`) y utiliza `Money` y `OwnerTypes` (Shared Kernel). |
-| **`GoalContribution`** | Entity | Representa un aporte monetario específico realizado por un usuario hacia una meta de ahorro activa. | `- id: Long`<br>`- contributorUserId: UserId`<br>`- amount: Money`<br>`- contributionDate: LocalDateTime`<br>`- txHash: String` | `+ GoalContribution(UserId, Money, String txHash)`<br>`+ isValidAmount(): boolean` | Pertenece al agregado `SavingGoal` (`1`). |
+| **`SavingGoal`** | Aggregate Root | Controla la meta y el avance de aportes efectivos. | `id`, `ownerId`, `targetAmount`, `deadline`, `status` | `addContribution(...)` | Los aportes previstos se guardan aparte. |
+| **`GoalContribution`** | Entity | Representa un aporte monetario específico realizado por un usuario hacia una meta de ahorro activa. | `- id: Long`<br>`- contributorUserId: UserId`<br>`- amount: Money`<br>`- contributionDate: LocalDateTime` | `+ GoalContribution(UserId, Money)`<br>`+ isValidAmount(): boolean` | Pertenece al agregado `SavingGoal` (`1`). |
 | **`SavingGoalStatus`** | Enumeration | Define los estados posibles de una meta de ahorro a lo largo de su ciclo de vida. | `IN_PROGRESS`<br>`COMPLETED`<br>`INCOMPLETE_EXPIRED` | `+ valueOf(String): SavingGoalStatus` | Utilizado por `SavingGoal` (`1`). |
 | **`CreateSavingGoalCommand`** | Command | Solicita la creación de una nueva meta de ahorro personal o familiar con fecha límite y ventana de edición. | `- name: String`<br>`- targetAmount: BigDecimal`<br>`- deadlineDate: LocalDate`<br>`- modificationLimitDate: LocalDate`<br>`- ownerType: String`<br>`- ownerId: Long` | `+ targetAmount(): BigDecimal`<br>`+ deadlineDate(): LocalDate` | Consumido por `SavingGoalCommandService`. |
 | **`ContributeToSavingGoalCommand`** | Command | Ordena registrar un aporte monetario positivo sobre una meta de ahorro existente. | `- savingGoalId: Long`<br>`- contributorUserId: Long`<br>`- amount: BigDecimal` | `+ savingGoalId(): Long`<br>`+ amount(): BigDecimal` | Consumido por `SavingGoalCommandService`. |
@@ -666,7 +678,6 @@ En esta capa se modela el ciclo de vida de las metas de ahorro (`SavingGoal`), s
 | **`GetSavingGoalByIdQuery`** | Query | Consulta el detalle y aportes de una meta específica por su identificador. | `- savingGoalId: Long` | `+ savingGoalId(): Long` | Consumido por `SavingGoalQueryService`. |
 | **`GetAllSavingGoalsByUserIdQuery`** | Query | Consulta todas las metas de ahorro individuales asociadas a un usuario. | `- userId: Long` | `+ userId(): Long` | Consumido por `SavingGoalQueryService`. |
 | **`GetAllSavingGoalsByGroupIdQuery`** | Query | Consulta todas las metas de ahorro compartidas pertenecientes a un grupo familiar. | `- groupId: Long` | `+ groupId(): Long` | Consumido por `SavingGoalQueryService`. |
-| **`SmartContractEscrowPort`** | Domain Port (Interface) | Define la abstracción para desplegar y verificar reglas inmutables de cumplimiento de metas de ahorro en Blockchain. | *(Interface)* | `+ deploySavingRule(Long goalId, BigDecimal target, LocalDate deadline): String`<br>`+ recordOnChainContribution(String contractAddr, BigDecimal amount): String`<br>`+ verifyMilestoneCompletion(String contractAddr): boolean` | Implementado en infraestructura por `SmartContractEscrowAdapter`. |
 
 ### 5.5.2. Interface Layer
 
@@ -679,48 +690,67 @@ Expone los endpoints REST para gestionar metas de ahorro personales y familiares
 
 ### 5.5.3. Application Layer
 
-Coordina la creación y actualización de metas, validando ventanas de modificación, sumatoria de aportes y sincronización de estados con el contrato inteligente.
+Valida cambios y aportes efectivos con las reglas del dominio y almacena los aportes previstos por separado.
 
 | Clase | Categoría Táctica | Propósito | Atributos | Métodos | Relaciones |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **`SavingGoalCommandServiceImpl`** | Command Handler | Ejecuta la creación y modificación de metas (verificando que la fecha límite de edición no haya expirado), registra los aportes, invoca la validación del Smart Contract y marca la meta como `COMPLETED` al alcanzar el monto objetivo. | `- savingGoalRepository: SavingGoalRepository`<br>`- smartContractPort: SmartContractEscrowPort` | `+ handle(CreateSavingGoalCommand): Optional<SavingGoal>`<br>`+ handle(ContributeToSavingGoalCommand): Optional<SavingGoal>`<br>`+ handle(UpdateSavingGoalCommand): Optional<SavingGoal>`<br>`+ handle(CompleteSavingGoalCommand): Optional<SavingGoal>`<br>`+ handle(UncompleteSavingGoalCommand): Optional<SavingGoal>`<br>`+ handle(DeleteSavingGoalCommand): void` | Implementa `SavingGoalCommandService`; consume `SavingGoalRepository` y `SmartContractEscrowPort`. |
 | **`SavingGoalQueryServiceImpl`** | Query Handler | Ejecuta las consultas de metas de ahorro por ID, por usuario individual, por grupo familiar y metas completadas. | `- savingGoalRepository: SavingGoalRepository` | `+ handle(GetSavingGoalByIdQuery): Optional<SavingGoal>`<br>`+ handle(GetAllSavingGoalsByUserIdQuery): List<SavingGoal>`<br>`+ handle(GetAllSavingGoalsByGroupIdQuery): List<SavingGoal>`<br>`+ handle(GetAllCompletedSavingGoalsByUserIdQuery): List<SavingGoal>` | Implementa `SavingGoalQueryService` y consume `SavingGoalRepository`. |
 
 ### 5.5.4. Infrastructure Layer
 
-Contiene la implementación de persistencia JPA en PostgreSQL y el adaptador Web3 que interactúa con la red Blockchain para las reglas de ahorro.
-
 | Clase / Interfaz | Categoría Táctica | Propósito | Atributos | Métodos | Relaciones |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **`SavingGoalRepository`** | Repository (JPA) | Gestiona la persistencia del agregado `SavingGoal` y sus entidades `GoalContribution` en PostgreSQL. | *(Interface JPA)* | `+ findByOwnerTypeAndOwnerId(OwnerTypes, Long): List<SavingGoal>`<br>`+ findByOwnerTypeAndOwnerIdAndStatus(OwnerTypes, Long, SavingGoalStatus): List<SavingGoal>` | Extiende `JpaRepository<SavingGoal, Long>`. |
-| **`SmartContractEscrowAdapter`** | Emerging Tech Blockchain Adapter | Conecta el backend mediante JSON-RPC (Web3j) con la red Blockchain para desplegar contratos de metas compartidas/personales y verificar de forma transparente e inmutable que la suma de aportes cumplió la condición pactada. | `- web3jClient: Web3j`<br>`- credentials: Credentials`<br>`- rpcEndpointUrl: String` | `+ deploySavingRule(Long goalId, BigDecimal target, LocalDate deadline): String`<br>`+ recordOnChainContribution(String contractAddr, BigDecimal amount): String`<br>`+ verifyMilestoneCompletion(String contractAddr): boolean` | Implementa `SmartContractEscrowPort`; se comunica con `Blockchain Smart Contracts`. |
 
 ### 5.5.5. Bounded Context Software Architecture Component Level Diagrams
 
-En esta sección se presenta el diagrama de componentes del contenedor **Financial Goals (Savings) Context**, mostrando sus componentes internos y su integración con la base de datos y la red de contratos inteligentes.
+En esta sección se presenta el diagrama de componentes del contenedor **Financial Goals (Savings) Context**, mostrando sus componentes internos y su integración con la base de datos y las interfaces del plan financiero.
 
-![Financial Goals Component Diagram](assets/img/cap05/5_5_Savings_Components.png)
+```mermaid
+flowchart LR
+ A[Controladores] --> B[Servicio de metas]
+ B --> C[Metas y aportes reales]
+ D[Plan aprobado] --> E[Aportes previstos]
+ C --> F[PostgreSQL]
+ E --> F
+```
 
 **Explicación del diagrama:**
-El componente **`Savings REST Controllers`** recibe las solicitudes HTTP desde el API Gateway y las delega a **`Savings Application Services`**. Esta capa aplica las reglas de negocio sobre los agregados `SavingGoal` y `GoalContribution` definidos en **`Savings Domain Layer`**. Cuando se crea una meta o se registra un nuevo aporte, la capa de aplicación se apoya en **`SmartContractEscrowAdapter (Web3)`** para registrar y verificar de manera inmutable las condiciones del objetivo en **`Blockchain Smart Contracts`**, mientras que **`Savings Persistence Repositories`** almacena el estado relacional en PostgreSQL.
 
 ### 5.5.6. Bounded Context Software Architecture Code Level Diagrams
 
 #### 5.5.6.1. Bounded Context Domain Layer Class Diagrams
 
-![Financial Goals Domain Layer Class Diagram](assets/img/cap05/5_5_Savings_ClassDiagram.png)
+```mermaid
+classDiagram
+ SavingGoal "1" *-- "*" GoalContribution
+ SavingGoal "1" -- "*" PlannedContribution
+ class PlannedContribution {
+ +UUID planId
+ +Decimal amount
+ +String period
+ }
+```
 
 #### 5.5.6.2. Bounded Context Database Design Diagram
 
-![Financial Goals Database Design Diagram](assets/img/cap05/5_5_Savings_DbDiagram.png)
+```mermaid
+erDiagram
+ SAVING_GOAL ||--o{ GOAL_CONTRIBUTION : registra
+ SAVING_GOAL ||--o{ PLANNED_CONTRIBUTION : planifica
+ PLANNED_CONTRIBUTION {
+ uuid id PK
+ uuid goal_id FK
+ uuid plan_id
+ decimal amount
+ }
+```
 
 ---
 
 ## 5.6. Bounded Context: Household
 
 Este contexto modela la colaboración financiera familiar (*Core Subdomain*): gestiona la creación de grupos familiares, la administración de membresías y roles de acceso, y el ciclo de vida de invitaciones mediante enlaces diferidos (*Deferred Deep Links*) y códigos QR. Además, concentra la verificación de pertenencia y rol como servicio consultable según la decisión arquitectónica **AD-04**.
-
-Para el fondo de US 032, Household proporciona la instantánea de miembros activos a Finances. El rol de administrador no permite validar una propuesta sin las aprobaciones de todos. Las firmas de cada miembro se verifican sobre las mismas condiciones (AD-23).
 
 ### 5.6.1. Domain Layer
 
@@ -922,6 +952,8 @@ Contiene el adaptador de caché conectado a **Redis Cloud** mediante TLS y el ac
 
 | **`AiFinancialAssistantAdapter`** | External Service Adapter | Integración con proveedor IA aislado; errores y timeout controlados (AD-21, TS 024). | `providerClient`, `timeout`, `responseValidator` | `analyze(authorizedSummary)` | Implementa FinancialAssistantPort; proveedor pendiente de comparación. |
 
+**Plan mensual (US 032, US 035 y TS 023).** En dominio, `MonthlyPlan` conserva titular, período, versión y estado: borrador, aplicando, activo, descartado o error. La interfaz permite solicitar la proyección, editar, aprobar y consultar estado. En aplicación, `MonthlyPlanService` valida la aprobación explícita y coordina límites con Finances, aportes previstos con Savings y recordatorios con Communications. En infraestructura se persisten el plan y el resultado de cada acción con clave única de aplicación. Una confirmación parcial se muestra como tal; al reintentar se omiten las acciones confirmadas. El seguimiento aplica reglas sobre gastos registrados y deduplica los avisos.
+
 ### 5.8.5. Bounded Context Software Architecture Component Level Diagrams
 
 En esta sección se presenta el diagrama de componentes del contenedor **Analytics Context**, reflejando el flujo *cache-aside* con Redis y las lecturas de agregación en PostgreSQL.
@@ -947,7 +979,6 @@ El diseño base de analítica se complementa con FinancialAssistantController, F
 
 ![Analytics Database Design Diagram](assets/img/cap05/5_8_Analytics_DbDiagram.png)
 
-
 # Capítulo VI: Solution UX Design
 
 En este capítulo se desarrolla el diseño de la solución planteada para Intiva, la propuesta de Balanza para la gestión de ingresos, gastos y ahorros personales y familiares. Para ello, se definen las guías de estilo y la arquitectura de información que se seguirán en la landing page, la aplicación móvil y la aplicación web, para que el diseño sea coherente y fácil de usar para nuestros segmentos objetivo.
@@ -962,7 +993,7 @@ En esta sección se explican las guías de estilo para la landing page, la aplic
 
 *Brand Overview*
 
-Intiva es una plataforma digital que ayudará a las personas y a las familias a registrar sus ingresos y gastos, controlar su presupuesto mediante límites de gasto y planificar metas de ahorro de forma individual o compartida. Nace de una problemática identificada en las entrevistas: la mayoría de usuarios lleva sus finanzas en hojas de Excel, notas del celular o revisando manualmente sus billeteras digitales (Yape, Plin, apps bancarias), lo que vuelve el registro tedioso y deja la información fragmentada entre los integrantes del hogar. Intiva busca centralizar esa información, presentarla de forma visual y acompañar al usuario con alertas y recordatorios para que tome mejores decisiones financieras. La IA sugerirá categorías a partir de la descripción ingresada y ofrecerá orientación sobre gastos hormiga y metas. El usuario revisará cada sugerencia antes de guardar o tomar una decisión. Los fondos familiares requerirán aprobación de todos sus miembros mediante smart contracts. Su eslogan, "Controla tus finanzas, transforma tu vida", resume esa promesa, y en la landing page se comunica con el mensaje "Menos registro, más control en familia".
+Intiva es una plataforma digital que ayudará a las personas y a las familias a registrar sus ingresos y gastos, controlar su presupuesto mediante límites de gasto y planificar metas de ahorro de forma individual o compartida. Nace de una problemática identificada en las entrevistas: la mayoría de usuarios lleva sus finanzas en hojas de Excel, notas del celular o revisando manualmente sus billeteras digitales (Yape, Plin, apps bancarias), lo que vuelve el registro tedioso y deja la información fragmentada entre los integrantes del hogar. Intiva busca centralizar esa información, presentarla de forma visual y acompañar al usuario con alertas y recordatorios para que tome mejores decisiones financieras. La IA sugerirá categorías a partir de la descripción ingresada y ofrecerá orientación sobre gastos hormiga y metas. El usuario revisará cada sugerencia antes de guardar o tomar una decisión. El agente propone un plan mensual que el usuario puede editar y aprobar. Su eslogan, "Controla tus finanzas, transforma tu vida", resume esa promesa, y en la landing page se comunica con el mensaje "Tus finanzas, con un plan hecho para ti".
 
 *Brand Name*
 
@@ -1021,7 +1052,7 @@ A continuación se presenta la guía de estilo de Intiva, que reúne la paleta d
 
 *Guía de estilo de Intiva: paleta de colores, tipografías y componentes base. Fuente: elaboración propia en Figma.*
 
-También usaremos colores para indicar el estado de las finanzas, de modo que el usuario lo entienda sin leer el detalle: verde cuando un límite de gasto va bien, ámbar cuando está cerca de alcanzarse y rojo cuando se supera. Las propuestas del fondo pendientes de aprobación se mostrarán en tonos neutros para diferenciarlas de los gastos validados. Para no depender solo del color, cada estado irá acompañado de un texto, y los montos se mostrarán con signo ("+" para ingresos y "−" para gastos).
+También usaremos colores para indicar el estado de las finanzas, de modo que el usuario lo entienda sin leer el detalle: verde cuando un límite de gasto va bien, ámbar cuando está cerca de alcanzarse y rojo cuando se supera. Los borradores se mostrarán en tonos neutros para diferenciarlos del plan activo. Para no depender solo del color, cada estado irá acompañado de un texto, y los montos se mostrarán con signo ("+" para ingresos y "−" para gastos).
 
 **Spacing**
 
@@ -1063,11 +1094,11 @@ Usaremos esquinas redondeadas para que la interfaz se vea amigable: 8 para input
 
 **Tone of voice**
 
-Usaremos un tono cercano y sencillo. En las entrevistas vimos que los términos financieros técnicos confunden a los usuarios, por lo que evitaremos la jerga y trataremos al usuario de "tú" (por ejemplo, "Aquí está el resumen de tus finanzas hoy"). Cuando el usuario logre algo, se lo haremos saber ("¡Cumpliste tu meta de ahorro!"), y las alertas solo informarán lo que pasó, sin regañar ("Has superado tu presupuesto en Entretenimiento"), junto con una opción para resolverlo. Al hablar de la aprobación del fondo y de la IA seremos claros sobre lo que hacen y lo que no: por ejemplo, "Este gasto todavía no modifica tu saldo" o "La categoría es una sugerencia; puedes cambiarla". Queremos que el usuario sienta que Intiva lo ayuda con sus gastos, que no lo juzga y que él mantiene el control de su información.
+Usaremos un tono cercano y sencillo. En las entrevistas vimos que los términos financieros técnicos confunden a los usuarios, por lo que evitaremos la jerga y trataremos al usuario de "tú" (por ejemplo, "Aquí está el resumen de tus finanzas hoy"). Cuando el usuario logre algo, se lo haremos saber ("¡Cumpliste tu meta de ahorro!"), y las alertas solo informarán lo que pasó, sin regañar ("Has superado tu presupuesto en Entretenimiento"), junto con una opción para resolverlo. Al hablar de la planificación y de la IA seremos claros sobre lo que hacen y lo que no: por ejemplo, "El borrador todavía no modifica tu presupuesto" o "La categoría es una sugerencia; puedes cambiarla". Queremos que el usuario sienta que Intiva lo ayuda con sus gastos, que no lo juzga y que él mantiene el control de su información.
 
 ### 6.1.2. Web, Mobile & Devices Style Guidelines
 
-Intiva contempla una landing informativa, una aplicación móvil Android para el registro diario y una aplicación web para consultar gráficos y reportes. Las entrevistas mencionan el uso de celulares y computadoras. La elección de Android también responde a TS 007 y al acceso a notificaciones requerido por TS 023; no se fundamenta en porcentajes de dispositivos cuya base de cálculo aún no está documentada.
+Intiva contempla una landing informativa, una aplicación móvil Android para el registro diario y una aplicación web para consultar gráficos y reportes. Las entrevistas mencionan el uso de celulares y computadoras. La elección de Android también responde a TS 007 y a las notificaciones de seguimiento previstas en US 035; no se fundamenta en porcentajes de dispositivos cuya base de cálculo aún no está documentada.
 
 **Landing Page**
 
@@ -1084,7 +1115,7 @@ Intiva contempla una landing informativa, una aplicación móvil Android para el
 - Se diseñará sobre un ancho de referencia de 360 a 390 dp, como referencia de diseño adaptable; la distribución se verificará en distintos tamaños de pantalla.
 - Los botones de acción principal ocuparán todo el ancho de la pantalla y estarán en la parte inferior, para alcanzarlos fácilmente con el pulgar.
 - Para registrar montos se usará un teclado numérico propio con dígitos grandes, evitando abrir el teclado del sistema.
-- La solicitud de categorización con IA explicará qué datos del formulario se usarán y ofrecerá selección manual. La aprobación del fondo mostrará las condiciones antes de que cada miembro firme.
+- La solicitud de categorización con IA explicará qué datos del formulario se usarán y ofrecerá selección manual. La aprobación mostrará los límites, aportes previstos y recordatorios antes de aplicar el plan.
 - Se usarán los íconos de Material Symbols, con un ícono propio por cada categoría de gasto (por ejemplo, un carrito para supermercado o cubiertos para alimentación).
 
 **Aplicación web**
@@ -1112,7 +1143,6 @@ Se aplicará en los procesos que tienen pasos definidos, para que el usuario sep
 - Registro e inicio: presentación de la aplicación (onboarding) → registro o inicio de sesión → configuración inicial.
 - Registro manual de un movimiento: tipo (gasto o ingreso) → monto → categoría → cuenta → fecha → guardar. Este proceso se diseñará para completarse en cinco pasos o menos, tal como se definió en el escenario de usabilidad del Capítulo IV.
 - Categorización IA: ingresar gasto → pedir sugerencia → aceptar o corregir → revisar y guardar.
-- Fondo familiar: proponer gasto → revisar aprobadores → aprobar o rechazar → consultar el resultado confirmado.
 - Creación de una meta de ahorro: nombre → monto objetivo → fecha límite → individual o familiar → confirmar.
 - Recuperación de contraseña: ingresar correo → verificar código → nueva contraseña.
 - Generación de un reporte en la aplicación web: tipo de reporte → período → integrantes incluidos → descargar.
@@ -1121,10 +1151,9 @@ En la landing page, las secciones también seguirán un orden pensado para conve
 
 **Esquemas de categorización**
 
-- Por tópico: las funcionalidades de la aplicación móvil se agruparán según el tema que atienden: Transacciones, Asistente IA, Fondo familiar, Control de presupuesto (límites de gasto), Metas de ahorro, Grupo familiar, Notificaciones y Perfil. La aplicación web se dividirá en Panel y Reportes. Los movimientos también se categorizarán por tópico (Alimentación, Transporte, Vivienda, Salud, Educación, Entretenimiento, Otros para gastos; Salario, Freelance, Negocio, Inversión, Otros para ingresos).
 - Cronológico: el historial de movimientos, las notificaciones y los aportes a metas se mostrarán del más reciente al más antiguo, agrupados por día ("Hoy", "Ayer"). Los recordatorios de pago se ordenarán por la fecha de vencimiento más próxima.
 - Por audiencia: se diferenciará la información según el tipo de usuario. El responsable de la economía familiar (administrador del grupo) podrá invitar integrantes, asignar roles y crear metas o límites familiares, mientras que un integrante solo verá y registrará movimientos del grupo. Además, la aplicación web estará orientada sobre todo al responsable de la economía familiar, que es quien revisa los reportes del hogar.
-- Por estado: las propuestas del fondo se separarán en pendientes de aprobación, pendientes de red, validadas, rechazadas y con error. Solo las validadas aparecerán como gastos conciliados.
+- Por estado: borrador, aplicando, activo, descartado o error. Si solo se aplican algunas acciones, se muestra cuáles siguen pendientes.
 - Alfabético: se usará en listas de selección largas, como la lista de categorías (después de las más usadas) y la lista de integrantes del grupo familiar.
 
 ### 6.2.2. Labeling Systems
@@ -1159,18 +1188,9 @@ Asimismo, se usarán etiquetas de acción como:
 * "Ajustar límite"
 * "Cerrar sesión"
 
-Para la aprobación del fondo familiar y la categorización con IA se usarán etiquetas que dejen claro que el usuario decide:
-* "Fondo familiar"
-* "Proponer gasto" / "Ver propuestas"
-* "Pendiente de aprobación"
-* "Revisar gasto"
-* "Guardar gasto" (personal) / "Aprobar y firmar" / "Rechazar propuesta" (fondo)
-* "Aceptar categoría" / "Cambiar categoría"
-* "Continuar manualmente"
+Para la planificación se usarán etiquetas como **Ver proyección**, **Revisar plan**, **Editar borrador**, **Aprobar plan** y **Consultar estado**. La categoría sugerida se puede aceptar o cambiar antes de guardar.
 
-En la aplicación web se usarán las etiquetas "Panel", "Reportes", "Descargar reporte", "Notificaciones" y "Cerrar sesión".
-
-Por último, se usarán etiquetas de estado para que el usuario identifique rápidamente la situación de sus finanzas: "A buen ritmo", "¡Cerca del límite!" y "Límite alcanzado" (límites de gasto), "En progreso" y "Meta alcanzada" (metas de ahorro), "Pendiente de aprobación", "Esperando confirmación", "Validado" y "Rechazado" (fondo familiar), y "Categoría sugerida por IA" (registro de gasto), y "Admin" y "Miembro" (roles del grupo familiar).
+Por último, se usarán etiquetas de estado para que el usuario identifique rápidamente la situación de sus finanzas: "A buen ritmo", "¡Cerca del límite!" y "Límite alcanzado" (límites de gasto), "En progreso" y "Meta alcanzada" (metas de ahorro), "Borrador", "Aplicando", "Activo", "Descartado" y "Error" (plan mensual), y "Categoría sugerida por IA" (registro de gasto), y "Admin" y "Miembro" (roles del grupo familiar).
 
 ### 6.2.3. Searching Systems
 
@@ -1195,7 +1215,7 @@ Los metadatos propuestos describen el contenido de la landing y configuran su pr
 ```html
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Intiva - Menos registro, más control en familia</title>
+<title>Intiva - Tus finanzas, con un plan hecho para ti</title>
 <meta name="description" content="Registra tus gastos con ayuda de las notificaciones de tus apps financieras, recibe sugerencias de categoría con IA y organiza las finanzas de tu familia con Intiva.">
 <meta name="author" content="Balanza">
 <meta name="robots" content="index, follow">
@@ -1206,8 +1226,8 @@ Los metadatos propuestos describen el contenido de la landing y configuran su pr
 <link rel="alternate" hreflang="en" href="https://intiva.vercel.app/en/">
 
 <!-- Vista previa al compartir el enlace (WhatsApp, Facebook, LinkedIn) -->
-<meta property="og:title" content="Intiva - Menos registro, más control en familia">
-<meta property="og:description" content="Categorías y asistencia financiera con IA, y fondos familiares con aprobación unánime mediante smart contracts.">
+<meta property="og:title" content="Intiva - Tus finanzas, con un plan hecho para ti">
+<meta property="og:description" content="Categorías, asistencia y planificación financiera con IA.">
 <meta property="og:image" content="https://intiva.vercel.app/logo.png">
 <meta property="og:url" content="https://intiva.vercel.app/">
 <meta property="og:type" content="website">
@@ -1234,7 +1254,7 @@ Para la landing page se usará una navegación jerárquica de una sola página, 
 Para la aplicación móvil se escogieron distintos patrones conocidos de Mobile UI. A continuación se explica cómo funcionará cada uno:
 
 * "Sticky" Fixed Navigation: se usará una barra de navegación inferior fija con los botones "Inicio", "Transacciones", "Metas", "Familia" y "Perfil", siempre al alcance del pulgar.
-* Content-based Navigation: al tocar un elemento del contenido se accederá a su detalle. Por ejemplo, al tocar un movimiento se verá su información completa; al tocar una meta, su progreso y aportes; al tocar una propuesta del fondo, sus condiciones y aprobaciones; y al tocar una notificación, la pantalla relacionada con ella (por ejemplo, el límite de gasto superado o el detalle de un recordatorio).
+* Content-based Navigation: al tocar un elemento del contenido se accederá a su detalle. Por ejemplo, al tocar un movimiento se verá su información completa; al tocar una meta, su progreso y aportes; al tocar un plan, su proyección, acciones y estado; y al tocar una notificación, la pantalla relacionada con ella (por ejemplo, el límite de gasto superado o el detalle de un recordatorio).
 * Floating Action Button: se usará un botón flotante "+" para la acción más frecuente de cada sección, como crear una nueva meta o un nuevo límite de gasto.
 * Vertical Navigation: se usará para que los usuarios recorran listas como el historial de movimientos, las propuestas pendientes de aprobación, las metas, los integrantes del grupo y las notificaciones.
 * Tabs: se usarán pestañas para separar información relacionada dentro de una misma sección, como metas "Personales" y "Familiares".
@@ -1244,7 +1264,7 @@ Para la aplicación móvil se escogieron distintos patrones conocidos de Mobile 
     * Confirmar la eliminación de un movimiento, una meta o una categoría.
     * Avisar que se superó un límite de gasto, con la opción de ajustarlo.
     * Pedir confirmación cuando la IA no esté segura de la categoría y proponga "Otros".
-    * Confirmar el rechazo de una propuesta del fondo, sin registrar ningún gasto ni modificar el saldo.
+    * Confirmar si se descarta el borrador sin aplicar cambios.
     * Aceptar o rechazar una invitación a un grupo familiar.
     * Confirmar la salida de un grupo familiar o la eliminación de un integrante.
 
@@ -1252,21 +1272,19 @@ Para la aplicación web se usará una barra lateral fija con las secciones "Pane
 
 ## 6.3. Landing Page UI Design
 
-La entrega TP1 de Balanza presenta dos tecnologías emergentes para Intiva: **inteligencia artificial** para categorización y asistencia financiera personal, y **blockchain mediante smart contracts** para aprobar gastos del fondo familiar. La IA ayuda a identificar gastos hormiga y orientar metas; el contrato exige que todos los miembros aprueben una misma propuesta antes de validar el gasto.
-
-La trazabilidad corresponde a US 032 (fondo familiar), US 033 (categoría IA), US 034 (asistente), TS 023 (smart contracts) y TS 024 (adaptador IA) del [capítulo III](03-cha03-requirements-specification.md). Los diseños vigentes se encuentran en la página **TP1 · IA y smart contracts** del [archivo Figma de Intiva](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2045-2348). Las pantallas representan diseño académico; no acreditan un modelo validado ni un contrato desplegado.
+La landing presenta categorización, asistencia y planificación financiera con IA. El flujo mensual cubre US 032 y TS 023; US 035 corresponde a la segunda etapa. [Abrir la página Prototipo de Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2045-2348).
 
 ### 6.3.1. Landing Page Wireframe
 
-La propuesta **“Tus finanzas, con IA y acuerdos en familia”** organiza la landing en navegación, hero, llamada a la acción, categorización, asistencia para el ahorro, aprobación del fondo y explicación del control del usuario. El escritorio de 1440 px presenta una lectura vertical y la versión móvil de 390 px conserva el orden de los bloques en una columna.
+La propuesta **“Tus finanzas, con un plan hecho para ti”** organiza la landing en navegación, hero, llamada a la acción, categorización, asistencia para el ahorro, planificación mensual y control del usuario. El escritorio de 1440 px presenta una lectura vertical y la versión móvil de 390 px conserva el orden de los bloques en una columna.
 
 | Bloque | Mensaje y propósito | Requisito |
 | --- | --- | --- |
 | Hero y navegación | Presentar Intiva y llevar al visitante a la explicación de beneficios. | US 001, US 002 |
 | IA para gastos | Ingresar datos y aceptar o corregir la categoría antes de guardar. | US 033 |
 | Asistente para el ahorro | Consultar gastos hormiga y ajustes orientativos para una meta. | US 034 |
-| Fondo familiar | Proponer un gasto y exigir la aprobación de todos los miembros. | US 032 |
-| Control y privacidad | Datos autorizados para IA; propuestas sin unanimidad no alteran el saldo. | TS 023, TS 024 |
+| Plan mensual | Proyectar gastos, comparar riesgos y aprobar un borrador editable. | US 032 |
+| Control y privacidad | Consultar datos autorizados y aplicar solo la versión aprobada. | TS 023, TS 024 |
 | Equipo y planes | Identificar Balanza y reservar las condiciones de publicación y suscripción. | US 001, US 008 |
 
 ![Figura 6.3.1-A · Wireframe desktop](assets/img/cap06/landing-wireframe-desktop-v2.png)
@@ -1278,19 +1296,19 @@ La propuesta **“Tus finanzas, con IA y acuerdos en familia”** organiza la la
 
 ### 6.3.2. Landing Page Mock-up
 
-El mock-up aplica la paleta índigo y lima, fondos claros y jerarquía tipográfica de Intiva. Comunica las dos tecnologías mediante beneficios y pasos comprensibles: registrar y revisar, analizar y decidir, proponer y aprobar en familia. Los textos no presentan recomendaciones como resultados garantizados ni una aprobación enviada como gasto validado.
+El mock-up aplica la paleta índigo y lima de Intiva. Comunica tres beneficios: registrar y revisar, consultar gastos y metas, y proyectar y aprobar el plan del próximo mes.
 
 ![Figura 6.3.2-A · Mock-up de landing](assets/img/cap06/landing-mockup-v2.png)
 
 *Figura 6.3.2-A · Mock-up de landing. [Abrir diseño en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2051-3928).*
 
-La publicación de la aplicación, las condiciones de planes y la implementación del contrato siguen pendientes de validación. Los ejemplos no representan pagos reales.
+Las pantallas representan un diseño. Los importes son ilustrativos y aprobar un aporte previsto no mueve dinero.
 
 ## 6.4. Applications UX/UI Design
 
 ### 6.4.1. Applications Wireframes
 
-Los doce wireframes cubren tres recorridos: categorización asistida, consulta financiera y aprobación del fondo familiar. El registro comienza con datos ingresados por el usuario. Las sugerencias no modifican el saldo; la operación personal requiere guardado confirmado y la del fondo exige unanimidad y confirmación del contrato.
+Los doce wireframes cubren la categorización, la consulta al asistente y el plan mensual. El usuario revisa y aprueba el plan antes de que se apliquen sus acciones.
 
 | ID | Pantalla | Acción o estado | Requisito |
 | --- | --- | --- | --- |
@@ -1302,10 +1320,10 @@ Los doce wireframes cubren tres recorridos: categorización asistida, consulta f
 | WF06 | Gastos hormiga | Revisar gastos pequeños recurrentes y abrir los movimientos del análisis. | US 034 |
 | WF07 | Plan para mi meta | Consultar ajustes orientativos sin modificar automáticamente la meta. | US 034 |
 | WF08 | Ayuda no disponible | Conservar datos; continuar manualmente o reintentar. | TS 024 |
-| WF09 | Fondo familiar | Consultar miembros, saldo y regla de aprobación unánime. | US 032 |
-| WF10 | Proponer gasto | Fijar importe, concepto, destinatario y aprobadores. | US 032 |
-| WF11 | Revisar aprobaciones | Consultar votos; aprobar con firma o rechazar. | US 032, TS 023 |
-| WF12 | Resultado del contrato | Distinguir espera de confirmación, validado, rechazado y error. | TS 023 |
+| WF09 | Solicitar plan | Seleccionar el próximo mes y consultar historial autorizado. | US 032 |
+| WF10 | Proyección de gastos | Comparar el gasto esperado con ingresos, metas y límites vigentes. | US 032 |
+| WF11 | Editar y aprobar | Revisar límites, aportes previstos y recordatorios; aprobar la versión elegida. | US 032, TS 023 |
+| WF12 | Estado del plan | Distinguir aplicación, plan activo, descarte y error. | TS 023 |
 
 ![Figura 6.4.1-A · WF01 a WF04 · Categorización IA](assets/img/cap06/wireframes-ai-category.png)
 
@@ -1313,11 +1331,11 @@ Los doce wireframes cubren tres recorridos: categorización asistida, consulta f
 ![Figura 6.4.1-B · WF05 a WF08 · Asistente IA](assets/img/cap06/wireframes-ai-assistant.png)
 
 *Figura 6.4.1-B · WF05 a WF08 · Asistente IA. [Abrir diseño en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2051-3445).*
-![Figura 6.4.1-C · WF09 a WF12 · Smart contracts](assets/img/cap06/wireframes-smart-contracts.png)
+![Figura 6.4.1-C · WF09 a WF12 · Plan financiero mensual](assets/img/cap06/wireframes-plan-ia.png)
 
-*Figura 6.4.1-C · WF09 a WF12 · Smart contracts. [Abrir diseño en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2051-3506).*
+*Figura 6.4.1-C · WF09 a WF12 · Plan financiero mensual. [Abrir diseño en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2051-3506).*
 
-Los datos son ilustrativos: 8 compras de S/ 10.00 suman S/ 80.00; una meta de S/ 500.00 con S/ 300.00 ahorrados deja S/ 200.00 pendientes. Un gasto validado de S/ 48.90 sobre S/ 1,240.00 produce S/ 1,191.10. Pendiente, rechazo o fallo conserva S/ 1,240.00. Los estados de WF12 son variantes de la pantalla, no sucesos simultáneos.
+Ejemplo: para Comida, S/ 580 proyectados frente a un límite de S/ 500 muestran un riesgo de S/ 80. El aporte sugerido de S/ 100 queda programado en el plan y no mueve dinero.
 
 ### 6.4.2. Applications Wireflow Diagrams
 
@@ -1333,25 +1351,23 @@ Los datos son ilustrativos: 8 compras de S/ 10.00 suman S/ 80.00; una meta de S/
 
 *Figura 6.4.2-B · F02 · Asistente financiero. [Abrir diseño en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2051-4614).*
 
-**F03 · Aprobación unánime.** WF09 → WF10 → WF11 → WF12. Crear una propuesta fija sus aprobadores sin débito. Con dos votos de tres sigue pendiente; el tercero habilita la verificación del contrato. Solo tras confirmar la validación se refleja el gasto una vez. El rechazo cierra la propuesta sin débito. Un fallo de red exige consultar el estado antes de reenviar; cambiar las condiciones exige una propuesta nueva.
+**F03 · Plan financiero mensual.** WF09 → WF10 → WF11 → WF12. Se solicita la proyección, se revisa el riesgo y se ajusta el borrador. Aprobar habilita la aplicación de la versión elegida. Si faltan datos, se explica qué falta; si se descarta, no se aplica; ante un error se consulta el estado y se reintentan solo las acciones pendientes.
 
-![Figura 6.4.2-C · F03 · Fondo familiar](assets/img/cap06/wireflow-smart-contracts.png)
+![Figura 6.4.2-C · F03 · Plan financiero mensual](assets/img/cap06/wireflow-plan-ia.png)
 
-*Figura 6.4.2-C · F03 · Fondo familiar. [Abrir diseño en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2051-4652).*
+*Figura 6.4.2-C · F03 · Plan financiero mensual. [Abrir diseño en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2051-4652).*
 
 | Condición | Resultado |
 | --- | --- |
 | Categoría aceptada o corregida | Se conserva la decisión y se vuelve a revisión antes de guardar. |
 | IA indisponible o análisis sin base suficiente | Mensaje claro y continuidad manual. |
-| Falta alguna aprobación | Propuesta pendiente, sin cambio de saldo. |
-| Un miembro rechaza | Propuesta rechazada, sin cambio de saldo. |
-| Todos aprueban | Esperar el resultado confirmado del contrato. |
-| Contrato confirma la validación | Registrar el gasto una sola vez. |
-| Red sin respuesta | Consultar estado y evitar duplicar la operación. |
+| Borrador editado | Volver a revisar antes de aprobar. |
+| Plan descartado | No aplicar cambios. |
+| Error parcial | Mostrar el estado y reintentar solo acciones pendientes. |
 
 ### 6.4.3. Applications Mock-ups
 
-Esta sección presenta los mock-ups de la aplicación móvil (Android) y de la aplicación web. En cada pantalla se aplican los principios de diseño, los elementos visuales, el diseño inclusivo y la arquitectura de información definidos en los apartados [6.1](#61-style-guidelines) y [6.2](#62-information-architecture), así como el Design System de Intiva. Los mock-ups se elaboran en Figma, en el mismo archivo de los wireframes y wireflows. Las pantallas base de la aplicación se toman de Page 1, y las pantallas nuevas (WF01 a WF12) de la página TP1 · IA y smart contracts.
+Esta sección presenta los mock-ups de la aplicación móvil (Android) y de la aplicación web. En cada pantalla se aplican los principios de diseño, los elementos visuales, el diseño inclusivo y la arquitectura de información definidos en los apartados [6.1](#61-style-guidelines) y [6.2](#62-information-architecture), así como el Design System de Intiva. Los mock-ups se elaboran en Figma, en el mismo archivo de los wireframes y wireflows. Las pantallas base de la aplicación se toman de Page 1, y las pantallas nuevas (WF01 a WF12) de la página **Prototipo**.
 
 **Aplicación de la paleta por función.** Cada color cumple un rol fijo en todas las pantallas:
 
@@ -1387,7 +1403,7 @@ Esta sección presenta los mock-ups de la aplicación móvil (Android) y de la a
 
 *Figura 6.4.3-B. Mock-up del registro manual de un movimiento.[Abrir Mockup editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2045-2348).*
 
-**Ampliación TP1: IA y smart contracts.** Las composiciones revisadas sustituyen las pantallas de permiso y fuentes por el formulario con categorización IA, el asistente financiero y las propuestas del fondo familiar. Mantienen índigo para jerarquía y lima para acciones principales. WF12 distingue las variantes de espera, validación, rechazo y error.
+**Planificación financiera con IA.** Los mock-ups muestran solicitud, proyección, aprobación y aplicación del plan. El seguimiento mensual y los avisos propuestos pertenecen a US 035, segunda etapa.
 
 ![Figura 6.4.3-C · Mock-ups de categorización IA](assets/img/cap06/mockups-ai-category.png)
 
@@ -1395,9 +1411,11 @@ Esta sección presenta los mock-ups de la aplicación móvil (Android) y de la a
 ![Figura 6.4.3-D · Mock-ups del asistente IA](assets/img/cap06/mockups-ai-assistant.png)
 
 *Figura 6.4.3-D · Mock-ups del asistente IA. [Abrir diseño en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2051-3629).*
-![Figura 6.4.3-E · Mock-ups de smart contracts](assets/img/cap06/mockups-smart-contracts.png)
+![Figura 6.4.3-E · Mock-ups de planificación con IA](assets/img/cap06/mockups-plan-ia.png)
 
-*Figura 6.4.3-E · Mock-ups de smart contracts. [Abrir diseño en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2051-3690).*
+*Figura 6.4.3-E · Mock-ups de planificación con IA. [Abrir diseño en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2051-3690).*
+
+Las pantallas de los tres flujos, junto con la pantalla de inicio con el agente (HOME) y la lista de movimientos (MOV), se agrupan en la sección *6.4.2 · Mock-ups* de la página **Prototipo** del archivo de Figma. Esa agrupación es la base de los User Flows de [6.4.4](#644-applications-user-flow-diagrams) y del prototipo de [6.5](#65-applications-prototyping). [Abrir sección de mock-ups en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2082-763).
 
 **Mock-ups de la aplicación web**
 
@@ -1429,11 +1447,47 @@ Cada diagrama incluye la ruta esperada (**happy path**, línea continua en el di
 
 **UF03 · Consultar una meta de ahorro (F02).** Desde WF05 o WF06 se abre WF07. El usuario revisa la recomendación y decide si ajusta su planificación en las funciones habituales. La respuesta del asistente no cambia la meta por sí sola.
 
-**UF04 · Proponer un gasto familiar (F03).** Desde WF09, un miembro abre WF10 y envía una propuesta con importe y destinatario fijados. WF11 muestra quién debe aprobar. Crear la propuesta no modifica el saldo.
+**UF04 · Proyectar el próximo mes (F03).** El usuario solicita un plan, revisa la proyección por categoría y compara el riesgo con sus límites y metas.
 
-**UF05 · Aprobar o rechazar el gasto familiar (F03).** Cada miembro consulta WF11 y aprueba con su firma o rechaza. Un voto pendiente mantiene la propuesta; un rechazo la cierra. Con unanimidad, WF12 espera la confirmación y muestra el gasto validado solo después de verificarla. Error de red: consultar estado antes de reintentar. Los votos no se reutilizan si cambian las condiciones.
+**UF05 · Revisar y aprobar el plan (F03).** El usuario ajusta las acciones del borrador y aprueba una versión. Si la descarta no hay cambios; si falla la aplicación, consulta el estado antes de reintentar.
 
-Los diagramas F01, F02 y F03 de la sección 6.4.2 muestran las pantallas de estos recorridos. Los recorridos vigentes se basan en categorización IA, asistencia financiera y aprobación unánime.
+Los diagramas F01, F02 y F03 muestran categorización, asistencia y planificación.
+
+**Diagramas User Flow en Figma**
+
+Los siguientes diagramas incluyen los mock-ups de cada pantalla (HOME, WF01 a WF12 y MOV), las acciones que conectan una pantalla con otra y las rutas alternativas. Todos parten de la pantalla de inicio de la aplicación, que es el punto de entrada real del usuario. Se encuentran en la página **Prototipo** del archivo de Figma, en la sección *6.4.3 · User Flow Diagrams*.
+
+**User Flow 1 · Registro y categorización con IA (UF01, US 033)**
+
+- **User goal:** "Quiero registrar un gasto sin tener que elegir la categoría a mano, pero sin perder el control de lo que se guarda."
+- **Persona:** usuario individual de Intiva, que lleva sus gastos del día a día desde el celular.
+- **Happy path (línea continua):** HOME → toca «+ Gasto» → WF01 Registrar gasto → «Sugerir categoría con IA» → WF02 Categoría sugerida → «Aceptar categoría» → WF04 Revisar y guardar → «Guardar gasto» → WF04b Gasto guardado → «Ver movimientos» → MOV Movimientos. El saldo cambia de S/ 1,240.00 a S/ 1,191.10 solo después de guardar.
+- **Unhappy paths:** desde WF01, si la IA no está disponible (TS 024) se muestra WF08 Ayuda no disponible, que conserva los datos del formulario y permite elegir la categoría manualmente (WF03). Desde WF02, «Cambiar categoría» abre WF03 Elegir categoría, y al «Aplicar selección» se vuelve a WF04 para revisar antes de guardar.
+- **Condiciones:** la sugerencia nunca guarda por sí sola; el usuario siempre revisa y confirma. Un fallo al guardar mantiene los datos y el saldo anterior.
+
+![Figura 6.4.4-A · User Flow 1 · Registro y categorización con IA](assets/img/cap06/userflow-uf1-categoria-ia.png)
+
+*Figura 6.4.4-A · User Flow 1 · Registro y categorización con IA. [Abrir diagrama en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2082-1831).*
+
+**User Flow 2 · Asistente financiero (UF02 y UF03, US 034)**
+
+- **User goal:** "Quiero saber dónde se me va el dinero en gastos pequeños y cuánto me falta para mi meta de ahorro, sin que nada cambie solo."
+- **Persona:** usuario individual que quiere reducir gastos hormiga y cumplir una meta de ahorro.
+- **Happy path:** HOME → pestaña «Agente» → WF05 Asistente financiero (período y datos autorizados) → «Analizar mis gastos» → WF06 Gastos hormiga (8 compras de S/ 10.00 = S/ 80.00) → «Consultar meta de ahorro» → WF07 Plan para mi meta (S/ 300.00 ahorrados, faltan S/ 200.00) → «Volver al asistente» → WF05.
+- **Rutas alternativas:** desde WF06, «Ver movimientos» lleva a MOV para verificar los movimientos en los que se basa el análisis. Si no hay datos suficientes o la IA no responde, se muestra WF08 con la opción de continuar manualmente o reintentar.
+- **Condiciones:** el asistente solo orienta. Revisar una sugerencia no modifica el presupuesto ni ejecuta una transacción, y los montos son ilustrativos.
+
+![Figura 6.4.4-B · User Flow 2 · Asistente financiero](assets/img/cap06/userflow-uf2-asistente.png)
+
+*Figura 6.4.4-B · User Flow 2 · Asistente financiero. [Abrir diagrama en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2082-2301).*
+
+**User Flow 3 · Plan mensual (UF04 y UF05, US 032 y TS 023)**
+
+Solicitar → proyectar → revisar y editar → aprobar → consultar estado. Solo cuando se confirman las acciones requeridas el plan pasa a activo.
+
+[Abrir los user flows editables en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2082-1830).
+
+Los tres User Flows se relacionan con los wireflows F01, F02 y F03 de [6.4.2](#642-applications-wireflow-diagrams): mantienen los mismos códigos de pantalla, y los mismos estados y mensajes, y añaden la pantalla de inicio como punto de partida.
 
 
 **Diagramas de decisión de los recorridos vigentes**
@@ -1467,17 +1521,14 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  A["UF04 · Proponer gasto del fondo"] --> B["Fijar importe, destinatario y miembros"]
-  B --> C["UF05 · Cada miembro revisa"]
-  C --> D{"¿Algún rechazo?"}
-  D -- "Sí" --> E["Rechazada · saldo sin cambios"]
-  D -- "No" --> F{"¿Todos aprobaron?"}
-  F -- "No" --> G["Pendiente · saldo sin cambios"]
-  G --> C
-  F -- "Sí" --> H{"¿Contrato confirma validación?"}
-  H -- "En espera o error" --> I["Consultar estado · no duplicar gasto"]
-  I --> H
-  H -- "Sí" --> J["Registrar una vez · actualizar saldo"]
+ A[Solicitar plan] --> B[Ver proyección y riesgos]
+ B --> C[Revisar o editar borrador]
+ C --> D{Aprobar versión}
+ D -- No --> E[Descartar sin cambios]
+ D -- Sí --> F[Aplicar acciones aprobadas]
+ F --> G{Todas confirmadas}
+ G -- Sí --> H[Plan activo]
+ G -- No --> I[Consultar estado y reintentar pendientes]
 ```
 
 **Sitio web**
@@ -1485,7 +1536,7 @@ flowchart TD
 **UF06. Evaluar Intiva desde la landing**
 
 - **User goal:** "Quiero comprender la propuesta de Intiva y decidir si me interesa usarla."
-- **Actor y escenario:** visitante web que busca entender la utilidad de la categorización y asistencia con IA, la aprobación unánime y las condiciones de privacidad.
+- **Actor y escenario:** visitante web que busca entender la utilidad de la categorización y asistencia con IA, el plan mensual y las condiciones de privacidad.
 - **Happy path:** landing → beneficios, control y privacidad → decisión de evaluar → CTA "Descargar app" (ilustrativo).
 - **Unhappy path:** la información del equipo y los planes aún no está confirmada → la landing lo indica como pendiente y el visitante sigue consultando otras secciones.
 - **Límite:** el CTA es ilustrativo. No se dibuja una descarga completada ni una creación de cuenta, y la publicación en Google Play sigue pendiente.
@@ -1494,8 +1545,19 @@ UF06 es una meta web y no deriva de F01, F02 ni F03.
 
 
 *Figura 6.4.4-F. User Flow UF06. [Abrir diagrama editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2045-2348).*
-Las composiciones TP1 se importaron como elementos vectoriales y textos editables. Las imágenes del informe son exportaciones PNG de los mismos frames. La interacción del prototipo y las pruebas con usuarios se validarán en la siguiente etapa; los diagramas no acreditan conexiones de prototipo implementadas.
+Las composiciones TP1 se importaron como elementos vectoriales y textos editables. Las imágenes del informe son exportaciones PNG de los mismos frames. La interacción de estos recorridos se simula en el prototipo de [6.5](#65-applications-prototyping); las pruebas con usuarios se validarán en la siguiente etapa.
 
+## 6.5. Applications Prototyping
+
+La [sección de prototipo en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2082-3151) conserva los recorridos de categorización y consulta financiera, y sustituye el tercero por el plan mensual. Los estados WF12a–WF12d representan aplicación en curso, plan activo, descarte y error. Esta evidencia documenta las pantallas y sus rutas previstas; no acredita la integración con servicios reales.
+
+| Flujo | Recorrido de demostración |
+| --- | --- |
+| Categorización | WF01 → WF02 → WF04 → confirmación de guardado. |
+| Asistente | WF05 → WF06 → WF07 → volver al asistente. |
+| Plan mensual | WF09 → WF10 → WF11 → WF12a → WF12b. WF12c muestra descarte y WF12d muestra error. |
+
+Los mock-ups de [6.4.3](#643-applications-mock-ups) muestran el nuevo flujo. La edición de valores y la conexión con los servicios se verifican en la implementación.
 
 # Capítulo VII: Product Implementation, Validation & Deployment
 
@@ -1565,46 +1627,44 @@ La entrega reúne el análisis del problema, los requisitos y el diseño estrat�
 
 ### Sobre el Capítulo III: Requirements Specification
 
-- El alcance incorpora US 001 a US 034 y once épicas. US 032 exige aprobación unánime del fondo familiar, US 033 permite aceptar o corregir categorías IA y US 034 define asistencia para gastos hormiga y metas.
-- TS 023 define autorización, unanimidad y conciliación del smart contract; TS 024 restringe datos y valida respuestas del adaptador de IA. Las notificaciones habituales conservan FCM (TS 017).
+- EP 011 reúne la planificación financiera. US 032 cubre proyección, edición y aprobación; US 035 cubre seguimiento y avisos en la segunda etapa. US 033 y US 034 conservan categorización y asistencia.
+- TS 023 valida titularidad y versión y evita duplicar cambios al aplicar el plan; TS 024 valida las respuestas de IA. FCM conserva el canal push (TS 017).
 - Los criterios de aceptación permiten preparar pruebas funcionales. Describir un escenario esperado no acredita que ya haya sido implementado ni que la prueba haya pasado.
 
 ### Sobre el Capítulo IV: Strategic-Level Software Design
 
 - El capítulo IV propone un monolito modular y describe los contextos que organizan el dominio. Subscriptions se registra como contexto previsto en el diseño estratégico.
-- La clasificación, la asistencia IA y la aprobación por contrato son propuestas de TP1. La calidad de las respuestas, la red, las firmas y la confirmación deben validarse en la implementación.
 
 ### Sobre el Capítulo V: Tactical-Level Software Design
 
-- El diseño táctico documenta las cuatro capas de ocho bounded contexts, junto con diagramas de componentes, clases y base de datos. La propuesta del fondo separa acuerdos pendientes de movimientos confirmados y prevé conciliación idempotente.
+- El diseño táctico documenta las cuatro capas de ocho bounded contexts, junto con diagramas de componentes, clases y base de datos. El plan separa la propuesta editable de la ejecución autorizada y conserva el resultado de cada acción.
 - La categorización y el asistente IA se integran mediante puertos y adaptadores; las recomendaciones no ejecutan gastos ni modifican metas. Communications conserva el envío directo de notificaciones por FCM.
 
 ### Sobre el Capítulo VI: Solution UX Design
 
 - El capítulo contiene guías de estilo y arquitectura de información, así como la landing adaptada, sus wireframes para escritorio y móvil, doce wireframes de aplicación y tres wireflows elaborados para TP1.
-- Las pantallas representan categorización, asistencia financiera, propuestas, aprobación unánime y estados de confirmación, rechazo y error. Se relacionan con US 032, US 033, US 034, TS 023 y TS 024.
-- Las imágenes y composiciones vectoriales de Figma documentan el diseño corregido. Sus montos son ilustrativos; no representan precisión de IA ni contratos desplegados.
+- Las pantallas muestran categorización, asistencia y planificación: proyección, borrador, aprobación, aplicación y error.
+- Las imágenes y composiciones vectoriales de Figma documentan el diseño corregido. Sus montos son ilustrativos; no representan precisión de IA ni integraciones desplegadas.
 
 ### TP1: Conclusiones del equipo
 
-El equipo consolidó el diseño táctico y la experiencia de usuario de Intiva, relacionando los requisitos del proyecto con las capas del software, la organización de la información y las pantallas de la solución. Los aportes de los cuatro integrantes permiten revisar el comportamiento esperado de IA y smart contracts antes de su implementación.
+El equipo consolidó el diseño táctico y la experiencia de usuario de Intiva, relacionando los requisitos del proyecto con las capas del software, la organización de la información y las pantallas de la solución. Los aportes de los cuatro integrantes permiten revisar el comportamiento esperado de IA agéntica antes de su implementación.
 
-**Leonardo Solis — Capítulo V.** El diseño de las capas de dominio, interfaz, aplicación e infraestructura permite identificar dónde se aplican las reglas de negocio y dónde se resuelven las integraciones externas. Los diagramas de componentes, clases y base de datos ofrecen una referencia para implementar cada bounded context. En el fondo familiar, separar la propuesta del movimiento confirmado permite exigir unanimidad y evitar que una aprobación incompleta o un reintento registre el gasto más de una vez.
+**Leonardo Solis — Capítulo V.** El diseño de las capas de dominio, interfaz, aplicación e infraestructura permite identificar dónde se aplican las reglas de negocio y dónde se resuelven las integraciones externas. Los diagramas de componentes, clases y base de datos ofrecen una referencia para implementar cada bounded context. Separar el borrador del plan aprobado protege el consentimiento y evita repetir acciones.
 
 **Camila Loli — Secciones 6.1 y 6.2.** Las guías de estilo y la arquitectura de información establecen criterios comunes para la presentación de Intiva en web y móvil. Las etiquetas y la navegación deben ayudar a distinguir una sugerencia de IA, una propuesta pendiente y un gasto validado. La consistencia del diseño deberá contrastarse con pruebas de comprensión y uso en ambos segmentos de usuarios.
 
-**Didier Meza — Secciones 6.3, 6.4.1 y 6.4.2.** La landing, los wireframes y los wireflows convierten los requisitos en recorridos que pueden revisarse antes de desarrollar la aplicación. El diseño muestra que el usuario acepta o corrige la categoría antes de guardar, que la asistencia IA es orientativa y que el fondo solo registra un gasto después de la aprobación de todos y la confirmación del contrato. Los estados de espera, rechazo y error explican qué ocurre cuando el recorrido principal no se completa.
 
 **Omar Rivera — Secciones 6.4.3 y 6.4.4.** Los mock-ups y los user flows permiten revisar la presentación de las pantallas y su relación con los objetivos del usuario. La correspondencia con los wireflows ayuda a mantener las mismas acciones y condiciones en el diseño visual. Estos materiales sirven como base para conectar el prototipo y evaluar las tareas de registro, consulta y aprobación familiar.
 
-**Conclusión conjunta.** El TP1 establece una base de diseño compartida para la implementación de Intiva. La siguiente etapa requiere comprobar la calidad de las respuestas de IA, la autorización y unanimidad del contrato, la conciliación sin duplicados y la facilidad de uso de los recorridos. Las evidencias actuales respaldan las decisiones de diseño; los beneficios esperados de ahorro, menor esfuerzo y coordinación familiar deberán medirse con la solución implementada.
+**Conclusión conjunta.** El TP1 establece una base de diseño compartida para la implementación de Intiva. La siguiente etapa requiere comprobar la calidad de las respuestas de IA, la aprobación de la versión vigente y la aplicación sin duplicados y la facilidad de uso de los recorridos. Las evidencias actuales respaldan las decisiones de diseño; los beneficios esperados de ahorro, menor esfuerzo y coordinación familiar deberán medirse con la solución implementada.
 
 ### Recomendaciones
 
 - Implementar y verificar el diseño táctico del Capítulo V y completar la interacción del prototipo a partir de los mock-ups y flujos del Capítulo VI. El Capítulo VII aún no contiene evidencias de implementación, pruebas, validación o despliegue de la entrega actual.
 - Conciliar la matriz de respuestas de las entrevistas, los precios y datos del equipo de la landing y las versiones del stack con sus fuentes correspondientes.
-- Mantener alineados los diagramas estratégicos y tácticos con los adaptadores de IA y blockchain, distinguiendo módulos del backend y servicios externos.
-- Probar unanimidad, rechazo, votos duplicados o no autorizados, cambios de propuesta y fallos de red, sin débitos anticipados ni duplicados.
+- Mantener alineados los diagramas estratégicos y tácticos con los adaptadores de IA y servicios de planificación, distinguiendo módulos del backend y servicios externos.
+- Probar borradores con datos insuficientes, versiones obsoletas, fallos parciales y reintentos sin duplicados.
 - Evaluar la categorización y las recomendaciones con casos del dominio, sin presentar confianza como precisión medida. Verificar continuidad manual e información mínima autorizada.
 - Validar la facilidad de uso con personas de ambos segmentos antes de concluir que el producto reduce el esfuerzo de registro o mejora la coordinación familiar.
 
@@ -1622,13 +1682,8 @@ El equipo consolidó el diseño táctico y la experiencia de usuario de Intiva, 
 
 [Consultar el contenido del documento](docs/10-annexes.md).
 
-## Anexo A: Vídeos de entrevistas realizadas
-
-[Consultar los vídeos de entrevistas](docs/10-annexes.md#anexo-a-vídeos-de-entrevistas-realizadas).
-
 ## Anexo B: Diseños de Intiva en Figma — TP1
 
-El archivo reúne la landing page, los wireframes, los mock-ups y los flujos de usuario de Intiva. La página TP1 presenta los diseños de categorización y asistencia financiera con IA y de aprobación unánime del fondo familiar mediante smart contracts, documentados en el Capítulo VI.
+El archivo reúne la landing page, los wireframes, los mock-ups y los flujos de usuario de Intiva. La página Prototipo presenta los diseños de categorización y asistencia financiera con IA y de planificación financiera mensual con IA, documentados en el Capítulo VI.
 
 [Abrir los diseños TP1 de Intiva en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2045-2348).
-
