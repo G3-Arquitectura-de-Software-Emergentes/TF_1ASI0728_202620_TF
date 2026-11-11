@@ -129,3 +129,5 @@ Los siguientes casos son aspectos por verificar durante la evaluación. La sever
 **Problema #5 — Estado tras un error.** Pantalla: estado del plan; tarea asociada: S2-03. Distinguir acciones aplicadas y pendientes, con opción para reintentar solo las pendientes. Comprobación: simular un fallo y pedir que identifique si el recordatorio ya se programó.
 
 **Problema #6 — Riesgo señalado solo con color.** Pantalla: proyección; revisión de diseño inclusivo. Verificar que el riesgo se entienda sin el color; si falta, incluir el texto «S/ 80 sobre el límite». Comprobación: revisar en escala de grises si aún se entiende el aviso.
+
+## 7.4. Video About-the-Product
