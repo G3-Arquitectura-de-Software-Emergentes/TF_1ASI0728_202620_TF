@@ -12,7 +12,7 @@ En esta sección se explican las guías de estilo para la landing page, la aplic
 
 *Brand Overview*
 
-Intiva es una plataforma digital que ayudará a las personas y a las familias a registrar sus ingresos y gastos, controlar su presupuesto mediante límites de gasto y planificar metas de ahorro de forma individual o compartida. Nace de una problemática identificada en las entrevistas: la mayoría de usuarios lleva sus finanzas en hojas de Excel, notas del celular o revisando manualmente sus billeteras digitales (Yape, Plin, apps bancarias), lo que vuelve el registro tedioso y deja la información fragmentada entre los integrantes del hogar. Intiva busca centralizar esa información, presentarla de forma visual y acompañar al usuario con alertas y recordatorios para que tome mejores decisiones financieras. La IA sugerirá categorías a partir de la descripción ingresada y ofrecerá orientación sobre gastos hormiga y metas. El usuario revisará cada sugerencia antes de guardar o tomar una decisión. Los fondos familiares requerirán aprobación de todos sus miembros mediante smart contracts. Su eslogan, "Controla tus finanzas, transforma tu vida", resume esa promesa, y en la landing page se comunica con el mensaje "Menos registro, más control en familia".
+Intiva es una plataforma digital que ayudará a las personas y a las familias a registrar sus ingresos y gastos, controlar su presupuesto mediante límites de gasto y planificar metas de ahorro de forma individual o compartida. Nace de una problemática identificada en las entrevistas: la mayoría de usuarios lleva sus finanzas en hojas de Excel, notas del celular o revisando manualmente sus billeteras digitales (Yape, Plin, apps bancarias), lo que vuelve el registro tedioso y deja la información fragmentada entre los integrantes del hogar. Intiva busca centralizar esa información, presentarla de forma visual y acompañar al usuario con alertas y recordatorios para que tome mejores decisiones financieras. La IA sugerirá categorías a partir de la descripción ingresada y ofrecerá orientación sobre gastos hormiga y metas. El usuario revisará cada sugerencia antes de guardar o tomar una decisión. El agente propone un plan mensual que el usuario puede editar y aprobar. Su eslogan, "Controla tus finanzas, transforma tu vida", resume esa promesa, y en la landing page se comunica con el mensaje "Tus finanzas, con un plan hecho para ti".
 
 *Brand Name*
 
@@ -71,7 +71,7 @@ A continuación se presenta la guía de estilo de Intiva, que reúne la paleta d
 
 *Guía de estilo de Intiva: paleta de colores, tipografías y componentes base. Fuente: elaboración propia en Figma.*
 
-También usaremos colores para indicar el estado de las finanzas, de modo que el usuario lo entienda sin leer el detalle: verde cuando un límite de gasto va bien, ámbar cuando está cerca de alcanzarse y rojo cuando se supera. Las propuestas del fondo pendientes de aprobación se mostrarán en tonos neutros para diferenciarlas de los gastos validados. Para no depender solo del color, cada estado irá acompañado de un texto, y los montos se mostrarán con signo ("+" para ingresos y "−" para gastos).
+También usaremos colores para indicar el estado de las finanzas, de modo que el usuario lo entienda sin leer el detalle: verde cuando un límite de gasto va bien, ámbar cuando está cerca de alcanzarse y rojo cuando se supera. Los borradores se mostrarán en tonos neutros para diferenciarlos del plan activo. Para no depender solo del color, cada estado irá acompañado de un texto, y los montos se mostrarán con signo ("+" para ingresos y "−" para gastos).
 
 **Spacing**
 
@@ -113,11 +113,11 @@ Usaremos esquinas redondeadas para que la interfaz se vea amigable: 8 para input
 
 **Tone of voice**
 
-Usaremos un tono cercano y sencillo. En las entrevistas vimos que los términos financieros técnicos confunden a los usuarios, por lo que evitaremos la jerga y trataremos al usuario de "tú" (por ejemplo, "Aquí está el resumen de tus finanzas hoy"). Cuando el usuario logre algo, se lo haremos saber ("¡Cumpliste tu meta de ahorro!"), y las alertas solo informarán lo que pasó, sin regañar ("Has superado tu presupuesto en Entretenimiento"), junto con una opción para resolverlo. Al hablar de la aprobación del fondo y de la IA seremos claros sobre lo que hacen y lo que no: por ejemplo, "Este gasto todavía no modifica tu saldo" o "La categoría es una sugerencia; puedes cambiarla". Queremos que el usuario sienta que Intiva lo ayuda con sus gastos, que no lo juzga y que él mantiene el control de su información.
+Usaremos un tono cercano y sencillo. En las entrevistas vimos que los términos financieros técnicos confunden a los usuarios, por lo que evitaremos la jerga y trataremos al usuario de "tú" (por ejemplo, "Aquí está el resumen de tus finanzas hoy"). Cuando el usuario logre algo, se lo haremos saber ("¡Cumpliste tu meta de ahorro!"), y las alertas solo informarán lo que pasó, sin regañar ("Has superado tu presupuesto en Entretenimiento"), junto con una opción para resolverlo. Al hablar de la planificación y de la IA seremos claros sobre lo que hacen y lo que no: por ejemplo, "El borrador todavía no modifica tu presupuesto" o "La categoría es una sugerencia; puedes cambiarla". Queremos que el usuario sienta que Intiva lo ayuda con sus gastos, que no lo juzga y que él mantiene el control de su información.
 
 ### 6.1.2. Web, Mobile & Devices Style Guidelines
 
-Intiva contempla una landing informativa, una aplicación móvil Android para el registro diario y una aplicación web para consultar gráficos y reportes. Las entrevistas mencionan el uso de celulares y computadoras. La elección de Android también responde a TS 007 y al acceso a notificaciones requerido por TS 023; no se fundamenta en porcentajes de dispositivos cuya base de cálculo aún no está documentada.
+Intiva contempla una landing informativa, una aplicación móvil Android para el registro diario y una aplicación web para consultar gráficos y reportes. Las entrevistas mencionan el uso de celulares y computadoras. La elección de Android también responde a TS 007 y a las notificaciones de seguimiento previstas en US 035; no se fundamenta en porcentajes de dispositivos cuya base de cálculo aún no está documentada.
 
 **Landing Page**
 
@@ -134,7 +134,7 @@ Intiva contempla una landing informativa, una aplicación móvil Android para el
 - Se diseñará sobre un ancho de referencia de 360 a 390 dp, como referencia de diseño adaptable; la distribución se verificará en distintos tamaños de pantalla.
 - Los botones de acción principal ocuparán todo el ancho de la pantalla y estarán en la parte inferior, para alcanzarlos fácilmente con el pulgar.
 - Para registrar montos se usará un teclado numérico propio con dígitos grandes, evitando abrir el teclado del sistema.
-- La solicitud de categorización con IA explicará qué datos del formulario se usarán y ofrecerá selección manual. La aprobación del fondo mostrará las condiciones antes de que cada miembro firme.
+- La solicitud de categorización con IA explicará qué datos del formulario se usarán y ofrecerá selección manual. La aprobación mostrará los límites, aportes previstos y recordatorios antes de aplicar el plan.
 - Se usarán los íconos de Material Symbols, con un ícono propio por cada categoría de gasto (por ejemplo, un carrito para supermercado o cubiertos para alimentación).
 
 **Aplicación web**
@@ -162,7 +162,6 @@ Se aplicará en los procesos que tienen pasos definidos, para que el usuario sep
 - Registro e inicio: presentación de la aplicación (onboarding) → registro o inicio de sesión → configuración inicial.
 - Registro manual de un movimiento: tipo (gasto o ingreso) → monto → categoría → cuenta → fecha → guardar. Este proceso se diseñará para completarse en cinco pasos o menos, tal como se definió en el escenario de usabilidad del Capítulo IV.
 - Categorización IA: ingresar gasto → pedir sugerencia → aceptar o corregir → revisar y guardar.
-- Fondo familiar: proponer gasto → revisar aprobadores → aprobar o rechazar → consultar el resultado confirmado.
 - Creación de una meta de ahorro: nombre → monto objetivo → fecha límite → individual o familiar → confirmar.
 - Recuperación de contraseña: ingresar correo → verificar código → nueva contraseña.
 - Generación de un reporte en la aplicación web: tipo de reporte → período → integrantes incluidos → descargar.
@@ -171,10 +170,9 @@ En la landing page, las secciones también seguirán un orden pensado para conve
 
 **Esquemas de categorización**
 
-- Por tópico: las funcionalidades de la aplicación móvil se agruparán según el tema que atienden: Transacciones, Asistente IA, Fondo familiar, Control de presupuesto (límites de gasto), Metas de ahorro, Grupo familiar, Notificaciones y Perfil. La aplicación web se dividirá en Panel y Reportes. Los movimientos también se categorizarán por tópico (Alimentación, Transporte, Vivienda, Salud, Educación, Entretenimiento, Otros para gastos; Salario, Freelance, Negocio, Inversión, Otros para ingresos).
 - Cronológico: el historial de movimientos, las notificaciones y los aportes a metas se mostrarán del más reciente al más antiguo, agrupados por día ("Hoy", "Ayer"). Los recordatorios de pago se ordenarán por la fecha de vencimiento más próxima.
 - Por audiencia: se diferenciará la información según el tipo de usuario. El responsable de la economía familiar (administrador del grupo) podrá invitar integrantes, asignar roles y crear metas o límites familiares, mientras que un integrante solo verá y registrará movimientos del grupo. Además, la aplicación web estará orientada sobre todo al responsable de la economía familiar, que es quien revisa los reportes del hogar.
-- Por estado: las propuestas del fondo se separarán en pendientes de aprobación, pendientes de red, validadas, rechazadas y con error. Solo las validadas aparecerán como gastos conciliados.
+- Por estado: borrador, aplicando, activo, descartado o error. Si solo se aplican algunas acciones, se muestra cuáles siguen pendientes.
 - Alfabético: se usará en listas de selección largas, como la lista de categorías (después de las más usadas) y la lista de integrantes del grupo familiar.
 
 ### 6.2.2. Labeling Systems
@@ -209,18 +207,9 @@ Asimismo, se usarán etiquetas de acción como:
 * "Ajustar límite"
 * "Cerrar sesión"
 
-Para la aprobación del fondo familiar y la categorización con IA se usarán etiquetas que dejen claro que el usuario decide:
-* "Fondo familiar"
-* "Proponer gasto" / "Ver propuestas"
-* "Pendiente de aprobación"
-* "Revisar gasto"
-* "Guardar gasto" (personal) / "Aprobar y firmar" / "Rechazar propuesta" (fondo)
-* "Aceptar categoría" / "Cambiar categoría"
-* "Continuar manualmente"
+Para la planificación se usarán etiquetas como **Ver proyección**, **Revisar plan**, **Editar borrador**, **Aprobar plan** y **Consultar estado**. La categoría sugerida se puede aceptar o cambiar antes de guardar.
 
-En la aplicación web se usarán las etiquetas "Panel", "Reportes", "Descargar reporte", "Notificaciones" y "Cerrar sesión".
-
-Por último, se usarán etiquetas de estado para que el usuario identifique rápidamente la situación de sus finanzas: "A buen ritmo", "¡Cerca del límite!" y "Límite alcanzado" (límites de gasto), "En progreso" y "Meta alcanzada" (metas de ahorro), "Pendiente de aprobación", "Esperando confirmación", "Validado" y "Rechazado" (fondo familiar), y "Categoría sugerida por IA" (registro de gasto), y "Admin" y "Miembro" (roles del grupo familiar).
+Por último, se usarán etiquetas de estado para que el usuario identifique rápidamente la situación de sus finanzas: "A buen ritmo", "¡Cerca del límite!" y "Límite alcanzado" (límites de gasto), "En progreso" y "Meta alcanzada" (metas de ahorro), "Borrador", "Aplicando", "Activo", "Descartado" y "Error" (plan mensual), y "Categoría sugerida por IA" (registro de gasto), y "Admin" y "Miembro" (roles del grupo familiar).
 
 ### 6.2.3. Searching Systems
 
@@ -245,7 +234,7 @@ Los metadatos propuestos describen el contenido de la landing y configuran su pr
 ```html
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Intiva - Menos registro, más control en familia</title>
+<title>Intiva - Tus finanzas, con un plan hecho para ti</title>
 <meta name="description" content="Registra tus gastos con ayuda de las notificaciones de tus apps financieras, recibe sugerencias de categoría con IA y organiza las finanzas de tu familia con Intiva.">
 <meta name="author" content="Balanza">
 <meta name="robots" content="index, follow">
@@ -256,8 +245,8 @@ Los metadatos propuestos describen el contenido de la landing y configuran su pr
 <link rel="alternate" hreflang="en" href="https://intiva.vercel.app/en/">
 
 <!-- Vista previa al compartir el enlace (WhatsApp, Facebook, LinkedIn) -->
-<meta property="og:title" content="Intiva - Menos registro, más control en familia">
-<meta property="og:description" content="Categorías y asistencia financiera con IA, y fondos familiares con aprobación unánime mediante smart contracts.">
+<meta property="og:title" content="Intiva - Tus finanzas, con un plan hecho para ti">
+<meta property="og:description" content="Categorías, asistencia y planificación financiera con IA.">
 <meta property="og:image" content="https://intiva.vercel.app/logo.png">
 <meta property="og:url" content="https://intiva.vercel.app/">
 <meta property="og:type" content="website">
@@ -284,7 +273,7 @@ Para la landing page se usará una navegación jerárquica de una sola página, 
 Para la aplicación móvil se escogieron distintos patrones conocidos de Mobile UI. A continuación se explica cómo funcionará cada uno:
 
 * "Sticky" Fixed Navigation: se usará una barra de navegación inferior fija con los botones "Inicio", "Transacciones", "Metas", "Familia" y "Perfil", siempre al alcance del pulgar.
-* Content-based Navigation: al tocar un elemento del contenido se accederá a su detalle. Por ejemplo, al tocar un movimiento se verá su información completa; al tocar una meta, su progreso y aportes; al tocar una propuesta del fondo, sus condiciones y aprobaciones; y al tocar una notificación, la pantalla relacionada con ella (por ejemplo, el límite de gasto superado o el detalle de un recordatorio).
+* Content-based Navigation: al tocar un elemento del contenido se accederá a su detalle. Por ejemplo, al tocar un movimiento se verá su información completa; al tocar una meta, su progreso y aportes; al tocar un plan, su proyección, acciones y estado; y al tocar una notificación, la pantalla relacionada con ella (por ejemplo, el límite de gasto superado o el detalle de un recordatorio).
 * Floating Action Button: se usará un botón flotante "+" para la acción más frecuente de cada sección, como crear una nueva meta o un nuevo límite de gasto.
 * Vertical Navigation: se usará para que los usuarios recorran listas como el historial de movimientos, las propuestas pendientes de aprobación, las metas, los integrantes del grupo y las notificaciones.
 * Tabs: se usarán pestañas para separar información relacionada dentro de una misma sección, como metas "Personales" y "Familiares".
@@ -294,7 +283,7 @@ Para la aplicación móvil se escogieron distintos patrones conocidos de Mobile 
     * Confirmar la eliminación de un movimiento, una meta o una categoría.
     * Avisar que se superó un límite de gasto, con la opción de ajustarlo.
     * Pedir confirmación cuando la IA no esté segura de la categoría y proponga "Otros".
-    * Confirmar el rechazo de una propuesta del fondo, sin registrar ningún gasto ni modificar el saldo.
+    * Confirmar si se descarta el borrador sin aplicar cambios.
     * Aceptar o rechazar una invitación a un grupo familiar.
     * Confirmar la salida de un grupo familiar o la eliminación de un integrante.
 
@@ -302,21 +291,19 @@ Para la aplicación web se usará una barra lateral fija con las secciones "Pane
 
 ## 6.3. Landing Page UI Design
 
-La entrega TP1 de Balanza presenta dos tecnologías emergentes para Intiva: **inteligencia artificial** para categorización y asistencia financiera personal, y **blockchain mediante smart contracts** para aprobar gastos del fondo familiar. La IA ayuda a identificar gastos hormiga y orientar metas; el contrato exige que todos los miembros aprueben una misma propuesta antes de validar el gasto.
-
-La trazabilidad corresponde a US 032 (fondo familiar), US 033 (categoría IA), US 034 (asistente), TS 023 (smart contracts) y TS 024 (adaptador IA) del [capítulo III](03-cha03-requirements-specification.md). Los diseños vigentes se encuentran en la página **TP1 · IA y smart contracts** del [archivo Figma de Intiva](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2045-2348). Las pantallas representan diseño académico; no acreditan un modelo validado ni un contrato desplegado.
+La landing presenta categorización, asistencia y planificación financiera con IA. El flujo mensual cubre US 032 y TS 023; US 035 corresponde a la segunda etapa. [Abrir la página Prototipo de Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2045-2348).
 
 ### 6.3.1. Landing Page Wireframe
 
-La propuesta **“Tus finanzas, con IA y acuerdos en familia”** organiza la landing en navegación, hero, llamada a la acción, categorización, asistencia para el ahorro, aprobación del fondo y explicación del control del usuario. El escritorio de 1440 px presenta una lectura vertical y la versión móvil de 390 px conserva el orden de los bloques en una columna.
+La propuesta **“Tus finanzas, con un plan hecho para ti”** organiza la landing en navegación, hero, llamada a la acción, categorización, asistencia para el ahorro, planificación mensual y control del usuario. El escritorio de 1440 px presenta una lectura vertical y la versión móvil de 390 px conserva el orden de los bloques en una columna.
 
 | Bloque | Mensaje y propósito | Requisito |
 | --- | --- | --- |
 | Hero y navegación | Presentar Intiva y llevar al visitante a la explicación de beneficios. | US 001, US 002 |
 | IA para gastos | Ingresar datos y aceptar o corregir la categoría antes de guardar. | US 033 |
 | Asistente para el ahorro | Consultar gastos hormiga y ajustes orientativos para una meta. | US 034 |
-| Fondo familiar | Proponer un gasto y exigir la aprobación de todos los miembros. | US 032 |
-| Control y privacidad | Datos autorizados para IA; propuestas sin unanimidad no alteran el saldo. | TS 023, TS 024 |
+| Plan mensual | Proyectar gastos, comparar riesgos y aprobar un borrador editable. | US 032 |
+| Control y privacidad | Consultar datos autorizados y aplicar solo la versión aprobada. | TS 023, TS 024 |
 | Equipo y planes | Identificar Balanza y reservar las condiciones de publicación y suscripción. | US 001, US 008 |
 
 ![Figura 6.3.1-A · Wireframe desktop](../assets/img/cap06/landing-wireframe-desktop-v2.png)
@@ -328,19 +315,19 @@ La propuesta **“Tus finanzas, con IA y acuerdos en familia”** organiza la la
 
 ### 6.3.2. Landing Page Mock-up
 
-El mock-up aplica la paleta índigo y lima, fondos claros y jerarquía tipográfica de Intiva. Comunica las dos tecnologías mediante beneficios y pasos comprensibles: registrar y revisar, analizar y decidir, proponer y aprobar en familia. Los textos no presentan recomendaciones como resultados garantizados ni una aprobación enviada como gasto validado.
+El mock-up aplica la paleta índigo y lima de Intiva. Comunica tres beneficios: registrar y revisar, consultar gastos y metas, y proyectar y aprobar el plan del próximo mes.
 
 ![Figura 6.3.2-A · Mock-up de landing](../assets/img/cap06/landing-mockup-v2.png)
 
 *Figura 6.3.2-A · Mock-up de landing. [Abrir diseño en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2051-3928).*
 
-La publicación de la aplicación, las condiciones de planes y la implementación del contrato siguen pendientes de validación. Los ejemplos no representan pagos reales.
+Las pantallas representan un diseño. Los importes son ilustrativos y aprobar un aporte previsto no mueve dinero.
 
 ## 6.4. Applications UX/UI Design
 
 ### 6.4.1. Applications Wireframes
 
-Los doce wireframes cubren tres recorridos: categorización asistida, consulta financiera y aprobación del fondo familiar. El registro comienza con datos ingresados por el usuario. Las sugerencias no modifican el saldo; la operación personal requiere guardado confirmado y la del fondo exige unanimidad y confirmación del contrato.
+Los doce wireframes cubren la categorización, la consulta al asistente y el plan mensual. El usuario revisa y aprueba el plan antes de que se apliquen sus acciones.
 
 | ID | Pantalla | Acción o estado | Requisito |
 | --- | --- | --- | --- |
@@ -352,10 +339,10 @@ Los doce wireframes cubren tres recorridos: categorización asistida, consulta f
 | WF06 | Gastos hormiga | Revisar gastos pequeños recurrentes y abrir los movimientos del análisis. | US 034 |
 | WF07 | Plan para mi meta | Consultar ajustes orientativos sin modificar automáticamente la meta. | US 034 |
 | WF08 | Ayuda no disponible | Conservar datos; continuar manualmente o reintentar. | TS 024 |
-| WF09 | Fondo familiar | Consultar miembros, saldo y regla de aprobación unánime. | US 032 |
-| WF10 | Proponer gasto | Fijar importe, concepto, destinatario y aprobadores. | US 032 |
-| WF11 | Revisar aprobaciones | Consultar votos; aprobar con firma o rechazar. | US 032, TS 023 |
-| WF12 | Resultado del contrato | Distinguir espera de confirmación, validado, rechazado y error. | TS 023 |
+| WF09 | Solicitar plan | Seleccionar el próximo mes y consultar historial autorizado. | US 032 |
+| WF10 | Proyección de gastos | Comparar el gasto esperado con ingresos, metas y límites vigentes. | US 032 |
+| WF11 | Editar y aprobar | Revisar límites, aportes previstos y recordatorios; aprobar la versión elegida. | US 032, TS 023 |
+| WF12 | Estado del plan | Distinguir aplicación, plan activo, descarte y error. | TS 023 |
 
 ![Figura 6.4.1-A · WF01 a WF04 · Categorización IA](../assets/img/cap06/wireframes-ai-category.png)
 
@@ -363,11 +350,11 @@ Los doce wireframes cubren tres recorridos: categorización asistida, consulta f
 ![Figura 6.4.1-B · WF05 a WF08 · Asistente IA](../assets/img/cap06/wireframes-ai-assistant.png)
 
 *Figura 6.4.1-B · WF05 a WF08 · Asistente IA. [Abrir diseño en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2051-3445).*
-![Figura 6.4.1-C · WF09 a WF12 · Smart contracts](../assets/img/cap06/wireframes-smart-contracts.png)
+![Figura 6.4.1-C · WF09 a WF12 · Plan financiero mensual](../assets/img/cap06/wireframes-plan-ia.png)
 
-*Figura 6.4.1-C · WF09 a WF12 · Smart contracts. [Abrir diseño en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2051-3506).*
+*Figura 6.4.1-C · WF09 a WF12 · Plan financiero mensual. [Abrir diseño en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2051-3506).*
 
-Los datos son ilustrativos: 8 compras de S/ 10.00 suman S/ 80.00; una meta de S/ 500.00 con S/ 300.00 ahorrados deja S/ 200.00 pendientes. Un gasto validado de S/ 48.90 sobre S/ 1,240.00 produce S/ 1,191.10. Pendiente, rechazo o fallo conserva S/ 1,240.00. Los estados de WF12 son variantes de la pantalla, no sucesos simultáneos.
+Ejemplo: para Comida, S/ 580 proyectados frente a un límite de S/ 500 muestran un riesgo de S/ 80. El aporte sugerido de S/ 100 queda programado en el plan y no mueve dinero.
 
 ### 6.4.2. Applications Wireflow Diagrams
 
@@ -383,25 +370,23 @@ Los datos son ilustrativos: 8 compras de S/ 10.00 suman S/ 80.00; una meta de S/
 
 *Figura 6.4.2-B · F02 · Asistente financiero. [Abrir diseño en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2051-4614).*
 
-**F03 · Aprobación unánime.** WF09 → WF10 → WF11 → WF12. Crear una propuesta fija sus aprobadores sin débito. Con dos votos de tres sigue pendiente; el tercero habilita la verificación del contrato. Solo tras confirmar la validación se refleja el gasto una vez. El rechazo cierra la propuesta sin débito. Un fallo de red exige consultar el estado antes de reenviar; cambiar las condiciones exige una propuesta nueva.
+**F03 · Plan financiero mensual.** WF09 → WF10 → WF11 → WF12. Se solicita la proyección, se revisa el riesgo y se ajusta el borrador. Aprobar habilita la aplicación de la versión elegida. Si faltan datos, se explica qué falta; si se descarta, no se aplica; ante un error se consulta el estado y se reintentan solo las acciones pendientes.
 
-![Figura 6.4.2-C · F03 · Fondo familiar](../assets/img/cap06/wireflow-smart-contracts.png)
+![Figura 6.4.2-C · F03 · Plan financiero mensual](../assets/img/cap06/wireflow-plan-ia.png)
 
-*Figura 6.4.2-C · F03 · Fondo familiar. [Abrir diseño en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2051-4652).*
+*Figura 6.4.2-C · F03 · Plan financiero mensual. [Abrir diseño en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2051-4652).*
 
 | Condición | Resultado |
 | --- | --- |
 | Categoría aceptada o corregida | Se conserva la decisión y se vuelve a revisión antes de guardar. |
 | IA indisponible o análisis sin base suficiente | Mensaje claro y continuidad manual. |
-| Falta alguna aprobación | Propuesta pendiente, sin cambio de saldo. |
-| Un miembro rechaza | Propuesta rechazada, sin cambio de saldo. |
-| Todos aprueban | Esperar el resultado confirmado del contrato. |
-| Contrato confirma la validación | Registrar el gasto una sola vez. |
-| Red sin respuesta | Consultar estado y evitar duplicar la operación. |
+| Borrador editado | Volver a revisar antes de aprobar. |
+| Plan descartado | No aplicar cambios. |
+| Error parcial | Mostrar el estado y reintentar solo acciones pendientes. |
 
 ### 6.4.3. Applications Mock-ups
 
-Esta sección presenta los mock-ups de la aplicación móvil (Android) y de la aplicación web. En cada pantalla se aplican los principios de diseño, los elementos visuales, el diseño inclusivo y la arquitectura de información definidos en los apartados [6.1](#61-style-guidelines) y [6.2](#62-information-architecture), así como el Design System de Intiva. Los mock-ups se elaboran en Figma, en el mismo archivo de los wireframes y wireflows. Las pantallas base de la aplicación se toman de Page 1, y las pantallas nuevas (WF01 a WF12) de la página TP1 · IA y smart contracts.
+Esta sección presenta los mock-ups de la aplicación móvil (Android) y de la aplicación web. En cada pantalla se aplican los principios de diseño, los elementos visuales, el diseño inclusivo y la arquitectura de información definidos en los apartados [6.1](#61-style-guidelines) y [6.2](#62-information-architecture), así como el Design System de Intiva. Los mock-ups se elaboran en Figma, en el mismo archivo de los wireframes y wireflows. Las pantallas base de la aplicación se toman de Page 1, y las pantallas nuevas (WF01 a WF12) de la página **Prototipo**.
 
 **Aplicación de la paleta por función.** Cada color cumple un rol fijo en todas las pantallas:
 
@@ -437,7 +422,7 @@ Esta sección presenta los mock-ups de la aplicación móvil (Android) y de la a
 
 *Figura 6.4.3-B. Mock-up del registro manual de un movimiento.[Abrir Mockup editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2045-2348).*
 
-**Ampliación TP1: IA y smart contracts.** Las composiciones revisadas sustituyen las pantallas de permiso y fuentes por el formulario con categorización IA, el asistente financiero y las propuestas del fondo familiar. Mantienen índigo para jerarquía y lima para acciones principales. WF12 distingue las variantes de espera, validación, rechazo y error.
+**Planificación financiera con IA.** Los mock-ups muestran solicitud, proyección, aprobación y aplicación del plan. El seguimiento mensual y los avisos propuestos pertenecen a US 035, segunda etapa.
 
 ![Figura 6.4.3-C · Mock-ups de categorización IA](../assets/img/cap06/mockups-ai-category.png)
 
@@ -445,9 +430,9 @@ Esta sección presenta los mock-ups de la aplicación móvil (Android) y de la a
 ![Figura 6.4.3-D · Mock-ups del asistente IA](../assets/img/cap06/mockups-ai-assistant.png)
 
 *Figura 6.4.3-D · Mock-ups del asistente IA. [Abrir diseño en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2051-3629).*
-![Figura 6.4.3-E · Mock-ups de smart contracts](../assets/img/cap06/mockups-smart-contracts.png)
+![Figura 6.4.3-E · Mock-ups de planificación con IA](../assets/img/cap06/mockups-plan-ia.png)
 
-*Figura 6.4.3-E · Mock-ups de smart contracts. [Abrir diseño en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2051-3690).*
+*Figura 6.4.3-E · Mock-ups de planificación con IA. [Abrir diseño en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2051-3690).*
 
 Las pantallas de los tres flujos, junto con la pantalla de inicio con el agente (HOME) y la lista de movimientos (MOV), se agrupan en la sección *6.4.2 · Mock-ups* de la página **Prototipo** del archivo de Figma. Esa agrupación es la base de los User Flows de [6.4.4](#644-applications-user-flow-diagrams) y del prototipo de [6.5](#65-applications-prototyping). [Abrir sección de mock-ups en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2082-763).
 
@@ -481,11 +466,11 @@ Cada diagrama incluye la ruta esperada (**happy path**, línea continua en el di
 
 **UF03 · Consultar una meta de ahorro (F02).** Desde WF05 o WF06 se abre WF07. El usuario revisa la recomendación y decide si ajusta su planificación en las funciones habituales. La respuesta del asistente no cambia la meta por sí sola.
 
-**UF04 · Proponer un gasto familiar (F03).** Desde WF09, un miembro abre WF10 y envía una propuesta con importe y destinatario fijados. WF11 muestra quién debe aprobar. Crear la propuesta no modifica el saldo.
+**UF04 · Proyectar el próximo mes (F03).** El usuario solicita un plan, revisa la proyección por categoría y compara el riesgo con sus límites y metas.
 
-**UF05 · Aprobar o rechazar el gasto familiar (F03).** Cada miembro consulta WF11 y aprueba con su firma o rechaza. Un voto pendiente mantiene la propuesta; un rechazo la cierra. Con unanimidad, WF12 espera la confirmación y muestra el gasto validado solo después de verificarla. Error de red: consultar estado antes de reintentar. Los votos no se reutilizan si cambian las condiciones.
+**UF05 · Revisar y aprobar el plan (F03).** El usuario ajusta las acciones del borrador y aprueba una versión. Si la descarta no hay cambios; si falla la aplicación, consulta el estado antes de reintentar.
 
-Los diagramas F01, F02 y F03 de la sección 6.4.2 muestran las pantallas de estos recorridos. Los recorridos vigentes se basan en categorización IA, asistencia financiera y aprobación unánime.
+Los diagramas F01, F02 y F03 muestran categorización, asistencia y planificación.
 
 **Diagramas User Flow en Figma**
 
@@ -515,19 +500,13 @@ Los siguientes diagramas incluyen los mock-ups de cada pantalla (HOME, WF01 a WF
 
 *Figura 6.4.4-B · User Flow 2 · Asistente financiero. [Abrir diagrama en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2082-2301).*
 
-**User Flow 3 · Fondo familiar con aprobación unánime (UF04 y UF05, US 032 y TS 023)**
+**User Flow 3 · Plan mensual (UF04 y UF05, US 032 y TS 023)**
 
-- **User goal:** "Quiero proponer un gasto compartido y que solo se registre cuando todos los miembros del fondo estén de acuerdo."
-- **Personas:** Carlos, María y Ana, integrantes del fondo familiar "Hogar".
-- **Happy path:** HOME → pestaña «Familia» → WF09 Fondo familiar → «Proponer gasto» → WF10 Proponer gasto → «Enviar propuesta» → WF11 Revisar aprobaciones (2 de 3) → «Aprobar y firmar» → WF12a Esperando red (3 de 3 aprobaciones, el saldo no cambia) → «La red confirma» → WF12b Gasto validado. Solo en este último paso el saldo del fondo pasa de S/ 1,240.00 a S/ 1,191.10.
-- **Unhappy paths:** desde WF11, «Rechazar propuesta» lleva a WF12c Propuesta rechazada, sin cambio de saldo. Desde WF12a, un error de red (TS 023) lleva a WF12d No se pudo confirmar, donde el usuario consulta el estado antes de reintentar para no duplicar el gasto.
-- **Condiciones:** crear la propuesta no modifica el saldo; con una aprobación pendiente la propuesta sigue abierta, y si cambian las condiciones se exige una propuesta nueva.
+Solicitar → proyectar → revisar y editar → aprobar → consultar estado. Solo cuando se confirman las acciones requeridas el plan pasa a activo.
 
-![Figura 6.4.4-C · User Flow 3 · Fondo familiar](../assets/img/cap06/userflow-uf3-fondo-familiar.png)
+[Abrir los user flows editables en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2082-1830).
 
-*Figura 6.4.4-C · User Flow 3 · Fondo familiar con aprobación unánime. [Abrir diagrama en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2082-2681).*
-
-Los tres User Flows son consistentes con los wireflows F01, F02 y F03 de [6.4.2](#642-applications-wireflow-diagrams): mantienen los mismos códigos de pantalla, y los mismos estados y mensajes, y añaden la pantalla de inicio como punto de partida.
+Los tres User Flows se relacionan con los wireflows F01, F02 y F03 de [6.4.2](#642-applications-wireflow-diagrams): mantienen los mismos códigos de pantalla, y los mismos estados y mensajes, y añaden la pantalla de inicio como punto de partida.
 
 
 **Diagramas de decisión de los recorridos vigentes**
@@ -561,17 +540,14 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  A["UF04 · Proponer gasto del fondo"] --> B["Fijar importe, destinatario y miembros"]
-  B --> C["UF05 · Cada miembro revisa"]
-  C --> D{"¿Algún rechazo?"}
-  D -- "Sí" --> E["Rechazada · saldo sin cambios"]
-  D -- "No" --> F{"¿Todos aprobaron?"}
-  F -- "No" --> G["Pendiente · saldo sin cambios"]
-  G --> C
-  F -- "Sí" --> H{"¿Contrato confirma validación?"}
-  H -- "En espera o error" --> I["Consultar estado · no duplicar gasto"]
-  I --> H
-  H -- "Sí" --> J["Registrar una vez · actualizar saldo"]
+ A[Solicitar plan] --> B[Ver proyección y riesgos]
+ B --> C[Revisar o editar borrador]
+ C --> D{Aprobar versión}
+ D -- No --> E[Descartar sin cambios]
+ D -- Sí --> F[Aplicar acciones aprobadas]
+ F --> G{Todas confirmadas}
+ G -- Sí --> H[Plan activo]
+ G -- No --> I[Consultar estado y reintentar pendientes]
 ```
 
 **Sitio web**
@@ -579,7 +555,7 @@ flowchart TD
 **UF06. Evaluar Intiva desde la landing**
 
 - **User goal:** "Quiero comprender la propuesta de Intiva y decidir si me interesa usarla."
-- **Actor y escenario:** visitante web que busca entender la utilidad de la categorización y asistencia con IA, la aprobación unánime y las condiciones de privacidad.
+- **Actor y escenario:** visitante web que busca entender la utilidad de la categorización y asistencia con IA, el plan mensual y las condiciones de privacidad.
 - **Happy path:** landing → beneficios, control y privacidad → decisión de evaluar → CTA "Descargar app" (ilustrativo).
 - **Unhappy path:** la información del equipo y los planes aún no está confirmada → la landing lo indica como pendiente y el visitante sigue consultando otras secciones.
 - **Límite:** el CTA es ilustrativo. No se dibuja una descarga completada ni una creación de cuenta, y la publicación en Google Play sigue pendiente.
@@ -592,70 +568,12 @@ Las composiciones TP1 se importaron como elementos vectoriales y textos editable
 
 ## 6.5. Applications Prototyping
 
-Esta sección presenta el prototipo de interfaz de la aplicación móvil Android de Intiva. Se construyó en Figma, en la página **Prototipo** del mismo archivo de los wireframes, wireflows, mock-ups y User Flows, y simula la interacción y la navegación de los tres recorridos definidos en [6.4.4](#644-applications-user-flow-diagrams). Las pantallas del prototipo son las mismas de [6.4.3](#643-applications-mock-ups), por lo que el prototipo es consistente con el Design System de [6.1](#61-style-guidelines). El alcance del prototipo es la aplicación móvil; la aplicación web y la landing page se representan en los wireframes y mock-ups, y no tienen prototipo interactivo en esta entrega.
+La [sección de prototipo en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2082-3151) conserva los recorridos de categorización y consulta financiera, y sustituye el tercero por el plan mensual. Los estados WF12a–WF12d representan aplicación en curso, plan activo, descarte y error. Esta evidencia documenta las pantallas y sus rutas previstas; no acredita la integración con servicios reales.
 
-- **Prototipo interactivo en Figma:** [Abrir prototipo](https://www.figma.com/proto/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2082-3297&page-id=2045%3A2348&starting-point-node-id=2082%3A3152&scaling=min-zoom&content-scaling=fixed)
-- **Diseño editable (sección 6.5 · Prototipo interactivo):** [Abrir en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2082-3151)
-- **Video de demostración (Microsoft Stream):** [Pendiente](#65-applications-prototyping)
-
-### 6.5.1. Criterios de interacción
-
-Las decisiones de interacción del prototipo se derivan de la arquitectura de información de [6.2](#62-information-architecture):
-
-- **Sistema de navegación.** La barra de navegación inferior fija ("Inicio", "Movimientos", "Agente", "Familia" y "Perfil") es el patrón *Sticky Fixed Navigation* de [6.2.5](#625-navigation-systems). En el prototipo, las pestañas "Agente" y "Familia" son el punto de entrada de los flujos 2 y 3.
-- **Navegación por contenido y botón de retorno.** Al tocar una acción de la pantalla se avanza a la siguiente (Content-based Navigation), y la flecha de la barra superior y los botones "Volver a editar", "Volver al asistente" y "Volver al fondo" permiten regresar sin perder los datos ingresados.
-- **Acción principal en la parte inferior.** Cada pantalla tiene un botón principal lima de ancho completo y, debajo, una acción secundaria con borde. Esto sigue el principio de [6.1.2](#612-web-mobile--devices-style-guidelines) de alcanzar la acción con el pulgar y mantiene un único camino claro por pantalla.
-- **El usuario decide.** La IA solo sugiere: "Aceptar categoría" y "Cambiar categoría" siempre aparecen juntos, y el saldo se actualiza únicamente tras el guardado confirmado. En el fondo familiar, el saldo cambia solo cuando todos aprueban y la red confirma.
-- **Rutas alternativas visibles.** El prototipo incluye los *unhappy paths*: IA no disponible (WF08), cambio de categoría (WF03), propuesta rechazada (WF12c) y error de red (WF12d).
-
-### 6.5.2. Estructura del prototipo
-
-El prototipo contiene cinco puntos de partida, que se pueden elegir en el panel **Flows** del reproductor de Figma:
-
-| Punto de partida en Figma | Recorrido que simula |
+| Flujo | Recorrido de demostración |
 | --- | --- |
-| IA agéntica · App completa · Inicio | Recorrido completo de la aplicación; abre en WF01 Registrar gasto. |
-| IA agéntica · Flujo 1 · Registrar gasto | Registro y categorización con IA: WF01 → WF02 → WF04 → WF04b (con WF03 y WF08 como alternas). |
-| IA agéntica · Flujo 2 · Asistente financiero | Pestaña "Agente": WF05 → WF06 → WF07 y movimientos. |
-| IA agéntica · Flujo 3 · Fondo familiar | Pestaña "Familia": WF09 → WF10 → WF11 → WF12a → WF12b (con WF12c y WF12d como alternas). |
-| IA agéntica · Alterno · IA no disponible | Caso en que la IA no responde: WF08 y continuación manual. |
+| Categorización | WF01 → WF02 → WF04 → confirmación de guardado. |
+| Asistente | WF05 → WF06 → WF07 → volver al asistente. |
+| Plan mensual | WF09 → WF10 → WF11 → WF12a → WF12b. WF12c muestra descarte y WF12d muestra error. |
 
-La siguiente imagen reúne todas las pantallas que forman parte del prototipo, ordenadas por flujo. Las conexiones entre ellas (toque de un botón o de una pestaña) son las que muestran los User Flows de [6.4.4](#644-applications-user-flow-diagrams).
-
-![Figura 6.5-A · Pantallas del prototipo por flujo](../assets/img/cap06/prototype-overview.png)
-
-*Figura 6.5-A · Pantallas del prototipo por flujo. [Abrir diseño en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2082-3151).*
-
-### 6.5.3. Recorrido de demostración
-
-Las siguientes capturas se tomaron al ejecutar el prototipo en el reproductor de Figma y corresponden a la ruta esperada de cada flujo. Las cifras son ilustrativas.
-
-**Captura del reproductor.** El reproductor muestra a la izquierda la lista de flujos disponibles y, a la derecha, la pantalla WF01 en tamaño móvil.
-
-![Figura 6.5-B · Reproductor del prototipo](../assets/img/cap06/prototype-player.png)
-
-*Figura 6.5-B · Reproductor del prototipo de Intiva con el panel de flujos. [Abrir prototipo](https://www.figma.com/proto/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2082-3297&page-id=2045%3A2348&starting-point-node-id=2082%3A3152&scaling=min-zoom&content-scaling=fixed).*
-
-**Flujo 1 · Registro y categorización con IA.** El usuario ingresa el monto y la descripción (WF01), pide una sugerencia (WF02), revisa el resumen del gasto y el saldo resultante (WF04) y guarda (WF04b).
-
-![Figura 6.5-C · Flujo 1 en el prototipo: WF01, WF02, WF04 y WF04b](../assets/img/cap06/prototype-flow1-screens.png)
-
-*Figura 6.5-C · Flujo 1 en el prototipo (de izquierda a derecha: WF01, WF02, WF04 y WF04b). Fuente: capturas del prototipo en Figma.*
-
-**Flujo 2 · Asistente financiero.** Desde la pantalla de inicio, el usuario abre la pestaña "Agente" (WF05), analiza sus gastos hormiga (WF06) y consulta el avance de su meta (WF07).
-
-![Figura 6.5-D · Flujo 2 en el prototipo: HOME, WF05, WF06 y WF07](../assets/img/cap06/prototype-flow2-screens.png)
-
-*Figura 6.5-D · Flujo 2 en el prototipo (de izquierda a derecha: HOME, WF05, WF06 y WF07). Fuente: capturas del prototipo en Figma.*
-
-**Flujo 3 · Fondo familiar con aprobación unánime.** Desde la pestaña "Familia" (WF09), el usuario propone un gasto (WF10), revisa las aprobaciones y firma (WF11). Con 3 de 3 aprobaciones, el prototipo muestra la espera de la red (WF12a) y, al confirmarse, el gasto validado (WF12b).
-
-![Figura 6.5-E · Flujo 3 en el prototipo: WF09, WF10, WF11, WF12a y WF12b](../assets/img/cap06/prototype-flow3-screens.png)
-
-*Figura 6.5-E · Flujo 3 en el prototipo (de izquierda a derecha: WF09, WF10, WF11, WF12a y WF12b). Fuente: capturas del prototipo en Figma.*
-
-### 6.5.4. Video del prototipo
-
-El video demuestra y explica los principales flujos de interacción que cubre el prototipo: el registro de un gasto con categoría sugerida por IA, la consulta al asistente financiero y la aprobación de un gasto del fondo familiar. La captura de la Figura 6.5-B corresponde a la vista del reproductor con la que inicia la demostración.
-
-- **Enlace al video (Microsoft Stream):** [Pendiente](#654-video-del-prototipo)
+Los mock-ups de [6.4.3](#643-applications-mock-ups) muestran el nuevo flujo. La edición de valores y la conexión con los servicios se verifican en la implementación.
