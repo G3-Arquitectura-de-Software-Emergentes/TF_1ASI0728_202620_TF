@@ -29,7 +29,7 @@ La validación busca comprobar si los dos segmentos entienden la propuesta de In
 
 ### 7.3.2. Registro de Entrevistas
 
-Se presenta una ficha por segmento. Los resúmenes describen los puntos del guion que se contrastarán en las sesiones; las capturas, enlaces y tiempos se añadirán tras la grabación.
+Se presenta una ficha por segmento. Los resúmenes describen el contenido previsto de cada video. Las capturas, enlaces y tiempos se añadirán tras la grabación.
 
 #### Segmento 1: Integrantes de familias con problemas de gestión financiera
 
@@ -42,7 +42,7 @@ Se presenta una ficha por segmento. Los resúmenes describen los puntos del guio
 | **Inicio:** | **Distrito:** San Juan de Miraflores |
 | **Duración:** | **Fecha:** |
 | | **Tarea:** Corrección de categoría |
-| | **Resumen:** El guion explora si la categoría sugerida le ayudaría a ordenar los gastos que suele anotar en el celular. Para una compra de S/ 48.90, se revisará dónde buscaría el cambio de «Otros» a «Alimentación», cómo distinguiría la sugerencia del gasto guardado y qué texto la orientaría. También se le preguntará si entiende que S/ 580 corresponde a una estimación del próximo mes y si la vista de compras pequeñas le serviría para revisar su ahorro. |
+| | **Resumen:** El video está previsto para mostrar la revisión de un gasto de S/ 48.90, el cambio de categoría de «Otros» a «Alimentación» y la confirmación del guardado. También incluye la diferencia entre las compras pequeñas ya registradas y los S/ 580 estimados para Comida el próximo mes. |
 
 #### Segmento 2: Responsables de la economía familiar
 
@@ -55,7 +55,7 @@ Se presenta una ficha por segmento. Los resúmenes describen los puntos del guio
 | **Inicio:** | **Distrito:** Chorrillos |
 | **Duración:** | **Fecha:** |
 | | **Tarea:** Presupuesto familiar |
-| | **Resumen:** El guion explora cómo usaría la proyección para organizar el presupuesto de mercado. Se compararán S/ 580 proyectados con un límite de S/ 500 y se le preguntará qué compras o meses consultaría antes de ajustar el plan. También se revisará cómo modificaría un aporte previsto de S/ 100 a S/ 80, si entiende que aprobar no mueve dinero y qué estado le confirmaría que el plan y el recordatorio del día 15 quedaron aplicados. |
+| | **Resumen:** El video está previsto para mostrar la revisión del presupuesto del hogar: S/ 580 proyectados frente a un límite de S/ 500 para Comida, el ajuste de un aporte previsto de S/ 100 a S/ 80 y la revisión del recordatorio de pago del día 15. El recorrido termina en la consulta del estado del plan tras aprobarlo. |
 
 ### 7.3.3. Evaluaciones según heurísticas
 
