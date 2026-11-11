@@ -100,3 +100,32 @@ El registro se organiza por segmento. Los nombres y datos de las fichas correspo
 | **Duración:** | **Fecha:** |
 | | **Tarea:** Recordatorios y estado del plan |
 | | **Resumen:** La sesión revisará un recordatorio para un pago del día 15. Se preguntará cómo distingue la persona «Aplicando» de «Plan activo» y qué información necesitaría si aparece un error. Se comprobará si puede identificar qué acciones se aplicaron y cuáles debe volver a intentar. |
+
+### 7.3.3. Evaluaciones según heurísticas
+
+**UX Heuristics & Principles Evaluation** · Usabilidad, diseño inclusivo y arquitectura de información.
+
+**Carrera:** Ingeniería de Software · **Curso:** Arquitecturas de Software Emergentes · **Sección:** 16363 · **Docente:** Marino Humberto Jara Palacios · **Auditor:** equipo Balanza · **Participantes:** completar tras las sesiones · **Versión y fecha:** pendientes.
+
+Los siguientes casos son aspectos por verificar durante la evaluación. La severidad es preliminar y se confirma solo si la dificultad se observa en la versión que se está evaluando.
+
+| # | Problema potencial | Severidad preliminar | Heurística o principio |
+| --- | --- | ---: | --- |
+| 1 | Confundir categoría sugerida con gasto guardado | 2 | Usabilidad · visibilidad del estado |
+| 2 | No encontrar cómo cambiar la categoría | 2 | Arquitectura de información · encontrabilidad y etiquetado |
+| 3 | Confundir la proyección con un gasto ya realizado | 3 | Usabilidad · correspondencia con el mundo real |
+| 4 | Interpretar un aporte previsto como un débito | 3 | Usabilidad · prevención de errores |
+| 5 | No saber qué acciones quedaron pendientes tras un error | 3 | Usabilidad · reconocimiento y recuperación de errores |
+| 6 | Si el riesgo se indica solo con color, no se distingue su significado por texto | 3 | Diseño inclusivo · información perceptible |
+
+**Problema #1 — Categoría sugerida vs. gasto guardado.** Pantalla: revisión del gasto; tarea asociada: S1-01. Mostrar «Gasto sin guardar» antes del guardado y confirmar el registro después. Comprobación: pedir que indique en qué momento quedó registrado.
+
+**Problema #2 — Opción para cambiar la categoría.** Pantalla: categoría sugerida; tarea asociada: S1-02. Colocar un control «Cambiar» junto a la categoría, con etiqueta clara. Comprobación: pedir que corrija una categoría sin señalarle el control.
+
+**Problema #3 — Período de la proyección.** Pantalla: proyección de gastos; tareas asociadas: S1-03 y S2-01. Mostrar «Estimado para el próximo mes» junto al importe y explicar qué período del historial se usó. Comprobación: pedir que distinga el importe proyectado del real y explique los S/ 80 de diferencia.
+
+**Problema #4 — Aporte previsto vs. débito.** Pantalla: revisión del plan; tarea asociada: S2-02. Mostrar antes de aprobar que el monto se guarda como previsto y no mueve dinero. Comprobación: pedir a la persona que explique qué pasará con su saldo.
+
+**Problema #5 — Estado tras un error.** Pantalla: estado del plan; tarea asociada: S2-03. Distinguir acciones aplicadas y pendientes, con opción para reintentar solo las pendientes. Comprobación: simular un fallo y pedir que identifique si el recordatorio ya se programó.
+
+**Problema #6 — Riesgo señalado solo con color.** Pantalla: proyección; revisión de diseño inclusivo. Verificar que el riesgo se entienda sin el color; si falta, incluir el texto «S/ 80 sobre el límite». Comprobación: revisar en escala de grises si aún se entiende el aviso.
