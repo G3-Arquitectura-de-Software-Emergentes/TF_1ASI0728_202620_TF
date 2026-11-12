@@ -2,9 +2,11 @@
 ## 4.1. Strategic-Level Attribute-Driven Design
 Aquí se explica el proceso de diseño Attribute-Driven Design aplicado a Intiva, detallando su propósito, los inputs considerados, los drivers arquitectónicos, las decisiones de diseño tomadas, los escenarios de atributos de calidad y las primeras vistas de la arquitectura de solución a alto nivel.
 ### 4.1.1. Design Purpose
-El propósito del diseño de Intiva es establecer una arquitectura de software que soporte la gestión financiera personal y familiar de forma centralizada, asegurando mantenibilidad, seguridad y facilidad de uso para usuarios con poca experiencia en herramientas financieras. Se trata de un sistema greenfield desarrollado por una startup en etapa inicial, cuyo diseño debe habilitar tres frontends (landing page estática, aplicación web y aplicación móvil nativa Android) consumiendo un conjunto de APIs RESTful propias.
+El propósito del diseño de Intiva es establecer una arquitectura de software que soporte la gestión financiera personal y familiar de forma centralizada, asegurando mantenibilidad, seguridad y facilidad de uso para usuarios con poca experiencia en herramientas financieras. Se trata de un sistema greenfield desarrollado por una startup en etapa inicial, cuyo diseño debe habilitar tres frontends (landing page estática, aplicación web y aplicación móvil nativa Android) consumiendo APIs RESTful propias. Esas APIs las exponen microservicios, uno por bounded context, a los que se accede a través de un API Gateway.
 
 La solución busca reemplazar los métodos manuales identificados en la etapa de needfinding (hojas de cálculo en Excel, notas del celular y revisión de billeteras digitales) por una plataforma que registre ingresos y gastos, los clasifique por categorías, controle límites de presupuesto, gestione metas de ahorro y envíe recordatorios automáticos de pagos. Adicionalmente, el diseño debe soportar un modelo colaborativo de grupo familiar que permita compartir información financiera entre miembros, respetando la privacidad de los gastos personales de cada integrante, requisito levantado explícitamente durante las entrevistas.
+
+La plataforma también incorpora IA agéntica. Un agente proyecta los gastos del próximo mes, compara la proyección con los límites y las metas del usuario y le propone un plan con ajustes. El agente puede consultar datos y preparar acciones por su cuenta, pero solo aplica la versión del plan que el usuario revisa y aprueba.
 ### 4.1.2. Attribute-Driven Design Inputs
 Esta sección contiene las secciones para los tres tipos de input para el proceso de diseño con Attribute-Driven Design.
 #### 4.1.2.1. Primary Functionality (Primary User Stories)
@@ -32,10 +34,11 @@ En esta sección se detallan los escenarios de atributos de calidad que tienen m
 | **Seguridad** | Usuario no autorizado | Intenta acceder con credenciales inválidas o con un token manipulado | Servicio de autenticación (IAM) | Producción | El sistema rechaza el acceso con estado 401 sin exponer detalles internos | 100% de intentos inválidos bloqueados; contraseñas almacenadas con hash BCrypt |
 | **Privacidad** | Integrante de un grupo familiar | Intenta consultar los gastos personales de otro miembro del grupo | Bounded Context de Household Management | Producción, entorno compartido | El sistema restringe la visualización según el rol y la marca de privacidad del registro | 0 accesos no autorizados a gastos marcados como personales |
 | **Disponibilidad** | Usuario | Solicita acceso a su información financiera en cualquier momento | Backend desplegado en Azure | Producción | El sistema responde sin interrupciones del servicio | Uptime mensual no menor al 95% |
-| **Interoperabilidad** | Servicio externo (Firebase Cloud Messaging, Google Play Billing, Cloudinary) | Devuelve un error, un token inválido o no está disponible | Adaptadores de integración del backend | Producción | El sistema maneja la excepción sin interrumpir el flujo principal de la aplicación | 100% de fallos de terceros manejados sin caída del servicio |
-| **Modificabilidad** | Equipo de desarrollo | Necesita añadir un nuevo tipo de cuenta financiera o una nueva categoría de análisis | Bounded Contexts del backend | Desarrollo | El cambio se realiza dentro de un solo bounded context sin afectar a los demás | Modificación localizada en un único módulo del backend |
+| **Interoperabilidad** | Servicio externo (Firebase Cloud Messaging, Google Play Billing, Cloudinary, Gemini API) | Devuelve un error, un token inválido o no está disponible | Adaptadores de integración de cada microservicio | Producción | El sistema maneja la excepción sin interrumpir el flujo principal de la aplicación | 100% de fallos de terceros manejados sin caída del servicio |
+| **Disponibilidad** | Microservicio consumidor de eventos (por ejemplo, Communications) | Se detiene mientras otros servicios siguen publicando eventos | Message broker (RabbitMQ) y colas de cada servicio | Producción | Los eventos se conservan en la cola del servicio caído y se procesan cuando vuelve a estar disponible | 0 eventos perdidos; el resto de servicios sigue respondiendo |
+| **Modificabilidad** | Equipo de desarrollo | Necesita añadir un nuevo tipo de cuenta financiera o una nueva categoría de análisis | Microservicios del backend | Desarrollo | El cambio se realiza dentro de un solo microservicio sin afectar a los demás | Modificación localizada en un único microservicio, que se redespliega sin detener a los demás |
 | **Precisión funcional** | Usuario | Registra un gasto cuyo comercio es reconocible | Servicio de sugerencia de categoría (Categories & Financial Accounts) | Producción | El sistema sugiere una categoría junto con un nivel de confianza, permitiendo al usuario corregirla | ≥ 80% de aciertos en comercios frecuentes; el usuario siempre puede corregir la sugerencia |
-| **Privacidad** | Usuario autenticado | Solicita un análisis con IA | Adaptador de IA | Producción | Solo comparte movimientos autorizados y datos mínimos; no envía credenciales | 0 registros de otros grupos expuestos |
+| **Privacidad** | Usuario autenticado | Solicita un análisis con IA | Microservicio AI Agent | Producción | Solo comparte movimientos autorizados y datos mínimos; no envía credenciales | 0 registros de otros grupos expuestos |
 #### 4.1.2.3. Constraints
 En esta sección reunimos aquellas condiciones que no son opcionales y son restricciones establecidas por necesidades propias del negocio y del contexto académico del proyecto, las cuales debemos respetar para asegurar que la solución propuesta sea viable y cumpla con las expectativas. A continuación, se presentan los principales constraints en forma de Technical Stories, sirviendo como guía concreta para el desarrollo del sistema.
 
@@ -46,9 +49,9 @@ En esta sección reunimos aquellas condiciones que no son opcionales y son restr
 | C-03 | Stack tecnológico de la aplicación móvil | La aplicación móvil debe ser nativa Android en Kotlin, usando Jetpack Compose, Compose Navigation, Retrofit y Hilt. | Dado que el usuario tiene un dispositivo Android, cuando instala la aplicación, entonces esta es compatible con Android 8.0 o superior, cubriendo al segmento objetivo identificado. | TS 007 |
 | C-04 | Stack del sitio web estático | La landing page debe construirse con Astro.js para garantizar generación estática y rendimiento optimizado. | Dado el stack seleccionado, cuando se revisen los requisitos del proyecto, entonces debe cumplir con generación estática (SSG) y rendimiento optimizado. | TS 004 |
 | C-05 | Arquitectura RESTful obligatoria | La comunicación entre los frontends y el backend debe realizarse mediante APIs RESTful propias, con rutas versionadas y nomenclatura consistente. | Dado que se diseña un nuevo endpoint, cuando se define su ruta, entonces sigue el patrón `/api/{versión}/{recurso}` en plural, minúsculas y usando sustantivos. | TS 008 |
-| C-06 | Persistencia y caché | La persistencia principal debe realizarse en PostgreSQL mediante JPA, con Redis desplegado en Redis Cloud para caché y tokens temporales, y Room para persistencia local en la app móvil. | Dado que se requiere reducir tiempos de respuesta en consultas frecuentes, cuando se consulten datos del dashboard, entonces el sistema los obtiene desde Redis sin consultar directamente la base de datos. | TS 014, TS 015, TS 022 |
-| C-07 | Dependencia de servicios externos | La solución depende de Firebase Cloud Messaging para notificaciones push, Google OAuth 2.0 para autenticación federada, Cloudinary para almacenamiento de imágenes y Google Play Billing para suscripciones. | Dado que un servicio externo no esté disponible, cuando el sistema intente consumirlo, entonces informa del error sin afectar al resto de funcionalidades de la aplicación. | TS 011, TS 017, TS 018, TS 019 |
-| C-08 | Despliegue en la nube con planes gratuitos | El backend debe desplegarse en Microsoft Azure y la infraestructura debe apoyarse en planes gratuitos o de bajo costo, dada la condición de startup sin financiamiento. | Dado que existe una imagen del backend lista para producción, cuando se despliega en Azure, entonces el servicio queda accesible en la URL de producción y responde con estado 200 al health check definido. | TS 020 |
+| C-06 | Persistencia y caché | La persistencia principal debe realizarse en PostgreSQL mediante JPA, con una base de datos propia para cada microservicio, Redis desplegado en Redis Cloud para caché y tokens temporales, y Room para persistencia local en la app móvil. | Dado que se requiere reducir tiempos de respuesta en consultas frecuentes, cuando se consulten datos del dashboard, entonces el sistema los obtiene desde Redis sin consultar directamente la base de datos. | TS 014, TS 015, TS 022 |
+| C-07 | Dependencia de servicios externos | La solución depende de Firebase Cloud Messaging para notificaciones push, Google OAuth 2.0 para autenticación federada, Cloudinary para almacenamiento de imágenes, Google Play Billing para suscripciones y Gemini API (Google AI Studio) para las funciones de IA. | Dado que un servicio externo no esté disponible, cuando el sistema intente consumirlo, entonces informa del error sin afectar al resto de funcionalidades de la aplicación. | TS 011, TS 017, TS 018, TS 019, TS 024 |
+| C-08 | Despliegue en la nube con planes gratuitos | Los microservicios deben desplegarse en Microsoft Azure como imágenes Docker, y la infraestructura debe apoyarse en planes gratuitos o de bajo costo, dada la condición de startup sin financiamiento. | Dado que existe una imagen lista para producción de cada microservicio, cuando se despliega en Azure, entonces el servicio queda accesible a través del API Gateway y responde con estado 200 al health check definido. | TS 020 |
 | C-09 | Cifrado de comunicaciones y datos sensibles | Toda comunicación cliente-servidor debe realizarse mediante HTTPS con TLS, y las contraseñas deben almacenarse únicamente como hash. | Dado que un cliente intenta conectarse mediante HTTP, cuando el servidor recibe la solicitud, entonces redirige automáticamente a HTTPS o rechaza la conexión. | TS 001, TS 003 |
 | C-10 | Alcance y plazos académicos | El desarrollo debe ejecutarse por un equipo de estudiantes dentro de los plazos de los hitos TB1, TP1, TB2 y TF1, entregando obligatoriamente landing page, aplicación web, aplicación móvil y APIs propias. | Dado que el proyecto es académico, cuando se planifique cada sprint, entonces el alcance comprometido debe ser alcanzable dentro del hito correspondiente. | — |
 ### 4.1.3. Architectural Drivers Backlog
@@ -70,8 +73,9 @@ En esta sección identificamos y priorizamos los principales drivers que deben g
 | D-12 | Disponibilidad del servicio | Mantener la plataforma accesible con un uptime mensual no menor al 95% sobre infraestructura en planes gratuitos. | Medium | Low |
 | D-13 | Categorización y asistencia financiera con IA | Sugerir categorías, identificar gastos hormiga y orientar metas, manteniendo la confirmación del usuario. | High | High |
 | D-14 | Plan mensual bajo control del usuario | Proyectar gastos y aplicar solo la versión editada y aprobada por su titular. | High | High |
+| D-15 | Evolución y despliegue independiente | Permitir que cada bounded context se desarrolle, pruebe y despliegue por separado, con sus propios datos, sin detener al resto del sistema. | Medium | High |
 
-Los drivers clasificados como (High, High) —D-02 y D-03— son los que se abordan en la primera iteración del proceso de diseño, ya que constituyen simultáneamente el principal diferenciador del producto y el mayor desafío técnico de la arquitectura, al requerir un modelo de permisos y visibilidad granular dentro de un contexto compartido.
+En la primera iteración se abordan D-02 y D-03, junto con D-15. D-02 y D-03 son el principal diferenciador del producto y a la vez el mayor desafío técnico, porque exigen un modelo de permisos y visibilidad granular dentro de un entorno compartido. D-15 define cómo se separan los contextos y, por eso, condiciona todas las decisiones que vienen después. Los drivers de IA (D-13 y D-14) también son (High, High), pero dependen de esa estructura, así que se tratan en las iteraciones 5 y 6.
 ### 4.1.4. Architectural Design Decisions
 
 Una vez armado el Architectural Drivers Backlog, tomamos las decisiones de arquitectura siguiendo las etapas del Quality Attribute Workshop. Lo hicimos en seis iteraciones, cada una con un grupo pequeño de drivers. Resolver todos los drivers a la vez nos habría llevado a decidir apresuradamente; al trabajarlos por grupos, cada iteración partió de lo que ya se había decidido en la anterior.
@@ -83,9 +87,9 @@ Varias de estas decisiones son las mejores dentro de las restricciones del proye
 
 #### Iteración 1: estructura general del sistema
 
-**Drivers considerados:** D-02 (Gestión financiera familiar compartida), D-03 (Privacidad dentro del entorno compartido) y D-07 (Seguridad de las cuentas y los datos).
+**Drivers considerados:** D-02 (Gestión financiera familiar compartida), D-03 (Privacidad dentro del entorno compartido), D-07 (Seguridad de las cuentas y los datos) y D-15 (Evolución y despliegue independiente).
 
-Empezamos por los dos únicos drivers clasificados como (High, High) en el backlog, porque en ellos está la propuesta de valor del producto y también la parte más difícil de la arquitectura. En las entrevistas del Capítulo II los usuarios pidieron poder compartir su economía con la familia sin perder el control de lo que prefieren mantener en privado. Para cumplirlo, la regla de visibilidad no puede depender solo de la interfaz, ya que cualquier consulta directa a la API la saltaría.
+Empezamos por D-02 y D-03, porque en ellos está la propuesta de valor del producto y también la parte más difícil de la arquitectura. En las entrevistas del Capítulo II los usuarios pidieron poder compartir su economía con la familia sin perder el control de lo que prefieren mantener en privado. Para cumplirlo, la regla de visibilidad no puede depender solo de la interfaz, ya que cualquier consulta directa a la API la saltaría.
 
 Evaluamos tácticas de seguridad y de modificabilidad. En seguridad consideramos *limit access* y *authorize actors*, porque lo que puede ver cada integrante se debe decidir en el modelo de dominio y no en la capa de presentación. En modificabilidad consideramos *encapsulate* y *restrict dependencies*, ya que las reglas de visibilidad irán creciendo y es mejor que estén en un solo lugar.
 
@@ -97,18 +101,21 @@ Evaluamos tácticas de seguridad y de modificabilidad. En seguridad consideramos
 | D-02 | Gestión financiera familiar compartida | Permite compartir entidades entre funcionalidades sin ningún costo de integración, ya que todo el dominio vive en un mismo conjunto de servicios. | Las reglas del grupo familiar quedarían mezcladas con las del registro de transacciones, sin un lugar claro donde localizarlas ni un responsable único de mantenerlas. | Concentra el modelo de grupo, roles e invitaciones en un módulo con frontera propia, que el resto del sistema consulta a través de una interfaz publicada. | Obliga al equipo a sostener la disciplina de no cruzar la frontera, porque el lenguaje no impide técnicamente un acceso indebido entre módulos. | Aísla físicamente el servicio de grupos familiares y permite evolucionarlo y escalarlo con independencia del resto. | Introduce consistencia eventual en operaciones que hoy son atómicas y exige coordinación distribuida para algo que ocurre dentro de una misma solicitud. |
 | D-03 | Privacidad dentro del entorno compartido | Facilita aplicar filtros de consulta rápidos sobre un mismo modelo de datos. | Dispersa la regla de privacidad en cada servicio que consulte transacciones, con alto riesgo de que alguna consulta nueva la omita por descuido. | Permite que la titularidad del registro forme parte del modelo de dominio y que la verificación de pertenencia se delegue en un único módulo consultable. | El aislamiento es lógico y no físico, de modo que un error de programación aún podría sortear la frontera sin ser detectado por el compilador. | Ofrece aislamiento real, y cada servicio solo expone lo que decide exponer. | El costo operativo y de infraestructura resulta desproporcionado frente al beneficio en el estado actual del producto. |
 | D-07 | Seguridad de las cuentas y los datos | Ofrece un único punto de configuración para la cadena de filtros de seguridad. | Sin fronteras internas, cualquier componente termina con acceso potencial a toda la información persistida. | Mantiene la identidad y la emisión de credenciales en un contexto propio, separado del dominio financiero que las consume. | El contexto de identidad comparte proceso con el resto, de modo que una falla grave lo afecta todo por igual. | Permite endurecer y auditar el servicio de identidad de forma independiente al resto del sistema. | Multiplica los puntos de entrada a proteger y la superficie de ataque asociada al tránsito entre servicios. |
+| D-15 | Evolución y despliegue independiente | Hay un solo artefacto que compilar y desplegar. | Cualquier cambio, por pequeño que sea, obliga a redesplegar todo el sistema. | Las fronteras entre módulos facilitarían separar uno más adelante. | Sigue siendo un único despliegue: si un módulo falla al arrancar, se detiene toda la plataforma. | Cada servicio se construye, prueba y despliega por separado, con su propia base de datos. | Exige un API Gateway, un broker de mensajería y una imagen por servicio, además de monitorear varios procesos. |
 
-**Decisión adoptada.** Escogimos el monolito modular organizado por bounded contexts. Este patrón mantiene fronteras claras entre los dominios, que es lo principal que buscábamos de los microservicios, sin el costo de infraestructura ni la coordinación distribuida que las constraints C-08 y C-10 no permiten asumir. Los microservicios quedaron pospuestos, no descartados: como el backend ya está dividido por contextos, más adelante se podría separar un módulo como servicio independiente sin rehacer el modelo de dominio.
+**Decisión adoptada.** Escogimos microservicios, uno por bounded context. Las fronteras ya estaban definidas por el análisis de Domain-Driven Design de la sección 4.2, así que cada contexto pasa a ser un servicio Spring Boot con su propia base de datos. Esto da el aislamiento real que piden D-02, D-03 y D-07: cada servicio solo expone lo que publica en su API, y ninguno puede leer los datos de otro. También permite que cada integrante trabaje y despliegue su servicio sin esperar a los demás (D-15).
+
+Asumimos los costos que aparecen en la matriz: más piezas que desplegar y consistencia eventual en operaciones que antes eran atómicas. Para mantenernos dentro de C-08 y C-10, las bases de datos de todos los servicios viven en un mismo servidor PostgreSQL (cada servicio con la suya), el entorno completo se levanta con Docker Compose y solo se agregan dos piezas de infraestructura: Nginx como API Gateway y RabbitMQ como message broker.
 
 Las decisiones que salieron de esta iteración son las siguientes:
 
 | ID | Decisión | Fundamento |
 |---|---|---|
-| AD-01 | Estructurar el backend como un monolito modular, con un módulo por bounded context y un único artefacto desplegable en Azure. | Concilia el aislamiento de dominio que exigen D-02 y D-03 con las restricciones de costo y plazo. |
+| AD-01 | Estructurar el backend en microservicios Spring Boot, uno por bounded context (IAM, Profiles, Categories & Financial Accounts, Finances, Savings, Household, Communications, Analytics y AI Agent), cada uno empaquetado como una imagen Docker independiente. | Da aislamiento físico a las reglas de D-02 y D-03 y permite desplegar cada contexto por separado, como pide D-15. |
 | AD-02 | Organizar internamente cada contexto en capas orientadas al dominio (`domain.model`, `domain.services`, `application.internal`, `infrastructure`, `interfaces.rest`), con las dependencias apuntando hacia el dominio. | Evita que las reglas financieras queden atadas a JPA o a Spring Web, lo que permitiría sustituir persistencia o transporte sin tocar el núcleo. |
 | AD-03 | Representar la titularidad de todo registro financiero mediante el value object compartido `OwnerTypes`, con los valores INDIVIDUAL y FAMILY, en lugar de duplicar entidades para el caso personal y el familiar. | Traslada la decisión de privacidad al modelo: la marca viaja con el dato, de modo que ninguna consulta puede ignorarla sin que sea evidente. |
-| AD-04 | Concentrar en el contexto Household la verificación de pertenencia y rol dentro de un grupo, exponiéndola como servicio consultable por los demás contextos. | Impide que la regla de D-03 se reimplemente de forma divergente en cada contexto que necesite aplicarla. |
-| AD-05 | Emplear una única base de datos PostgreSQL con esquema compartido, separando las tablas por contexto mediante convenciones de nomenclatura. | Preserva la atomicidad de operaciones que atraviesan contextos y se ajusta a C-06 y C-08. Se asume conscientemente el riesgo de acoplamiento por datos. |
+| AD-04 | Concentrar en el microservicio Household la verificación de pertenencia y rol dentro de un grupo, expuesta mediante un endpoint REST que consultan los demás servicios. | Impide que la regla de D-03 se reimplemente de forma divergente en cada servicio que necesite aplicarla. |
+| AD-05 | Asignar a cada microservicio su propia base de datos PostgreSQL (*database per service*). Las bases se alojan en un mismo servidor para respetar C-08, y ningún servicio consulta la base de datos de otro. | Elimina el acoplamiento por datos. A cambio, las operaciones que cruzan servicios dejan de ser atómicas y se resuelven con llamadas síncronas o eventos, como se decide en la Iteración 2. |
 
 
 
@@ -116,30 +123,30 @@ Las decisiones que salieron de esta iteración son las siguientes:
 
 **Drivers considerados:** D-01 (Registro centralizado de ingresos y gastos), D-04 (Alertas y recordatorios automáticos) y D-11 (Metas de ahorro personales y compartidas).
 
-Con la estructura definida, faltaba decidir cómo se comunican los contextos sin romper sus fronteras. El ejemplo que usamos fue el registro de un gasto familiar, que involucra a cuatro contextos: se valida el saldo de la cuenta, se guarda la transacción, se revisan los límites de gasto afectados y se avisa al resto del grupo. No todos esos pasos pesan igual, porque solo el primero decide si la operación se acepta o no.
+Con la estructura definida, faltaba decidir cómo se comunican los microservicios sin romper sus fronteras. El ejemplo que usamos fue el registro de un gasto familiar, que involucra a cuatro servicios: se valida el saldo de la cuenta, se guarda la transacción, se revisan los límites de gasto afectados y se avisa al resto del grupo. No todos esos pasos pesan igual, porque solo el primero decide si la operación se acepta o no.
 
 Evaluamos *use an intermediary* para el desacoplamiento estructural e *introduce concurrency* para el temporal. Separar ambos casos fue importante, porque algunas colaboraciones tienen que terminar antes de responder al usuario y otras pueden ocurrir después sin problema.
 
 **Candidate Pattern Evaluation Matrix: mecanismo de colaboración entre contextos**
 
-| Driver ID | Título de Driver | Patrón 1: Acceso directo al repositorio ajeno | | Patrón 2: Anti-Corruption Layer sobre Open Host Service | | Patrón 3: Domain Events en proceso | |
+| Driver ID | Título de Driver | Patrón 1: Acceso directo a la base de datos de otro servicio | | Patrón 2: API REST síncrona con Anti-Corruption Layer | | Patrón 3: Eventos de integración mediante message broker | |
 |---|---|---|---|---|---|---|---|
 | | | **Pro** | **Con** | **Pro** | **Con** | **Pro** | **Con** |
-| D-01 | Registro centralizado de ingresos y gastos | Consulta el saldo disponible con la menor latencia posible, sin capas intermedias. | Acopla el contexto consumidor al esquema de tablas del proveedor, de modo que un cambio de columna rompe un módulo ajeno sin previo aviso. | Expresa la validación de saldo como una pregunta al contexto dueño de esa información, que responde según sus propias reglas. | Agrega dos clases por relación y mantiene el acoplamiento temporal, ya que la llamada sigue siendo bloqueante. | No aplica, porque la validación de saldo debe resolverse antes de aceptar la transacción y no admite tratamiento diferido. | Un evento no puede condicionar la aceptación de la operación que lo origina. |
-| D-04 | Alertas y recordatorios automáticos | Permitiría consultar directamente las tablas de notificaciones desde el contexto financiero. | Convierte a Finances en responsable de cómo se persiste una notificación, que es una decisión ajena a su dominio. | Deja explícito que Finances solicita una alerta y que Communications decide cómo entregarla. | Mantiene a Finances esperando el resultado del envío, aunque ese resultado no cambie nada de la operación principal. | Permite que la evaluación de límites y el aviso al grupo ocurran fuera del tiempo de respuesta de la transacción. | No garantiza el orden de ejecución ni la entrega si el proceso se interrumpe, ya que no se implementa un patrón outbox. |
+| D-01 | Registro centralizado de ingresos y gastos | Consulta el saldo disponible con la menor latencia posible, sin capas intermedias. | Acopla el contexto consumidor al esquema de tablas del proveedor, de modo que un cambio de columna rompe un módulo ajeno sin previo aviso. | Expresa la validación de saldo como una pregunta al contexto dueño de esa información, que responde según sus propias reglas. | Agrega una llamada HTTP y mantiene el acoplamiento temporal: si el proveedor no responde, la operación no puede completarse. | No aplica, porque la validación de saldo debe resolverse antes de aceptar la transacción y no admite tratamiento diferido. | Un evento no puede condicionar la aceptación de la operación que lo origina. |
+| D-04 | Alertas y recordatorios automáticos | Permitiría consultar directamente las tablas de notificaciones desde el contexto financiero. | Convierte a Finances en responsable de cómo se persiste una notificación, que es una decisión ajena a su dominio. | Deja explícito que Finances solicita una alerta y que Communications decide cómo entregarla. | Mantiene a Finances esperando el resultado del envío, aunque ese resultado no cambie nada de la operación principal. | Permite que la evaluación de límites y el aviso al grupo ocurran fuera del tiempo de respuesta de la transacción. | Agrega un broker que desplegar y no garantiza el orden de los mensajes. Para no perder eventos se necesita un outbox y consumidores idempotentes. |
 | D-11 | Metas de ahorro personales y compartidas | Facilitaría leer aportes y transacciones desde un mismo lugar. | Impide que la regla de cierre de una meta quede bajo el control del agregado que la representa. | Permite consultar la información de la meta sin exponer su modelo interno al resto del sistema. | Añade un paso de traducción en colaboraciones que son poco frecuentes. | Habilita que el cumplimiento de una meta dispare la felicitación sin que quien registra el aporte deba esperarla. | Dificulta seguir la traza completa de la operación durante la depuración. |
 
-**Decisión adoptada.** Decidimos usar los patrones 2 y 3 juntos y descartar el primero como forma general de comunicación. Las colaboraciones que afectan el resultado de una operación se resuelven de forma síncrona, mediante una interfaz publicada por el contexto proveedor y un adaptador del contexto consumidor. Lo que pasa después se comunica con eventos de dominio. La regla que usamos fue: si la colaboración puede cambiar la decisión de aceptar o rechazar la operación, es síncrona; si solo indica algo que debe pasar después, es asíncrona.
+**Decisión adoptada.** Decidimos usar los patrones 2 y 3 juntos y descartar el primero como forma general de comunicación. Las colaboraciones que afectan el resultado de una operación se resuelven de forma síncrona, llamando a la API REST del servicio proveedor mediante un adaptador propio del consumidor. Lo que pasa después se publica como evento en RabbitMQ. La regla que usamos fue: si la colaboración puede cambiar la decisión de aceptar o rechazar la operación, es síncrona; si solo indica algo que debe pasar después, es asíncrona.
 
-Sin embargo, esta regla no se cumplió en toda la implementación. Al revisar los flujos de mensajes encontramos que el contexto Analytics accede directamente a los repositorios de Finances y Savings, que es el patrón que descartamos aquí. Esto se explica en la sección 4.2.5 y se registra como deuda de diseño al final de este apartado.
+El primer patrón no es solo una mala práctica en esta arquitectura: con una base de datos por servicio (AD-05), ni siquiera es posible. En el backend anterior, Analytics leía directamente los repositorios de Finances y Savings. Ahora arma su propio modelo de lectura a partir de los eventos que publican esos servicios, como se explica en la sección 4.2.5.
 
 | ID | Decisión | Fundamento |
 |---|---|---|
-| AD-06 | Resolver toda colaboración síncrona mediante un `ContextFacade` publicado por el contexto proveedor y consumido a través de un servicio adaptador propio del consumidor. | Hace visible cada dependencia entre contextos y permite sustituir la implementación del proveedor sin propagar el cambio. |
-| AD-07 | Propagar los efectos posteriores a una operación mediante eventos de dominio en proceso, fuera de la transacción que los origina. | Evita que el registro de un gasto quede esperando el envío de notificaciones que no condicionan su resultado. |
+| AD-06 | Resolver toda colaboración síncrona mediante la API REST que publica el servicio proveedor (Open Host Service), consumida a través de un adaptador propio del consumidor (Anti-Corruption Layer). | Hace visible cada dependencia entre servicios y permite cambiar la implementación del proveedor sin propagar el cambio. |
+| AD-07 | Propagar los efectos posteriores a una operación como eventos de integración en RabbitMQ, mediante un exchange de tipo *topic* (`intiva.events`). Cada servicio publica sus eventos con el patrón outbox y los procesa con consumidores idempotentes. | El registro de un gasto no espera el envío de notificaciones. Si un servicio está caído, sus mensajes quedan en la cola hasta que vuelva, y un mensaje repetido no genera efectos duplicados. |
 | AD-08 | Separar comandos y consultas en la capa de aplicación de cada contexto, manteniendo las invariantes dentro del agregado correspondiente. | Sitúa cada regla de negocio junto al elemento que la hace cumplir, lo que localiza los cambios futuros. |
-| AD-09 | Mantener un Shared Kernel acotado en `platform.shared`, con los tipos `Money`, `UserId`, `OwnerTypes`, `PeriodTypes`, `CurrencyCodes` y la clase base de agregados auditables. | Evita que cada contexto construya su propia noción de dinero o de titular, divergencia especialmente riesgosa en un dominio financiero. |
-| AD-10 | Exponer la funcionalidad mediante rutas REST versionadas bajo `/api/v1/{recurso}`, con recursos y ensambladores propios de cada contexto. | Da cumplimiento a C-05 y habilita que los tres clientes consuman un contrato único. |
+| AD-09 | Mantener un Shared Kernel acotado como librería versionada (`platform.shared`), con los tipos `Money`, `UserId`, `OwnerTypes`, `PeriodTypes`, `CurrencyCodes` y la clase base de agregados auditables. Los eventos de integración se definen en JSON como Published Language. | Evita que cada servicio construya su propia noción de dinero o de titular, divergencia especialmente riesgosa en un dominio financiero. Como la librería tiene versión, cada servicio puede adoptar un cambio cuando le corresponda. |
+| AD-10 | Exponer la funcionalidad mediante rutas REST versionadas bajo `/api/v1/{recurso}`, con recursos y ensambladores propios de cada servicio. El API Gateway envía cada ruta al microservicio dueño del recurso. | Da cumplimiento a C-05 y permite que los tres clientes consuman una sola dirección, sin conocer cuántos servicios hay detrás. |
 
 
 
@@ -166,7 +173,7 @@ Evaluamos tácticas de rendimiento, en especial *maintain multiple copies of com
 |---|---|---|
 | AD-11 | Almacenar el resumen analítico en Redis bajo estrategia cache-aside con tiempo de vida acotado, recalculándolo solo cuando no exista una entrada vigente. | Resuelve D-05 y D-09 asumiendo una desactualización tolerable para el tipo de información presentada. |
 | AD-12 | Incorporar persistencia local mediante Room y SQLite en la aplicación móvil, con sincronización diferida al recuperar la conexión. | Responde al hallazgo de las entrevistas sobre registro de gastos en movilidad y aporta disponibilidad percibida frente a D-12. |
-| AD-13 | Ejecutar la detección de vencimientos mediante procesos programados dentro del propio contexto Finances, en lugar de un orquestador externo. | Mantiene la regla del vencimiento junto al agregado que la define y evita infraestructura adicional. |
+| AD-13 | Ejecutar la detección de vencimientos mediante procesos programados dentro del propio microservicio Finances, en lugar de un orquestador externo. | Mantiene la regla del vencimiento junto al agregado que la define y evita infraestructura adicional. |
 
 #### Iteración 4: seguridad, clientes y despliegue
 
@@ -195,17 +202,17 @@ La cuarta iteración definió la parte externa del sistema. Faltaba decidir cóm
 
 | ID | Decisión | Fundamento |
 |---|---|---|
-| AD-14 | Autenticar mediante token JWT firmado, almacenar contraseñas únicamente como hash y admitir autenticación federada con Google como alternativa equivalente. | Atiende D-07 y D-08 sin excluir a quienes no poseen cuenta del proveedor externo. |
+| AD-14 | Autenticar mediante token JWT firmado por IAM, almacenar contraseñas únicamente como hash y admitir autenticación federada con Google como alternativa equivalente. Cada microservicio valida la firma del token por su cuenta, sin consultar a IAM en cada petición. | Atiende D-07 y D-08 sin excluir a quienes no poseen cuenta del proveedor externo, y evita que IAM se vuelva un cuello de botella. |
 | AD-15 | Entregar alertas y recordatorios mediante notificaciones push, disparadas por los eventos de dominio que las originan. | Da cumplimiento a D-04 y a las historias US 026, US 027, US 029 y US 030. |
 | AD-16 | Aislar cada servicio externo tras un adaptador propio en la capa de infraestructura, que traduzca su respuesta y absorba sus fallos. | Impide que la caída de un tercero se propague al dominio, según exige C-07. |
 | AD-17 | Asignar responsabilidades diferenciadas por cliente: la landing comunica la propuesta de valor, la aplicación móvil concentra el registro cotidiano y la aplicación web concentra la analítica. | Alinea cada cliente con la tarea predominante identificada en el User Task Matrix. |
-| AD-18 | Exponer el backend detrás de un proxy inverso que actúe también como punto único de entrada, con cifrado de transporte terminado en él. | Cumple C-09 y TS 016, sin exponer puertos internos del servicio. |
+| AD-18 | Exponer los microservicios detrás de Nginx como API Gateway. Es el único punto de entrada público, termina el cifrado TLS y envía cada ruta al servicio correspondiente por la red interna de Docker. | Cumple C-09 y TS 016 sin exponer los puertos de los servicios. Como Docker resuelve los nombres de los servicios en su red interna, no se necesita un servidor de descubrimiento como Eureka. |
 | AD-19 | Validar toda suscripción del lado del servidor contra el proveedor de pagos, sin confiar en el resultado que informe el cliente. | Previene la activación fraudulenta de beneficios premium, requisito implícito de D-10 y US 010. |
 
 
 #### Iteración 5: categorización y asistencia financiera con IA
 
-**Driver considerado:** D-13. El registro inicia con los datos ingresados por el usuario. Categories & Financial Accounts solicita categorías sugeridas; Analytics prepara resúmenes autorizados para el asistente y sus recomendaciones sobre gastos hormiga y metas.
+**Driver considerado:** D-13. El registro inicia con los datos ingresados por el usuario. Categories & Financial Accounts pide una categoría sugerida al microservicio AI Agent, que es el único que se conecta con el modelo de IA. Analytics prepara resúmenes de los movimientos autorizados para que el asistente recomiende ajustes sobre gastos hormiga y metas.
 
 | Alternativa | Ventaja | Limitación |
 | --- | --- | --- |
@@ -213,25 +220,27 @@ La cuarta iteración definió la parte externa del sistema. Faltaba decidir cóm
 | Reglas por comercio | Resultados explicables para casos conocidos. | Cobertura limitada a reglas mantenidas por el equipo. |
 | Proveedor de IA mediante adaptador | Permite sugerencias y asistencia contextual. | Requiere validar respuestas, privacidad, costos y disponibilidad. |
 
-**Decisión propuesta:** proveedor de IA aislado mediante un adaptador. La elección del proveedor y el rendimiento se validarán durante la implementación.
+**Decisión propuesta:** concentrar la IA en un microservicio propio, AI Agent, que usa la Gemini API de Google AI Studio a través de un adaptador. La precisión y el tiempo de respuesta se validarán durante la implementación.
 
 | ID | Decisión | Fundamento |
 | --- | --- | --- |
 | AD-20 | Ingresar gastos mediante formulario y solicitar ayuda de IA sobre datos autorizados, con registro manual disponible. | Conserva el control de los movimientos y evita depender de acceso a notificaciones del dispositivo. |
-| AD-21 | Encapsular clasificación y asistencia en un adaptador que valida respuestas y restringe los datos enviados. | Aísla el proveedor y evita exponer información de otros grupos. |
+| AD-21 | Encapsular clasificación y asistencia en el microservicio AI Agent, cuyo adaptador valida las respuestas del modelo y restringe los datos que se le envían. | Aísla el proveedor en un solo servicio y evita exponer información de otros grupos. Si se cambia de modelo, solo cambia el adaptador. |
 | AD-22 | Exigir aceptación o corrección de categorías antes de guardar. Ante fallo, permitir elección manual. | Una sugerencia no modifica saldos ni constituye una decisión del usuario. |
 
 #### Iteración 6: planificación financiera con IA agéntica
 
-**Driver considerado:** D-14. Analytics coordina la planificación y consulta datos autorizados de Finances y Savings. La proyección usa cálculos reproducibles por categoría; la IA explica el riesgo y propone acciones. Para la demo se propone evaluar Gemini mediante Spring AI, con datos sintéticos.
+**Driver considerado:** D-14. El microservicio AI Agent coordina el plan mensual (US 032). Pide a Analytics la proyección de gastos por categoría, que se calcula con reglas reproducibles a partir del historial, y consulta los límites y metas vigentes en Finances y Savings. Con esa información, Gemini explica el riesgo y arma un borrador con límites, aportes previstos y recordatorios. Por ejemplo, si la proyección en Comida es S/ 580 y el límite es S/ 500, el agente muestra un riesgo de S/ 80 y propone cómo ajustarlo.
+
+Esto es lo que diferencia al agente de un chatbot: Gemini, mediante Spring AI y *function calling*, decide qué herramientas usar (las APIs de los otros servicios) para reunir datos y preparar acciones. Lo que no puede hacer es aplicarlas sin permiso: cada acción pasa por la aprobación del usuario. Para la demo se usarán datos sintéticos.
 
 | Decisión | Diseño | Justificación |
 | --- | --- | --- |
 | AD-23 | Crear un borrador versionado y editable; validar titular y versión al aprobar. | Un borrador no cambia límites, metas ni avisos. |
-| AD-24 | Aplicar mediante interfaces de Finances, Savings y Communications, con claves idempotentes y estado por acción. | Reintentar solo lo pendiente; activar el plan al confirmar todas las acciones requeridas. |
-| AD-25 | Generar el borrador al cierre de mes como ampliación y evaluar el gasto registrado con reglas; enviar push deduplicado al cruzar un umbral. | El seguimiento no necesita invocar el modelo en cada movimiento y no aplica ajustes sin aprobación. |
+| AD-24 | Aplicar mediante las APIs autenticadas de Finances, Savings y Communications, con claves idempotentes y estado por acción. | Reintentar solo lo pendiente; activar el plan al confirmar todas las acciones requeridas. |
+| AD-25 | Como segunda etapa (US 035), generar el borrador al cierre de mes y evaluar el gasto registrado con reglas a partir de los eventos de Finances; enviar push deduplicado al cruzar un umbral. | El seguimiento no necesita invocar el modelo en cada movimiento y no aplica ajustes sin aprobación. |
 
-En el diseño actual estas interfaces separan módulos. Si el equipo migra a microservicios, se exponen mediante APIs autenticadas. Un aporte previsto es parte del plan, no una transferencia.
+El agente guarda los borradores, sus versiones y el estado de cada acción en su propia base de datos (`agent_db`). Planificar un aporte no mueve dinero: el aporte queda como parte del plan, no como una transferencia.
 
 #### Deuda de diseño asumida
 
@@ -239,10 +248,11 @@ El proceso dejó algunas decisiones que no son las ideales, pero que decidimos m
 
 | ID | Descripción | Origen | Condición para resolverla |
 |---|---|---|---|
-| DT-01 | El contexto Analytics accede de forma directa a los repositorios de Finances y de Savings, sin mediar la interfaz publicada por esos contextos. | Combinación de AD-05, que habilita técnicamente el acceso al compartirse la base de datos, con la presión de plazo de C-10. | Debe resolverse mediante un modelo de lectura propio de Analytics, alimentado por eventos, antes de intentar cualquier extracción de contextos como servicios independientes. |
-| DT-02 | El contexto Profiles escucha un evento definido dentro del paquete de dominio de IAM, en lugar de un evento de integración declarado como lenguaje publicado. | AD-07 no fijó una convención explícita sobre qué eventos son públicos y cuáles internos. | Extraer el evento de integración hacia el kernel compartido cuando se formalice el catálogo de eventos públicos del sistema. |
+| DT-01 | Las bases de datos de todos los microservicios se alojan en un mismo servidor PostgreSQL. | AD-05, por la restricción de costo de C-08. | Si ese servidor falla, todos los servicios pierden su persistencia a la vez. Conviene separar instancias cuando haya presupuesto o aumente la carga. |
+| DT-02 | Los eventos de integración no tienen un catálogo formal ni control de versiones de su esquema. | AD-07 y AD-09. | Documentar el catálogo de eventos con sus versiones antes de que crezca el número de consumidores, para que un cambio en un evento no rompa a los servicios que lo escuchan. |
 | DT-03 | La IA puede producir sugerencias incorrectas o no estar disponible. | AD-21 y AD-22. | Evaluar respuestas con casos de gastos y metas; mantener elección manual y no presentar precisión sin medición. |
-| DT-04 | Aplicación parcial entre módulos o servicios. | AD-23 a AD-25. | Probar edición concurrente, fallos parciales y reintentos sin duplicados. |
+| DT-04 | Aplicación parcial del plan entre servicios. | AD-23 a AD-25. | Probar edición concurrente, fallos parciales y reintentos sin duplicados. |
+| DT-05 | No hay trazabilidad distribuida: para seguir una operación que pasa por varios servicios hay que revisar los logs de cada uno por separado. | AD-01 y AD-07. | Propagar un identificador de correlación en las cabeceras HTTP y en los mensajes, y centralizar los logs. |
 
 
 ### 4.1.5. Quality Attribute Scenario Refinements
@@ -270,7 +280,7 @@ Los escenarios se presentan en orden de prioridad, según la importancia que les
 | Response | El sistema presenta un formulario que solicita únicamente monto, fecha y origen, apoyándose en la categoría y la cuenta financiera creadas por defecto durante el registro, con terminología libre de tecnicismos financieros. |
 | Response Measure | El registro se completa en cinco pasos o menos, sin que la persona deba configurar nada de forma previa. |
 | **Questions** | ¿La categoría creada por defecto resulta comprensible para alguien que nunca ha clasificado un gasto, o conviene nombrarla de forma más descriptiva? ¿Cinco pasos es un límite adecuado o debería ajustarse tras las primeras pruebas con usuarios reales? |
-| **Issues** | La preparación inicial concentra tres llamadas salientes en un único manejador de evento dentro de IAM, lo que acopla ese contexto al orden de creación en otros tres. Si alguna de esas llamadas falla, la persona podría quedar sin categoría o sin cuenta por defecto, con lo que el escenario dejaría de cumplirse sin que el fallo sea visible. |
+| **Issues** | La preparación inicial concentra en un único manejador de IAM tres llamadas HTTP a otros servicios, lo que acopla IAM al orden de creación en esos servicios. Si alguna de esas llamadas falla, la persona podría quedar sin categoría o sin cuenta por defecto, con lo que el escenario dejaría de cumplirse sin que el fallo sea visible. |
 
 
 
@@ -285,7 +295,7 @@ Los escenarios se presentan en orden de prioridad, según la importancia que les
 | Stimulus | Solicita el historial de transacciones del grupo familiar al que pertenece. |
 | Stimulus Source | Integrante de un grupo familiar activo. |
 | Environment | Producción, en un grupo familiar con varios integrantes que registran movimientos de forma simultánea. |
-| Artifact (if Known) | Agregado `Transaction` con el value object `OwnerTypes` y la interfaz publicada por el contexto Household para verificar pertenencia y rol. |
+| Artifact (if Known) | Agregado `Transaction` con el value object `OwnerTypes` y el endpoint del microservicio Household para verificar pertenencia y rol. |
 | Response | El sistema devuelve exclusivamente las transacciones marcadas como familiares del grupo correspondiente. Los gastos personales de otros integrantes no aparecen en el listado ni contribuyen a los totales del grupo. De forma complementaria, toda transacción familiar genera la notificación correspondiente al resto de integrantes activos. |
 | Response Measure | Cero accesos a transacciones marcadas como personales de otro integrante. Totalidad de las transacciones familiares notificadas al resto del grupo. |
 | **Questions** | ¿Debe una persona con rol administrador del grupo conservar la misma restricción sobre los gastos personales del resto, o existe algún caso legítimo de excepción? ¿Qué ocurre con las transacciones familiares ya registradas cuando un integrante abandona el grupo? |
@@ -304,11 +314,11 @@ Los escenarios se presentan en orden de prioridad, según la importancia que les
 | Stimulus | Registra una transacción de ingreso o de gasto, de titularidad individual o familiar. |
 | Stimulus Source | Persona usuaria autenticada. |
 | Environment | Producción, bajo condiciones normales de carga. |
-| Artifact (if Known) | Manejador del comando de registro de transacciones en el contexto Finances, junto con la validación síncrona de saldo contra el contexto de cuentas financieras. |
-| Response | El sistema verifica el saldo disponible, persiste la transacción, actualiza el saldo de la cuenta y devuelve la confirmación. La evaluación de los límites de gasto afectados y el aviso al grupo familiar se propagan mediante eventos, fuera de la transacción principal. |
+| Artifact (if Known) | Manejador del comando de registro de transacciones en el microservicio Finances, junto con la validación síncrona de saldo contra la API de Categories & Financial Accounts. |
+| Response | El sistema verifica el saldo disponible, persiste la transacción, actualiza el saldo de la cuenta y devuelve la confirmación. La evaluación de los límites de gasto afectados y el aviso al grupo familiar se propagan mediante eventos en RabbitMQ, fuera de la transacción principal. |
 | Response Measure | Menos de 1.5 segundos en la operación de escritura. Los efectos posteriores se completan fuera de ese tiempo de respuesta. |
 | **Questions** | ¿La validación de saldo debe seguir siendo bloqueante para transacciones asociadas a efectivo, donde el concepto de saldo disponible es menos preciso? ¿Conviene diferenciar la medida según se registre desde el cliente móvil o desde el web? |
-| **Issues** | Al no implementarse un patrón de publicación transaccional de eventos, una caída del proceso entre la persistencia de la transacción y la publicación del evento dejaría el movimiento registrado sin que se emita la alerta ni la notificación correspondiente. Es poco probable, pero si pasa, nadie se daría cuenta de la inconsistencia. |
+| **Issues** | La validación de saldo depende de que Categories & Financial Accounts responda: si ese servicio está caído, no se puede registrar el gasto. Por otro lado, la alerta de límite y el aviso al grupo llegan unos segundos después, no al instante. Si RabbitMQ no está disponible, los eventos esperan en la tabla outbox de Finances hasta que puedan publicarse, así que el aviso se retrasa, pero no se pierde. |
 
 
 
@@ -323,7 +333,7 @@ Los escenarios se presentan en orden de prioridad, según la importancia que les
 | Stimulus | Solicita un recurso protegido de la API con credenciales o token inválidos. |
 | Stimulus Source | Actor no autorizado, incluyendo intentos automatizados. |
 | Environment | Producción, con la API expuesta públicamente. |
-| Artifact (if Known) | Filtro de autenticación del contexto IAM, sobre comunicación cifrada terminada en el proxy inverso. |
+| Artifact (if Known) | Filtro de autenticación de cada microservicio, que valida el JWT emitido por IAM, sobre comunicación cifrada terminada en el API Gateway. |
 | Response | El sistema rechaza la petición con estado 401, sin revelar si el correo consultado existe, sin distinguir entre usuario inexistente y contraseña incorrecta y sin exponer trazas internas en el cuerpo de la respuesta. |
 | Response Measure | Totalidad de los intentos con credenciales o token inválidos bloqueados. Ninguna contraseña almacenada fuera de su forma cifrada. Ninguna petición atendida sobre canal sin cifrar. |
 | **Questions** | ¿Debe incorporarse limitación de intentos por origen para mitigar ataques de fuerza bruta? ¿Cuál es el tiempo de vigencia adecuado del token, considerando que un valor bajo obliga a renovaciones frecuentes en el cliente móvil? |
@@ -342,11 +352,11 @@ Los escenarios se presentan en orden de prioridad, según la importancia que les
 | Stimulus | Solicita el resumen financiero de un periodo determinado. |
 | Stimulus Source | Responsable de la economía familiar, desde la aplicación web. |
 | Environment | Producción, sobre un histórico acumulado de transacciones, límites de gasto y metas de ahorro. |
-| Artifact (if Known) | Manejador de la consulta de resumen analítico en el contexto Analytics, con caché cache-aside sobre Redis. |
-| Response | Si existe un resumen vigente en caché para ese titular y periodo, se devuelve directamente. En caso contrario, el contexto recalcula el resumen, lo almacena con tiempo de vida acotado y lo entrega. |
+| Artifact (if Known) | Manejador de la consulta de resumen analítico en el microservicio Analytics, con caché cache-aside sobre Redis. |
+| Response | Si existe un resumen vigente en caché para ese titular y periodo, se devuelve directamente. En caso contrario, Analytics recalcula el resumen a partir de su propio modelo de lectura, lo almacena con tiempo de vida acotado y lo entrega. |
 | Response Measure | Menos de 2 segundos en la consulta. La consulta servida desde caché debe ser bastante más rápida que el recálculo completo. |
 | **Questions** | ¿Qué tiempo de vida resulta aceptable antes de que la desactualización se vuelva perceptible para el usuario? ¿Debe invalidarse la caché al registrarse una transacción, o basta con esperar el vencimiento natural de la entrada? |
-| **Issues** | El cálculo del resumen accede de forma directa a los repositorios de Finances y de Savings, incumpliendo el mecanismo de colaboración acordado en AD-06. Esto hace que un cambio de esquema en esos contextos pueda romper Analytics sin aviso. Corresponde a la deuda DT-01. |
+| **Issues** | El modelo de lectura de Analytics se actualiza con los eventos de Finances y Savings, así que un movimiento recién registrado puede tardar unos segundos en reflejarse, a lo que se suma el tiempo de vida de la caché. Si cambia la estructura de uno de esos eventos sin versionarlo, Analytics puede dejar de procesarlo (ver DT-02). |
 
 
 
@@ -361,7 +371,7 @@ Los escenarios se presentan en orden de prioridad, según la importancia que les
 | Stimulus | Registra o consulta información financiera durante una pérdida de conectividad o una indisponibilidad temporal del backend. |
 | Stimulus Source | Persona usuaria en movilidad. |
 | Environment | Producción, sobre infraestructura contratada en planes gratuitos o de bajo costo. |
-| Artifact (if Known) | Persistencia local de la aplicación móvil y servicio backend desplegado detrás del proxy inverso. |
+| Artifact (if Known) | Persistencia local de la aplicación móvil y microservicios desplegados detrás del API Gateway. |
 | Response | La aplicación registra el movimiento en el almacenamiento local y lo sincroniza contra el servidor cuando la conexión se restablece, sin que la persona deba repetir la operación. El servicio responde al mecanismo de verificación de estado definido. |
 | Response Measure | Disponibilidad mensual no inferior al 95 por ciento. Ninguna transacción perdida por registro sin conexión. |
 | **Questions** | ¿Cómo debe resolverse el conflicto si el mismo movimiento se registra desde dos dispositivos distintos antes de sincronizar? ¿Qué debe mostrarse al usuario mientras un registro permanece pendiente de sincronización? |
@@ -378,13 +388,13 @@ Los escenarios se presentan en orden de prioridad, según la importancia que les
 | **Relevant Quality Attributes** | Interoperabilidad, Disponibilidad. |
 | **Scenario Components** | |
 | Stimulus | Un servicio externo devuelve un error, un token inválido o no responde dentro del tiempo esperado. |
-| Stimulus Source | Proveedor externo de notificaciones, almacenamiento de imágenes, pagos o autenticación federada. |
+| Stimulus Source | Proveedor externo de notificaciones, almacenamiento de imágenes, pagos, autenticación federada o IA (Gemini API). |
 | Environment | Producción. |
-| Artifact (if Known) | Adaptadores de integración ubicados en la capa de infraestructura de los contextos que consumen cada servicio. |
-| Response | El adaptador captura el fallo, lo registra y devuelve un resultado controlado. Si falla el servicio de notificaciones, el aviso queda persistido y consultable dentro de la aplicación aunque no llegue al dispositivo. Si falla el almacenamiento de imágenes, el perfil se guarda conservando la imagen anterior. Si falla la autenticación federada, permanece disponible el acceso con credenciales locales. En ningún caso la excepción del proveedor alcanza al dominio. |
+| Artifact (if Known) | Adaptadores de integración ubicados en la capa de infraestructura de los microservicios que consumen cada servicio externo. |
+| Response | El adaptador captura el fallo, lo registra y devuelve un resultado controlado. Si falla el servicio de notificaciones, el aviso queda persistido y consultable dentro de la aplicación aunque no llegue al dispositivo. Si falla el almacenamiento de imágenes, el perfil se guarda conservando la imagen anterior. Si falla la autenticación federada, permanece disponible el acceso con credenciales locales. Si falla Gemini, el usuario elige la categoría manualmente y puede pedir el plan más tarde. En ningún caso la excepción del proveedor alcanza al dominio. |
 | Response Measure | Totalidad de los fallos de terceros manejados sin interrupción del servicio. La funcionalidad afectada se degrada mientras el resto de la aplicación permanece operativa. |
 | **Questions** | ¿Debe reintentarse el envío de una notificación fallida, y con qué política? ¿Conviene informar al usuario que una notificación no pudo entregarse, o basta con que la encuentre dentro de la aplicación? |
-| **Issues** | No existe hoy un mecanismo de reintento ni de cola de pendientes. Un fallo momentáneo del proveedor de notificaciones se traduce en un aviso que nunca llega al dispositivo, aunque quede registrado en la aplicación. |
+| **Issues** | Si Communications está caído, los eventos que debe procesar esperan en su cola de RabbitMQ. En cambio, si el que falla es Firebase, no hay una política de reintento definida: el aviso queda registrado en la aplicación, pero no llega al dispositivo. |
 
 
 
@@ -399,11 +409,11 @@ Los escenarios se presentan en orden de prioridad, según la importancia que les
 | Stimulus | Se requiere añadir un nuevo tipo de cuenta financiera o una nueva métrica al panel de analíticas. |
 | Stimulus Source | Equipo de desarrollo. |
 | Environment | Desarrollo, durante un sprint del ciclo académico. |
-| Artifact (if Known) | Contextos Categories and Financial Accounts y Analytics. |
-| Response | El cambio se implementa dentro de un solo bounded context. Los contextos consumidores continúan operando a través de la interfaz publicada, sin requerir modificaciones en su capa de dominio. |
-| Response Measure | Modificación localizada en un único módulo del backend, sin cambios en el dominio de los contextos consumidores. |
+| Artifact (if Known) | Microservicios Categories & Financial Accounts y Analytics. |
+| Response | El cambio se implementa dentro de un solo microservicio. Los servicios consumidores siguen operando a través de la API publicada, sin requerir modificaciones en su capa de dominio. |
+| Response Measure | Modificación localizada en un único microservicio, que se redespliega sin detener a los demás. |
 | **Questions** | ¿Cómo se verifica de forma automática que una modificación no ha cruzado la frontera del contexto? ¿Conviene incorporar pruebas de arquitectura que fallen ante una dependencia no permitida? |
-| **Issues** | Mientras persista la deuda DT-01, este escenario no se cumple para Analytics. Un cambio en el esquema de Finances o de Savings se propagaría a Analytics de forma inmediata, porque el acceso no pasa por ninguna interfaz publicada. |
+| **Issues** | Si el cambio altera un evento de integración que otro servicio consume, por ejemplo uno que escucha Analytics, el evento debe versionarse para no romper al consumidor. Mientras no exista un catálogo formal de eventos (DT-02), esa revisión depende del equipo. |
 
 ## 4.2. Strategic-Level Domain-Driven Design
 
@@ -751,7 +761,9 @@ A partir de los ocho bounded contexts identificados en el Candidate Context Disc
 5. **Dependencies Capture** — con quién colabora el contexto y mediante qué mecanismo (entrante y saliente).
 6. **Design Critique** — una revisión honesta de las decisiones de diseño, incluyendo aquellas que se apartan del patrón ideal.
 
-Los ocho contextos se presentan en el orden en que colaboran a lo largo del ciclo de vida de una persona usuaria: primero identidad y perfil, luego los contextos de soporte financiero, después el núcleo transaccional y familiar, y por último comunicación y analítica.
+Los ocho contextos se presentan en el orden en que colaboran a lo largo del ciclo de vida de una persona usuaria: primero identidad y perfil, luego los contextos de soporte financiero, después el núcleo transaccional y familiar, y por último comunicación y analítica. Al final se agrega AI Agent, un noveno contexto que surgió con la planificación financiera con IA (US 032) y que no existía en el backend anterior.
+
+Los canvases se elaboraron a partir del código del backend anterior (`intiva-api-platform`), que era un solo despliegue. En la arquitectura de microservicios, cada contexto es un servicio: las llamadas a un `ContextFacade` pasan a ser llamadas REST entre servicios y los eventos de dominio se publican como eventos de integración en RabbitMQ. Las secciones de dependencias de Finances, Savings y Analytics ya reflejan ese cambio, y la tabla de relaciones de la sección 4.2.5 indica el mecanismo de cada relación.
 
 Cada canvas se presenta a continuación en su representación visual —siguiendo la plantilla del Bounded Context Canvas, con las seis secciones del proceso numeradas— acompañada de la tabla con el detalle completo del contenido. Los canvases se encuentran en `assets/img/cap04/`.
 
@@ -835,9 +847,9 @@ Cada canvas se presenta a continuación en su representación visual —siguiend
 | **Capability Analysis — Queries** | • GetTransactionsByOwnerIdQuery<br>• GetLastTransactionsByOwnerIdQuery<br>• GetSpendingLimitsByOwnerIdQuery<br>• GetRecurringTransactionsByOwnerIdQuery |
 | **Capability Analysis — Domain Events publicados** | • FamilyTransactionCreatedEvent<br>• RegisteredTransactionDetectedEvent<br>• TransactionRegistrationRejectedEvent<br>• SpendingLimitWarningReachedEvent<br>• SpendingLimitExceededEvent<br>• PaymentDueSoonEvent<br>• PaymentExpiredEvent<br>• RecurringTransactionExecutionRequestedEvent |
 | **4. Capability Layering** | Core capability: registrar transacciones y controlar límites de gasto. Supporting capability: recordatorios de pagos recurrentes (scheduling con PaymentReminderScheduler / RecurringTransactionScheduler). |
-| **5. Dependencies — Inbound (quién lo consume)** | • Analytics lee TransactionRepository y SpendingLimitRepository directamente (sin ACL).<br>• Communications escucha directamente FamilyTransactionCreatedEvent, PaymentDueSoonEvent y PaymentExpiredEvent. |
-| **Dependencies — Outbound (a quién consume)** | • Categories & Financial Accounts — ACL síncrona.<br>• Communications — ACL síncrona (FinancesExternalNotificationsService) para alertas de límite de gasto. |
-| **6. Design Critique** | Finances es el contexto con más eventos de dominio publicados (8) pero no expone una interfaz ACL propia («FinancesContextFacade») para que otros lo consulten de forma controlada; Analytics accede a sus repositorios directamente. Se recomienda publicar dicha interfaz para blindar su Domain Layer, especialmente porque es el Core Subdomain del producto. |
+| **5. Dependencies — Inbound (quién lo consume)** | • Analytics consume sus eventos de transacciones y límites desde RabbitMQ para su modelo de lectura.<br>• Communications se suscribe a FamilyTransactionCreatedEvent, PaymentDueSoonEvent y PaymentExpiredEvent.<br>• AI Agent consulta y crea límites de gasto mediante su API REST al aplicar un plan aprobado. |
+| **Dependencies — Outbound (a quién consume)** | • Categories & Financial Accounts: llamada REST síncrona con ACL.<br>• Communications: llamada REST síncrona (FinancesExternalNotificationsService) para alertas de límite de gasto. |
+| **6. Design Critique** | Finances es el contexto con más eventos de dominio publicados (8). En el backend anterior no exponía una interfaz propia y Analytics leía sus repositorios directamente. Como microservicio, esa lectura ya no es posible: los demás servicios lo consultan solo a través de su API o de sus eventos, lo que protege al Core Subdomain del producto. |
 
 #### 4.2.4.5. Financial Goals (Savings)
 
@@ -856,7 +868,7 @@ Cada canvas se presenta a continuación en su representación visual —siguiend
 | **Capability Analysis — Queries** | • GetSavingGoalByIdQuery<br>• GetAllSavingGoalsByUserIdQuery<br>• GetAllSavingGoalsByGroupIdQuery<br>• GetAllCompletedSavingGoalsByUserIdQuery |
 | **Capability Analysis — Domain Events publicados** | (no se identifican eventos de dominio publicados en la implementación actual — ver crítica de diseño) |
 | **4. Capability Layering** | Core capability: ciclo de vida de la meta y sus aportes. No se identifican capacidades de soporte adicionales. |
-| **5. Dependencies — Inbound (quién lo consume)** | Analytics lee SavingGoalRepository directamente (sin ACL). |
+| **5. Dependencies — Inbound (quién lo consume)** | • Analytics consume sus eventos para el modelo de lectura de metas.<br>• AI Agent registra aportes previstos mediante su API REST al aplicar un plan aprobado. |
 | **Dependencies — Outbound (a quién consume)** | Ninguna. |
 | **6. Design Critique** | El vocabulario de Communications ya reserva los tipos SAVING_GOAL_COMPLETED y SAVING_GOAL_NOT_COMPLETED, pero Savings todavía no publica el evento que debería dispararlos (p. ej. SavingGoalCompletedEvent): es un vacío entre el diseño de mensajería anticipado y la implementación actual, y queda registrado como trabajo pendiente. Asimismo, la intención original del proyecto era que un aporte de ahorro generara una transacción en Finances; el código actual no materializa esa colaboración, por lo que ambos contextos permanecen desacoplados. |
 
@@ -919,13 +931,32 @@ Cada canvas se presenta a continuación en su representación visual —siguiend
 | **Capability Analysis — Queries** | • GetAnalyticsSummaryByOwnerQuery<br>• GetSpendingLimitAnalyticsByOwnerQuery<br>• GetSavingGoalAnalyticsByOwnerQuery<br>• GetCategoryExpenseRankingQuery<br>• GetIncomeVsExpenseTrendQuery<br>• GetReportPreviewQuery |
 | **Capability Analysis — Domain Events publicados** | (no publica eventos: es un contexto de consulta, no de comando de negocio) |
 | **4. Capability Layering** | Core capability: cálculo y cacheo del resumen financiero. Supporting capability: generación de reportes exportables. |
-| **5. Dependencies — Inbound (quién lo consume)** | Ninguna: nadie más consume AnalyticsContextFacade a nivel de backend (solo la aplicación web, a través de sus controladores REST). |
-| **Dependencies — Outbound (a quién consume)** | • Categories & Financial Accounts — ACL síncrona.<br>• Finances — acceso directo a repositorio (TransactionRepository, SpendingLimitRepository), sin ACL.<br>• Financial Goals (Savings) — acceso directo a repositorio (SavingGoalRepository), sin ACL. |
-| **6. Design Critique** | Es el caso más claro de deuda de diseño detectado en este análisis: AnalyticsExternalTransactionService inyecta directamente los repositorios de Finances y Savings, saltándose tanto el ACL como el Application Layer de esos contextos. Funciona hoy porque los 8 bounded contexts comparten una única base de datos PostgreSQL y un mismo despliegue (monolito modular), pero es el principal obstáculo si en el futuro se quisiera extraer Analytics — o cualquier otro contexto — como un servicio desplegado de forma independiente. |
+| **5. Dependencies — Inbound (quién lo consume)** | • La aplicación web, a través de sus endpoints REST.<br>• AI Agent, que le pide la proyección de gastos por categoría para armar el plan mensual. |
+| **Dependencies — Outbound (a quién consume)** | • Categories & Financial Accounts: llamada REST síncrona con ACL.<br>• Finances y Financial Goals (Savings): consume sus eventos de integración desde RabbitMQ y los guarda en su propio modelo de lectura (`analytics_db`). |
+| **6. Design Critique** | Era el caso más claro de deuda de diseño del backend anterior: AnalyticsExternalTransactionService inyectaba directamente los repositorios de Finances y Savings, saltándose su ACL y su Application Layer. Funcionaba porque todos los contextos compartían una base de datos y un despliegue. Con microservicios, Analytics tiene su propio modelo de lectura alimentado por eventos. El costo es que los datos del panel pueden tardar unos segundos en actualizarse. |
+
+#### 4.2.4.9. AI Agent
+
+*La representación visual de este canvas está pendiente; a continuación se presenta su contenido.*
+
+| Sección del Canvas | Contenido |
+| --- | --- |
+| **1. Context Overview — Propósito** | Ayuda a la persona usuaria a planificar su mes: obtiene la proyección de gastos, explica los riesgos frente a sus límites y metas y propone un plan editable. También sugiere categorías al registrar un gasto. Es el único contexto que se comunica con el modelo de IA (Gemini API). |
+| **Clasificación estratégica** | Supporting Subdomain con valor diferencial: no maneja dinero, pero es la funcionalidad de IA agéntica que distingue a Intiva. |
+| **Domain Roles** | Orquestador (*Execution*): coordina a Analytics, Finances, Savings y Communications para preparar y aplicar un plan. |
+| **2. Ubiquitous Language** | • MonthlyPlan / PlanVersion<br>• PlanAction (límite, aporte previsto, recordatorio)<br>• Projection / RiskAmount<br>• Approval<br>• CategorySuggestion |
+| **Business Rules** | • Un borrador no cambia límites, metas ni avisos.<br>• Solo se aplica la versión que aprueba su titular; si el plan cambia, se crea una nueva versión.<br>• Cada acción se aplica con una clave idempotente, y un reintento solo ejecuta las acciones pendientes.<br>• Planificar un aporte no mueve dinero.<br>• Al modelo solo se envían los datos mínimos autorizados por el usuario, nunca credenciales ni datos de otros grupos. |
+| **3. Capability Analysis — Commands** | • RequestMonthlyPlanCommand<br>• EditPlanDraftCommand<br>• ApprovePlanCommand<br>• DiscardPlanCommand<br>• SuggestCategoryCommand |
+| **Capability Analysis — Queries** | • GetPlanByIdQuery<br>• GetPlanStatusQuery |
+| **Capability Analysis — Domain Events publicados** | • MonthlyPlanApprovedEvent<br>• MonthlyPlanAppliedEvent |
+| **4. Capability Layering** | Core capability: generar, versionar y aplicar el plan mensual con aprobación del usuario. Supporting capability: sugerencia de categorías para el registro de gastos. |
+| **5. Dependencies — Inbound (quién lo consume)** | • Aplicaciones móvil y web, a través del API Gateway.<br>• Categories & Financial Accounts: llamada REST para obtener una categoría sugerida. |
+| **Dependencies — Outbound (a quién consume)** | • Analytics: proyección de gastos por categoría.<br>• Finances, Savings y Communications: aplicación de las acciones del plan mediante sus APIs.<br>• Gemini API: explicación del riesgo, propuesta del plan y clasificación. |
+| **6. Design Critique** | Concentrar la IA en un servicio evita que la dependencia del proveedor se reparta por todo el backend. A cambio, el agente depende de cuatro servicios para aplicar un plan, por lo que una aplicación puede quedar a medias (DT-04). Por eso cada acción guarda su propio estado y el plan solo pasa a activo cuando se confirman todas las acciones requeridas. |
 
 ### 4.2.5. Context Mapping
 
-Con las *Dependencies Capture* de cada Bounded Context Canvas ya relevadas, el equipo construyó el Context Map de Intiva: una visualización de las relaciones estructurales entre los ocho bounded contexts. El mapa distingue tres tipos de colaboración presentes en el sistema: llamadas síncronas a través de una interfaz publicada (**Anti-Corruption Layer / Open Host Service**), colaboración asíncrona mediante *domain events* (**Conformist**) y —como hallazgo relevante del análisis— **acceso directo a repositorios de persistencia sin pasar por ninguna interfaz de contexto**, lo cual se documenta como deuda de diseño más que como un patrón deliberado.
+Con las *Dependencies Capture* de cada Bounded Context Canvas ya relevadas, el equipo construyó el Context Map de Intiva, que muestra las relaciones entre los bounded contexts. En la arquitectura de microservicios hay dos tipos de colaboración: llamadas REST síncronas a la API que publica cada servicio (**Anti-Corruption Layer / Open Host Service**) y eventos de integración publicados en RabbitMQ (**Conformist / Published Language**). El análisis del backend anterior encontró un tercer tipo, el acceso directo de Analytics a los repositorios de otros contextos. Ese acceso desaparece con una base de datos por servicio, y las relaciones 10 y 11 de la tabla muestran cómo se reemplazó.
 
 ![Context Map de Intiva](../assets/img/cap04/context-map.png)
 
@@ -935,22 +966,25 @@ Con las *Dependencies Capture* de cada Bounded Context Canvas ya relevadas, el e
 
 #### Tabla de relaciones entre bounded contexts
 
-| # | Relación (llamador → llamado) | Patrón DDD | Mecanismo de integración | Evidencia en el código |
+| # | Relación (llamador → llamado) | Patrón DDD | Mecanismo de integración | Uso |
 | --- | --- | --- | --- | --- |
-| 1 | IAM → Categories & Financial Accounts | Customer/Supplier con Anti-Corruption Layer (ACL) | Llamada síncrona a la interfaz publicada (CategoriesContextFacade, FinancialAccountContextFacade) a través de un wrapper propio de IAM (IamExternalCategoriesService, IamExternalFinancialAccountsService). | UserRegisteredEventHandler crea la categoría y la cuenta financiera por defecto tras el registro. |
-| 2 | IAM → Profiles | Customer/Supplier con ACL (Open Host Service publicado por Profiles) | Llamada síncrona a ProfilesContextFacade a través de IamProfilesExternalService. | createUserOnboarding(userId). |
-| 3 | Profiles → IAM | Conformist (Published Language implícito) | Evento de dominio asíncrono (Spring ApplicationEvent) — Profiles escucha UserRegisteredEvent directamente, sin traducción propia. | Profiles.UserRegisteredEventHandler crea el Profile por defecto. |
-| 4 | Finances → Categories & Financial Accounts | Customer/Supplier con ACL | Llamada síncrona vía FinancesExternalCategoriesService / FinancesExternalFinancialAccountService. | Validación de saldo suficiente y registro del movimiento en la cuenta. |
-| 5 | Finances → Communications | Customer/Supplier con ACL / Open Host Service | Llamada síncrona vía FinancesExternalNotificationsService → CommunicationsContextFacade. | Alertas de límite de gasto (warning / exceeded). |
-| 6 | Communications → Finances | Conformist | Suscripción asíncrona directa a eventos de dominio ajenos: FamilyTransactionCreatedEvent, PaymentDueSoonEvent, PaymentExpiredEvent. | FamilyEventHandler, PaymentReminderEventHandler. |
-| 7 | Communications → Household | Customer/Supplier con ACL (Partnership junto con la relación 8) | Llamada síncrona vía CommunicationsExternalHouseholdService → HouseholdContextFacade. | Obtener miembros activos de la familia para notificar una transacción familiar. |
-| 8 | Household → Communications | Customer/Supplier con ACL (Partnership junto con la relación 7) | Llamada síncrona directa a CommunicationsContextFacade. | Notificar invitaciones enviadas y aceptadas. |
-| 9 | Analytics → Categories & Financial Accounts | Customer/Supplier con ACL | Llamada síncrona vía CategoriesContextFacade. | Nombre y color de categoría para los reportes. |
-| 10 | Analytics → Finances | Shared Database / Conformist (sin ACL) — deuda de diseño | Acceso directo a TransactionRepository y SpendingLimitRepository. | Cálculo de AnalyticsSummary y SpendingLimitAnalytics. |
-| 11 | Analytics → Financial Goals (Savings) | Shared Database / Conformist (sin ACL) — deuda de diseño | Acceso directo a SavingGoalRepository. | Cálculo de SavingGoalAnalytics. |
+| 1 | IAM → Categories & Financial Accounts | Customer/Supplier con Anti-Corruption Layer (ACL) | Llamada REST síncrona a la API de Categories & Financial Accounts, mediante un adaptador propio de IAM (IamExternalCategoriesService, IamExternalFinancialAccountsService). | Crear la categoría y la cuenta financiera por defecto tras el registro. |
+| 2 | IAM → Profiles | Customer/Supplier con ACL (Open Host Service publicado por Profiles) | Llamada REST síncrona a la API de Profiles mediante IamProfilesExternalService. | createUserOnboarding(userId). |
+| 3 | Profiles → IAM | Conformist (Published Language) | Evento de integración UserRegistered publicado por IAM en RabbitMQ. | Crear el Profile por defecto. |
+| 4 | Finances → Categories & Financial Accounts | Customer/Supplier con ACL | Llamada REST síncrona mediante FinancesExternalCategoriesService / FinancesExternalFinancialAccountService. | Validación de saldo suficiente y registro del movimiento en la cuenta. |
+| 5 | Finances → Communications | Customer/Supplier con ACL / Open Host Service | Llamada REST síncrona mediante FinancesExternalNotificationsService. | Alertas de límite de gasto (warning / exceeded). |
+| 6 | Communications → Finances | Conformist (Published Language) | Suscripción en RabbitMQ a FamilyTransactionCreated, PaymentDueSoon y PaymentExpired. | Notificar transacciones familiares y pagos por vencer. |
+| 7 | Communications → Household | Customer/Supplier con ACL (Partnership junto con la relación 8) | Llamada REST síncrona mediante CommunicationsExternalHouseholdService. | Obtener miembros activos de la familia para notificar una transacción familiar. |
+| 8 | Household → Communications | Customer/Supplier con ACL (Partnership junto con la relación 7) | Llamada REST síncrona a la API de Communications. | Notificar invitaciones enviadas y aceptadas. |
+| 9 | Analytics → Categories & Financial Accounts | Customer/Supplier con ACL | Llamada REST síncrona a la API de Categories & Financial Accounts. | Nombre y color de categoría para los reportes. |
+| 10 | Analytics → Finances | Conformist (Published Language) | Suscripción en RabbitMQ a los eventos de transacciones y límites; Analytics los guarda en su modelo de lectura. | Cálculo de AnalyticsSummary y SpendingLimitAnalytics. |
+| 11 | Analytics → Financial Goals (Savings) | Conformist (Published Language) | Suscripción en RabbitMQ a los eventos de metas y aportes. | Cálculo de SavingGoalAnalytics. |
+| 12 | AI Agent → Analytics | Customer/Supplier con ACL | Llamada REST síncrona a la API de Analytics. | Obtener la proyección de gastos por categoría para el plan mensual. |
+| 13 | AI Agent → Finances, Savings y Communications | Customer/Supplier con ACL | Llamadas REST síncronas con clave idempotente por acción. | Aplicar el plan aprobado: límites de gasto, aportes previstos y recordatorios. |
+| 14 | Categories & Financial Accounts → AI Agent | Customer/Supplier con ACL | Llamada REST síncrona a la API de AI Agent. | Obtener una categoría sugerida al registrar un gasto. |
 #### Shared Kernel
 
-Los ocho bounded contexts comparten deliberadamente el paquete `platform.shared`, que actúa como un **Shared Kernel**: `Money`, `UserId`, `OwnerTypes`, `PeriodTypes`, `CurrencyCodes`, `TransactionEntry` y la clase base `AuditableAbstractAggregate`, además de servicios transversales como el almacenamiento de imágenes (Cloudinary). Mantener estos tipos de valor en un único lugar evita que cada contexto reinvente su propia noción de "dinero" o de "titular" (individual frente a familiar), lo cual sería especialmente riesgoso en un dominio financiero donde la consistencia de estos conceptos es crítica. El costo de este acuerdo es el habitual del Shared Kernel: cualquier cambio a estos tipos requiere coordinación entre los responsables de los ocho contextos.
+Los microservicios comparten deliberadamente la librería `platform.shared`, que actúa como un **Shared Kernel**: `Money`, `UserId`, `OwnerTypes`, `PeriodTypes`, `CurrencyCodes`, `TransactionEntry` y la clase base `AuditableAbstractAggregate`. Se publica con número de versión y cada servicio la incluye como dependencia. Mantener estos tipos de valor en un único lugar evita que cada servicio reinvente su propia noción de "dinero" o de "titular" (individual frente a familiar), algo especialmente riesgoso en un dominio financiero. El costo es el habitual del Shared Kernel: cualquier cambio en estos tipos requiere coordinación entre los responsables de los servicios. Como la librería tiene versión, cada servicio puede adoptar el cambio cuando le corresponda, sin que todos tengan que redesplegarse al mismo tiempo.
 
 #### Discusión de diseño: preguntas "¿qué pasaría si…?"
 
@@ -959,10 +993,10 @@ Siguiendo las preguntas de diseño sugeridas para el proceso de Context Mapping,
 - **"¿Qué pasaría si movemos este *capability* a otro bounded context?"** — Se evaluó extraer *Financial Accounts* fuera de *Categories* hacia un contexto propio de "Payment Methods". Se decidió no hacerlo todavía: comparten infraestructura y el volumen de reglas de negocio de *Financial Accounts* aún es reducido, pero queda identificado como el candidato más claro a separarse si el dominio de medios de pago crece (por ejemplo, al integrar pasarelas de pago externas).
 - **"¿Qué pasaría si aislamos los *core capabilities* y movemos los otros a un contexto aparte?"** — Aplicado a *Finances*: se consideró separar el recordatorio de pagos recurrentes (*scheduling*) en un contexto de soporte independiente del núcleo transaccional. Se descartó porque ambos comparten el agregado `RecurringTransaction` y la separación duplicaría reglas de negocio sin un beneficio claro todavía.
 - **"¿Qué pasaría si creamos un *shared service* para reducir la duplicación entre múltiples bounded contexts?"** — Ya está aplicado como el Shared Kernel descrito arriba, para los tipos de valor fundamentales del dominio financiero (`Money`, `UserId`, `OwnerTypes`, etc.).
-- **"¿Qué pasaría si duplicamos una funcionalidad para romper la dependencia?"** — Se propone como evolución futura para *Analytics*: en lugar de leer los repositorios de *Finances* y *Savings* directamente (relaciones 10 y 11), *Analytics* podría mantener su propio modelo de lectura (al estilo CQRS), alimentado por eventos de dominio o por un Open Host Service de solo lectura publicado por esos contextos. Esto eliminaría la deuda de diseño identificada sin sacrificar el rendimiento del dashboard, y es coherente con la alternativa diferida en la Candidate Pattern Evaluation Matrix de la sección 4.1.4.
+- **"¿Qué pasaría si duplicamos una funcionalidad para romper la dependencia?"** — Es lo que se aplicó a *Analytics* al pasar a microservicios. En lugar de leer los repositorios de *Finances* y *Savings* (relaciones 10 y 11), *Analytics* mantiene su propio modelo de lectura al estilo CQRS, alimentado por los eventos que publican esos servicios. Así se eliminó la deuda de diseño del backend anterior sin sacrificar el rendimiento del dashboard, a cambio de que los datos tarden unos segundos en actualizarse.
 - **"¿Qué pasaría si partimos el bounded context en múltiples bounded contexts?"** — Aplicado a *Communications*: se evaluó separar la gestión de dispositivos (tokens de notificación push) de la generación y entrega de notificaciones. Se descartó porque ambos comparten el mismo ciclo de vida operativo y la separación solo añadiría una llamada más entre contextos sin reducir el acoplamiento real.
 
-**Conclusión del Context Mapping.** En conjunto, el Context Map confirma que *Finances* y *Household* son los Core Subdomains del negocio —motivo por el cual concentran más eventos de dominio y más relaciones entrantes—, mientras que *IAM*, *Communications* y *Analytics* cumplen roles de soporte genérico. La relación menos saludable del mapa es el acceso directo de *Analytics* a los repositorios de *Finances* y *Savings* (relaciones 10 y 11): funciona hoy porque los ocho bounded contexts comparten una única base de datos PostgreSQL y un mismo despliegue —el monolito modular decidido en la Iteración 1 del ADD—, pero se documenta explícitamente como deuda de diseño a resolver antes de considerar cualquier extracción futura de un bounded context como servicio independiente.
+**Conclusión del Context Mapping.** En conjunto, el Context Map confirma que *Finances* y *Household* son los Core Subdomains del negocio —motivo por el cual concentran más eventos de dominio y más relaciones entrantes—, mientras que *IAM*, *Communications* y *Analytics* cumplen roles de soporte genérico. *AI Agent* es el contexto con más dependencias salientes, porque coordina a cuatro servicios para aplicar un plan. Por eso cada acción del plan es idempotente y guarda su propio estado. La relación menos saludable del análisis original era el acceso directo de *Analytics* a los repositorios de *Finances* y *Savings*. Con los microservicios decididos en la Iteración 1 del ADD y una base de datos por servicio, ese acceso se reemplazó por eventos de integración (relaciones 10 y 11).
 
 ## 4.3. Software Architecture
 
@@ -975,7 +1009,7 @@ En esta sección se presenta el System Landscape Diagram, el cual ilustra el pan
 ![Software Architecture System Landscape Diagram](../assets/img/cap04/SystemLandscape1.png)
 
 **Explicación del diagrama:**
-El diagrama muestra a la startup Balanza como el límite empresarial ("Enterprise Boundary") que agrupa a sus usuarios registrados (Integrantes de familia y Responsables de la economía familiar) y a su producto central, Intiva Platform. Fuera de este límite se ubican los Visitantes anónimos y los tres sistemas de software externos con los que la empresa interactúa: OAuth2 (para autenticación), Google Play Billing (para procesamiento de pagos) y Firebase Cloud Messaging (para el envío de notificaciones).
+El diagrama muestra a la startup Balanza como el límite empresarial ("Enterprise Boundary") que agrupa a sus usuarios registrados (Integrantes de familia y Responsables de la economía familiar) y a su producto central, Intiva Platform. Fuera de este límite se ubican los Visitantes anónimos y los sistemas de software externos con los que la empresa interactúa: Google OAuth2 (para autenticación), Google Play Billing (para procesamiento de pagos), Firebase Cloud Messaging (para el envío de notificaciones), Cloudinary (para las imágenes de perfil) y Gemini API de Google AI Studio (para las funciones de IA).
 
 ### 4.3.1. Software Architecture Context Level Diagrams
 
@@ -984,45 +1018,44 @@ En esta sección se presenta el Context Level Diagram. A diferencia del Landscap
 ![Software Architecture Context Level Diagram](../assets/img/cap04/context.jpg)
 
 **Explicación del diagrama:**
-Intiva Platform se posiciona como el núcleo de la solución para la gestión financiera. Interactúa directamente con los usuarios (Visitantes, Integrantes y Responsables familiares) quienes acceden para gestionar presupuestos, ingresos y ahorros. Para lograrlo, el sistema central delega responsabilidades críticas a servicios externos: la gestión de identidad y registro a OAuth2, el cobro de suscripciones a Google Play Billing, y las alertas en tiempo real a Firebase Cloud Messaging.
+Intiva Platform se posiciona como el núcleo de la solución para la gestión financiera. Interactúa directamente con los usuarios (Visitantes, Integrantes y Responsables familiares) quienes acceden para gestionar presupuestos, ingresos y ahorros. Para lograrlo, el sistema central delega responsabilidades críticas a servicios externos: la gestión de identidad y registro a OAuth2, el cobro de suscripciones a Google Play Billing, las alertas en tiempo real a Firebase Cloud Messaging, el almacenamiento de imágenes a Cloudinary y la clasificación y planificación con IA a Gemini API.
 
 ### 4.3.2. Software Architecture Container Level Diagrams
 
 En esta sección se presenta el Container Diagram de la plataforma Intiva. Dicho diagrama muestra los elementos de alto nivel de la arquitectura de software, cómo se distribuyen las responsabilidades entre ellos, las principales decisiones de tecnología y cómo los contenedores se comunican entre sí.
 
-![Software Architecture Container Level Diagram](../assets/img/cap04/containerdiagram.png)
+![Software Architecture Container Level Diagram](../assets/img/cap04/container-diagram-microservices.png)
 
 **Explicación del diagrama:**
-En el diagrama se observan los diversos contenedores que componen el sistema. El flujo inicia con los visitantes accediendo a la Landing Page estática. Una vez registrados, utilizan la aplicación móvil nativa para operaciones diarias o la aplicación web para visualizar analíticas avanzadas. Ambos clientes consumen servicios web enviando peticiones HTTPS mediante JSON al API Gateway (NGINX), el cual enruta la información hacia los contextos correspondientes (módulos del monolito modular en Spring Boot).
+El diagrama muestra los contenedores de Intiva con una base de datos por microservicio. Los visitantes llegan a la Landing Page estática. Una vez registrados, usan la aplicación móvil para el registro diario o la aplicación web para revisar sus analíticas. Ambos clientes envían peticiones HTTPS con JSON al API Gateway (Nginx), que enruta cada petición al microservicio correspondiente. Hay nueve microservicios Spring Boot, uno por bounded context, y cada uno escribe solo en su propia base de datos PostgreSQL. Los servicios publican y consumen eventos a través del message broker (RabbitMQ), y Analytics guarda en Redis los resúmenes que se consultan con frecuencia. AI Agent es el único servicio que llama a Gemini API.
 
 A continuación, se detallan las responsabilidades y tecnologías de cada contenedor:
 
 | Contenedor | Tecnología | Descripción |
 | :--- | :--- | :--- |
-| **Landing Page** | Astro.js | Sitio web estático donde se muestra información relacionada a Intiva como funcionalidades, beneficios y testimonios. |
-| **Web Server** | NGINX | Balanceador para acceder a la aplicación web y servir los archivos PWA de la aplicación. |
-| **Web Application** | Vue.js | Aplicación para navegadores web que contiene la funcionalidad de analíticas y gráficos estadísticos para familias y usuarios. |
-| **Mobile Application** | Kotlin | Aplicación para dispositivos móviles que contiene las funcionalidades de gestión de finanzas y la creación de grupos familiares. |
-| **Mobile Local Database** | SQLite | Base de datos local del dispositivo donde se almacenan transacciones registradas cuando no hay conexión a Internet. |
-| **API Gateway** | NGINX | Punto de acceso hacia los contextos que conforman el API. Recibe solicitudes y las envía a los controladores. |
-| **IAM Context** | Java, Spring Boot | Bounded Context que gestiona autenticación, registro, autorización y generación de JWT. |
-| **Profiles Context** | Java, Spring Boot | Bounded Context que maneja información personal de los usuarios. |
-| **Subscriptions Context** | Java, Spring Boot | Bounded Context encargado del manejo del ciclo de vida de las suscripciones de los usuarios. |
-| **Analytics Context** | Java, Spring Boot | Bounded Context encargado de procesar información para generar métricas destinadas a los gráficos de la aplicación web. |
-| **Savings Context** | Java, Spring Boot | Bounded Context encargado de gestionar las metas de ahorro y las contribuciones aportadas. |
-| **Finances Context** | Java, Spring Boot | Core Bounded Context encargado del registro de transacciones, límites de gasto y transacciones recurrentes. |
-| **Categories Context** | Java, Spring Boot | Bounded Context que se encarga de categorizar las transacciones de los usuarios. |
-| **Household Context** | Java, Spring Boot | Core Bounded Context que se encarga de la gestión de grupos familiares para el control en conjunto de la economía. |
-| **Communications Context** | Java, Spring Boot | Bounded Context que delega notificaciones push a los dispositivos de los usuarios mediante Firebase. |
-| **PostgreSQL Database** | PostgreSQL | Base de datos relacional principal donde se almacena en tablas toda la información del sistema. |
-| **Cache Server Database** | Redis | Base de datos clave-valor en memoria que almacena métricas para agilizar la carga de los gráficos estadísticos. |
+| **Landing Page** | Astro.js | Sitio web estático con las funcionalidades y beneficios de Intiva. |
+| **Web Application** | Vue.js | Aplicación para navegadores web con la analítica financiera y los gráficos estadísticos para familias y usuarios. |
+| **Mobile Application** | Kotlin, Jetpack Compose | Aplicación Android para el registro diario de finanzas, la gestión de grupos familiares y el plan mensual con IA. |
+| **API Gateway** | Nginx | Punto de entrada único. Recibe las peticiones de los clientes y las enruta al microservicio que corresponde según la ruta. |
+| **IAM Service** | Java, Spring Boot | Autenticación, registro, roles y emisión de JWT. Base de datos: `iam_db`. |
+| **Profiles Service** | Java, Spring Boot | Datos personales, avatares (Cloudinary) y onboarding guiado. Base de datos: `profiles_db`. |
+| **Categories & Financial Accounts Service** | Java, Spring Boot | Categorías, cuentas financieras y solicitud de categorías sugeridas por IA. Base de datos: `catalog_db`. |
+| **Finances Service** | Java, Spring Boot | Core: transacciones, límites de gasto y pagos recurrentes. Base de datos: `finances_db`. |
+| **Financial Goals (Savings) Service** | Java, Spring Boot | Metas de ahorro personales y familiares, y sus aportes. Base de datos: `savings_db`. |
+| **Household Service** | Java, Spring Boot | Core: grupos familiares, roles, membresías e invitaciones por QR o enlace. Base de datos: `household_db`. |
+| **Communications Service** | Java, Spring Boot | Notificaciones in-app y push mediante Firebase Cloud Messaging. Base de datos: `communications_db`. |
+| **Analytics Service** | Java, Spring Boot | Métricas, tendencias, reportes y proyección de gastos, con caché en Redis. Base de datos: `analytics_db`. |
+| **AI Agent Service** | Java, Spring Boot | Agente conversacional con *tool calling* y confirmación del usuario: plan mensual y sugerencia de categorías mediante Gemini API. Base de datos: `agent_db`. |
+| **Message Broker** | RabbitMQ | Exchange de tipo *topic* `intiva.events`. Los servicios publican con outbox y consumen de forma idempotente. |
+| **Cache** | Redis (Redis Cloud) | Resúmenes de analítica y códigos temporales de recuperación. |
 
 **Integración del plan financiero (US 032 y TS 023).**
 
 ```mermaid
 flowchart LR
- U[Usuario] --> A[Analytics e IA]
- A --> P[Proyección y borrador versionado]
+ U[Usuario] --> A[AI Agent]
+ A --> N[Analytics: proyección por categoría]
+ N --> P[Borrador versionado del plan]
  P --> R[Revisión y aprobación del titular]
  R --> O[Aplicación idempotente del plan]
  O --> F[Finances: límites]
@@ -1040,4 +1073,4 @@ En esta sección se presenta y explica el Deployment Diagram, el cual ilustra c�
 **Explicación del diagrama:**
 El despliegue de la arquitectura se basa en un enfoque de alta disponibilidad en la nube. Por el lado del cliente, la aplicación móvil de Kotlin se ejecuta en los dispositivos Android de los usuarios (versión 8.0 o superior), mientras que las aplicaciones web (Vue.js) y el sitio estático (Astro.js) se renderizan en los navegadores web de los clientes.
 
-En el backend, el núcleo del sistema se aloja en **Microsoft Azure**. Las peticiones entrantes son recibidas por un servidor NGINX que actúa como proxy inverso y API Gateway, protegiendo los puertos internos y enrutando el tráfico hacia el monolito modular desarrollado en Spring Boot. Para la persistencia de datos, el sistema se conecta a una instancia gestionada de **PostgreSQL**, mientras que el almacenamiento en caché para optimizar las analíticas y la gestión de tokens se delega a un clúster manejado por **Redis Cloud**, garantizando seguridad y baja latencia a través de conexiones cifradas TLS.
+El backend se aloja en **Microsoft Azure**. Las peticiones entrantes llegan a Nginx, que actúa como API Gateway: es el único componente con un puerto público y enruta el tráfico hacia los nueve microservicios Spring Boot, que corren como contenedores Docker en una red interna. Junto a ellos se despliegan RabbitMQ, para los eventos entre servicios, y un servidor **PostgreSQL** que aloja una base de datos separada para cada microservicio. La caché de analíticas y los códigos temporales se guardan en **Redis Cloud** mediante conexiones cifradas con TLS. Fuera de Azure, el servicio AI Agent se conecta a **Gemini API** (Google AI Studio) con una clave guardada como secreto, y Communications envía las notificaciones push a través de Firebase Cloud Messaging.
