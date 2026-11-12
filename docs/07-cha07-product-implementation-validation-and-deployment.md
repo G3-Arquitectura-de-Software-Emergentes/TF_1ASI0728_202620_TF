@@ -46,7 +46,7 @@ En esta sección se definen las herramientas, prácticas y convenciones que usar
 
 **Software Documentation**
 
-- **Markdown en GitHub:** formato del informe del proyecto y de los archivos README y CONTRIBUTING de cada repositorio.
+- **Markdown en GitHub:** formato del informe del proyecto y de los archivos README de cada repositorio.
 - **Structurizr:** se usa para elaborar los diagramas C4 de contexto, contenedores, componentes y despliegue.
 - **Swagger UI (OpenAPI):** cada microservicio expondrá la documentación de sus endpoints REST con springdoc-openapi, que también permite probarlos desde el navegador.
 - **OBS Studio y OneDrive:** OBS Studio se usará para grabar las entrevistas de validación y los videos del producto, y OneDrive para alojar esos videos y compartir sus enlaces en el informe.
@@ -64,19 +64,17 @@ Para el control de versiones se usará Git, y GitHub como plataforma de alojamie
 
 **Repositorios**
 
-Los nombres de los repositorios seguirán el formato usado en la versión anterior de Intiva (`intiva-landing-page`, `intiva-web-application`, `intiva-mobile-application` e `intiva-api-platform`). Todo el backend estará en un solo repositorio, con una carpeta por microservicio, además del API Gateway y la configuración de Docker Compose. Así, el equipo puede levantar todos los servicios juntos y revisar en un mismo *pull request* los cambios que afectan a más de uno.
+Los nombres de los repositorios seguirán el formato usado en la versión anterior de Intiva (intiva-landing-page, intiva-web-application, intiva-mobile-application e intiva-api-platform). Todo el backend estará en un solo repositorio, con una carpeta por microservicio, además del API Gateway y la configuración de Docker Compose. Así, el equipo puede levantar todos los servicios juntos y revisar en un mismo *pull request* los cambios que afectan a más de uno.
 
 - Organización en GitHub: https://github.com/G3-Arquitectura-de-Software-Emergentes
 - Informe del proyecto: https://github.com/G3-Arquitectura-de-Software-Emergentes/TF_1ASI0728_202620_TF
 
-<!-- POR CONFIRMAR: nombres finales y enlaces de los repositorios cuando se creen. -->
 
 | Repositorio | Contenido | Enlace |
 | --- | --- | --- |
-| Landing page | Sitio estático en Astro | Pendiente |
-| Aplicación web | Aplicación Vue | Pendiente |
-| Aplicación móvil | Aplicación Android en Kotlin | Pendiente |
-| Backend | Microservicios en Spring Boot (una carpeta por servicio), Spring Cloud Gateway y Docker Compose | Pendiente |
+| Landing page | Sitio estático en Astro | https://github.com/G3-Arquitectura-de-Software-Emergentes/intiva-landing-page |
+| Aplicación móvil | Aplicación Android en Kotlin | https://github.com/G3-Arquitectura-de-Software-Emergentes/Intiva-mobile-application |
+| Backend | Microservicios en Spring Boot (una carpeta por servicio), Spring Cloud Gateway y Docker Compose | https://github.com/G3-Arquitectura-de-Software-Emergentes/intiva-api-platform |
 
 **Estrategia de ramas: GitFlow**
 
@@ -109,13 +107,6 @@ Los mensajes de commit seguirán la especificación Conventional Commits (https:
 - **test:** creación o actualización de pruebas.
 - **chore:** cambios en la configuración, las dependencias o el proceso de construcción.
 
-Ejemplos:
-
-```
-feat(agent): add tool to propose a spending limit
-fix(household): validate member role before sending an invitation
-docs(7.1): add software configuration management section
-```
 
 ### 7.1.3. Source Code Style Guide & Conventions
 
