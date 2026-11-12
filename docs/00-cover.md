@@ -51,14 +51,13 @@ Producto
 | ------- | ----- | ----- | ---------------------------- |
 | TB1 | 16/09/2026 | Loli Ramirez, Camila Cristina<br>Meza Solórzano,Didier Sebastián<br>Solis Solis, Leonardo José<br>Rivera Ticllacuri, Omar Harold | Revisión de los capítulos I, II, III y finalización del capítulo IV |
 | TP1 | 05/10/2026 | Meza Solórzano, Didier Sebastián | Desarrollo de las secciones 6.3, 6.3.1, 6.3.2, 6.4.1 y 6.4.2: primera actualización de la landing de Intiva, wireframes para escritorio y móvil, doce wireframes de aplicación y tres wireflows. Incorporación de nueve imágenes de evidencia y enlaces a Figma; revisión de la trazabilidad con las historias de usuario y técnicas; corrección de los enlaces de entrevistas y registro del aporte individual en Student Outcome. |
-| TP1 — corrección | 05/10/2026 | Meza Solórzano, Didier Sebastián | Corrección del nombre de la startup a Balanza, restauración del capítulo IV a su versión previa a la revisión transversal y retiro de enlaces y conclusiones asociados al backend y al informe usados como ejemplos de otro proyecto. |
 | TP1 — 6.4.3 y 6.4.4 | 06/10/2026 | Rivera Ticllacuri, Omar Harold | Desarrollo de las secciones 6.4.3 y 6.4.4: mock-ups de la aplicación Android y del sitio web, y User Flows UF01 a UF06 de la página Mockup - User flow - Prototyping de Figma, con su trazabilidad a los wireflows F01 a F03 y su vinculación con la sección TP1. |
 | TP1 — alcance tecnológico | 06/10/2026 | Meza Solórzano, Didier Sebastián | Revisión del alcance tecnológico de octubre: revisión de US 032, incorporación de US 034 y EP 011, corrección de TS 023 y TS 024, decisiones estratégicas y diseño táctico del capítulo V, landing, wireframes, wireflows y mock-ups afectados; actualización de evidencias, conclusiones, bibliografía y Student Outcome. |
 | TP1 — Capítulo V | 06/10/2026 | Solis Solis, Leonardo José | Desarrollo del diseño táctico de IAM, Profiles, Categories, Finances, Savings, Household, Communications y Analytics: capas de dominio, interfaz, aplicación e infraestructura; diagramas de componentes, clases de dominio y diseño de base de datos. |
 | TP1 — 6.1 y 6.2 | 06/10/2026 | Loli Ramirez, Camila Cristina | Desarrollo de las guías de estilo generales y por plataforma: marca, tipografías, colores, espaciado y tono. Documentación de los sistemas de organización, etiquetado, búsqueda y navegación, y de los SEO tags y meta tags de Intiva. |
 | TP1 — 6.3, 6.4.1 y 6.4.2 | 06/10/2026 | Meza Solórzano, Didier Sebastián | Consolidación del diseño de landing, wireframes de escritorio y móvil, landing mock-up, doce wireframes de aplicación y tres wireflows para categorización IA, asistencia financiera y planificación mensual. Incorporación de imágenes y enlaces a los frames de Figma. |
 | TP1 — consolidación UX de aplicación | 06/10/2026 | Rivera Ticllacuri, Omar Harold | Consolidación de mock-ups y user flows de aplicación, con acciones principales, rutas alternativas y relación con los wireflows del entregable. Se documentan las pantallas de IA y del fondo familiar, manteniendo el prototipado interactivo pendiente de validación. |
-| Actualización de alcance | 11/11/2026 | Meza Solórzano, Didier Sebastián | Revisión de EP 011, US 032 y TS 023; incorporación de US 035 y actualización de pantallas, flujos y evidencias de planificación financiera con IA. |
+| TB2 | 11/11/2026 | Meza Solórzano, Didier Sebastián | Revisión de EP 011, US 032 y TS 023; incorporación de US 035 y actualización de pantallas, flujos y evidencias de planificación financiera con IA. |
 | TB2 — capítulo IV y 7.1 | 11/11/2026 | Loli Ramirez, Camila Cristina | Reestructuración del capítulo IV a microservicios con un agente de IA (Spring Cloud Gateway, RabbitMQ y base de datos por servicio) y redacción de la sección 7.1 Software Configuration Management. |
 | TB2 — capítulo V | 11/11/2026 | Solis Solis, Leonardo José | Diseño táctico de los nueve microservicios, catálogo de eventos, saga de registro de transacciones y diagramas C4 de contenedores y componentes. |
 | TB2 — 7.3 | 11/11/2026 | Meza Solórzano, Didier Sebastián | Diseño y registro de las entrevistas de validación y evaluación heurística. |
@@ -77,6 +76,10 @@ El equipo realizó la redacción y revisión de los capítulos I, II, III y fina
 ## TP1
 
 El equipo desarrolló el diseño táctico y la experiencia de usuario de Intiva para el TP1. Leonardo elaboró el Capítulo V; Camila, las guías de estilo y la arquitectura de información; Didier, la landing, los wireframes y wireflows; y Omar, los mock-ups y user flows. Los aportes se integraron en el reporte y Figma, considerando IA para categorización, asistencia y planificación financiera.
+
+## TB2
+
+En el TB2, Camila actualizó la arquitectura de microservicios y documentó la configuración de desarrollo y despliegue. Leonardo revisó el diseño táctico y actualizó los diagramas C4 y de componentes. Omar desarrolló los mock-ups, los recorridos de usuario y el prototipo, y preparó el video About-the-Product. Didier documentó las entrevistas de validación e implementó y probó la PoC del plan mensual con Gemini. El equipo reunió estos aportes en el informe, Figma y los repositorios de código. La evidencia del Sprint 1 registra la verificación por API y deja pendientes la demostración en Android y la publicación.
 
 <div style="page-break-after: always;"></div>
 
