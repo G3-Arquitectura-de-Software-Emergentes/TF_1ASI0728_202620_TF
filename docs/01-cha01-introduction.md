@@ -33,7 +33,7 @@ Balanza es una startup tecnológica que se centra en el desarrollo de soluciones
     <td>Soy estudiante de la carrera Ingeniería de Software. Mi carrera se basa en los conocimientos y técnicas científicas para crear un programa informático. Tengo experiencia con el trabajo en equipo, creación de proyectos y creación de programas básicos. Aportaré al equipo mi creatividad, compromiso de trabajo en equipo, puntualidad y responsabilidad. Me comprometo a trabajar constantemente para mejorar nuestro proyecto y a generar un entorno de trabajo sano con mi grupo.</td>
   </tr>
   <tr>
-    <td>      <img src="https://github.com/RuwaLabs/upc-pre-202620-1acc0238-4945-RuwaLabs-report/blob/chapter-01/chapter-01/assets/foto_didier.jpg?raw=true" alt="Foto de Didier" style="max-height:40px; display:block; margin:6px auto 0;">
+    <td>      <img src="../assets/img/cap01/Didier.jpg" alt="Foto de Didier" style="max-height:330px; display:block; margin:6px auto 0;">
     </td>
     <td>Meza Solórzano, Didier Sebastian</td>
     <td>U202319950</td>
@@ -206,6 +206,8 @@ En la situación actual, los responsables económicos de familias y sus integran
 
 - El modelo de negocio incluye un plan gratuito y un plan premium. El primero, incluirá la mayoría de funciones para familias como seguimiento de ingresos y gastos, visualización básica de datos, gestión de metas de ahorro, entre otras. Por otro lado, el segundo, incluirá un mayor catálogo de gráficos de visualización de datos y menos limitaciones (para familias más grandes). 
 
+- Las funciones de inteligencia artificial (sugerencia de categoría, asistente y plan mensual) estarán disponibles para toda persona que inicie sesión. Qué beneficios adicionales tendrá el plan premium se definirá en una etapa posterior. 
+
 - El éxito se medirá a través de métricas como la cantidad de usuarios activos, la retención de usuarios, la satisfacción del cliente y el impacto positivo en la gestión de ingresos, gastos y ahorro de los usuarios. 
 
 - El valor del producto radica en las funcionalidades para gestión de gastos, ingresos y ahorro, lo que puede traducirse en una base de usuarios leales con gran confianza en el producto y en oportunidades de monetización a través de suscripciones y servicios adicionales.
@@ -252,6 +254,8 @@ Las siguientes cifras son metas propuestas para los primeros seis meses, no resu
 
 - Análisis, gráficos y reportes de la gestión de gastos, ingresos y ahorros de un periodo determinado. 
 
+- Planificación mensual con IA: un agente proyecta los gastos del próximo mes y propone un plan con límites que el usuario puede editar; los límites solo se aplican cuando el usuario aprueba el plan. Además, al registrar un gasto la IA sugiere una categoría que el usuario acepta o corrige. 
+
 #### 1.2.2.3. Lean UX Hypothesis Statements
 
 Estas hipótesis se contrastarán durante la validación del producto. Las métricas comerciales sirven para seguir el negocio; la reducción de pagos olvidados, la comprensión del presupuesto y el esfuerzo de registro requieren además tareas de uso, entrevistas y comparación de resultados antes y después.
@@ -271,6 +275,10 @@ Estas hipótesis se contrastarán durante la validación del producto. Las métr
 ##### **● Hypothesis Statement #4** 
 
 **Creemos que** el análisis, gráficos y reportes de la gestión de gastos, ingresos y ahorros de un periodo determinado **para** los responsables de la economía familiar y sus integrantes **logrará** que los usuarios reconozcan estabilidad en los gastos, ingresos y ahorro dentro de la economía familiar y sientan tranquilidad y reducción del estrés de gestionar los gastos familiares. **Evaluaremos esta hipótesis cuando** los usuarios interpreten los gráficos y expliquen decisiones a partir de ellos durante la validación. El CSAT del 75% en seis meses servirá como indicador de satisfacción, junto con las entrevistas, sin asumir que mide directamente una reducción del estrés.
+
+##### **● Hypothesis Statement #5** 
+
+**Creemos que** un plan mensual propuesto por IA, que el usuario puede editar y aprobar antes de que se apliquen sus límites, **para** los responsables de la economía familiar y sus integrantes **logrará** que los usuarios anticipen los riesgos de su presupuesto y eviten quedarse cortos de dinero a fin de mes. **Evaluaremos esta hipótesis cuando** los usuarios soliciten un plan durante las tareas de validación, expliquen la diferencia entre lo proyectado y su límite, y se compare cuántas veces superan sus límites en los meses con y sin plan aprobado.
 
 #### 1.2.2.4. Lean UX Canvas
 
