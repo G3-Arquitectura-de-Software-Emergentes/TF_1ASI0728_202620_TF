@@ -29,3 +29,21 @@ Plum. (s. f.). *Money for life*. [Sitio oficial](https://withplum.com/).
 Spring. (s. f.). *Additional capabilities of the ApplicationContext*. Spring Framework Reference. [Documentación oficial](https://docs.spring.io/spring-framework/reference/core/beans/context-introduction.html).
 
 Prisma. (s. f.). *Prisma Postgres*. [Documentación oficial](https://www.prisma.io/docs/postgres).
+
+Bass, L., Clements, P., & Kazman, R. (2021). *Software architecture in practice* (4.ª ed.). Addison-Wesley.
+
+Evans, E. (2003). *Domain-driven design: Tackling complexity in the heart of software*. Addison-Wesley.
+
+Newman, S. (2021). *Building microservices: Designing fine-grained systems* (2.ª ed.). O'Reilly Media.
+
+Richardson, C. (2018). *Microservices patterns: With examples in Java*. Manning.
+
+Tune, N. (s. f.). *The Bounded Context Canvas*. DDD Crew. [Repositorio oficial](https://github.com/ddd-crew/bounded-context-canvas).
+
+Spring. (s. f.). *Spring Cloud Gateway*. Spring Cloud Gateway Reference. [Documentación oficial](https://docs.spring.io/spring-cloud-gateway/reference/).
+
+Spring. (s. f.). *Spring AI Reference*. [Documentación oficial](https://docs.spring.io/spring-ai/reference/).
+
+Google. (s. f.). *Function calling with the Gemini API*. Google AI for Developers. [Documentación oficial](https://ai.google.dev/gemini-api/docs/function-calling).
+
+RabbitMQ. (s. f.). *Exchanges*. RabbitMQ Documentation. [Documentación oficial](https://www.rabbitmq.com/docs/exchanges).

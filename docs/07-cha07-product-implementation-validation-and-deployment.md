@@ -26,7 +26,7 @@ En esta sección se definen las herramientas, prácticas y convenciones que usar
 **Software Development**
 
 - **Java y Spring Boot en IntelliJ IDEA:** los microservicios se desarrollarán con Java 21 (LTS) y Spring Boot, junto con Spring Web, Spring Data JPA, Spring Security, JWT y Lombok (C-01). Habrá un microservicio por bounded context. Se escogió IntelliJ IDEA porque integra Maven, la depuración y la refactorización del código.
-- **Spring AI y Gemini API (Google AI Studio):** el agente financiero será un microservicio propio, construido con Spring AI para mantenerse dentro del mismo stack de Java. Usará el modelo Gemini mediante su API, cuya clave se genera en Google AI Studio y se guarda como variable de entorno, nunca en el código. Con *tool calling*, el agente no se limita a conversar: consulta los datos del usuario a través de las APIs de los otros microservicios y prepara acciones concretas, como un límite de gasto, que solo se guardan cuando el usuario las aprueba.
+- **Spring AI y Gemini API (Google AI Studio):** el agente financiero será un microservicio propio, construido con Spring AI para mantenerse dentro del mismo stack de Java. Usará el modelo Gemini mediante su API, cuya clave se genera en Google AI Studio y se guarda como variable de entorno, nunca en el código. Con *tool calling*, el agente no se limita a conversar: consulta los datos del usuario a través de las APIs de los otros microservicios y prepara un plan mensual con límites, aportes previstos y recordatorios, que el usuario edita y que solo se aplica cuando lo aprueba. También sugiere categorías y responde en un chat que solo recomienda. Estas funciones estarán disponibles para cualquier usuario con sesión iniciada.
 - **Kotlin y Jetpack Compose en Android Studio:** la aplicación móvil será nativa para Android 8.0 o superior. Usará Jetpack Compose para la interfaz, Compose Navigation, Hilt para la inyección de dependencias, Retrofit para consumir la API y Room para la persistencia local (C-03). Se usará Android Studio por su emulador y sus herramientas de inspección de interfaces.
 - **Vue en Visual Studio Code:** la aplicación web se desarrollará con Vue y Vite, PrimeVue como librería de componentes, Pinia para el manejo de estado, Axios para las peticiones HTTP y Vue-i18n para el cambio de idioma (C-02). Se usará pnpm como gestor de paquetes.
 - **Astro en Visual Studio Code:** la landing page se construirá con Astro y Tailwind CSS, lo que permite generar un sitio estático, rápido y disponible en español e inglés (C-04).
@@ -74,6 +74,7 @@ Los nombres de los repositorios seguirán el formato usado en la versión anteri
 | --- | --- | --- |
 | Landing page | Sitio estático en Astro | https://github.com/G3-Arquitectura-de-Software-Emergentes/intiva-landing-page |
 | Aplicación móvil | Aplicación Android en Kotlin | https://github.com/G3-Arquitectura-de-Software-Emergentes/Intiva-mobile-application |
+| Aplicación web | Aplicación Vue | Pendiente de crear en la organización (`intiva-web-application`) |
 | Backend | Microservicios en Spring Boot (una carpeta por servicio), Spring Cloud Gateway y Docker Compose | https://github.com/G3-Arquitectura-de-Software-Emergentes/intiva-api-platform |
 
 **Estrategia de ramas: GitFlow**
@@ -125,8 +126,8 @@ En esta sección se presentan las convenciones de estilo que seguirá el equipo 
 - Las carpetas de los microservicios se nombran en *kebab-case* con el sufijo `-service`, por ejemplo `finances-service` o `agent-service`.
 - Cada microservicio organiza sus paquetes según las capas definidas en AD-02: `domain.model`, `domain.services`, `application.internal`, `infrastructure` e `interfaces.rest`.
 - Las clases llevan un sufijo según su función. Por ejemplo: `TransactionsController`, `TransactionCommandService`, `TransactionQueryService`, `TransactionRepository`, `CreateTransactionCommand` y `TransactionResource`.
-- Los endpoints REST siguen el patrón `/api/v1/{recurso}`, con sustantivos en plural, en minúscula y en *kebab-case* (C-05). Por ejemplo: `/api/v1/savings-goals`.
-- Los eventos que se publican en RabbitMQ se nombran en pasado y en *PascalCase*, como `TransactionRegistered` o `MonthlyPlanApproved`.
+- Los endpoints REST siguen el patrón `/api/v1/{recurso}`, con sustantivos en plural, en minúscula y en *kebab-case* (C-05). Por ejemplo: `/api/v1/saving-goals` o `/api/v1/agent/plans`.
+- Los eventos que se publican en RabbitMQ se nombran en pasado y en *PascalCase*, como `TransactionConfirmed` o `MonthlyPlanActivated`.
 
 **Aplicación móvil: Kotlin y Jetpack Compose**
 
@@ -169,7 +170,7 @@ Para desplegar Intiva se usarán servicios en la nube que publican cada producto
 
 **Prueba de concepto local**
 
-Antes del despliegue en Azure, la prueba de concepto se levantará en local con Docker Compose. En esta etapa se implementarán tres microservicios completos: el agente de IA, Finances y Communications, junto con Spring Cloud Gateway, PostgreSQL y RabbitMQ. Con ellos se demuestra el recorrido principal: el agente propone un límite de gasto, el usuario lo aprueba, Finances lo guarda y Communications recibe el evento para notificarlo.
+Antes del despliegue en Azure, la prueba de concepto se levantará en local con Docker Compose. En esta etapa se implementarán los microservicios del recorrido principal: el agente de IA, Analytics (para la proyección de gastos), Finances y Communications, junto con Spring Cloud Gateway, PostgreSQL y RabbitMQ. Con ellos se demuestra el plan mensual: el usuario pide el plan, el agente muestra la proyección y el riesgo por categoría, el usuario edita el borrador y lo aprueba, Finances guarda los límites y Communications recibe el evento `MonthlyPlanActivated` para notificarlo.
 
 **Flujo de despliegue**
 
@@ -179,6 +180,44 @@ Antes del despliegue en Azure, la prueba de concepto se levantará en local con 
 4. Al subir la rama `release/*` de la aplicación móvil, GitHub Actions genera el APK y lo distribuye mediante Firebase App Distribution.
 5. Se construyen las imágenes Docker de los microservicios y del API Gateway, y se despliegan en Azure Container Apps con sus variables de entorno (conexión a Azure Database for PostgreSQL, Redis, RabbitMQ y clave de la Gemini API).
 6. Los clientes (aplicación móvil y aplicación web) se comunican con los servicios únicamente mediante HTTPS a través del API Gateway.
+
+## 7.2. Solution Implementation
+
+En esta sección se documentará el avance de la implementación por sprint, empezando por la prueba de concepto descrita en 7.1.4.
+
+### 7.2.1. Sprint 1
+
+#### 7.2.1.1. Sprint Planning 1
+
+<!-- Por completar: objetivo del sprint, fechas, participantes y velocidad. -->
+
+#### 7.2.1.2. Sprint Backlog 1
+
+<!-- Por completar: historias y tareas del sprint (US 032, US 033, TS 023, TS 024, TS 025, TS 026) con responsables y estimación. -->
+
+#### 7.2.1.3. Development Evidence for Sprint Review
+
+<!-- Por completar: commits y ramas de cada repositorio. -->
+
+#### 7.2.1.4. Testing Suite Evidence for Sprint Review
+
+<!-- Por completar: archivos .feature y resultados de pruebas. -->
+
+#### 7.2.1.5. Execution Evidence for Sprint Review
+
+<!-- Por completar: capturas del recorrido del plan mensual. -->
+
+#### 7.2.1.6. Services Documentation Evidence for Sprint Review
+
+<!-- Por completar: capturas de Swagger UI de cada microservicio. -->
+
+#### 7.2.1.7. Software Deployment Evidence for Sprint Review
+
+<!-- Por completar: evidencia de Docker Compose y del despliegue. -->
+
+#### 7.2.1.8. Team Collaboration Insights during Sprint
+
+<!-- Por completar: gráficos de contribuciones de GitHub. -->
 
 ## 7.3. Validation Interviews
 
@@ -213,7 +252,7 @@ Se presenta una ficha por segmento. Los resúmenes describen el contenido previs
 
 #### Segmento 1: Integrantes de familias con problemas de gestión financiera
 
-**Entrevista S1-02 — Valeria Ponce**
+**Entrevista S1-01 — Valeria Ponce**
 
 | Evidencia | Datos de la entrevista |
 | --- | --- |
@@ -275,3 +314,5 @@ Los siguientes problemas son puntos por verificar en la versión evaluada. La se
 | 6 | Un error general no permite saber qué cambios del plan quedaron pendientes. | 3 | Usabilidad · Recuperación de errores | Mostrar el estado por acción y permitir reintentar solo las pendientes. |
 
 ## 7.4. Video About-the-Product
+
+<!-- Por completar: enlace al video del producto. -->
