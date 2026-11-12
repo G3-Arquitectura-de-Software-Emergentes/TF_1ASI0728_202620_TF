@@ -209,7 +209,7 @@ La validación busca comprobar si los dos segmentos entienden la propuesta de In
 
 ### 7.3.2. Registro de Entrevistas
 
-Se presenta una ficha por segmento. Los resúmenes describen el contenido previsto de cada video. Las capturas, enlaces y tiempos se añadirán tras la grabación.
+Se presenta una ficha por segmento. Los resúmenes describen el contenido previsto de cada video.
 
 #### Segmento 1: Integrantes de familias con problemas de gestión financiera
 
@@ -217,8 +217,8 @@ Se presenta una ficha por segmento. Los resúmenes describen el contenido previs
 
 | Evidencia | Datos de la entrevista |
 | --- | --- |
-| **Captura:** | **Nombres y apellidos:** Valeria Ponce |
-| **Video (OneDrive):** | **Edad:** 21 años |
+| <img src="https://i.imgur.com/vH2KJPK.jpeg" width="240" alt="Captura de la entrevista a Valeria Ponce" /> | **Nombres y apellidos:** Valeria Ponce |
+| [Ver video](https://upcedupe-my.sharepoint.com/:v:/g/personal/u202319950_upc_edu_pe/IQC7Y5a1eaVXTYdJjgQ7sb7ZAfhdlSrSBVmGxQptKZN4Z8A?e=ueCAtH&nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D) | **Edad:** 21 años |
 | **Inicio:** | **Distrito:** San Juan de Miraflores |
 | **Duración:** | **Fecha:** |
 | | **Tarea:** Corrección de categoría |
@@ -230,8 +230,8 @@ Se presenta una ficha por segmento. Los resúmenes describen el contenido previs
 
 | Evidencia | Datos de la entrevista |
 | --- | --- |
-| **Captura:** | **Nombres y apellidos:** Ricardo Medina |
-| **Video (OneDrive):** | **Edad:** 34 años |
+| <img src="https://i.imgur.com/ZRT9oXs.jpeg" width="240" alt="Captura de la entrevista a Ricardo Medina" /> | **Nombres y apellidos:** Ricardo Medina |
+| [Ver video](https://upcedupe-my.sharepoint.com/:v:/g/personal/u202319950_upc_edu_pe/IQDoZeeiDscdR5ru7_mLr5E2AUf8eux-DCYuAdaZsrbxEyE?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=xKqSjS) | **Edad:** 34 años |
 | **Inicio:** | **Distrito:** Chorrillos |
 | **Duración:** | **Fecha:** |
 | | **Tarea:** Presupuesto familiar |
