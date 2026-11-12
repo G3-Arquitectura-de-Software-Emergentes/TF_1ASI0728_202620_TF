@@ -19,7 +19,14 @@ En el escenario propuesto para Carlos, el usuario ingresa el monto y la descripc
 
 **User Persona 2: María Palacios**
 
-![To-Be Scenario for María Palacios](../assets/img/cap03/to-be-maria-ai.png)
+```mermaid
+flowchart LR
+  A["María solicita el plan del mes"] --> B["Consulta la proyección y los riesgos"]
+  B --> C["Revisa límites, aportes previstos y recordatorios"]
+  C --> D{"¿Aprueba la versión?"}
+  D -- Sí --> E["Se aplican las acciones aprobadas"]
+  D -- No --> F["Descarta el borrador"]
+```
 
 En el escenario propuesto para María, ella solicita al agente el plan del próximo mes (US 032). El agente proyecta los gastos por categoría con su historial y los compara con sus límites y metas. María revisa los riesgos, edita el borrador (límites, aportes previstos y recordatorios) y aprueba la versión que desea aplicar. Solo al aprobar se aplican los límites; los aportes previstos no transfieren dinero.
 

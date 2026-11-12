@@ -170,7 +170,7 @@ Para desplegar Intiva se usarán servicios en la nube que publican cada producto
 
 **Prueba de concepto local**
 
-Antes del despliegue en Azure, la prueba de concepto se levantará en local con Docker Compose. En esta etapa se implementarán los microservicios del recorrido principal: el agente de IA, Analytics (para la proyección de gastos), Finances y Communications, junto con Spring Cloud Gateway, PostgreSQL y RabbitMQ. Con ellos se demuestra el plan mensual: el usuario pide el plan, el agente muestra la proyección y el riesgo por categoría, el usuario edita el borrador y lo aprueba, Finances guarda los límites y Communications recibe el evento `MonthlyPlanActivated` para notificarlo.
+La PoC local usa Docker Compose y ejecuta AI Agent, Finances, Savings y Communications como servicios separados, junto con Spring Cloud Gateway, PostgreSQL y RabbitMQ. El backend modular atiende el inicio de sesión, el registro manual y la consulta de gastos históricos para la proyección. Al aprobar el borrador, Finances guarda el límite y publica el evento de aplicación que Communications recibe por RabbitMQ para registrar el aviso.
 
 **Flujo de despliegue**
 
@@ -193,10 +193,11 @@ Integrar el recorrido del plan mensual con la aplicación Android y el backend d
 
 | Trabajo | Alcance del incremento |
 | --- | --- |
-| US 032 y US 033 | Sugerir una categoría para el registro de gastos y mostrar los gastos hormiga del mes. |
-| US 034 | Generar, editar y aprobar un plan mensual desde Android. |
-| Integración de servicios | Guardar el límite en Finances y publicar el evento en RabbitMQ para que Communications registre un aviso consultable en la app. |
-| Ampliación del plan | Registrar aportes previstos y programar recordatorios. Emitir un aviso cuando los nuevos gastos personales en PEN alcancen el límite. |
+| US 032 · Plan mensual | Generar un borrador con Gemini, editar y aprobar una versión. Registrar aportes previstos y programar recordatorios. |
+| US 033 · Categorización | Sugerir una categoría para el registro de un gasto y permitir que el usuario la confirme antes de guardar. |
+| US 034 · Asistente financiero | Consultar el recuento y el total de gastos hormiga del mes en la PoC. |
+| US 035 · Seguimiento | Verificar el aviso de límite alcanzado tras registrar un gasto personal nuevo en PEN. |
+| TS 023 · Aplicación idempotente | Guardar el límite en Finances, publicar el evento en RabbitMQ y comprobar que repetir la aprobación de la misma versión produce un solo aviso de aplicación. |
 
 #### 7.2.1.3. Development Evidence for Sprint Review
 
@@ -216,7 +217,15 @@ La [guía de la PoC](https://github.com/G3-Arquitectura-de-Software-Emergentes/i
 
 #### 7.2.1.7. Software Deployment Evidence for Sprint Review
 
-La compilación de depuración genera un APK para la prueba local. La publicación requiere un gateway HTTPS accesible y una compilación de distribución que apunte a ese gateway. La distribución móvil y el despliegue de los servicios en Azure quedan pendientes de evidencias de publicación.
+| Entorno o producto | Estado en TB2 | Evidencia o actividad pendiente |
+| --- | --- | --- |
+| Backend local con Docker Compose | Verificado | El gateway respondió en el puerto 18080 y se ejecutó la prueba de la sección 7.2.1.5 con PostgreSQL y RabbitMQ. |
+| Android local | Compilado | Se generó el APK de depuración con Firebase y la URL del gateway local. Queda pendiente instalarlo y verificar el recorrido en pantalla. |
+| Backend en Azure | Pendiente de publicación | Publicar el gateway HTTPS y registrar la URL, la versión desplegada y una comprobación de disponibilidad. |
+| Aplicación móvil de distribución | Pendiente de publicación | Generar una compilación que use el gateway HTTPS y registrar su versión y enlace de Firebase App Distribution. |
+| Landing y aplicación web | Publicación pendiente de verificar | Registrar las URLs públicas y la versión de cada producto cuando se confirme su disponibilidad. |
+
+La ejecución local acredita la integración técnica de la PoC. La evidencia de la primera versión publicada que pide TB2 se completa al verificar los productos desplegados.
 
 #### 7.2.1.8. Team Collaboration Insights during Sprint
 

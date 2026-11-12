@@ -2,7 +2,7 @@
 
 ## Conclusiones y recomendaciones
 
-La entrega reúne el análisis del problema, los requisitos, el diseño estratégico y táctico de Intiva con sus dos tecnologías emergentes (microservicios e IA agéntica), el diseño UX y la configuración del desarrollo y la validación. Las conclusiones distinguen lo diseñado de los resultados que todavía requieren implementación y validación.
+El TB2 reúne el diseño de arquitectura y experiencia de Intiva, la validación con ambos segmentos y los resultados del Sprint 1. El alcance verificado corresponde a una PoC local del plan mensual con Gemini.
 
 ### Sobre el Capítulo I: Introducción
 
@@ -42,8 +42,8 @@ La entrega reúne el análisis del problema, los requisitos, el diseño estraté
 ### Sobre el Capítulo VII: Product Implementation, Validation & Deployment
 
 - La configuración del desarrollo define un mismo entorno para los cuatro integrantes: GitFlow, Conventional Commits, guías de estilo por lenguaje, Docker Compose en local y Azure Container Apps para los microservicios.
-- La prueba de concepto se centra en el recorrido del plan mensual (pedir, editar y aprobar), que es lo que muestra la IA agéntica. Las evidencias de implementación y despliegue de los sprints aún deben incorporarse en 7.2.
-- Las entrevistas de validación y la evaluación heurística permiten comprobar si las personas distinguen una sugerencia de un gasto guardado y lo proyectado de lo gastado. Sus resultados deben registrarse antes de concluir sobre la facilidad de uso.
+- La sección 7.2 registra la implementación y las pruebas del plan mensual. Se comprobó por API que repetir la aprobación de la misma versión conserva un solo límite, un solo evento de aplicación y un solo aviso.
+- La sección 7.3 reúne una entrevista por segmento y una evaluación heurística. Estas evidencias orientan ajustes de UX. La facilidad de uso de la aplicación integrada requiere una prueba adicional con usuarios.
 
 ### TP1: Conclusiones del equipo
 
@@ -60,9 +60,15 @@ El equipo consolidó el diseño táctico y la experiencia de usuario de Intiva, 
 
 **Conclusión conjunta.** El TP1 establece una base de diseño compartida para la implementación de Intiva. La siguiente etapa requiere comprobar la calidad de las respuestas de IA, la aprobación de la versión vigente y la aplicación sin duplicados y la facilidad de uso de los recorridos. Las evidencias actuales respaldan las decisiones de diseño; los beneficios esperados de ahorro, menor esfuerzo y coordinación familiar deberán medirse con la solución implementada.
 
+### TB2: Conclusiones del equipo
+
+La arquitectura objetivo separa los contextos en microservicios detrás de Spring Cloud Gateway. El Sprint 1 verificó localmente la integración del agente, Finances, Savings y Communications con PostgreSQL y RabbitMQ. El backend modular mantiene las funciones que todavía no se han migrado.
+
+Gemini generó un plan a partir de gastos de prueba. La aprobación persistió el límite editado y el reintento de la misma versión conservó un solo aviso. La segunda ejecución verificó un aporte previsto, un recordatorio programado y un aviso al superar el límite. Los mock-ups, el prototipo y los testimonios documentan los recorridos esperados. Quedan pendientes la demostración desde Android y la evidencia de publicación.
+
 ### Recomendaciones
 
-- Implementar y verificar el diseño táctico del Capítulo V y completar la interacción del prototipo a partir de los mock-ups y flujos del Capítulo VI. El Capítulo VII aún no contiene evidencias de implementación, pruebas, validación o despliegue de la entrega actual.
+- Completar la demostración en Android y registrar las URLs, versiones y resultados de la primera publicación de los productos en la sección 7.2.1.7.
 - Conciliar la matriz de respuestas de las entrevistas, los precios y datos del equipo de la landing y las versiones del stack con sus fuentes correspondientes.
 - Mantener alineados los diagramas de los capítulos IV y V cuando cambie un microservicio, un evento o una relación entre contextos, y versionar el catálogo de eventos (DT-02).
 - Probar borradores con datos insuficientes, versiones obsoletas, fallos parciales y reintentos sin duplicados.

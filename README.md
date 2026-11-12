@@ -1575,17 +1575,184 @@ Los mock-ups de [6.4.3](#643-applications-mock-ups) muestran el nuevo flujo. La 
 
 ## 7.1. Software Configuration Management
 
+En esta sección se definen las herramientas, prácticas y convenciones que usará el equipo de Balanza durante el desarrollo de Intiva. El objetivo es que los cuatro integrantes trabajen con el mismo entorno, sigan las mismas reglas al escribir y versionar el código, y desplieguen cada producto de forma ordenada.
+
 ### 7.1.1. Software Development Environment Configuration
+
+**Project Management**
+
+- **GitHub:** es la plataforma central del proyecto. Además de alojar el código, el informe se redacta en archivos Markdown dentro de un repositorio, de modo que cada integrante agrega sus avances en una rama y los integra mediante *pull requests*.
+- **Discord y Google Meet:** se usarán para las reuniones del equipo, en las que se revisan los avances, se toman decisiones sobre el proyecto y se reparten las tareas de cada sprint.
+- **WhatsApp:** se usará para coordinar tareas del día a día, avisar de cambios en el repositorio y recordar las fechas de entrega.
+
+**Requirements Management**
+
+- **Trello:** se usará para gestionar el Product Backlog y el Sprint Backlog. Cada tarjeta corresponde a una historia de usuario o tarea técnica, tiene un responsable y avanza por las columnas To-do, In-Process, To-Review y Done.
+
+**Product UX/UI Design**
+
+- **Miro:** se usó para las sesiones de EventStorming, el descubrimiento de bounded contexts y los mapas As-Is de los User Personas.
+- **Figma:** se usa para diseñar de forma colaborativa la guía de estilo, los wireframes, los mock-ups, los user flows y el prototipo de la aplicación móvil, la aplicación web y la landing page.
+
+**Software Development**
+
+- **Java y Spring Boot en IntelliJ IDEA:** los microservicios se desarrollarán con Java 21 (LTS) y Spring Boot, junto con Spring Web, Spring Data JPA, Spring Security, JWT y Lombok (C-01). Habrá un microservicio por bounded context. Se escogió IntelliJ IDEA porque integra Maven, la depuración y la refactorización del código.
+- **Spring AI y Gemini API (Google AI Studio):** el agente financiero será un microservicio propio, construido con Spring AI para mantenerse dentro del mismo stack de Java. Usará el modelo Gemini mediante su API, cuya clave se genera en Google AI Studio y se guarda como variable de entorno, nunca en el código. Con *tool calling*, el agente no se limita a conversar: consulta los datos del usuario a través de las APIs de los otros microservicios y prepara un plan mensual con límites, aportes previstos y recordatorios, que el usuario edita y que solo se aplica cuando lo aprueba. También sugiere categorías y responde en un chat que solo recomienda. Estas funciones estarán disponibles para cualquier usuario con sesión iniciada.
+- **Kotlin y Jetpack Compose en Android Studio:** la aplicación móvil será nativa para Android 8.0 o superior. Usará Jetpack Compose para la interfaz, Compose Navigation, Hilt para la inyección de dependencias, Retrofit para consumir la API y Room para la persistencia local (C-03). Se usará Android Studio por su emulador y sus herramientas de inspección de interfaces.
+- **Vue en Visual Studio Code:** la aplicación web se desarrollará con Vue y Vite, PrimeVue como librería de componentes, Pinia para el manejo de estado, Axios para las peticiones HTTP y Vue-i18n para el cambio de idioma (C-02). Se usará pnpm como gestor de paquetes.
+- **Astro en Visual Studio Code:** la landing page se construirá con Astro y Tailwind CSS, lo que permite generar un sitio estático, rápido y disponible en español e inglés (C-04).
+
+**Bases de datos y caché**
+
+- **PostgreSQL y pgAdmin 4:** cada microservicio tendrá su propia base de datos dentro de un mismo servidor PostgreSQL, y ninguno podrá consultar la base de datos de otro. pgAdmin 4 se usará para administrar y consultar las tablas durante el desarrollo.
+- **Redis:** se usará como caché en memoria para las métricas del panel y los códigos temporales de recuperación (TS 014).
+- **Room (SQLite):** almacenará en el celular los datos que la aplicación móvil necesita sin conexión.
+
+**Microservicios y comunicación entre servicios**
+
+- **Spring Cloud Gateway:** será el API Gateway, el único punto de entrada para la aplicación móvil y la aplicación web. Enrutará cada petición al microservicio correspondiente según su ruta (`/api/v1/{recurso}`), sin exponer directamente los servicios internos. Se escogió porque es parte del ecosistema Spring y se configura igual que el resto de microservicios.
+- **RabbitMQ:** será el message broker para la comunicación asíncrona. Cuando un servicio necesita una respuesta para continuar, llama por REST a otro servicio; cuando solo avisa que algo pasó (por ejemplo, que se registró un gasto), publica un evento en RabbitMQ y los servicios interesados lo procesan después.
+- **Docker y Docker Compose:** cada microservicio se empaquetará en una imagen Docker. Con Docker Compose el equipo levantará en local los servicios, el gateway, PostgreSQL, Redis y RabbitMQ con un solo comando, en una red interna.
+- No se usará un servidor de descubrimiento de servicios como Eureka, porque la red interna de Docker en local y Azure Container Apps en la nube ya resuelven los servicios por su nombre.
+
+**Software Documentation**
+
+- **Markdown en GitHub:** formato del informe del proyecto y de los archivos README de cada repositorio.
+- **Structurizr:** se usa para elaborar los diagramas C4 de contexto, contenedores, componentes y despliegue.
+- **Swagger UI (OpenAPI):** cada microservicio expondrá la documentación de sus endpoints REST con springdoc-openapi, que también permite probarlos desde el navegador.
+- **OBS Studio y OneDrive:** OBS Studio se usará para grabar las entrevistas de validación y los videos del producto, y OneDrive para alojar esos videos y compartir sus enlaces en el informe.
+
+**Software Testing**
+
+- **JUnit 5 y Mockito:** se usarán para las pruebas unitarias de las entidades, los servicios de dominio y los servicios de aplicación de cada microservicio.
+- **Spring Boot Test:** permitirá las pruebas de integración de los controladores y los repositorios.
+- **Gherkin:** los criterios de aceptación de las historias de usuario se escribirán como escenarios Dado / Cuando / Entonces, tal como se definieron en el Capítulo III.
+- **Postman:** se usará para probar manualmente los endpoints a través del API Gateway, con colecciones compartidas por el equipo.
 
 ### 7.1.2. Source Code Management
 
+Para el control de versiones se usará Git, y GitHub como plataforma de alojamiento de los repositorios. Todos los repositorios estarán dentro de la organización del equipo, de modo que cada integrante tenga acceso a ellos y los cambios se revisen mediante *pull requests* antes de integrarse.
+
+**Repositorios**
+
+Los nombres de los repositorios seguirán el formato usado en la versión anterior de Intiva (intiva-landing-page, intiva-web-application, intiva-mobile-application e intiva-api-platform). Todo el backend estará en un solo repositorio, con una carpeta por microservicio, además del API Gateway y la configuración de Docker Compose. Así, el equipo puede levantar todos los servicios juntos y revisar en un mismo *pull request* los cambios que afectan a más de uno.
+
+- Organización en GitHub: https://github.com/G3-Arquitectura-de-Software-Emergentes
+- Informe del proyecto: https://github.com/G3-Arquitectura-de-Software-Emergentes/TF_1ASI0728_202620_TF
+
+
+| Repositorio | Contenido | Enlace |
+| --- | --- | --- |
+| Landing page | Sitio estático en Astro | https://github.com/G3-Arquitectura-de-Software-Emergentes/intiva-landing-page |
+| Aplicación móvil | Aplicación Android en Kotlin | https://github.com/G3-Arquitectura-de-Software-Emergentes/Intiva-mobile-application |
+| Aplicación web | Aplicación Vue | Pendiente de crear en la organización (`intiva-web-application`) |
+| Backend | Microservicios en Spring Boot (una carpeta por servicio), Spring Cloud Gateway y Docker Compose | https://github.com/G3-Arquitectura-de-Software-Emergentes/intiva-api-platform |
+
+**Estrategia de ramas: GitFlow**
+
+Se seguirá el modelo GitFlow, propuesto por Vincent Driessen (https://nvie.com/posts/a-successful-git-branching-model/), porque separa el trabajo en curso de las versiones estables y permite que varios integrantes desarrollen funcionalidades al mismo tiempo sin afectar lo que ya está publicado.
+
+- **main:** contiene solo versiones estables, listas para desplegarse. Cada integración a esta rama se marca con una etiqueta de versión.
+- **develop:** rama de integración. Aquí se juntan las funcionalidades terminadas antes de preparar una nueva versión.
+- **feature/\*:** parten de develop y contienen una sola funcionalidad. Se nombran en inglés y en *kebab-case*, según la funcionalidad o el microservicio. Por ejemplo: `feature/ai-monthly-plan`, `feature/household-invitations`. Al terminar, se integran a develop mediante un *pull request* revisado por otro integrante.
+- **release/\*:** parten de develop cuando se prepara una nueva versión. En ellas solo se corrigen detalles menores y se actualiza el número de versión antes de integrarla a main y a develop. Por ejemplo: `release/1.0.0`.
+- **hotfix/\*:** parten de main para corregir un error urgente en producción y se integran tanto a main como a develop. Por ejemplo: `hotfix/1.0.1`.
+
+**Versionado semántico**
+
+Para numerar las versiones se usará Semantic Versioning 2.0.0 (https://semver.org/), con el formato `MAJOR.MINOR.PATCH`:
+
+- **MAJOR:** cambios incompatibles con la versión anterior, por ejemplo, un cambio en un contrato de la API que obliga a actualizar los clientes.
+- **MINOR:** nuevas funcionalidades compatibles con la versión anterior.
+- **PATCH:** corrección de errores sin afectar la compatibilidad.
+
+Cada versión publicada en main se marcará con una etiqueta de Git, por ejemplo `v1.0.0`.
+
+**Convenciones para los mensajes de commit**
+
+Los mensajes de commit seguirán la especificación Conventional Commits (https://www.conventionalcommits.org/en/v1.0.0/), con el formato `type(scope): description`. Se escribirán en inglés, en tiempo presente y en modo imperativo, y el *scope* indicará el microservicio o módulo afectado. Los tipos que se usarán son:
+
+- **feat:** nueva funcionalidad.
+- **fix:** corrección de un error.
+- **docs:** cambios en la documentación.
+- **refactor:** reestructuración del código sin cambiar su comportamiento.
+- **test:** creación o actualización de pruebas.
+- **chore:** cambios en la configuración, las dependencias o el proceso de construcción.
+
+
 ### 7.1.3. Source Code Style Guide & Conventions
+
+En esta sección se presentan las convenciones de estilo que seguirá el equipo en cada lenguaje del proyecto, para que el código sea consistente y fácil de leer sin importar quién lo haya escrito.
+
+**Convenciones generales**
+
+- Todo el código (clases, variables, archivos, endpoints y ramas) se escribe en inglés. Los textos que ve el usuario están en español e inglés mediante archivos de traducción.
+- Los nombres deben describir lo que hacen; se evitan las abreviaturas poco claras.
+- Las claves, contraseñas y URLs de los servicios no se escriben en el código. Se manejan con variables de entorno, y cada repositorio incluye un archivo `.env.example` con los nombres de las variables necesarias, sin sus valores.
+
+**Backend: Java y Spring Boot**
+
+- Se sigue el Google Java Style Guide (https://google.github.io/styleguide/javaguide.html).
+- Clases e interfaces en *PascalCase*; métodos y variables en *camelCase*; constantes en *UPPER_SNAKE_CASE*; paquetes en minúscula.
+- Las carpetas de los microservicios se nombran en *kebab-case* con el sufijo `-service`, por ejemplo `finances-service` o `agent-service`.
+- Cada microservicio organiza sus paquetes según las capas definidas en AD-02: `domain.model`, `domain.services`, `application.internal`, `infrastructure` e `interfaces.rest`.
+- Las clases llevan un sufijo según su función. Por ejemplo: `TransactionsController`, `TransactionCommandService`, `TransactionQueryService`, `TransactionRepository`, `CreateTransactionCommand` y `TransactionResource`.
+- Los endpoints REST siguen el patrón `/api/v1/{recurso}`, con sustantivos en plural, en minúscula y en *kebab-case* (C-05). Por ejemplo: `/api/v1/saving-goals` o `/api/v1/agent/plans`.
+- Los eventos que se publican en RabbitMQ se nombran en pasado y en *PascalCase*, como `TransactionConfirmed` o `MonthlyPlanActivated`.
+
+**Aplicación móvil: Kotlin y Jetpack Compose**
+
+- Se siguen las Kotlin Coding Conventions (https://kotlinlang.org/docs/coding-conventions.html) y la guía de estilo de Kotlin para Android (https://developer.android.com/kotlin/style-guide).
+- Las funciones `@Composable` que dibujan interfaz se nombran en *PascalCase* como sustantivos, por ejemplo `TransactionCard` o `HomeScreen`, según las Compose API Guidelines (https://github.com/androidx/androidx/blob/androidx-main/compose/docs/compose-api-guidelines.md).
+- El código se organiza por funcionalidad (por ejemplo, `transactions`, `savings`, `household`), y dentro de cada una se separan las capas de datos, dominio y presentación.
+- Los ViewModels terminan en `ViewModel` y los repositorios en `Repository`.
+
+**Aplicación web: Vue y JavaScript**
+
+- Se sigue la guía de estilo oficial de Vue (https://vuejs.org/style-guide/), con sus reglas esenciales y fuertemente recomendadas.
+- Los componentes se nombran en *PascalCase* y con más de una palabra, por ejemplo `ExpenseChart.vue` o `ReportFilters.vue`.
+- Los *composables* empiezan con `use` (por ejemplo, `useReports`) y los stores de Pinia siguen el patrón `useXStore` (por ejemplo, `useAuthStore`).
+- Variables y funciones en *camelCase*; carpetas y archivos que no son componentes en *kebab-case*.
+
+**Landing page: Astro, HTML y CSS**
+
+- Para el marcado y los estilos se sigue el Google HTML/CSS Style Guide (https://google.github.io/styleguide/htmlcssguide.html).
+- Los componentes de Astro se nombran en *PascalCase* (por ejemplo, `HeroSection.astro`) y las páginas en *kebab-case*.
+- Los estilos se escriben con las clases utilitarias de Tailwind CSS, y los textos de cada idioma se guardan en archivos de traducción separados.
+
+**Pruebas de aceptación: Gherkin**
+
+- Se siguen las convenciones de la referencia oficial de Gherkin (https://cucumber.io/docs/gherkin/reference/).
+- Cada historia de usuario tiene un archivo `.feature` con sus escenarios, redactados desde el punto de vista del usuario y con la estructura Dado (*Given*), Cuando (*When*) y Entonces (*Then*), igual que en el Capítulo III.
 
 ### 7.1.4. Software Deployment Configuration
 
-## 7.2. Solution Implementation
+Para desplegar Intiva se usarán servicios en la nube que publican cada producto a partir de su repositorio en GitHub. Así, cada versión estable queda disponible para los usuarios sin que el equipo tenga que configurar servidores manualmente para cada cambio.
 
-<!-- Duplicar el bloque 7.2.X (con su numeración 7.2.2, 7.2.3...) por cada Sprint -->
+**Herramientas**
+
+- **Landing page: Vercel.** Vercel se conecta al repositorio de la landing, construye el sitio de Astro y publica una nueva versión cada vez que se integra un cambio en main. También genera una vista previa por cada *pull request*, lo que permite revisar los cambios antes de publicarlos.
+- **Aplicación web: Vercel.** La aplicación Vue se publicará del mismo modo, con la URL del API Gateway configurada como variable de entorno del proyecto.
+- **Aplicación móvil: Firebase App Distribution.** Un flujo de GitHub Actions compilará y firmará el APK cada vez que se suba una rama `release/*` y lo enviará a Firebase App Distribution, desde donde los integrantes y los usuarios de prueba podrán instalarlo (TS 021).
+- **Microservicios: Azure Container Apps.** Cada microservicio y el API Gateway se desplegarán como contenedores en Azure Container Apps (TS 020). Este servicio ejecuta las imágenes Docker, resuelve los nombres de los servicios en su red interna y permite que solo el gateway quede expuesto a internet.
+- **Base de datos: Azure Database for PostgreSQL.** Un servidor gestionado alojará la base de datos de cada microservicio.
+- **Caché: Redis Cloud.** Se mantiene como servicio gestionado para la caché (TS 022).
+- **Proveedor de IA: Gemini API.** No requiere despliegue propio. El microservicio del agente se conecta a la API con su clave, guardada como secreto en Azure.
+
+**Prueba de concepto local**
+
+La PoC local usa Docker Compose y ejecuta AI Agent, Finances, Savings y Communications como servicios separados, junto con Spring Cloud Gateway, PostgreSQL y RabbitMQ. El backend modular atiende el inicio de sesión, el registro manual y la consulta de gastos históricos para la proyección. Al aprobar el borrador, Finances guarda el límite y publica el evento de aplicación que Communications recibe por RabbitMQ para registrar el aviso.
+
+**Flujo de despliegue**
+
+1. El integrante termina su funcionalidad en una rama `feature/*` y abre un *pull request* hacia develop, que otro integrante revisa antes de integrarlo.
+2. Al preparar una versión, se crea una rama `release/x.y.z`, se verifica su funcionamiento y se integra a main con su etiqueta de versión.
+3. Vercel detecta el cambio en main y publica automáticamente la landing page y la aplicación web.
+4. Al subir la rama `release/*` de la aplicación móvil, GitHub Actions genera el APK y lo distribuye mediante Firebase App Distribution.
+5. Se construyen las imágenes Docker de los microservicios y del API Gateway, y se despliegan en Azure Container Apps con sus variables de entorno (conexión a Azure Database for PostgreSQL, Redis, RabbitMQ y clave de la Gemini API).
+6. Los clientes (aplicación móvil y aplicación web) se comunican con los servicios únicamente mediante HTTPS a través del API Gateway.
+
+## 7.2. Solution Implementation
 
 ### 7.2.1. Sprint 1
 
@@ -1597,10 +1764,11 @@ Integrar el recorrido del plan mensual con la aplicación Android y el backend d
 
 | Trabajo | Alcance del incremento |
 | --- | --- |
-| US 032 y US 033 | Sugerir una categoría para el registro de gastos y mostrar los gastos hormiga del mes. |
-| US 034 | Generar, editar y aprobar un plan mensual desde Android. |
-| Integración de servicios | Guardar el límite en Finances y publicar el evento en RabbitMQ para que Communications registre un aviso consultable en la app. |
-| Ampliación del plan | Registrar aportes previstos y programar recordatorios. Emitir un aviso cuando los nuevos gastos personales en PEN alcancen el límite. |
+| US 032 · Plan mensual | Generar un borrador con Gemini, editar y aprobar una versión. Registrar aportes previstos y programar recordatorios. |
+| US 033 · Categorización | Sugerir una categoría para el registro de un gasto y permitir que el usuario la confirme antes de guardar. |
+| US 034 · Asistente financiero | Consultar el recuento y el total de gastos hormiga del mes en la PoC. |
+| US 035 · Seguimiento | Verificar el aviso de límite alcanzado tras registrar un gasto personal nuevo en PEN. |
+| TS 023 · Aplicación idempotente | Guardar el límite en Finances, publicar el evento en RabbitMQ y comprobar que repetir la aprobación de la misma versión produce un solo aviso de aplicación. |
 
 #### 7.2.1.3. Development Evidence for Sprint Review
 
@@ -1620,7 +1788,15 @@ La [guía de la PoC](https://github.com/G3-Arquitectura-de-Software-Emergentes/i
 
 #### 7.2.1.7. Software Deployment Evidence for Sprint Review
 
-La compilación de depuración genera un APK para la prueba local. La publicación requiere un gateway HTTPS accesible y una compilación de distribución que apunte a ese gateway. La distribución móvil y el despliegue de los servicios en Azure quedan pendientes de evidencias de publicación.
+| Entorno o producto | Estado en TB2 | Evidencia o actividad pendiente |
+| --- | --- | --- |
+| Backend local con Docker Compose | Verificado | El gateway respondió en el puerto 18080 y se ejecutó la prueba de la sección 7.2.1.5 con PostgreSQL y RabbitMQ. |
+| Android local | Compilado | Se generó el APK de depuración con Firebase y la URL del gateway local. Queda pendiente instalarlo y verificar el recorrido en pantalla. |
+| Backend en Azure | Pendiente de publicación | Publicar el gateway HTTPS y registrar la URL, la versión desplegada y una comprobación de disponibilidad. |
+| Aplicación móvil de distribución | Pendiente de publicación | Generar una compilación que use el gateway HTTPS y registrar su versión y enlace de Firebase App Distribution. |
+| Landing y aplicación web | Publicación pendiente de verificar | Registrar las URLs públicas y la versión de cada producto cuando se confirme su disponibilidad. |
+
+La ejecución local acredita la integración técnica de la PoC. La evidencia de la primera versión publicada que pide TB2 se completa al verificar los productos desplegados.
 
 #### 7.2.1.8. Team Collaboration Insights during Sprint
 
@@ -1781,7 +1957,7 @@ Los testimonios son fragmentos de las entrevistas de validación registradas en 
 
 ## Conclusiones y recomendaciones
 
-La entrega reúne el análisis del problema, los requisitos y el diseño estratégico de Intiva, junto con el avance de UX documentado para TP1. Las conclusiones distinguen lo diseñado de los resultados que todavía requieren implementación y validación.
+El TB2 reúne el diseño de arquitectura y experiencia de Intiva, la validación con ambos segmentos y los resultados del Sprint 1. El alcance verificado corresponde a una PoC local del plan mensual con Gemini.
 
 ### Sobre el Capítulo I: Introducción
 
@@ -1797,24 +1973,32 @@ La entrega reúne el análisis del problema, los requisitos y el diseño estrat�
 
 ### Sobre el Capítulo III: Requirements Specification
 
-- EP 011 reúne la planificación financiera. US 032 cubre proyección, edición y aprobación; US 035 cubre seguimiento y avisos en la segunda etapa. US 033 y US 034 conservan categorización y asistencia.
-- TS 023 valida titularidad y versión y evita duplicar cambios al aplicar el plan; TS 024 valida las respuestas de IA. FCM conserva el canal push (TS 017).
+- EP 011 reúne la planificación financiera. US 032 cubre proyección, edición y aprobación; US 035 cubre seguimiento y avisos en la segunda etapa. US 033 y US 034 conservan la categorización y el asistente, que solo recomienda. Las funciones de IA están disponibles para toda persona con sesión iniciada, y las suscripciones (EP 004) se postergan.
+- TS 023 valida titularidad y versión y evita duplicar cambios al aplicar el plan; TS 024 integra Gemini mediante Spring AI y valida sus respuestas; TS 025 y TS 026 definen RabbitMQ y la base de datos por microservicio. FCM conserva el canal push (TS 017).
 - Los criterios de aceptación permiten preparar pruebas funcionales. Describir un escenario esperado no acredita que ya haya sido implementado ni que la prueba haya pasado.
 
 ### Sobre el Capítulo IV: Strategic-Level Software Design
 
-- El capítulo IV propone un monolito modular y describe los contextos que organizan el dominio. Subscriptions se registra como contexto previsto en el diseño estratégico.
+- El capítulo IV adopta microservicios, uno por bounded context, cada uno con su propia base de datos. La regla de integración es REST para consultas y validaciones, y RabbitMQ para avisos, lo que elimina el acceso directo de Analytics a los datos de otros contextos que tenía el backend anterior.
+- La IA agéntica se concentra en el microservicio AI Agent, el único que usa Gemini (mediante Spring AI). El agente reúne datos y prepara el plan mensual por su cuenta, pero los límites solo se aplican cuando la persona aprueba una versión, y el chat solo recomienda.
+- Las suscripciones se registran como un contexto válido que se posterga a una etapa posterior; por eso no tienen microservicio en esta versión.
 
 ### Sobre el Capítulo V: Tactical-Level Software Design
 
-- El diseño táctico documenta las cuatro capas de ocho bounded contexts, junto con diagramas de componentes, clases y base de datos. El plan separa la propuesta editable de la ejecución autorizada y conserva el resultado de cada acción.
-- La categorización y el asistente IA se integran mediante puertos y adaptadores; las recomendaciones no ejecutan gastos ni modifican metas. Communications conserva el envío directo de notificaciones por FCM.
+- El diseño táctico documenta las cuatro capas de nueve bounded contexts, desplegados como microservicios, junto con diagramas de componentes, clases y base de datos. El plan separa el borrador editable de la aplicación autorizada y conserva el resultado de cada acción.
+- El modelo de IA solo tiene herramientas de lectura: las recomendaciones del chat no registran gastos ni modifican metas, y las acciones del plan las aplica el servicio después de la aprobación, con claves idempotentes. Communications recibe por eventos los avisos de los demás servicios y los envía por FCM.
 
 ### Sobre el Capítulo VI: Solution UX Design
 
 - El capítulo contiene guías de estilo y arquitectura de información, así como la landing adaptada, sus wireframes para escritorio y móvil, doce wireframes de aplicación y tres wireflows elaborados para TP1.
 - Las pantallas muestran categorización, asistencia y planificación: proyección, borrador, aprobación, aplicación y error.
 - Las imágenes y composiciones vectoriales de Figma documentan el diseño corregido. Sus montos son ilustrativos; no representan precisión de IA ni integraciones desplegadas.
+
+### Sobre el Capítulo VII: Product Implementation, Validation & Deployment
+
+- La configuración del desarrollo define un mismo entorno para los cuatro integrantes: GitFlow, Conventional Commits, guías de estilo por lenguaje, Docker Compose en local y Azure Container Apps para los microservicios.
+- La sección 7.2 registra la implementación y las pruebas del plan mensual. Se comprobó por API que repetir la aprobación de la misma versión conserva un solo límite, un solo evento de aplicación y un solo aviso.
+- La sección 7.3 reúne una entrevista por segmento y una evaluación heurística. Estas evidencias orientan ajustes de UX. La facilidad de uso de la aplicación integrada requiere una prueba adicional con usuarios.
 
 ### TP1: Conclusiones del equipo
 
@@ -1825,15 +2009,23 @@ El equipo consolidó el diseño táctico y la experiencia de usuario de Intiva, 
 **Camila Loli — Secciones 6.1 y 6.2.** Las guías de estilo y la arquitectura de información establecen criterios comunes para la presentación de Intiva en web y móvil. Las etiquetas y la navegación deben ayudar a distinguir una sugerencia de IA, una propuesta pendiente y un gasto validado. La consistencia del diseño deberá contrastarse con pruebas de comprensión y uso en ambos segmentos de usuarios.
 
 
+**Didier Meza — Secciones 6.3, 6.4.1 y 6.4.2.** La landing, los wireframes y los wireflows organizan los tres recorridos de IA (categorización, asistente y plan mensual) con sus rutas de corrección, descarte, espera y error. Representar estas alternativas desde el wireframe permite que la aprobación del plan y la continuidad manual queden claras antes de diseñar las pantallas finales.
+
 **Omar Rivera — Secciones 6.4.3 y 6.4.4.** Los mock-ups y los user flows permiten revisar la presentación de las pantallas y su relación con los objetivos del usuario. La correspondencia con los wireflows ayuda a mantener las mismas acciones y condiciones en el diseño visual. Estos materiales sirven como base para conectar el prototipo y evaluar las tareas de registro, consulta y aprobación familiar.
 
 **Conclusión conjunta.** El TP1 establece una base de diseño compartida para la implementación de Intiva. La siguiente etapa requiere comprobar la calidad de las respuestas de IA, la aprobación de la versión vigente y la aplicación sin duplicados y la facilidad de uso de los recorridos. Las evidencias actuales respaldan las decisiones de diseño; los beneficios esperados de ahorro, menor esfuerzo y coordinación familiar deberán medirse con la solución implementada.
 
+### TB2: Conclusiones del equipo
+
+La arquitectura objetivo separa los contextos en microservicios detrás de Spring Cloud Gateway. El Sprint 1 verificó localmente la integración del agente, Finances, Savings y Communications con PostgreSQL y RabbitMQ. El backend modular mantiene las funciones que todavía no se han migrado.
+
+Gemini generó un plan a partir de gastos de prueba. La aprobación persistió el límite editado y el reintento de la misma versión conservó un solo aviso. La segunda ejecución verificó un aporte previsto, un recordatorio programado y un aviso al superar el límite. Los mock-ups, el prototipo y los testimonios documentan los recorridos esperados. Quedan pendientes la demostración desde Android y la evidencia de publicación.
+
 ### Recomendaciones
 
-- Implementar y verificar el diseño táctico del Capítulo V y completar la interacción del prototipo a partir de los mock-ups y flujos del Capítulo VI. El Capítulo VII aún no contiene evidencias de implementación, pruebas, validación o despliegue de la entrega actual.
+- Completar la demostración en Android y registrar las URLs, versiones y resultados de la primera publicación de los productos en la sección 7.2.1.7.
 - Conciliar la matriz de respuestas de las entrevistas, los precios y datos del equipo de la landing y las versiones del stack con sus fuentes correspondientes.
-- Mantener alineados los diagramas estratégicos y tácticos con los adaptadores de IA y servicios de planificación, distinguiendo módulos del backend y servicios externos.
+- Mantener alineados los diagramas de los capítulos IV y V cuando cambie un microservicio, un evento o una relación entre contextos, y versionar el catálogo de eventos (DT-02).
 - Probar borradores con datos insuficientes, versiones obsoletas, fallos parciales y reintentos sin duplicados.
 - Evaluar la categorización y las recomendaciones con casos del dominio, sin presentar confianza como precisión medida. Verificar continuidad manual e información mínima autorizada.
 - Validar la facilidad de uso con personas de ambos segmentos antes de concluir que el producto reduce el esfuerzo de registro o mejora la coordinación familiar.

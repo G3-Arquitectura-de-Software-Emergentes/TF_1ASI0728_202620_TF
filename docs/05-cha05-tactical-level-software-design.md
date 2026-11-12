@@ -440,11 +440,30 @@ El componente **`Savings REST Controllers`** recibe las solicitudes HTTP desde e
 
 #### 5.5.6.1. Bounded Context Domain Layer Class Diagrams
 
-![Financial Goals Domain Layer Class Diagram](../assets/img/cap05/savings-class-diagram.png)
+```mermaid
+classDiagram
+  SavingGoal "1" *-- "*" GoalContribution
+  SavingGoal "1" -- "*" PlannedContribution
+  class PlannedContribution {
+    +UUID planId
+    +Decimal amount
+    +String period
+  }
+```
 
 #### 5.5.6.2. Bounded Context Database Design Diagram
 
-![Financial Goals Database Design Diagram](../assets/img/cap05/savings-database-diagram.png)
+```mermaid
+erDiagram
+  SAVING_GOAL ||--o{ GOAL_CONTRIBUTION : registra
+  SAVING_GOAL ||--o{ PLANNED_CONTRIBUTION : planifica
+  PLANNED_CONTRIBUTION {
+    uuid id PK
+    uuid goal_id FK
+    uuid plan_id
+    decimal amount
+  }
+```
 
 ---
 
@@ -577,11 +596,41 @@ En esta capa se modelan los agregados `Notification`, `NotificationDevice` y `Sc
 
 #### 5.7.6.1. Bounded Context Domain Layer Class Diagrams
 
-![Communications Service Class Diagram](../assets/img/cap05/communications-class-diagram.png)
+```mermaid
+classDiagram
+  Notification --> NotificationType
+  Notification --> NotificationSource
+  class NotificationType {
+    <<enumeration>>
+    PLAN_REMINDER
+    MONTHLY_PLAN_ACTIVATED
+    SPENDING_LIMIT_EXCEEDED
+  }
+  class NotificationDevice
+  class NotificationPreference
+```
 
 #### 5.7.6.2. Bounded Context Database Design Diagram
 
-![Communications Service Database Diagram](../assets/img/cap05/communications-database-diagram.png)
+**Persistencia del plan en la PoC del Sprint 1.**
+
+```mermaid
+erDiagram
+  PLAN_NOTICES {
+    uuid event_id PK
+    uuid plan_id
+    bigint owner_id
+    text message
+    timestamp created_at
+  }
+  PLAN_REMINDERS {
+    uuid plan_id PK
+    bigint owner_id
+    date due_date
+    varchar label
+    boolean delivered
+  }
+```
 
 ---
 
@@ -785,10 +834,44 @@ El `ownerType` y el `ownerId` **no figuran como parámetros**: los fija `ToolArg
 
 #### 5.9.6.1. Bounded Context Domain Layer Class Diagrams
 
-![AI Agent Service Class Diagram](../assets/img/cap05/agent-class-diagram.png)
+```mermaid
+classDiagram
+  MonthlyPlan "1" *-- "*" PlanAction
+  PlanAction --> PlanActionType
+  PlanAction --> ActionStatus
+  class PlanActionType {
+    <<enumeration>>
+    SPENDING_LIMIT
+    PLANNED_CONTRIBUTION
+    REMINDER
+  }
+  class ActionStatus {
+    <<enumeration>>
+    PENDING
+    APPLIED
+    FAILED
+  }
+```
 
 #### 5.9.6.2. Bounded Context Database Design Diagram
 
-![AI Agent Service Database Diagram](../assets/img/cap05/agent-database-diagram.png)
+**Persistencia del plan en la PoC del Sprint 1.**
+
+```mermaid
+erDiagram
+  MONTHLY_PLANS {
+    uuid id PK
+    bigint owner_id
+    varchar month
+    int version
+    varchar status
+    bigint category_id
+    decimal proposed
+    uuid event_id
+    boolean limit_applied
+    boolean contribution_applied
+    boolean reminder_applied
+  }
+```
 
 ---

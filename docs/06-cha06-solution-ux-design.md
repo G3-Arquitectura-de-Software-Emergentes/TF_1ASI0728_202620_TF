@@ -508,7 +508,17 @@ Los siguientes diagramas incluyen los mock-ups de cada pantalla (HOME, WF01 a WF
 - **Unhappy paths:** desde WF11, «Descartar plan» lleva a WF12c Plan descartado, sin cambios. Si una acción falla al aplicarse (TS 023), WF12d muestra el plan sin confirmar y permite consultar el estado y reintentar solo lo pendiente.
 - **Condiciones:** solo cuando se confirman las acciones requeridas el plan pasa a activo; el aporte previsto no mueve dinero.
 
-![Figura 6.4.4-C · User Flow 3 · Plan mensual](../assets/img/cap06/userflow-uf3-plan-mensual.png)
+```mermaid
+flowchart TD
+  A["HOME → WF09 · Solicitar plan"] --> B["WF10 · Ver proyección"]
+  B --> C["WF11 · Revisar y editar"]
+  C --> D{"¿Aprobar la versión?"}
+  D -- No --> E["WF12c · Plan descartado"]
+  D -- Sí --> F["WF12a · Aplicando plan"]
+  F --> G{"¿Acciones confirmadas?"}
+  G -- Sí --> H["WF12b · Plan activo"]
+  G -- No --> I["WF12d · Consultar y reintentar lo pendiente"]
+```
 
 *Figura 6.4.4-C · User Flow 3 · Plan mensual. [Abrir diagrama en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2082-1830).*
 

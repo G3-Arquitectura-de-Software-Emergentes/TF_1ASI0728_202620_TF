@@ -787,11 +787,7 @@ Al abrir el dashboard en la aplicación web, *Analytics* necesita información d
 
 #### 4.2.3.6. Historia 6 — La persona planifica su próximo mes con el agente de IA
 
-![Diagrama de Domain Storytelling — Historia 6: la persona planifica su próximo mes con el agente de IA](../assets/img/cap04/domain-story-06-plan.png)
-
-*Diagrama de Domain Storytelling — Historia 6: la persona planifica su próximo mes con el agente de IA. Fuente: elaboración propia.*
-
-**Representación de apoyo (diagrama de secuencia por carriles):**
+**Diagrama de secuencia de la historia 6.**
 
 ```mermaid
 sequenceDiagram
@@ -1144,9 +1140,23 @@ flowchart LR
 
 En esta sección se presenta y explica el Deployment Diagram, el cual ilustra cómo los contenedores de software descritos anteriormente se mapean a la infraestructura de nube para su ejecución en producción.
 
-![Software Architecture Deployment Diagram](../assets/img/cap04/deployment-diagram.png)
+```mermaid
+flowchart LR
+  WEB["Navegador"] --> VERCEL["Vercel · Landing y aplicación web"]
+  WEB -->|HTTPS| GW
+  ANDROID["Aplicación Android"] -->|HTTPS| GW
+  subgraph AZ["Azure Container Apps · arquitectura objetivo"]
+    GW["Spring Cloud Gateway"] --> MS["Microservicios Spring Boot"]
+    MS <--> MQ["RabbitMQ"]
+  end
+  MS --> PG["Azure Database for PostgreSQL"]
+  MS --> REDIS["Redis Cloud"]
+  MS -->|AI Agent| GEMINI["Gemini API"]
+  MS -->|Communications| FCM["Firebase Cloud Messaging"]
+  FCM --> ANDROID
+```
 
 **Explicación del diagrama:**
 Por el lado del cliente, la aplicación móvil de Kotlin se ejecuta en los dispositivos Android de los usuarios (versión 8.0 o superior), mientras que la aplicación web (Vue.js) y el sitio estático (Astro.js) se publican en Vercel y se ejecutan en el navegador.
 
-El backend se aloja en **Microsoft Azure**, en un entorno de **Azure Container Apps**. Las peticiones entrantes llegan a Spring Cloud Gateway, que es el único contenedor con acceso desde internet y enruta el tráfico hacia los nueve microservicios Spring Boot, que corren como contenedores en una red interna. En el mismo entorno se despliega RabbitMQ para los eventos entre servicios. Los datos se guardan en un servidor gestionado de PostgreSQL, representado como **Azure Database for PostgreSQL**, que aloja una base de datos separada para cada microservicio; el proveedor definitivo se confirmará con la Spike Story SS 001, que compara opciones con plan gratuito. La caché de analíticas y los códigos temporales se guardan en **Redis Cloud** mediante conexiones cifradas con TLS. Fuera de Azure, el servicio AI Agent se conecta a **Gemini API** (Google AI Studio) con una clave guardada como secreto, y Communications envía las notificaciones push a través de Firebase Cloud Messaging. En local, el mismo conjunto se levanta con Docker Compose.
+El despliegue objetivo del backend se plantea en **Microsoft Azure**, en un entorno de **Azure Container Apps**. Las peticiones entrantes llegan a Spring Cloud Gateway, que es el único contenedor con acceso desde internet y enruta el tráfico hacia los nueve microservicios Spring Boot, que corren como contenedores en una red interna. En el mismo entorno se despliega RabbitMQ para los eventos entre servicios. Los datos se guardan en un servidor gestionado de PostgreSQL, representado como **Azure Database for PostgreSQL**, que aloja una base de datos separada para cada microservicio; el proveedor definitivo se confirmará con la Spike Story SS 001, que compara opciones con plan gratuito. La caché de analíticas y los códigos temporales se guardan en **Redis Cloud** mediante conexiones cifradas con TLS. Fuera de Azure, el servicio AI Agent se conecta a **Gemini API** (Google AI Studio) con una clave guardada como secreto, y Communications envía las notificaciones push a través de Firebase Cloud Messaging. La PoC local usa Docker Compose y ejecuta un subconjunto de estos servicios, según la sección 7.2.
