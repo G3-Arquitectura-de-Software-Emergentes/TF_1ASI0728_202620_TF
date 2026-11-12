@@ -1,5 +1,194 @@
 # Capítulo VII: Product Implementation, Validation & Deployment
 
+En este capítulo se documenta la implementación de Intiva: la configuración del entorno de trabajo, la gestión del código fuente, las convenciones de estilo y el despliegue de los productos (landing page, aplicación móvil, aplicación web y microservicios), así como el avance de cada sprint y la validación con usuarios.
+
+## 7.1. Software Configuration Management
+
+En esta sección se definen las herramientas, prácticas y convenciones que usará el equipo de Balanza durante el desarrollo de Intiva. El objetivo es que los cuatro integrantes trabajen con el mismo entorno, sigan las mismas reglas al escribir y versionar el código, y desplieguen cada producto de forma ordenada.
+
+### 7.1.1. Software Development Environment Configuration
+
+**Project Management**
+
+- **GitHub:** es la plataforma central del proyecto. Además de alojar el código, el informe se redacta en archivos Markdown dentro de un repositorio, de modo que cada integrante agrega sus avances en una rama y los integra mediante *pull requests*.
+- **Discord y Google Meet:** se usarán para las reuniones del equipo, en las que se revisan los avances, se toman decisiones sobre el proyecto y se reparten las tareas de cada sprint.
+- **WhatsApp:** se usará para coordinar tareas del día a día, avisar de cambios en el repositorio y recordar las fechas de entrega.
+
+**Requirements Management**
+
+- **Trello:** se usará para gestionar el Product Backlog y el Sprint Backlog. Cada tarjeta corresponde a una historia de usuario o tarea técnica, tiene un responsable y avanza por las columnas To-do, In-Process, To-Review y Done.
+
+**Product UX/UI Design**
+
+- **Miro:** se usó para las sesiones de EventStorming, el descubrimiento de bounded contexts y los mapas As-Is de los User Personas.
+- **Figma:** se usa para diseñar de forma colaborativa la guía de estilo, los wireframes, los mock-ups, los user flows y el prototipo de la aplicación móvil, la aplicación web y la landing page.
+
+**Software Development**
+
+- **Java y Spring Boot en IntelliJ IDEA:** los microservicios se desarrollarán con Java 21 (LTS) y Spring Boot, junto con Spring Web, Spring Data JPA, Spring Security, JWT y Lombok (C-01). Habrá un microservicio por bounded context. Se escogió IntelliJ IDEA porque integra Maven, la depuración y la refactorización del código.
+- **Spring AI y Gemini API (Google AI Studio):** el agente financiero será un microservicio propio, construido con Spring AI para mantenerse dentro del mismo stack de Java. Usará el modelo Gemini mediante su API, cuya clave se genera en Google AI Studio y se guarda como variable de entorno, nunca en el código. Con *tool calling*, el agente no se limita a conversar: consulta los datos del usuario a través de las APIs de los otros microservicios y prepara acciones concretas, como un límite de gasto, que solo se guardan cuando el usuario las aprueba.
+- **Kotlin y Jetpack Compose en Android Studio:** la aplicación móvil será nativa para Android 8.0 o superior. Usará Jetpack Compose para la interfaz, Compose Navigation, Hilt para la inyección de dependencias, Retrofit para consumir la API y Room para la persistencia local (C-03). Se usará Android Studio por su emulador y sus herramientas de inspección de interfaces.
+- **Vue en Visual Studio Code:** la aplicación web se desarrollará con Vue y Vite, PrimeVue como librería de componentes, Pinia para el manejo de estado, Axios para las peticiones HTTP y Vue-i18n para el cambio de idioma (C-02). Se usará pnpm como gestor de paquetes.
+- **Astro en Visual Studio Code:** la landing page se construirá con Astro y Tailwind CSS, lo que permite generar un sitio estático, rápido y disponible en español e inglés (C-04).
+
+**Bases de datos y caché**
+
+- **PostgreSQL y pgAdmin 4:** cada microservicio tendrá su propia base de datos dentro de un mismo servidor PostgreSQL, y ninguno podrá consultar la base de datos de otro. pgAdmin 4 se usará para administrar y consultar las tablas durante el desarrollo.
+- **Redis:** se usará como caché en memoria para las métricas del panel y los códigos temporales de recuperación (TS 014).
+- **Room (SQLite):** almacenará en el celular los datos que la aplicación móvil necesita sin conexión.
+
+**Microservicios y comunicación entre servicios**
+
+- **Spring Cloud Gateway:** será el API Gateway, el único punto de entrada para la aplicación móvil y la aplicación web. Enrutará cada petición al microservicio correspondiente según su ruta (`/api/v1/{recurso}`), sin exponer directamente los servicios internos. Se escogió porque es parte del ecosistema Spring y se configura igual que el resto de microservicios.
+- **RabbitMQ:** será el message broker para la comunicación asíncrona. Cuando un servicio necesita una respuesta para continuar, llama por REST a otro servicio; cuando solo avisa que algo pasó (por ejemplo, que se registró un gasto), publica un evento en RabbitMQ y los servicios interesados lo procesan después.
+- **Docker y Docker Compose:** cada microservicio se empaquetará en una imagen Docker. Con Docker Compose el equipo levantará en local los servicios, el gateway, PostgreSQL, Redis y RabbitMQ con un solo comando, en una red interna.
+- No se usará un servidor de descubrimiento de servicios como Eureka, porque la red interna de Docker en local y Azure Container Apps en la nube ya resuelven los servicios por su nombre.
+
+**Software Documentation**
+
+- **Markdown en GitHub:** formato del informe del proyecto y de los archivos README y CONTRIBUTING de cada repositorio.
+- **Structurizr:** se usa para elaborar los diagramas C4 de contexto, contenedores, componentes y despliegue.
+- **Swagger UI (OpenAPI):** cada microservicio expondrá la documentación de sus endpoints REST con springdoc-openapi, que también permite probarlos desde el navegador.
+- **OBS Studio y OneDrive:** OBS Studio se usará para grabar las entrevistas de validación y los videos del producto, y OneDrive para alojar esos videos y compartir sus enlaces en el informe.
+
+**Software Testing**
+
+- **JUnit 5 y Mockito:** se usarán para las pruebas unitarias de las entidades, los servicios de dominio y los servicios de aplicación de cada microservicio.
+- **Spring Boot Test:** permitirá las pruebas de integración de los controladores y los repositorios.
+- **Gherkin:** los criterios de aceptación de las historias de usuario se escribirán como escenarios Dado / Cuando / Entonces, tal como se definieron en el Capítulo III.
+- **Postman:** se usará para probar manualmente los endpoints a través del API Gateway, con colecciones compartidas por el equipo.
+
+### 7.1.2. Source Code Management
+
+Para el control de versiones se usará Git, y GitHub como plataforma de alojamiento de los repositorios. Todos los repositorios estarán dentro de la organización del equipo, de modo que cada integrante tenga acceso a ellos y los cambios se revisen mediante *pull requests* antes de integrarse.
+
+**Repositorios**
+
+Los nombres de los repositorios seguirán el formato usado en la versión anterior de Intiva (`intiva-landing-page`, `intiva-web-application`, `intiva-mobile-application` e `intiva-api-platform`). Todo el backend estará en un solo repositorio, con una carpeta por microservicio, además del API Gateway y la configuración de Docker Compose. Así, el equipo puede levantar todos los servicios juntos y revisar en un mismo *pull request* los cambios que afectan a más de uno.
+
+- Organización en GitHub: https://github.com/G3-Arquitectura-de-Software-Emergentes
+- Informe del proyecto: https://github.com/G3-Arquitectura-de-Software-Emergentes/TF_1ASI0728_202620_TF
+
+<!-- POR CONFIRMAR: nombres finales y enlaces de los repositorios cuando se creen. -->
+
+| Repositorio | Contenido | Enlace |
+| --- | --- | --- |
+| Landing page | Sitio estático en Astro | Pendiente |
+| Aplicación web | Aplicación Vue | Pendiente |
+| Aplicación móvil | Aplicación Android en Kotlin | Pendiente |
+| Backend | Microservicios en Spring Boot (una carpeta por servicio), Spring Cloud Gateway y Docker Compose | Pendiente |
+
+**Estrategia de ramas: GitFlow**
+
+Se seguirá el modelo GitFlow, propuesto por Vincent Driessen (https://nvie.com/posts/a-successful-git-branching-model/), porque separa el trabajo en curso de las versiones estables y permite que varios integrantes desarrollen funcionalidades al mismo tiempo sin afectar lo que ya está publicado.
+
+- **main:** contiene solo versiones estables, listas para desplegarse. Cada integración a esta rama se marca con una etiqueta de versión.
+- **develop:** rama de integración. Aquí se juntan las funcionalidades terminadas antes de preparar una nueva versión.
+- **feature/\*:** parten de develop y contienen una sola funcionalidad. Se nombran en inglés y en *kebab-case*, según la funcionalidad o el microservicio. Por ejemplo: `feature/ai-monthly-plan`, `feature/household-invitations`. Al terminar, se integran a develop mediante un *pull request* revisado por otro integrante.
+- **release/\*:** parten de develop cuando se prepara una nueva versión. En ellas solo se corrigen detalles menores y se actualiza el número de versión antes de integrarla a main y a develop. Por ejemplo: `release/1.0.0`.
+- **hotfix/\*:** parten de main para corregir un error urgente en producción y se integran tanto a main como a develop. Por ejemplo: `hotfix/1.0.1`.
+
+**Versionado semántico**
+
+Para numerar las versiones se usará Semantic Versioning 2.0.0 (https://semver.org/), con el formato `MAJOR.MINOR.PATCH`:
+
+- **MAJOR:** cambios incompatibles con la versión anterior, por ejemplo, un cambio en un contrato de la API que obliga a actualizar los clientes.
+- **MINOR:** nuevas funcionalidades compatibles con la versión anterior.
+- **PATCH:** corrección de errores sin afectar la compatibilidad.
+
+Cada versión publicada en main se marcará con una etiqueta de Git, por ejemplo `v1.0.0`.
+
+**Convenciones para los mensajes de commit**
+
+Los mensajes de commit seguirán la especificación Conventional Commits (https://www.conventionalcommits.org/en/v1.0.0/), con el formato `type(scope): description`. Se escribirán en inglés, en tiempo presente y en modo imperativo, y el *scope* indicará el microservicio o módulo afectado. Los tipos que se usarán son:
+
+- **feat:** nueva funcionalidad.
+- **fix:** corrección de un error.
+- **docs:** cambios en la documentación.
+- **refactor:** reestructuración del código sin cambiar su comportamiento.
+- **test:** creación o actualización de pruebas.
+- **chore:** cambios en la configuración, las dependencias o el proceso de construcción.
+
+Ejemplos:
+
+```
+feat(agent): add tool to propose a spending limit
+fix(household): validate member role before sending an invitation
+docs(7.1): add software configuration management section
+```
+
+### 7.1.3. Source Code Style Guide & Conventions
+
+En esta sección se presentan las convenciones de estilo que seguirá el equipo en cada lenguaje del proyecto, para que el código sea consistente y fácil de leer sin importar quién lo haya escrito.
+
+**Convenciones generales**
+
+- Todo el código (clases, variables, archivos, endpoints y ramas) se escribe en inglés. Los textos que ve el usuario están en español e inglés mediante archivos de traducción.
+- Los nombres deben describir lo que hacen; se evitan las abreviaturas poco claras.
+- Las claves, contraseñas y URLs de los servicios no se escriben en el código. Se manejan con variables de entorno, y cada repositorio incluye un archivo `.env.example` con los nombres de las variables necesarias, sin sus valores.
+
+**Backend: Java y Spring Boot**
+
+- Se sigue el Google Java Style Guide (https://google.github.io/styleguide/javaguide.html).
+- Clases e interfaces en *PascalCase*; métodos y variables en *camelCase*; constantes en *UPPER_SNAKE_CASE*; paquetes en minúscula.
+- Las carpetas de los microservicios se nombran en *kebab-case* con el sufijo `-service`, por ejemplo `finances-service` o `agent-service`.
+- Cada microservicio organiza sus paquetes según las capas definidas en AD-02: `domain.model`, `domain.services`, `application.internal`, `infrastructure` e `interfaces.rest`.
+- Las clases llevan un sufijo según su función. Por ejemplo: `TransactionsController`, `TransactionCommandService`, `TransactionQueryService`, `TransactionRepository`, `CreateTransactionCommand` y `TransactionResource`.
+- Los endpoints REST siguen el patrón `/api/v1/{recurso}`, con sustantivos en plural, en minúscula y en *kebab-case* (C-05). Por ejemplo: `/api/v1/savings-goals`.
+- Los eventos que se publican en RabbitMQ se nombran en pasado y en *PascalCase*, como `TransactionRegistered` o `MonthlyPlanApproved`.
+
+**Aplicación móvil: Kotlin y Jetpack Compose**
+
+- Se siguen las Kotlin Coding Conventions (https://kotlinlang.org/docs/coding-conventions.html) y la guía de estilo de Kotlin para Android (https://developer.android.com/kotlin/style-guide).
+- Las funciones `@Composable` que dibujan interfaz se nombran en *PascalCase* como sustantivos, por ejemplo `TransactionCard` o `HomeScreen`, según las Compose API Guidelines (https://github.com/androidx/androidx/blob/androidx-main/compose/docs/compose-api-guidelines.md).
+- El código se organiza por funcionalidad (por ejemplo, `transactions`, `savings`, `household`), y dentro de cada una se separan las capas de datos, dominio y presentación.
+- Los ViewModels terminan en `ViewModel` y los repositorios en `Repository`.
+
+**Aplicación web: Vue y JavaScript**
+
+- Se sigue la guía de estilo oficial de Vue (https://vuejs.org/style-guide/), con sus reglas esenciales y fuertemente recomendadas.
+- Los componentes se nombran en *PascalCase* y con más de una palabra, por ejemplo `ExpenseChart.vue` o `ReportFilters.vue`.
+- Los *composables* empiezan con `use` (por ejemplo, `useReports`) y los stores de Pinia siguen el patrón `useXStore` (por ejemplo, `useAuthStore`).
+- Variables y funciones en *camelCase*; carpetas y archivos que no son componentes en *kebab-case*.
+
+**Landing page: Astro, HTML y CSS**
+
+- Para el marcado y los estilos se sigue el Google HTML/CSS Style Guide (https://google.github.io/styleguide/htmlcssguide.html).
+- Los componentes de Astro se nombran en *PascalCase* (por ejemplo, `HeroSection.astro`) y las páginas en *kebab-case*.
+- Los estilos se escriben con las clases utilitarias de Tailwind CSS, y los textos de cada idioma se guardan en archivos de traducción separados.
+
+**Pruebas de aceptación: Gherkin**
+
+- Se siguen las convenciones de la referencia oficial de Gherkin (https://cucumber.io/docs/gherkin/reference/).
+- Cada historia de usuario tiene un archivo `.feature` con sus escenarios, redactados desde el punto de vista del usuario y con la estructura Dado (*Given*), Cuando (*When*) y Entonces (*Then*), igual que en el Capítulo III.
+
+### 7.1.4. Software Deployment Configuration
+
+Para desplegar Intiva se usarán servicios en la nube que publican cada producto a partir de su repositorio en GitHub. Así, cada versión estable queda disponible para los usuarios sin que el equipo tenga que configurar servidores manualmente para cada cambio.
+
+**Herramientas**
+
+- **Landing page: Vercel.** Vercel se conecta al repositorio de la landing, construye el sitio de Astro y publica una nueva versión cada vez que se integra un cambio en main. También genera una vista previa por cada *pull request*, lo que permite revisar los cambios antes de publicarlos.
+- **Aplicación web: Vercel.** La aplicación Vue se publicará del mismo modo, con la URL del API Gateway configurada como variable de entorno del proyecto.
+- **Aplicación móvil: Firebase App Distribution.** Un flujo de GitHub Actions compilará y firmará el APK cada vez que se suba una rama `release/*` y lo enviará a Firebase App Distribution, desde donde los integrantes y los usuarios de prueba podrán instalarlo (TS 021).
+- **Microservicios: Azure Container Apps.** Cada microservicio y el API Gateway se desplegarán como contenedores en Azure Container Apps (TS 020). Este servicio ejecuta las imágenes Docker, resuelve los nombres de los servicios en su red interna y permite que solo el gateway quede expuesto a internet.
+- **Base de datos: Azure Database for PostgreSQL.** Un servidor gestionado alojará la base de datos de cada microservicio.
+- **Caché: Redis Cloud.** Se mantiene como servicio gestionado para la caché (TS 022).
+- **Proveedor de IA: Gemini API.** No requiere despliegue propio. El microservicio del agente se conecta a la API con su clave, guardada como secreto en Azure.
+
+**Prueba de concepto local**
+
+Antes del despliegue en Azure, la prueba de concepto se levantará en local con Docker Compose. En esta etapa se implementarán tres microservicios completos: el agente de IA, Finances y Communications, junto con Spring Cloud Gateway, PostgreSQL y RabbitMQ. Con ellos se demuestra el recorrido principal: el agente propone un límite de gasto, el usuario lo aprueba, Finances lo guarda y Communications recibe el evento para notificarlo.
+
+**Flujo de despliegue**
+
+1. El integrante termina su funcionalidad en una rama `feature/*` y abre un *pull request* hacia develop, que otro integrante revisa antes de integrarlo.
+2. Al preparar una versión, se crea una rama `release/x.y.z`, se verifica su funcionamiento y se integra a main con su etiqueta de versión.
+3. Vercel detecta el cambio en main y publica automáticamente la landing page y la aplicación web.
+4. Al subir la rama `release/*` de la aplicación móvil, GitHub Actions genera el APK y lo distribuye mediante Firebase App Distribution.
+5. Se construyen las imágenes Docker de los microservicios y del API Gateway, y se despliegan en Azure Container Apps con sus variables de entorno (conexión a Azure Database for PostgreSQL, Redis, RabbitMQ y clave de la Gemini API).
+6. Los clientes (aplicación móvil y aplicación web) se comunican con los servicios únicamente mediante HTTPS a través del API Gateway.
+
 ## 7.3. Validation Interviews
 
 La validación busca comprobar si los dos segmentos entienden la propuesta de Intiva en la landing y pueden usar la aplicación para registrar un gasto, revisar una recomendación y preparar un plan mensual. Esta ronda incluye **dos entrevistas: una por segmento**. Se usará la versión disponible y se indicará si se prueba una aplicación desplegada o un prototipo.
