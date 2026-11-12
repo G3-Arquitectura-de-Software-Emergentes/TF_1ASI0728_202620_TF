@@ -1,10 +1,10 @@
-## Capítulo 2: Requirements Elicitation & Analysis
+# Capítulo II: Requirements Elicitation & Analysis
 
-### 2.1. Competidores
+## 2.1. Competidores
 
 La comparación combina características publicadas por los productos y apreciaciones del equipo sobre la propuesta de Intiva. Las fortalezas, debilidades y oportunidades son hipótesis de posicionamiento, no resultados de pruebas con los competidores. Se consultaron las páginas de [Fintonic](https://www.fintonic.com/es-ES/inicio/), [Monefy](https://www.monefy.com/) y [Plum](https://withplum.com/); la disponibilidad de funciones y planes puede variar por país y versión.
 
-#### 2.1.1. Análisis competitivo
+### 2.1.1. Análisis competitivo
 
 Se comparan las funciones y el posicionamiento de Intiva con Fintonic, Monefy y Plum para orientar la propuesta de valor.
 
@@ -16,10 +16,10 @@ Este análisis se realiza con el objetivo de identificar la posición de Intiva 
 |---|---|---|---|---|
 | **Logo** | ![Intiva](https://i.imgur.com/qxprsQB.png) | ![Fintonic](https://i.imgur.com/q6Yw3aj.png) | ![Monefy](https://i.imgur.com/L29Tx7I.png) | ![Plum](https://i.imgur.com/2T8TBNm.png) |
 | **Overview** | Plataforma tecnológica orientada a la gestión de ingresos, gastos y ahorro personal, que permite visualizar patrones de gasto recurrentes. | Plataforma de finanzas personales que centraliza el dinero del usuario, analiza hábitos financieros y da acceso a servicios financieros. | Aplicación de finanzas enfocada en el registro simple y rápido de gastos personales. | Aplicación financiera que ofrece ahorro automatizado e inversión para apoyar la gestión del dinero. |
-| **Ventaja competitiva** (¿qué valor ofrece al cliente?) | Herramienta digital intuitiva que ayuda a mejorar el manejo de ingresos y gastos, fortaleciendo la toma de decisiones para alcanzar estabilidad económica. | Integra el análisis financiero con acceso a productos financieros, ampliando la funcionalidad más allá del control de gastos. | Destaca por su facilidad de uso, permitiendo un registro rápido del gasto diario. | Automatiza pequeñas transferencias de ahorro según la capacidad del usuario y ofrece opciones sencillas de inversión desde una interfaz simple y segura. |
+| **Ventaja competitiva** (¿qué valor ofrece al cliente?) | Herramienta digital intuitiva que ayuda a mejorar el manejo de ingresos y gastos, fortaleciendo la toma de decisiones para alcanzar estabilidad económica. Incorpora IA para sugerir categorías y proponer un plan mensual que el usuario revisa y aprueba. | Integra el análisis financiero con acceso a productos financieros, ampliando la funcionalidad más allá del control de gastos. | Destaca por su facilidad de uso, permitiendo un registro rápido del gasto diario. | Automatiza pequeñas transferencias de ahorro según la capacidad del usuario y ofrece opciones sencillas de inversión desde una interfaz simple y segura. |
 | **Perfil de mercado objetivo** | Personas que buscan mejorar su manejo de gastos y planificación del ahorro a futuro, especialmente jóvenes con responsabilidades económicas que necesitan organizar mejor sus recursos. | Usuarios que desean una visión completa de sus finanzas y acceso a servicios financieros. | Usuarios que buscan una solución sencilla para el control diario de gastos. | Usuarios que buscan automatizar el ahorro y comenzar a invertir de forma sencilla. |
 | **Estrategias de marketing** | Basada en educación financiera y comunicación digital, posicionando la solución como accesible, práctica y enfocada en el bienestar económico del usuario. | Prioriza el marketing digital y la promoción de sus beneficios financieros y servicios asociados. | Centra su estrategia en la simplicidad y facilidad de uso del producto. | Comunica el ahorro automatizado y las opciones de inversión. |
-| **Perfil de producto y servicios** | Solución digital para el seguimiento de gastos e ingresos, elaboración de presupuestos y apoyo en la definición de metas financieras personales. | Ofrece control financiero, análisis de gastos y acceso a productos financieros como préstamos y seguros. | Ofrece registro de gastos, categorización básica y visualización simple del flujo de dinero. | Ofrece ahorro automatizado y opciones de inversión, según el país y el plan. |
+| **Perfil de producto y servicios** | Solución digital para el seguimiento de gastos e ingresos, elaboración de presupuestos y apoyo en la definición de metas financieras personales. Incluye sugerencia de categorías, asistente financiero y plan mensual con IA. | Ofrece control financiero, análisis de gastos y acceso a productos financieros como préstamos y seguros. | Ofrece registro de gastos, categorización básica y visualización simple del flujo de dinero. | Ofrece ahorro automatizado y opciones de inversión, según el país y el plan. |
 | **Precios y costos** | Modelo propuesto con plan gratuito y suscripción premium; no se incluyen préstamos ni intermediación financiera. | Modelo freemium basado en servicios financieros, con funcionalidades básicas gratuitas. | Modelo freemium, con funciones adicionales en planes premium. | Modelo freemium, con funciones adicionales en planes premium. |
 | **Canales de distribución** | Landing, aplicación web y aplicación móvil Android previstas. | Sitio web y aplicación móvil. | Aplicación móvil para Android e iOS. | Sitio web informativo y aplicación móvil. |
 | **Fortalezas** | Se caracteriza por su enfoque educativo, además de fácil accesibilidad y facilidad de uso. | Cuenta con integración de servicios financieros y análisis avanzado. | Destaca por su simplicidad y rapidez de uso. | Combina ahorro automatizado y opciones de inversión. |
@@ -27,7 +27,7 @@ Este análisis se realiza con el objetivo de identificar la posición de Intiva 
 | **Oportunidades** | Existe una alta demanda de educación financiera y de uso de aplicaciones digitales. | Puede expandir su base de usuarios mediante servicios financieros. | Puede captar usuarios que buscan simplicidad. | Puede crecer entre usuarios que buscan automatizar el ahorro e iniciarse en la inversión. |
 | **Amenazas** | Enfrenta competencia de aplicaciones consolidadas y hábitos financieros deficientes en los usuarios. | Enfrenta competencia de aplicaciones más simples y educativas. | Puede ser desplazada por soluciones más completas. | Compite con aplicaciones que ofrecen automatización financiera más avanzada. |
 
-#### 2.1.2. Estrategias y tácticas frente a competidores
+### 2.1.2. Estrategias y tácticas frente a competidores
 
 El análisis FODA orienta la propuesta de Intiva hacia el control de gastos, las metas de ahorro y la colaboración familiar. Las siguientes estrategias describen decisiones de posicionamiento que deberán evaluarse con usuarios.
 
@@ -49,9 +49,17 @@ A continuación, se detallan las estrategias y tácticas diseñadas para respond
 
 *Contexto:* La principal amenaza identificada es el dominio de aplicaciones con presupuestos de marketing consolidados. Sin embargo, la creciente necesidad de alfabetización financiera en el entorno local representa una oportunidad estratégica para el proyecto.
 
-### 2.2. Entrevistas
+*Táctica:* Ejecución de alianzas estratégicas locales. Para superar el bajo posicionamiento inicial como startup, se buscará colaborar con instituciones educativas o comunidades universitarias, con el objetivo de posicionar a Intiva como la herramienta estándar de apoyo financiero para estudiantes, convirtiendo así la competencia masiva en un dominio de nicho específico y controlado.
 
-#### 2.2.1. Diseño de entrevistas
+**4. Estrategia de diferenciación por planificación asistida con IA**
+
+*Contexto:* Los competidores analizados registran o automatizan movimientos, pero ninguno propone un plan para el mes siguiente que el usuario pueda revisar antes de aplicarlo. Las entrevistas muestran que el registro manual resulta tedioso y que los usuarios quieren anticiparse a los gastos.
+
+*Táctica:* Ofrecer a toda persona que inicie sesión la sugerencia de categoría al registrar un gasto y un plan mensual propuesto por un agente de IA, que el usuario edita y aprueba. Los límites del plan solo se aplican tras la aprobación, y el asistente de chat solo recomienda. Estas funciones corresponden a EP 010 y EP 011.
+
+## 2.2. Entrevistas
+
+### 2.2.1. Diseño de entrevistas
 
 A continuación, se presentan las preguntas elegidas para entrevistar a las personas que pertenecen a los segmentos objetivo definidos:
 
@@ -104,9 +112,8 @@ A continuación, se presentan las preguntas elegidas para entrevistar a las pers
 9. ¿Cómo ayudas a otros miembros de tu familia a gestionar sus gastos?
 10. ¿Cuánta facilidad le encuentras al momento de separar dinero para diferentes categorías de gastos (comida, transporte, ocio, etc.)?
 
-*Táctica:* Ejecución de alianzas estratégicas locales. Para superar el bajo posicionamiento inicial como startup, se buscará colaborar con instituciones educativas o comunidades universitarias, con el objetivo de posicionar a Intiva como la herramienta estándar de apoyo financiero para estudiantes, convirtiendo así la competencia masiva en un dominio de nicho específico y controlado.
 
-#### 2.2.2. Registro de entrevistas
+### 2.2.2. Registro de entrevistas
 
 En esta sección se registra cada entrevista realizada. En total, se realizaron tres entrevistas por cada segmento objetivo. Se detalla el nombre del entrevistador y del entrevistado, además de un resumen general del contenido de cada entrevista.
 
@@ -162,7 +169,7 @@ En esta sección se registra cada entrevista realizada. En total, se realizaron 
 | **Link:** [Ver entrevista](https://upcedupe-my.sharepoint.com/:v:/g/personal/u202319950_upc_edu_pe/IQDnib8xHM57SIOoY3zScJBIAZjdqr-l7sqdPl7n1LU4y4I?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D&e=K7gQMe) | **Entrevistador:** Didier Sebastian Meza Solórzano |
 | **Timing:** Duración no consignada en el registro | **Resumen:** Diego accede a contenido mediante su celular, usando principalmente uno de la marca Xiaomi. La aplicación que más usa es WhatsApp para comunicarse con su familia, mientras que el navegador que utiliza es Google Chrome.<br><br>Actualmente es padre de un bebé recién nacido, por lo que gestiona el presupuesto destinado a su hijo, el alquiler y los alimentos para poder progresar. Anota sus gastos en la aplicación de notas por defecto de su celular; sin embargo, presenta dificultades al momento de ahorrar, ya que suele usar ese dinero para cubrir gastos imprevistos relacionados con su hijo.<br><br>Diego menciona que una de las cosas que más valora es que la aplicación sea fácil e intuitiva de usar, ya que esto le ayudaría a gestionar y priorizar qué gastos son más importantes que otros.<br><br>Además, tiende a olvidar con frecuencia fechas importantes de sus pagos, por lo que le gustaría ser notificado sobre pagos pendientes o próximos a vencer, para poder cumplir con ellos a tiempo.<br><br>Por último, suele revisar sus gastos semanalmente y menciona que le resulta tedioso tener que ingresar manualmente cada uno de ellos, por lo que le gustaría que este proceso fuera automático. |
 
-#### 2.2.3. Análisis de entrevistas
+### 2.2.3. Análisis de entrevistas
 
 El registro incluye seis entrevistas, tres por segmento. Sus resultados se usan para identificar necesidades y orientar el diseño; no permiten estimar la frecuencia de esas necesidades en la población. Los gráficos heredados no incluyen la matriz de respuestas ni la base de cálculo de cada porcentaje. Por ello, se conservan como material de referencia y se interpretan cualitativamente, sin tratar sus porcentajes como proporciones de los tres entrevistados. La base de cálculo deberá conciliarse con las respuestas antes de reutilizar las cifras en una conclusión cuantitativa.
 
@@ -265,9 +272,9 @@ A partir de las entrevistas realizadas al segundo segmento, integrado por los re
 - Los entrevistados valoran contar con un presupuesto dividido por distintos sectores de gasto, para tener un control más riguroso de los gastos que deben realizarse.
 
 
-### 2.3. Needfinding
+## 2.3. Needfinding
 
-#### 2.3.1. User Persona
+### 2.3.1. User Personas
 
 En esta sección se presenta la elaboración de un User Persona por cada segmento objetivo identificado. Cada uno reúne información representativa del segmento respectivo, considerando similitudes en datos demográficos, gustos, uso de tecnología, objetivos y dolores. De esta forma, se logra una idea más clara del público al que va dirigida esta propuesta de solución.
 
@@ -287,7 +294,7 @@ Al User Persona representante de este primer segmento se le dio el nombre de Car
 
 Al User Persona representante de este segundo segmento se le dio el nombre de María Palacios, de 40 años, supervisora de ventas. María es una persona trabajadora que siempre busca lo mejor para su familia, por lo que procura gestionar de forma efectiva las finanzas del hogar y ahorrar para gastos futuros imprevistos. Aunque utiliza herramientas tradicionales como hojas de cálculo de Excel o los registros que ofrecen las billeteras digitales o de su banco, estos métodos no le brindan un control total de sus finanzas ni de las de su familia en conjunto. Su principal motivación es simplificar la gestión de las finanzas familiares y contar con un control completo del flujo de dinero, de manera que pueda realizar los pagos a tiempo y conocer el detalle de los gastos del hogar. Busca una solución tecnológica que reduzca el tiempo que le toma gestionar el dinero y que le brinde una visión completa del flujo económico familiar.
 
-#### 2.3.2. User Task Matrix
+### 2.3.2. User Task Matrix
 
 El User Task Matrix de cada User Persona incluye las actividades que más destacan en una situación cotidiana. A cada actividad se le asigna un puntaje según qué tan frecuente es realizada por el User Persona, y otro puntaje según qué tan importante resulta dicha actividad. Gracias a esta herramienta, es posible identificar las actividades que necesitan realizar los usuarios y cómo las llevan a cabo, con el fin de hallar oportunidades de mejora que formarán parte del producto a diseñar.
 
@@ -313,7 +320,7 @@ Se consideran los dos User Personas previamente definidos, representantes de los
 
 Ambos User Personas coinciden en una alta frecuencia e importancia respecto al registro y monitoreo de ingresos y egresos, el control del presupuesto mensual y la visualización de gastos. Carlos Castillo muestra mayor necesidad de apoyo en el registro por categorías y en la gestión de metas de ahorro, dado que son actividades de baja frecuencia pero de alta relevancia para su madurez financiera. María Palacios, por su parte, demanda con mayor urgencia las alertas de vencimiento, las notificaciones del grupo familiar y el seguimiento de pagos pendientes, lo que refleja su rol como responsable económica del hogar. En ambos casos, una herramienta que automatice el registro, centralice la información y ofrezca recordatorios inteligentes reduciría significativamente la carga operativa de gestión financiera.
 
-#### 2.3.3. Empathy Mapping
+### 2.3.3. Empathy Mapping
 
 El Empathy Mapping ayuda a entender de manera más profunda a los User Personas definidos. Con esta herramienta se captura lo que el usuario siente, dice, piensa y hace desde su propia perspectiva. Además, permite identificar dolores y metas que el usuario desea cumplir, información que resulta útil para formar ideas de diseño relevantes para el producto que servirá como solución. Cada mapa de empatía fue diseñado en la aplicación UXPressia.
 
@@ -335,7 +342,7 @@ Carlos es un estudiante universitario de 20 años que gestiona sus finanzas con 
 
 María es una madre de familia de 40 años, con ingresos variables, que administra las finanzas del hogar junto a su esposo usando Excel, Yape y BCP. El mapa evidencia que carga con una preocupación constante por la responsabilidad económica familiar, siente agobio al registrar gastos de varios miembros simultáneamente, y culpa cuando olvida fechas de pago. Observa cómo los gastos recurrentes se acumulan mes a mes, además de plataformas bancarias que ofrecen información parcial pero no integrada. En el día a día, elabora listas en Excel, recolecta comprobantes y dedica un tiempo considerable a conciliar registros de forma manual. Sus principales dolores son el olvido de fechas de vencimiento y el tiempo excesivo que demanda el control manual; sus ganancias esperadas se centran en centralizar ingresos y gastos, contar con recordatorios automáticos y obtener reportes visuales claros.
 
-#### 2.3.5. As-Is Scenario Mapping
+### 2.3.4. As-is Scenario Mapping
 
 En el As-Is Scenario Map se representa el proceso real que viven los usuarios de los segmentos objetivo identificados, previo a la existencia del producto solución. Este mapa ayuda a encontrar puntos clave que suelen convertirse en obstáculos para las metas de los User Persona, y permite generar ideas de solución que se integrarán en el producto a diseñar.
 
@@ -356,3 +363,37 @@ El mapa de Carlos representa un registro manual con información dispersa y difi
 El mapa de María representa la conciliación manual de información del hogar y la revisión de fechas de pago. El equipo identifica oportunidades para centralizar los movimientos compartidos y ofrecer recordatorios. Los pensamientos y emociones corresponden al arquetipo construido para el diseño; la reducción de tiempo y estrés debe comprobarse con usuarios.
 
 De esta forma, se diseñaron ambos mapas As-Is de cada User Persona en la aplicación Miro. El proceso de diseño comenzó con la identificación de las fases o eventos más resaltantes en la experiencia de cada User Persona. Luego, para cada fase, se identificaron las labores que comúnmente realiza cada persona. A continuación, se adoptó la perspectiva de cada usuario para imaginar qué pensamientos surgirían al realizar cada actividad. Finalmente, se identificó el sentimiento asociado a dicho pensamiento y se analizó el porqué de su aparición. Además, se identificaron áreas positivas y negativas para cada persona según su situación.
+
+## 2.4. Ubiquitous Language
+
+El lenguaje ubicuo reúne los términos que el equipo y los usuarios usan con el mismo significado en las entrevistas, los requisitos, el diseño y el código. Los términos en inglés son los nombres que se usan en el modelo de dominio de los capítulos IV y V.
+
+| Término | Término en el modelo | Definición |
+| --- | --- | --- |
+| Persona usuaria | User | Persona registrada en Intiva que gestiona sus finanzas personales y, si pertenece a uno, las de su grupo familiar. |
+| Responsable de la economía familiar | Family Economy Responsible | Integrante que crea y administra el grupo familiar: invita integrantes, asigna roles y define metas o límites familiares. |
+| Integrante | FamilyMember | Persona que pertenece a un grupo familiar con un rol asignado. |
+| Grupo familiar | Family | Conjunto de personas que comparten la gestión de ingresos, gastos y ahorros del hogar. |
+| Invitación | Invitation | Solicitud para unirse a un grupo familiar, enviada por enlace o código QR. Puede aceptarse, rechazarse o expirar. |
+| Titularidad | OwnerType | Indica si un registro es personal (individual) o del grupo familiar. Un gasto personal no se muestra a los demás integrantes. |
+| Transacción | Transaction | Movimiento de dinero registrado por una persona: puede ser un ingreso o un gasto. |
+| Gasto hormiga | — | Gasto pequeño y frecuente que, sumado a lo largo del mes, afecta el presupuesto. |
+| Cuenta financiera | FinancialAccount | Medio de pago con saldo: efectivo, tarjeta de débito, tarjeta de crédito o billetera digital. |
+| Categoría | Category | Clasificación de una transacción, por ejemplo, Comida o Transporte. |
+| Categoría sugerida | CategorySuggestion | Categoría que propone la IA al registrar un gasto. El usuario la acepta o la cambia antes de guardar. |
+| Límite de gasto | SpendingLimit | Monto máximo que se quiere gastar en una categoría o cuenta durante un periodo. Avisa al acercarse o superarse, pero no bloquea el gasto. |
+| Transacción recurrente | RecurringTransaction | Pago o ingreso que se repite con una frecuencia y una fecha de vencimiento, como la luz o el internet. |
+| Recordatorio | — | Aviso que se envía antes de que venza un pago o cuando ya venció. |
+| Meta de ahorro | SavingGoal | Monto que se quiere reunir para un objetivo antes de una fecha límite. Puede ser personal o familiar. |
+| Aporte | GoalContribution | Monto que se suma a una meta de ahorro. |
+| Notificación | Notification | Mensaje dentro de la aplicación o push que informa de un evento: límite, vencimiento, meta o movimiento del grupo. |
+| Resumen analítico | AnalyticsSummary | Totales, gráficos y tendencias de ingresos, gastos y ahorro para un periodo. |
+| Proyección | Projection | Estimación del gasto del próximo mes por categoría, calculada con el historial del usuario. |
+| Riesgo | RiskAmount | Diferencia entre lo proyectado y el límite vigente de una categoría. Por ejemplo, S/ 580 proyectados frente a S/ 500 de límite dan un riesgo de S/ 80. |
+| Plan mensual | MonthlyPlan | Propuesta del agente de IA para el próximo mes, con límites, aportes previstos y recordatorios. |
+| Borrador | PlanVersion (DRAFT) | Versión del plan que el usuario puede editar. Un borrador no cambia límites, metas ni recordatorios. |
+| Aprobación | Approval | Decisión del usuario que autoriza aplicar una versión del plan. Solo después de aprobar se aplican los límites. |
+| Aporte previsto | PlannedContribution | Monto que el plan reserva para una meta. No mueve dinero; el aporte real lo registra el usuario. |
+| Agente de IA | AI Agent | Servicio que usa Gemini para proyectar, explicar riesgos y preparar el plan, y que solo aplica lo que el usuario aprueba. |
+| Asistente financiero | Assistant | Chat del agente que responde consultas y da recomendaciones. Solo recomienda: no registra ni modifica datos. |
+

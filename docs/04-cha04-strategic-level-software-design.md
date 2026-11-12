@@ -6,7 +6,7 @@ El propósito del diseño de Intiva es establecer una arquitectura de software q
 
 La solución busca reemplazar los métodos manuales identificados en la etapa de needfinding (hojas de cálculo en Excel, notas del celular y revisión de billeteras digitales) por una plataforma que registre ingresos y gastos, los clasifique por categorías, controle límites de presupuesto, gestione metas de ahorro y envíe recordatorios automáticos de pagos. Adicionalmente, el diseño debe soportar un modelo colaborativo de grupo familiar que permita compartir información financiera entre miembros, respetando la privacidad de los gastos personales de cada integrante, requisito levantado explícitamente durante las entrevistas.
 
-La plataforma también incorpora IA agéntica. Un agente proyecta los gastos del próximo mes, compara la proyección con los límites y las metas del usuario y le propone un plan con ajustes. El agente puede consultar datos y preparar acciones por su cuenta, pero solo aplica la versión del plan que el usuario revisa y aprueba.
+La plataforma también incorpora IA agéntica. Un agente proyecta los gastos del próximo mes, compara la proyección con los límites y las metas del usuario y le propone un plan con ajustes. El agente puede consultar datos y preparar acciones por su cuenta, pero solo aplica la versión del plan que el usuario revisa y aprueba. Además, sugiere una categoría al registrar un gasto y responde consultas en un chat que solo recomienda, sin registrar ni modificar datos. Estas funciones estarán disponibles para toda persona que inicie sesión; el plan premium se definirá en una etapa posterior.
 ### 4.1.2. Attribute-Driven Design Inputs
 Esta sección contiene las secciones para los tres tipos de input para el proceso de diseño con Attribute-Driven Design.
 #### 4.1.2.1. Primary Functionality (Primary User Stories)
@@ -23,7 +23,8 @@ A continuación se presentan las historias de usuario arquitectónicamente signi
 | EP 008 / US 030 | Recibir recordatorios sobre el vencimiento del pago | Como usuario quiero ser notificado sobre la fecha de pago para no olvidar la fecha de pago. | Dado que el usuario configuró una fecha de pago a un gasto, cuando dicha fecha se encuentra cerca de su vencimiento, entonces se envía una notificación al usuario indicando qué pago está próximo a vencer. | EP 008 |
 | EP 008 / US 029 | Notificación por eventos relacionados a grupos familiares | Como usuario quiero que se me notifique cuando se realice una transacción en mi grupo familiar para estar al tanto de los movimientos que realiza mi familia. | Dado que un usuario pertenece a un grupo, cuando otro integrante realiza una transacción, entonces se le envía una notificación sobre la acción realizada. | EP 008 |
 | EP 009 / US 031 | Visualizar gráficos estadísticos con datos de gastos, ingresos y ahorro | Como responsable de la economía familiar quiero visualizar los ingresos, gastos y ahorros mediante un dashboard y gráficos estadísticos para identificar patrones de gasto y tendencias de ahorro. | Dado que el usuario quiera visualizar sus datos financieros, cuando acceda al dashboard, entonces se muestran gráficos según categoría, cuentas, límites de gasto y metas de ahorro, filtrables por periodo. | EP 009 |
-| EP 004 / US 010 | Realizar pago de suscripción | Como usuario quiero pagar un plan de suscripción para activar sus beneficios en la plataforma. | Dado que el usuario ha seleccionado un plan, cuando se confirma la transacción con el proveedor de pagos, entonces se activa la suscripción junto a sus beneficios correspondientes. | EP 004 |
+| EP 011 / US 032 | Proyectar, revisar y aprobar el plan mensual | Como usuario quiero que el agente de IA me proponga un plan para el próximo mes que yo pueda editar y aprobar para anticipar riesgos y organizar mi presupuesto. | Dado que el usuario revisó la versión vigente del borrador, cuando la aprueba, entonces se aplican los límites y recordatorios del plan, los aportes previstos quedan registrados sin mover dinero y el plan pasa a activo. | EP 011 |
+| EP 010 / US 033 | Sugerencia automática de categoría (IA) | Como usuario quiero que el sistema me sugiera una categoría al registrar un gasto para clasificar mis gastos sin esfuerzo manual. | Dado que el usuario ingresa un gasto, cuando solicita una sugerencia, entonces el sistema propone una categoría de su catálogo, que el usuario acepta o cambia antes de guardar. | EP 010 |
 #### 4.1.2.2. Quality Attribute Scenarios
 En esta sección se detallan los escenarios de atributos de calidad que tienen mayor impacto sobre las decisiones arquitectónicas de Intiva. Estos escenarios derivan directamente de los requisitos no funcionales identificados previamente y representan situaciones clave que el sistema debe ser capaz de manejar con eficacia.
 
@@ -32,25 +33,25 @@ En esta sección se detallan los escenarios de atributos de calidad que tienen m
 | **Usabilidad** | Usuario sin experiencia previa en apps financieras | Intenta registrar un gasto por primera vez | Aplicación móvil (Jetpack Compose) | Producción, uso diario | El sistema guía el registro con terminología intuitiva y campos mínimos | Registro completado en menos de 5 pasos |
 | **Rendimiento** | Usuario | Registra una transacción de ingreso o gasto | API REST de transacciones | Producción bajo condiciones normales | El sistema persiste la operación y actualiza el saldo | Tiempo de respuesta menor a 1.5 s en operaciones de escritura y 2 s en consultas |
 | **Seguridad** | Usuario no autorizado | Intenta acceder con credenciales inválidas o con un token manipulado | Servicio de autenticación (IAM) | Producción | El sistema rechaza el acceso con estado 401 sin exponer detalles internos | 100% de intentos inválidos bloqueados; contraseñas almacenadas con hash BCrypt |
-| **Privacidad** | Integrante de un grupo familiar | Intenta consultar los gastos personales de otro miembro del grupo | Bounded Context de Household Management | Producción, entorno compartido | El sistema restringe la visualización según el rol y la marca de privacidad del registro | 0 accesos no autorizados a gastos marcados como personales |
+| **Privacidad** | Integrante de un grupo familiar | Intenta consultar los gastos personales de otro miembro del grupo | Microservicio Household | Producción, entorno compartido | El sistema restringe la visualización según el rol y la marca de privacidad del registro | 0 accesos no autorizados a gastos marcados como personales |
 | **Disponibilidad** | Usuario | Solicita acceso a su información financiera en cualquier momento | Backend desplegado en Azure | Producción | El sistema responde sin interrupciones del servicio | Uptime mensual no menor al 95% |
-| **Interoperabilidad** | Servicio externo (Firebase Cloud Messaging, Google Play Billing, Cloudinary, Gemini API) | Devuelve un error, un token inválido o no está disponible | Adaptadores de integración de cada microservicio | Producción | El sistema maneja la excepción sin interrumpir el flujo principal de la aplicación | 100% de fallos de terceros manejados sin caída del servicio |
+| **Interoperabilidad** | Servicio externo (Firebase Cloud Messaging, Cloudinary, Google OAuth2, Gemini API) | Devuelve un error, un token inválido o no está disponible | Adaptadores de integración de cada microservicio | Producción | El sistema maneja la excepción sin interrumpir el flujo principal de la aplicación | 100% de fallos de terceros manejados sin caída del servicio |
 | **Disponibilidad** | Microservicio consumidor de eventos (por ejemplo, Communications) | Se detiene mientras otros servicios siguen publicando eventos | Message broker (RabbitMQ) y colas de cada servicio | Producción | Los eventos se conservan en la cola del servicio caído y se procesan cuando vuelve a estar disponible | 0 eventos perdidos; el resto de servicios sigue respondiendo |
 | **Modificabilidad** | Equipo de desarrollo | Necesita añadir un nuevo tipo de cuenta financiera o una nueva categoría de análisis | Microservicios del backend | Desarrollo | El cambio se realiza dentro de un solo microservicio sin afectar a los demás | Modificación localizada en un único microservicio, que se redespliega sin detener a los demás |
-| **Precisión funcional** | Usuario | Registra un gasto cuyo comercio es reconocible | Servicio de sugerencia de categoría (Categories & Financial Accounts) | Producción | El sistema sugiere una categoría junto con un nivel de confianza, permitiendo al usuario corregirla | ≥ 80% de aciertos en comercios frecuentes; el usuario siempre puede corregir la sugerencia |
+| **Precisión funcional** | Usuario | Registra un gasto cuyo comercio es reconocible | Microservicio AI Agent (sugerencia de categoría con Gemini) | Producción | El sistema sugiere una categoría junto con un nivel de confianza, permitiendo al usuario corregirla | ≥ 80% de aciertos en comercios frecuentes; el usuario siempre puede corregir la sugerencia |
 | **Privacidad** | Usuario autenticado | Solicita un análisis con IA | Microservicio AI Agent | Producción | Solo comparte movimientos autorizados y datos mínimos; no envía credenciales | 0 registros de otros grupos expuestos |
 #### 4.1.2.3. Constraints
 En esta sección reunimos aquellas condiciones que no son opcionales y son restricciones establecidas por necesidades propias del negocio y del contexto académico del proyecto, las cuales debemos respetar para asegurar que la solución propuesta sea viable y cumpla con las expectativas. A continuación, se presentan los principales constraints en forma de Technical Stories, sirviendo como guía concreta para el desarrollo del sistema.
 
 | ID | Título | Descripción | Criterios de Aceptación | Relacionado con |
 |---|---|---|---|---|
-| C-01 | Stack tecnológico del backend | El backend debe implementarse con Java 21 (LTS) y Spring Boot, empleando Spring Web, Spring Data JPA, Hibernate, Spring Security y Lombok. | Dado que se requiere estabilidad y soporte a largo plazo, cuando se inicie el desarrollo del backend, entonces el stack debe quedar documentado con sus versiones mínimas requeridas. | TS 005 |
+| C-01 | Stack tecnológico del backend | El backend debe implementarse con Java 21 (LTS) y Spring Boot, empleando Spring Web, Spring Data JPA, Hibernate, Spring Security y Lombok, además de Spring Cloud Gateway para el API Gateway y Spring AI para la integración con Gemini. | Dado que se requiere estabilidad y soporte a largo plazo, cuando se inicie el desarrollo del backend, entonces el stack debe quedar documentado con sus versiones mínimas requeridas. | TS 005, TS 016, TS 024 |
 | C-02 | Stack tecnológico del frontend web | La aplicación web debe desarrollarse en Vue con PrimeVue, Pinia para gestión de estados, Axios para peticiones HTTP y Vue-i18n para internacionalización. | Dado que se define el stack de la aplicación web, cuando se compile el proyecto, entonces la aplicación debe renderizarse correctamente en Chrome, Firefox y Edge en sus versiones actuales. | TS 006 |
 | C-03 | Stack tecnológico de la aplicación móvil | La aplicación móvil debe ser nativa Android en Kotlin, usando Jetpack Compose, Compose Navigation, Retrofit y Hilt. | Dado que el usuario tiene un dispositivo Android, cuando instala la aplicación, entonces esta es compatible con Android 8.0 o superior, cubriendo al segmento objetivo identificado. | TS 007 |
 | C-04 | Stack del sitio web estático | La landing page debe construirse con Astro.js para garantizar generación estática y rendimiento optimizado. | Dado el stack seleccionado, cuando se revisen los requisitos del proyecto, entonces debe cumplir con generación estática (SSG) y rendimiento optimizado. | TS 004 |
 | C-05 | Arquitectura RESTful obligatoria | La comunicación entre los frontends y el backend debe realizarse mediante APIs RESTful propias, con rutas versionadas y nomenclatura consistente. | Dado que se diseña un nuevo endpoint, cuando se define su ruta, entonces sigue el patrón `/api/{versión}/{recurso}` en plural, minúsculas y usando sustantivos. | TS 008 |
-| C-06 | Persistencia y caché | La persistencia principal debe realizarse en PostgreSQL mediante JPA, con una base de datos propia para cada microservicio, Redis desplegado en Redis Cloud para caché y tokens temporales, y Room para persistencia local en la app móvil. | Dado que se requiere reducir tiempos de respuesta en consultas frecuentes, cuando se consulten datos del dashboard, entonces el sistema los obtiene desde Redis sin consultar directamente la base de datos. | TS 014, TS 015, TS 022 |
-| C-07 | Dependencia de servicios externos | La solución depende de Firebase Cloud Messaging para notificaciones push, Google OAuth 2.0 para autenticación federada, Cloudinary para almacenamiento de imágenes, Google Play Billing para suscripciones y Gemini API (Google AI Studio) para las funciones de IA. | Dado que un servicio externo no esté disponible, cuando el sistema intente consumirlo, entonces informa del error sin afectar al resto de funcionalidades de la aplicación. | TS 011, TS 017, TS 018, TS 019, TS 024 |
+| C-06 | Persistencia y caché | La persistencia principal debe realizarse en PostgreSQL mediante JPA, con una base de datos propia para cada microservicio, Redis desplegado en Redis Cloud para caché y tokens temporales, y Room para persistencia local en la app móvil. | Dado que se requiere reducir tiempos de respuesta en consultas frecuentes, cuando se consulten datos del dashboard, entonces el sistema los obtiene desde Redis sin consultar directamente la base de datos. | TS 014, TS 015, TS 022, TS 026 |
+| C-07 | Dependencia de servicios externos | La solución depende de Firebase Cloud Messaging para notificaciones push, Google OAuth 2.0 para autenticación federada, Cloudinary para almacenamiento de imágenes, Gemini API (Google AI Studio) para las funciones de IA y, cuando se implementen las suscripciones en una etapa posterior, Google Play Billing. | Dado que un servicio externo no esté disponible, cuando el sistema intente consumirlo, entonces informa del error sin afectar al resto de funcionalidades de la aplicación. | TS 011, TS 017, TS 018, TS 019, TS 024 |
 | C-08 | Despliegue en la nube con planes gratuitos | Los microservicios deben desplegarse en Microsoft Azure como imágenes Docker (Azure Container Apps), y la infraestructura debe apoyarse en planes gratuitos o de bajo costo, dada la condición de startup sin financiamiento. | Dado que existe una imagen lista para producción de cada microservicio, cuando se despliega en Azure, entonces el servicio queda accesible a través del API Gateway y responde con estado 200 al health check definido. | TS 020 |
 | C-09 | Cifrado de comunicaciones y datos sensibles | Toda comunicación cliente-servidor debe realizarse mediante HTTPS con TLS, y las contraseñas deben almacenarse únicamente como hash. | Dado que un cliente intenta conectarse mediante HTTP, cuando el servidor recibe la solicitud, entonces redirige automáticamente a HTTPS o rechaza la conexión. | TS 001, TS 003 |
 | C-10 | Alcance y plazos académicos | El desarrollo debe ejecutarse por un equipo de estudiantes dentro de los plazos de los hitos TB1, TP1, TB2 y TF1, entregando obligatoriamente landing page, aplicación web, aplicación móvil y APIs propias. | Dado que el proyecto es académico, cuando se planifique cada sprint, entonces el alcance comprometido debe ser alcanzable dentro del hito correspondiente. | — |
@@ -68,7 +69,7 @@ En esta sección identificamos y priorizamos los principales drivers que deben g
 | D-07 | Seguridad de las cuentas y los datos | Proteger credenciales y datos financieros mediante hashing, JWT, HTTPS/TLS y autenticación federada con Google. | High | Medium |
 | D-08 | Multiplataforma (web, móvil y landing) | Soportar tres clientes distintos consumiendo el mismo conjunto de APIs RESTful. | Medium | High |
 | D-09 | Rendimiento en consultas frecuentes | Mantener tiempos de respuesta bajos en el registro de transacciones y en la carga del dashboard mediante caché. | Medium | Medium |
-| D-10 | Monetización freemium | Definir planes gratuito y premium, con validación de suscripciones a través del proveedor de pagos. | Medium | Medium |
+| D-10 | Monetización freemium | Definir planes gratuito y premium, con validación de suscripciones a través del proveedor de pagos. Se posterga a una etapa posterior: por ahora la IA está disponible para toda persona con sesión iniciada. | Low | Medium |
 | D-11 | Metas de ahorro personales y compartidas | Registrar, modificar y hacer seguimiento de metas con aportes individuales y grupales. | Medium | Medium |
 | D-12 | Disponibilidad del servicio | Mantener la plataforma accesible con un uptime mensual no menor al 95% sobre infraestructura en planes gratuitos. | Medium | Low |
 | D-13 | Categorización y asistencia financiera con IA | Sugerir categorías, identificar gastos hormiga y orientar metas, manteniendo la confirmación del usuario. | High | High |
@@ -136,7 +137,7 @@ Evaluamos *use an intermediary* para el desacoplamiento estructural e *introduce
 | D-04 | Alertas y recordatorios automáticos | Permitiría consultar directamente las tablas de notificaciones desde el contexto financiero. | Convierte a Finances en responsable de cómo se persiste una notificación, que es una decisión ajena a su dominio. | Deja explícito que Finances solicita una alerta y que Communications decide cómo entregarla. | Mantiene a Finances esperando el resultado del envío, aunque ese resultado no cambie nada de la operación principal. | Permite que la evaluación de límites y el aviso al grupo ocurran fuera del tiempo de respuesta de la transacción. | Agrega un broker que desplegar y no garantiza el orden de los mensajes. Para no perder eventos se necesita un outbox y consumidores idempotentes. |
 | D-11 | Metas de ahorro personales y compartidas | Facilitaría leer aportes y transacciones desde un mismo lugar. | Impide que la regla de cierre de una meta quede bajo el control del agregado que la representa. | Permite consultar la información de la meta sin exponer su modelo interno al resto del sistema. | Añade un paso de traducción en colaboraciones que son poco frecuentes. | Habilita que el cumplimiento de una meta dispare la felicitación sin que quien registra el aporte deba esperarla. | Dificulta seguir la traza completa de la operación durante la depuración. |
 
-**Decisión adoptada.** Decidimos usar los patrones 2 y 3 juntos y descartar el primero como forma general de comunicación. Las colaboraciones que afectan el resultado de una operación se resuelven de forma síncrona, llamando a la API REST del servicio proveedor mediante un adaptador propio del consumidor. Lo que pasa después se publica como evento en RabbitMQ. La regla que usamos fue: si la colaboración puede cambiar la decisión de aceptar o rechazar la operación, es síncrona; si solo indica algo que debe pasar después, es asíncrona.
+**Decisión adoptada.** Decidimos usar los patrones 2 y 3 juntos y descartar el primero como forma general de comunicación. Las colaboraciones que afectan el resultado de una operación se resuelven de forma síncrona, llamando a la API REST del servicio proveedor mediante un adaptador propio del consumidor. Lo que pasa después se publica como evento en RabbitMQ. La regla que usamos fue: si la colaboración puede cambiar la decisión de aceptar o rechazar la operación, es síncrona; si solo indica algo que debe pasar después, es asíncrona. Dicho de forma corta: REST para consultas y validaciones, y RabbitMQ para avisos. Por ejemplo, la preparación inicial de una persona nueva (categoría, cuenta y perfil por defecto) es un aviso: IAM publica el evento de registro y los servicios interesados lo procesan por su cuenta.
 
 El primer patrón no es solo una mala práctica en esta arquitectura: con una base de datos por servicio (AD-05), ni siquiera es posible. En el backend anterior, Analytics leía directamente los repositorios de Finances y Savings. Ahora arma su propio modelo de lectura a partir de los eventos que publican esos servicios, como se explica en la sección 4.2.5.
 
@@ -145,7 +146,7 @@ El primer patrón no es solo una mala práctica en esta arquitectura: con una ba
 | AD-06 | Resolver toda colaboración síncrona mediante la API REST que publica el servicio proveedor (Open Host Service), consumida a través de un adaptador propio del consumidor (Anti-Corruption Layer). | Hace visible cada dependencia entre servicios y permite cambiar la implementación del proveedor sin propagar el cambio. |
 | AD-07 | Propagar los efectos posteriores a una operación como eventos de integración en RabbitMQ, mediante un exchange de tipo *topic* (`intiva.events`). Cada servicio publica sus eventos con el patrón outbox y los procesa con consumidores idempotentes. | El registro de un gasto no espera el envío de notificaciones. Si un servicio está caído, sus mensajes quedan en la cola hasta que vuelva, y un mensaje repetido no genera efectos duplicados. |
 | AD-08 | Separar comandos y consultas en la capa de aplicación de cada contexto, manteniendo las invariantes dentro del agregado correspondiente. | Sitúa cada regla de negocio junto al elemento que la hace cumplir, lo que localiza los cambios futuros. |
-| AD-09 | Mantener un Shared Kernel acotado como librería versionada (`platform.shared`), con los tipos `Money`, `UserId`, `OwnerTypes`, `PeriodTypes`, `CurrencyCodes` y la clase base de agregados auditables. Los eventos de integración se definen en JSON como Published Language. | Evita que cada servicio construya su propia noción de dinero o de titular, divergencia especialmente riesgosa en un dominio financiero. Como la librería tiene versión, cada servicio puede adoptar un cambio cuando le corresponda. |
+| AD-09 | Mantener un Shared Kernel acotado como librería versionada (`intiva-shared-kernel`), con los tipos `Money`, `UserId`, `OwnerTypes`, `PeriodTypes`, `CurrencyCodes` y la clase base de agregados auditables. Los eventos de integración se definen en JSON como Published Language. | Evita que cada servicio construya su propia noción de dinero o de titular, divergencia especialmente riesgosa en un dominio financiero. Como la librería tiene versión, cada servicio puede adoptar un cambio cuando le corresponda. |
 | AD-10 | Exponer la funcionalidad mediante rutas REST versionadas bajo `/api/v1/{recurso}`, con recursos y ensambladores propios de cada servicio. El API Gateway envía cada ruta al microservicio dueño del recurso. | Da cumplimiento a C-05 y permite que los tres clientes consuman una sola dirección, sin conocer cuántos servicios hay detrás. |
 
 
@@ -207,12 +208,12 @@ La cuarta iteración definió la parte externa del sistema. Faltaba decidir cóm
 | AD-16 | Aislar cada servicio externo tras un adaptador propio en la capa de infraestructura, que traduzca su respuesta y absorba sus fallos. | Impide que la caída de un tercero se propague al dominio, según exige C-07. |
 | AD-17 | Asignar responsabilidades diferenciadas por cliente: la landing comunica la propuesta de valor, la aplicación móvil concentra el registro cotidiano y la aplicación web concentra la analítica. | Alinea cada cliente con la tarea predominante identificada en el User Task Matrix. |
 | AD-18 | Exponer los microservicios detrás de Spring Cloud Gateway como API Gateway. Es el único servicio con acceso desde internet: recibe las peticiones por HTTPS y envía cada ruta al microservicio correspondiente por la red interna. | Cumple C-09 y el objetivo de TS 016 (un punto de entrada frente al backend) sin exponer los puertos de los servicios. Al ser parte del ecosistema Spring, se configura y despliega como un microservicio más. Como Docker en local y Azure Container Apps en la nube resuelven los servicios por su nombre, no se necesita un servidor de descubrimiento como Eureka. |
-| AD-19 | Validar toda suscripción del lado del servidor contra el proveedor de pagos, sin confiar en el resultado que informe el cliente. | Previene la activación fraudulenta de beneficios premium, requisito implícito de D-10 y US 010. |
+| AD-19 | Cuando se implementen las suscripciones (etapa posterior), validar toda compra del lado del servidor contra el proveedor de pagos, sin confiar en el resultado que informe el cliente. | Previene la activación fraudulenta de beneficios premium, requisito implícito de D-10 y US 010. |
 
 
 #### Iteración 5: categorización y asistencia financiera con IA
 
-**Driver considerado:** D-13. El registro inicia con los datos ingresados por el usuario. Categories & Financial Accounts pide una categoría sugerida al microservicio AI Agent, que es el único que se conecta con el modelo de IA. Analytics prepara resúmenes de los movimientos autorizados para que el asistente recomiende ajustes sobre gastos hormiga y metas.
+**Driver considerado:** D-13. El registro inicia con los datos ingresados por el usuario. La aplicación pide la categoría sugerida al microservicio AI Agent a través del API Gateway. AI Agent consulta las categorías del usuario en Categories & Financial Accounts y usa Gemini para escoger una de ellas; es el único servicio que se conecta con el modelo de IA. Para el chat del asistente, AI Agent consulta los resúmenes de Analytics y responde con recomendaciones sobre gastos hormiga y metas, sin registrar ni modificar datos.
 
 | Alternativa | Ventaja | Limitación |
 | --- | --- | --- |
@@ -220,25 +221,27 @@ La cuarta iteración definió la parte externa del sistema. Faltaba decidir cóm
 | Reglas por comercio | Resultados explicables para casos conocidos. | Cobertura limitada a reglas mantenidas por el equipo. |
 | Proveedor de IA mediante adaptador | Permite sugerencias y asistencia contextual. | Requiere validar respuestas, privacidad, costos y disponibilidad. |
 
-**Decisión propuesta:** concentrar la IA en un microservicio propio, AI Agent, que usa la Gemini API de Google AI Studio a través de un adaptador. La precisión y el tiempo de respuesta se validarán durante la implementación.
+**Decisión propuesta:** concentrar la IA en un microservicio propio, AI Agent, que usa la Gemini API de Google AI Studio a través de Spring AI. La precisión y el tiempo de respuesta se validarán durante la implementación.
 
 | ID | Decisión | Fundamento |
 | --- | --- | --- |
 | AD-20 | Ingresar gastos mediante formulario y solicitar ayuda de IA sobre datos autorizados, con registro manual disponible. | Conserva el control de los movimientos y evita depender de acceso a notificaciones del dispositivo. |
-| AD-21 | Encapsular clasificación y asistencia en el microservicio AI Agent, cuyo adaptador valida las respuestas del modelo y restringe los datos que se le envían. | Aísla el proveedor en un solo servicio y evita exponer información de otros grupos. Si se cambia de modelo, solo cambia el adaptador. |
+| AD-21 | Encapsular clasificación, asistencia y planificación en el microservicio AI Agent, que se conecta con Gemini mediante Spring AI. Su adaptador valida las respuestas del modelo y restringe los datos que se le envían. | Aísla el proveedor en un solo servicio y evita exponer información de otros grupos. Si se cambia de modelo, solo cambia el adaptador. |
 | AD-22 | Exigir aceptación o corrección de categorías antes de guardar. Ante fallo, permitir elección manual. | Una sugerencia no modifica saldos ni constituye una decisión del usuario. |
 
 #### Iteración 6: planificación financiera con IA agéntica
 
 **Driver considerado:** D-14. El microservicio AI Agent coordina el plan mensual (US 032). Pide a Analytics la proyección de gastos por categoría, que se calcula con reglas reproducibles a partir del historial, y consulta los límites y metas vigentes en Finances y Savings. Con esa información, Gemini explica el riesgo y arma un borrador con límites, aportes previstos y recordatorios. Por ejemplo, si la proyección en Comida es S/ 580 y el límite es S/ 500, el agente muestra un riesgo de S/ 80 y propone cómo ajustarlo.
 
-Esto es lo que diferencia al agente de un chatbot: Gemini, mediante Spring AI y *function calling*, decide qué herramientas usar (las APIs de los otros servicios) para reunir datos y preparar acciones. Lo que no puede hacer es aplicarlas sin permiso: cada acción pasa por la aprobación del usuario. Para la demo se usarán datos sintéticos.
+Esto es lo que diferencia al agente de un chatbot: Gemini, mediante Spring AI y *function calling*, decide qué herramientas usar (las APIs de los otros servicios) para reunir datos y preparar acciones. Lo que no puede hacer es aplicarlas sin permiso: el usuario edita el borrador y los límites solo se aplican cuando aprueba la versión. Para la demo se usarán datos sintéticos.
 
 | Decisión | Diseño | Justificación |
 | --- | --- | --- |
 | AD-23 | Crear un borrador versionado y editable; validar titular y versión al aprobar. | Un borrador no cambia límites, metas ni avisos. |
 | AD-24 | Aplicar mediante las APIs autenticadas de Finances, Savings y Communications, con claves idempotentes y estado por acción. | Reintentar solo lo pendiente; activar el plan al confirmar todas las acciones requeridas. |
 | AD-25 | Como segunda etapa (US 035), generar el borrador al cierre de mes y evaluar el gasto registrado con reglas a partir de los eventos de Finances; enviar push deduplicado al cruzar un umbral. | El seguimiento no necesita invocar el modelo en cada movimiento y no aplica ajustes sin aprobación. |
+| AD-26 | Dar al chat del asistente solo herramientas de lectura: puede consultar movimientos, límites, metas y resúmenes, pero no registra ni modifica datos. Los cambios llegan únicamente por el plan aprobado o por las pantallas habituales de la aplicación. | Evita que una respuesta del modelo, o una instrucción escondida en los datos, termine en un cambio que el usuario no pidió. |
+| AD-27 | Ofrecer las funciones de IA a toda persona con sesión iniciada, con una cuota diaria de solicitudes por usuario para no exceder el nivel gratuito de Gemini. | El equipo decidió no condicionar la IA al plan premium por ahora; la cuota protege el servicio mientras se define el modelo de suscripción. |
 
 El agente guarda los borradores, sus versiones y el estado de cada acción en su propia base de datos (`agent_db`). Planificar un aporte no mueve dinero: el aporte queda como parte del plan, no como una transferencia.
 
@@ -280,7 +283,7 @@ Los escenarios se presentan en orden de prioridad, según la importancia que les
 | Response | El sistema presenta un formulario que solicita únicamente monto, fecha y origen, apoyándose en la categoría y la cuenta financiera creadas por defecto durante el registro, con terminología libre de tecnicismos financieros. |
 | Response Measure | El registro se completa en cinco pasos o menos, sin que la persona deba configurar nada de forma previa. |
 | **Questions** | ¿La categoría creada por defecto resulta comprensible para alguien que nunca ha clasificado un gasto, o conviene nombrarla de forma más descriptiva? ¿Cinco pasos es un límite adecuado o debería ajustarse tras las primeras pruebas con usuarios reales? |
-| **Issues** | La preparación inicial concentra en un único manejador de IAM tres llamadas HTTP a otros servicios, lo que acopla IAM al orden de creación en esos servicios. Si alguna de esas llamadas falla, la persona podría quedar sin categoría o sin cuenta por defecto, con lo que el escenario dejaría de cumplirse sin que el fallo sea visible. |
+| **Issues** | La preparación inicial depende de que Profiles y Categories & Financial Accounts procesen el evento de registro que publica IAM. Si uno de ellos está caído, el evento espera en su cola y la categoría o la cuenta por defecto se crean unos segundos después. Mientras tanto, la aplicación debe indicar que la cuenta se está preparando, o el escenario no se cumpliría en ese primer uso. |
 
 
 
@@ -450,6 +453,10 @@ La cuarta fue agregar comandos, actores y políticas. Para cada evento nos pregu
 
 La quinta fue identificar agregados y puntos calientes. Agrupamos los comandos y eventos alrededor del elemento del dominio que decide si el evento ocurre o no. Las dudas que no pudimos resolver con la información que teníamos las marcamos en rojo y las vimos al final.
 
+**Actualización de noviembre: tramo de planificación con IA**
+
+Cuando el equipo decidió incorporar IA agéntica, hicimos una segunda sesión corta sobre el mismo tablero de Miro. No rehicimos la línea de tiempo: agregamos al final un tramo nuevo, que empieza cuando la persona pide el plan del próximo mes y termina cuando el plan queda activo. También agregamos la sugerencia de categoría junto al registro de un gasto y marcamos los eventos de suscripción como etapa posterior, porque se decidió que la IA estará disponible para toda persona con sesión iniciada. El punto que más discutimos fue quién decide aplicar un cambio: el agente prepara y explica, pero el evento "Plan aprobado" solo lo provoca la persona usuaria.
+
 **Eventos de dominio identificados**
 
 La siguiente tabla muestra los eventos ordenados y sin duplicados. Los eventos con asterisco son los eventos pivote que separan los tramos de la línea de tiempo.
@@ -492,8 +499,17 @@ La siguiente tabla muestra los eventos ordenados y sin duplicados. Los eventos c
 | Notificación creada | Crear notificación | Políticas P-04 a P-08 | Notification |
 | Notificación entregada | Respuesta del proveedor | Servicio de mensajería en la nube | Notification |
 | Resumen analítico calculado | Consultar resumen del periodo | Persona usuaria | AnalyticsSummary |
-| Suscripción adquirida | Adquirir suscripción | Persona usuaria | Subscription |
-| Suscripción validada | Respuesta del proveedor | Proveedor de pagos | Subscription |
+| Categoría sugerida | Pedir sugerencia de categoría | Persona usuaria | CategorySuggestion |
+| Recomendación entregada | Consultar al asistente | Persona usuaria | AssistantConversation |
+| Plan mensual solicitado (*) | Solicitar plan del próximo mes | Persona usuaria | MonthlyPlan |
+| Proyección del mes calculada | Política P-10 | Sin actor humano | MonthlyPlan |
+| Borrador del plan editado | Editar borrador | Persona usuaria | MonthlyPlan |
+| Plan descartado | Descartar plan | Persona usuaria | MonthlyPlan |
+| Plan aprobado (*) | Aprobar versión del plan | Persona usuaria | MonthlyPlan |
+| Acción del plan aplicada | Política P-11 | Sin actor humano | MonthlyPlan |
+| Plan activado | Política P-11 | Sin actor humano | MonthlyPlan |
+| Suscripción adquirida (etapa posterior) | Adquirir suscripción | Persona usuaria | Subscription |
+| Suscripción validada (etapa posterior) | Respuesta del proveedor | Proveedor de pagos | Subscription |
 
 **Políticas identificadas**
 
@@ -510,14 +526,17 @@ Las políticas fueron lo que más nos sirvió para el diseño estratégico. Cada
 | P-07 | Cada vez que un aporte completa el monto objetivo, la meta se marca como cumplida y se felicita a quien ahorró. | Metas de ahorro hacia notificaciones |
 | P-08 | Cada vez que se envía o se acepta una invitación, se notifica a la persona correspondiente. | Grupo familiar hacia notificaciones |
 | P-09 | Cada vez que se consulta el panel con un periodo distinto, se recupera de caché o se recalcula el resumen correspondiente. | Analítica hacia transacciones, límites y metas |
+| P-10 | Cada vez que se solicita un plan, se calcula la proyección del mes por categoría y se compara con los límites y metas vigentes. | Plan mensual hacia analítica, límites y metas |
+| P-11 | Cada vez que se aprueba una versión del plan, se aplican sus límites, aportes previstos y recordatorios, y el plan se activa cuando todas las acciones se confirman. | Plan mensual hacia límites, metas y notificaciones |
+| P-12 | Cada vez que un plan se activa, se notifica a su titular. | Plan mensual hacia notificaciones |
 
 **Modelos de lectura identificados**
 
-También anotamos las vistas que el usuario necesita consultar para tomar decisiones: historial de transacciones, saldo por cuenta financiera, consumo actual de un límite, progreso de una meta de ahorro, lista de integrantes del grupo, bandeja de notificaciones y resumen analítico del periodo.
+También anotamos las vistas que el usuario necesita consultar para tomar decisiones: historial de transacciones, saldo por cuenta financiera, consumo actual de un límite, progreso de una meta de ahorro, lista de integrantes del grupo, bandeja de notificaciones, resumen analítico del periodo y, en el tramo de IA, la proyección del mes con su riesgo por categoría y el estado de cada acción del plan.
 
 **Puntos calientes y su resolución**
 
-Durante la sesión quedaron seis dudas marcadas en rojo. Las discutimos al final y lo que acordamos influyó en decisiones posteriores del diseño.
+Durante la primera sesión quedaron seis dudas marcadas en rojo, y la sesión de noviembre agregó dos más. Las discutimos al final de cada sesión y lo que acordamos influyó en decisiones posteriores del diseño.
 
 | Punto caliente | Resolución acordada |
 |---|---|
@@ -527,12 +546,22 @@ Durante la sesión quedaron seis dudas marcadas en rojo. Las discutimos al final
 | ¿Puede una meta de ahorro pertenecer a la vez a una persona y a una familia? | No. Una meta tiene una única titularidad, resuelta con el mismo mecanismo del primer punto. |
 | ¿Debe bloquearse el registro de un gasto que supera un límite? | No. El límite informa, no restringe. Se registra el gasto y se alerta, lo cual es coherente con el enfoque educativo del producto descrito en la sección 2.1.2. |
 | ¿Con qué frecuencia debe recalcularse el resumen analítico? | Mediante caché con tiempo de vida acotado, en lugar de recalcular en cada consulta, según la decisión AD-11. |
+| ¿Puede el agente cambiar límites o metas sin que la persona lo apruebe? | No. El agente prepara un borrador que la persona edita; los límites solo se aplican al aprobar una versión (AD-23). El chat del asistente solo recomienda (AD-26). |
+| ¿Las funciones de IA forman parte del plan premium? | No por ahora. Están disponibles para toda persona con sesión iniciada, con una cuota diaria (AD-27). El modelo premium se define en una etapa posterior. |
 
 Por último, se presenta el EventStorming desarrollado en Miro:
 
 **Board en Miro**
 
 ![EventStorming](../assets/img/cap04/eventstorming.png)
+
+*EventStorming de la primera sesión. Fuente: elaboración propia en Miro.*
+
+**Tramo de planificación con IA (sesión de noviembre)**
+
+![EventStorming — tramo de planificación con IA](../assets/img/cap04/eventstorming-ia.png)
+
+*Marco 10 del mismo tablero, agregado en la sesión de noviembre. Fuente: elaboración propia en Miro ([abrir el tablero](https://miro.com/app/board/uXjVHmdGN18=/)).*
 
 ### 4.2.2. Candidate Context Discovery
 
@@ -564,7 +593,7 @@ También hubo un caso en el que decidimos no separar. Categoría y cuenta financ
 
 **Contextos candidatos resultantes**
 
-Al final de la sesión quedaron ocho contextos candidatos. La tabla muestra el vocabulario que los distingue, sus agregados y su clasificación estratégica.
+Al final de la primera sesión quedaron ocho contextos candidatos, y la sesión de noviembre agregó un noveno, AI Agent. La tabla muestra el vocabulario que los distingue, sus agregados y su clasificación estratégica.
 
 | Bounded Context candidato | Lenguaje que lo distingue | Agregados | Clasificación |
 |---|---|---|---|
@@ -575,39 +604,40 @@ Al final de la sesión quedaron ocho contextos candidatos. La tabla muestra el v
 | Financial Goals | Meta de ahorro, aporte, monto objetivo, fecha límite | SavingGoal, Contribution | Subdominio núcleo |
 | Household | Familia, integrante, invitación, rol, invitación diferida | Family, FamilyMember, Invitation | Subdominio núcleo |
 | Communications | Notificación, dispositivo, token de dispositivo, entrega | Notification, Device | Subdominio de soporte |
-| Analytics | Resumen analítico, analítica de límites, analítica de metas | AnalyticsSummary | Subdominio de soporte |
+| Analytics | Resumen analítico, analítica de límites, analítica de metas, proyección | AnalyticsSummary | Subdominio de soporte |
+| AI Agent | Plan mensual, borrador, versión, riesgo, aprobación, categoría sugerida, recomendación | MonthlyPlan, AssistantConversation | Subdominio de soporte con valor diferencial |
 
 **Fundamento de la clasificación estratégica**
 
 Los tres contextos núcleo son los que diferencian a Intiva de otras opciones del mercado: ninguno de los competidores analizados junta el registro con evaluación de límites, la economía familiar que respeta lo personal y las metas de ahorro compartidas. Además, son los contextos con más eventos de dominio y más relaciones entrantes, lo que coincide con su importancia.
 
-Los cuatro contextos de soporte son necesarios para que los núcleo funcionen y el usuario los valora, pero no son una ventaja competitiva por sí solos, ya que cualquier producto del rubro tiene perfiles, categorías, notificaciones y algún tipo de reporte.
+Los cuatro contextos de soporte son necesarios para que los núcleo funcionen y el usuario los valora, pero no son una ventaja competitiva por sí solos, ya que cualquier producto del rubro tiene perfiles, categorías, notificaciones y algún tipo de reporte. AI Agent es un caso aparte: no maneja dinero ni guarda transacciones, así que no es núcleo, pero el plan mensual con IA es lo que más distingue a Intiva de los competidores de la sección 2.1, por lo que lo marcamos como soporte con valor diferencial.
 
 El contexto de identidad es genérico porque el registro, la autenticación y la emisión de credenciales son problemas ya resueltos en la industria, y es mejor usar mecanismos estándar que modelarlos desde cero. Lo marcamos como de alto riesgo porque, aunque no diferencia al producto, si falla nadie puede acceder al resto del sistema.
 
-**Sobre un noveno contexto candidato**
+**Contextos agregados después de la primera sesión**
 
-Al agrupar apareció un noveno bloque sobre la compra y validación de suscripciones, con su propio vocabulario: plan, suscripción, beneficio y facturación. Corresponde a las historias US 008, US 009 y US 010 y permite el modelo freemium del driver D-10. Lo consideramos un bounded context válido, porque su lenguaje no se cruza con el de ningún otro, y por eso aparece en el diagrama de contenedores de la sección 4.3.2.
+En la sesión de noviembre, el tramo de planificación formó un contexto propio, AI Agent, porque su lenguaje no se cruza con el de los demás: plan mensual, borrador, versión, riesgo, aprobación y categoría sugerida. Este contexto no guarda transacciones ni saldos. Prepara propuestas, y para aplicar lo que la persona aprueba usa las APIs de Finances, Savings y Communications.
 
-Aun así, no lo incluimos en los Bounded Context Canvases de la sección 4.2.4 ni en el Context Map de la sección 4.2.5, porque en esta entrega su modelo todavía no está implementado y no queríamos documentar con el mismo detalle un diseño que aún no comparamos con el código. Por ahora lo dejamos registrado como contexto previsto. Su restricción principal ya está definida en la decisión AD-19: toda compra se valida del lado del servidor.
+También apareció un bloque sobre suscripciones, con su propio vocabulario: plan, suscripción, beneficio y facturación. Corresponde a las historias US 008, US 009 y US 010. Es un contexto válido, pero el equipo decidió postergar el modelo premium y ofrecer la IA a toda persona con sesión iniciada. Por eso no tiene microservicio ni aparece en el diagrama de contenedores, en los Bounded Context Canvases ni en el Context Map. Su restricción principal ya quedó registrada en la decisión AD-19: toda compra se validará del lado del servidor.
 
-Los otros ocho contextos se detallan uno por uno en la sección 4.2.4. Sus colaboraciones, que aquí se ven en las políticas P-01 a P-09, se modelan como flujos de mensajes en la sección 4.2.3 y como relaciones entre contextos en la sección 4.2.5.
+Los nueve contextos se detallan uno por uno en la sección 4.2.4. Sus colaboraciones, que aquí se ven en las políticas P-01 a P-12, se modelan como flujos de mensajes en la sección 4.2.3 y como relaciones entre contextos en la sección 4.2.5.
 
 ### 4.2.3. Domain Message Flows Modeling
 
 En esta sección se explica y evidencia el proceso seguido para visualizar cómo deben colaborar los bounded contexts al resolver los casos que se presentan en el negocio para las personas usuarias del sistema. Para ello se aplicó la técnica de visualización **Domain Storytelling**.
 
-Cada historia se construyó a partir del comportamiento realmente implementado en el backend (`intiva-api-platform`): los *command* y *query handlers*, los *domain events* publicados y los servicios de Anti-Corruption Layer (ACL) que consume cada contexto. En lugar de la notación icónica clásica, las historias se representan como diagramas de secuencia por carriles —uno por actor o bounded context—, donde cada flecha numerada corresponde a una oración de la historia (*actor — actividad — objeto de trabajo — destinatario*), preservando el orden narrativo que exige Domain Storytelling.
+Las historias se construyeron primero a partir del backend anterior (`intiva-api-platform`) y luego se actualizaron a la arquitectura de microservicios de la sección 4.1.4. En cada historia se distinguen los dos tipos de colaboración: las llamadas REST síncronas, para consultas y validaciones, y los eventos publicados en RabbitMQ, para avisos que otros servicios procesan después.
 
-Se seleccionaron cinco historias que cubren los procesos de negocio más representativos: el alta de una persona usuaria, la formación de una economía familiar, el registro de una transacción con evaluación de límite de gasto, el recordatorio de un pago recurrente y la consulta del panel de analíticas.
+Se seleccionaron seis historias que cubren los procesos de negocio más representativos: el alta de una persona usuaria, la formación de una economía familiar, el registro de una transacción con evaluación de límite de gasto, el recordatorio de un pago recurrente, la consulta del panel de analíticas y la planificación del mes con el agente de IA.
 
-Cada historia se presenta a continuación en dos representaciones complementarias: el **diagrama de Domain Storytelling** en notación pictográfica —actores y sistemas, objetos de trabajo y actividades numeradas— y, como apoyo de lectura, el mismo flujo expresado como diagrama de secuencia por carriles. Los diagramas pictográficos se encuentran en `assets/img/cap04/` en formato PNG y SVG editable.
+Cada historia se presenta en dos representaciones complementarias: el **diagrama de Domain Storytelling** en notación pictográfica (actores y sistemas, objetos de trabajo y actividades numeradas) y, como apoyo de lectura, el mismo flujo expresado como diagrama de secuencia por carriles, donde las flechas continuas son llamadas REST y las discontinuas son eventos en RabbitMQ.
 
 #### 4.2.3.1. Historia 1 — Registro y preparación inicial de una nueva persona usuaria
 
 ![Diagrama de Domain Storytelling — Historia 1: registro y preparación inicial de una nueva persona usuaria](../assets/img/cap04/domain-story-01-registro.png)
 
-*Diagrama de Domain Storytelling — Historia 1: registro y preparación inicial de una nueva persona usuaria. Fuente: elaboración propia a partir de `intiva-api-platform`.*
+*Diagrama de Domain Storytelling — Historia 1: registro y preparación inicial de una nueva persona usuaria. Fuente: elaboración propia.*
 
 **Representación de apoyo (diagrama de secuencia por carriles):**
 
@@ -616,27 +646,28 @@ sequenceDiagram
     autonumber
     actor V as Persona visitante
     participant IAM as IAM
+    participant MQ as RabbitMQ
     participant CAT as Categories & Financial Accounts
     participant PRO as Profiles
     V->>IAM: Se registra con correo y contraseña (SignUpCommand)
-    IAM->>IAM: Crea el agregado User y publica UserRegisteredEvent
-    IAM->>CAT: Solicita crear la categoría por defecto (ACL: createDefaultCategory)
-    IAM->>CAT: Solicita crear la cuenta financiera por defecto (ACL: createDefaultFinancialAccount)
-    IAM->>PRO: Solicita iniciar el onboarding guiado (ACL: createUserOnboarding)
-    IAM-->>PRO: UserRegisteredEvent (suscripción directa)
-    PRO->>PRO: Crea el Profile por defecto a partir del correo
+    IAM->>IAM: Crea el agregado User y guarda UserRegistered en su outbox
     IAM-->>V: Devuelve el token de sesión (JWT)
+    IAM--)MQ: Publica UserRegistered
+    MQ--)CAT: Entrega UserRegistered
+    CAT->>CAT: Crea la categoría y la cuenta financiera por defecto
+    MQ--)PRO: Entrega UserRegistered
+    PRO->>PRO: Crea el Profile por defecto e inicia el onboarding
 ```
 
-Cuando una persona visitante se registra, IAM crea el agregado `User` y, en el mismo evento de dominio (`UserRegisteredEvent`), dispara en cadena la creación de una categoría por defecto y una cuenta financiera por defecto en *Categories & Financial Accounts*, y solicita a *Profiles* que inicie el onboarding guiado. Esta preparación inicial es la que hace posible el escenario de usabilidad **QAS-01**: la persona puede registrar su primera transacción sin tener que configurar antes una categoría ni una cuenta.
+Cuando una persona visitante se registra, IAM crea el agregado `User` y guarda el evento `UserRegistered` en su outbox dentro de la misma transacción. Responde de inmediato con el token y, después, publica el evento en RabbitMQ. *Categories & Financial Accounts* y *Profiles* lo reciben por separado: el primero crea la categoría y la cuenta por defecto, y el segundo crea el perfil e inicia el onboarding. Esta preparación es la que hace posible el escenario de usabilidad (Scenario 1 de la sección 4.1.5): la persona puede registrar su primer gasto sin configurar antes una categoría ni una cuenta.
 
-Es notable que la creación del `Profile` no ocurre por la llamada ACL de IAM, sino porque *Profiles* escucha por su cuenta el mismo evento de dominio: dos mecanismos de integración conviven para un mismo disparador, lo cual se retoma como hallazgo en la sección 4.2.5.
+En el backend anterior, IAM llamaba en cadena a los otros contextos y, además, Profiles escuchaba el mismo evento, de modo que convivían dos mecanismos para un mismo disparador. Con microservicios se usa solo el evento, e IAM ya no depende de que los otros servicios estén disponibles para completar el registro.
 
 #### 4.2.3.2. Historia 2 — Una economía familiar se organiza (Household)
 
 ![Diagrama de Domain Storytelling — Historia 2: una economía familiar se organiza](../assets/img/cap04/domain-story-02-household.png)
 
-*Diagrama de Domain Storytelling — Historia 2: una economía familiar se organiza. Fuente: elaboración propia a partir de `intiva-api-platform`.*
+*Diagrama de Domain Storytelling — Historia 2: una economía familiar se organiza. Fuente: elaboración propia.*
 
 **Representación de apoyo (diagrama de secuencia por carriles):**
 
@@ -645,26 +676,28 @@ sequenceDiagram
     autonumber
     actor R as Family Economy Responsible
     participant HH as Household
+    participant MQ as RabbitMQ
     participant COM as Communications
     actor I as Persona invitada
     R->>HH: Crea el grupo familiar (CreateFamilyCommand)
-    HH->>HH: Publica FamilyCreatedEvent
     R->>HH: Envía una invitación por enlace o código QR (SendInvitationCommand)
-    HH->>COM: Solicita notificar la invitación enviada (ACL)
+    HH--)MQ: Publica FamilyInvitationSent
+    MQ--)COM: Entrega FamilyInvitationSent
     COM->>I: Entrega la notificación de invitación
     I->>HH: Acepta la invitación (AcceptInvitationCommand / ClaimDeferredInviteCommand)
-    HH->>HH: Registra el FamilyMember y publica InvitationAcceptedEvent
-    HH->>COM: Solicita notificar la aceptación (ACL)
+    HH->>HH: Registra el FamilyMember
+    HH--)MQ: Publica InvitationAccepted
+    MQ--)COM: Entrega InvitationAccepted
     COM->>R: Informa que la persona se unió al grupo familiar
 ```
 
-Esta historia evidencia el rol diferencial de *Household*: el *Family Economy Responsible* crea el grupo familiar y envía una invitación —por enlace o código QR, incluso a personas que aún no tienen la aplicación instalada, mediante *Deferred Deep Link*—. Cada evento relevante del ciclo de vida de la invitación (enviada y aceptada) se traduce en una llamada explícita al ACL de *Communications* para notificar a la persona correspondiente. A diferencia de la Historia 1, aquí *Household* sí controla explícitamente cuándo notificar, en lugar de dejar que *Communications* escuche sus eventos de forma autónoma.
+Esta historia muestra el rol diferencial de *Household*: el *Family Economy Responsible* crea el grupo familiar y envía una invitación por enlace o código QR, incluso a personas que aún no tienen la aplicación instalada, mediante *Deferred Deep Link*. Household no llama a Communications: publica `FamilyInvitationSent` e `InvitationAccepted`, y Communications decide cómo notificar a cada persona. Así, la dependencia entre ambos contextos va en un solo sentido.
 
 #### 4.2.3.3. Historia 3 — Se registra una transacción familiar y se evalúa un límite de gasto
 
 ![Diagrama de Domain Storytelling — Historia 3: registro de una transacción familiar y evaluación de un límite de gasto](../assets/img/cap04/domain-story-03-transaccion.png)
 
-*Diagrama de Domain Storytelling — Historia 3: registro de una transacción familiar y evaluación de un límite de gasto. Fuente: elaboración propia a partir de `intiva-api-platform`.*
+*Diagrama de Domain Storytelling — Historia 3: registro de una transacción familiar y evaluación de un límite de gasto. Fuente: elaboración propia.*
 
 **Representación de apoyo (diagrama de secuencia por carriles):**
 
@@ -674,29 +707,28 @@ sequenceDiagram
     actor M as Integrante de la familia
     participant FIN as Finances
     participant CAT as Categories & Financial Accounts
+    participant MQ as RabbitMQ
     participant COM as Communications
     participant HH as Household
     M->>FIN: Registra un gasto familiar (RegisterTransactionCommand)
-    FIN->>CAT: Consulta si la cuenta tiene saldo suficiente (ACL: hasSufficientBalance)
-    CAT-->>FIN: Confirma el saldo disponible
-    FIN->>FIN: Registra la Transaction y publica FamilyTransactionCreatedEvent
-    FIN->>CAT: Registra el movimiento en la cuenta financiera (ACL)
-    FIN->>FIN: Evalúa los SpendingLimit afectados
-    FIN->>COM: Solicita alertar el límite alcanzado o superado (ACL)
-    FIN-->>COM: SpendingLimitWarningReachedEvent / SpendingLimitExceededEvent
-    COM-->>FIN: Escucha FamilyTransactionCreatedEvent (suscripción directa)
-    COM->>HH: Consulta los integrantes activos de la familia (ACL)
+    FIN->>CAT: Aplica el cargo si hay saldo suficiente (REST, clave idempotente)
+    CAT-->>FIN: Confirma el cargo y el nuevo saldo
+    FIN->>FIN: Confirma la Transaction y evalúa los SpendingLimit afectados
+    FIN-->>M: Devuelve la confirmación del registro
+    FIN--)MQ: Publica FamilyTransactionCreated y SpendingLimitWarningReached
+    MQ--)COM: Entrega los eventos
+    COM->>HH: Consulta los integrantes activos de la familia (REST)
     HH-->>COM: Devuelve los identificadores de los integrantes
-    COM->>M: Notifica el movimiento al resto del grupo familiar
+    COM->>M: Notifica el movimiento al resto del grupo y alerta el límite
 ```
 
-Esta es la historia que atraviesa el mayor número de contextos y la que sustenta los drivers **QAS-05** y **US 014**. El registro de la transacción exige una validación síncrona del saldo antes de aceptarse —de ahí la llamada ACL bloqueante a *Categories & Financial Accounts*—, mientras que las consecuencias del registro (alertar el límite, avisar a la familia) se propagan de forma asíncrona para no penalizar el tiempo de respuesta de la operación principal. Se observa nuevamente la convivencia de los dos mecanismos: *Finances* llama explícitamente al ACL de *Communications* para las alertas de límite (paso 7), mientras que *Communications* se suscribe por su cuenta al evento de transacción familiar (paso 9).
+Esta es la historia que atraviesa más contextos y la que sustenta el Scenario 3 de la sección 4.1.5 y la historia US 014. El registro exige una validación síncrona del saldo antes de aceptarse, por eso Finances llama por REST a *Categories & Financial Accounts*, con el identificador de la transacción como clave para que un reintento no cobre dos veces. Las consecuencias del registro (alertar el límite y avisar a la familia) no cambian la respuesta, así que Finances las publica como eventos y responde sin esperarlas. Communications es quien consulta a Household qué integrantes debe notificar.
 
 #### 4.2.3.4. Historia 4 — Un pago recurrente está por vencer
 
 ![Diagrama de Domain Storytelling — Historia 4: un pago recurrente está por vencer](../assets/img/cap04/domain-story-04-recordatorio.png)
 
-*Diagrama de Domain Storytelling — Historia 4: un pago recurrente está por vencer. Fuente: elaboración propia a partir de `intiva-api-platform`.*
+*Diagrama de Domain Storytelling — Historia 4: un pago recurrente está por vencer. Fuente: elaboración propia.*
 
 **Representación de apoyo (diagrama de secuencia por carriles):**
 
@@ -705,329 +737,373 @@ sequenceDiagram
     autonumber
     participant SCH as PaymentReminderScheduler (Finances)
     participant FIN as Finances
+    participant MQ as RabbitMQ
     participant COM as Communications
     participant FCM as Firebase Cloud Messaging
     actor U as Persona usuaria
     SCH->>FIN: Detecta transacciones recurrentes próximas a vencer o vencidas
-    FIN->>FIN: Publica PaymentDueSoonEvent o PaymentExpiredEvent
-    FIN-->>COM: Entrega el evento (suscripción directa)
-    COM->>COM: Crea la Notification correspondiente
+    FIN--)MQ: Publica PaymentDueSoon o PaymentExpired
+    MQ--)COM: Entrega el evento
+    COM->>COM: Crea la Notification (descarta el evento si ya lo procesó)
     COM->>FCM: Solicita el envío push a los dispositivos activos
     FCM->>U: Entrega el recordatorio en el dispositivo
 ```
 
-A diferencia de las historias anteriores, este flujo no lo inicia una persona sino un proceso programado (`PaymentReminderScheduler` / `RecurringTransactionScheduler`, dentro de *Finances*). Al detectar que una transacción recurrente está por vencer o ya venció, *Finances* publica `PaymentDueSoonEvent` o `PaymentExpiredEvent`; *Communications* los escucha directamente —sin ACL de por medio— y entrega el recordatorio. Es el mismo patrón de suscripción directa detectado en la Historia 3, y es la materialización del driver **US 030**.
+A diferencia de las historias anteriores, este flujo no lo inicia una persona sino un proceso programado dentro de *Finances* (AD-13). Al detectar que una transacción recurrente está por vencer o ya venció, Finances publica `PaymentDueSoon` o `PaymentExpired`, y Communications los procesa para entregar el recordatorio. Como el consumidor es idempotente, si el evento llega dos veces la persona recibe un solo aviso. Es la materialización de la historia US 030.
 
 #### 4.2.3.5. Historia 5 — La familia visualiza sus métricas financieras
 
 ![Diagrama de Domain Storytelling — Historia 5: la familia visualiza sus métricas financieras](../assets/img/cap04/domain-story-05-analytics.png)
 
-*Diagrama de Domain Storytelling — Historia 5: la familia visualiza sus métricas financieras. Fuente: elaboración propia a partir de `intiva-api-platform`.*
+*Diagrama de Domain Storytelling — Historia 5: la familia visualiza sus métricas financieras. Fuente: elaboración propia.*
 
 **Representación de apoyo (diagrama de secuencia por carriles):**
 
 ```mermaid
 sequenceDiagram
     autonumber
+    participant FIN as Finances
+    participant SAV as Financial Goals (Savings)
+    participant MQ as RabbitMQ
     actor R as Family Economy Responsible
     participant WEB as Aplicación web
     participant ANA as Analytics
     participant RDS as Caché (Redis)
-    participant FIN as Finances
-    participant SAV as Financial Goals (Savings)
-    participant CAT as Categories & Financial Accounts
+    FIN--)MQ: Publica TransactionConfirmed y SpendingLimitUpdated
+    SAV--)MQ: Publica SavingGoalContributed
+    MQ--)ANA: Entrega los eventos
+    ANA->>ANA: Actualiza su modelo de lectura (analytics_db)
     R->>WEB: Abre el dashboard financiero del grupo familiar
     WEB->>ANA: Solicita el resumen del periodo (GetAnalyticsSummaryByOwnerQuery)
-    ANA->>RDS: Consulta el resumen cacheado
+    ANA->>RDS: Consulta el resumen en caché
     RDS-->>ANA: No disponible o expirado
-    ANA->>FIN: Lee TransactionRepository y SpendingLimitRepository (acceso directo)
-    ANA->>SAV: Lee SavingGoalRepository (acceso directo)
-    ANA->>CAT: Consulta nombre y color de cada categoría (ACL)
-    ANA->>ANA: Calcula el AnalyticsSummary del periodo
+    ANA->>ANA: Calcula el AnalyticsSummary con su modelo de lectura
     ANA->>RDS: Almacena el resumen con TTL
     ANA-->>WEB: Devuelve el resumen financiero
     WEB-->>R: Presenta los gráficos del periodo
 ```
 
-Al abrir el dashboard en la aplicación web, *Analytics* debe reunir información de tres contextos distintos. Aquí se documenta de forma explícita una decisión de diseño que se retoma como crítica en la sección 4.2.5: el acceso a *Finances* y a *Savings* ocurre leyendo sus repositorios directamente —sin pasar por un ACL ni por la Application Layer de esos contextos—, mientras que el acceso a *Categories & Financial Accounts* sí respeta el patrón ACL usado en el resto del sistema. El resultado se cachea en Redis para no recalcular el resumen en cada consulta, lo que es la implementación concreta del driver **QAS-04**.
+Al abrir el dashboard en la aplicación web, *Analytics* necesita información de Finances, Savings y Categories & Financial Accounts. En el backend anterior la obtenía leyendo directamente los repositorios de esos contextos. Con una base de datos por servicio eso ya no es posible, así que Analytics mantiene su propio modelo de lectura, alimentado por los eventos que publican esos servicios. Al consultar no llama a nadie: busca el resumen en Redis y, si no está, lo calcula con sus propios datos y lo guarda con un tiempo de vida acotado (AD-11). Es la implementación del Scenario 5 de la sección 4.1.5.
+
+#### 4.2.3.6. Historia 6 — La persona planifica su próximo mes con el agente de IA
+
+![Diagrama de Domain Storytelling — Historia 6: la persona planifica su próximo mes con el agente de IA](../assets/img/cap04/domain-story-06-plan.png)
+
+*Diagrama de Domain Storytelling — Historia 6: la persona planifica su próximo mes con el agente de IA. Fuente: elaboración propia.*
+
+**Representación de apoyo (diagrama de secuencia por carriles):**
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor U as Persona usuaria
+    participant AG as AI Agent
+    participant ANA as Analytics
+    participant GEM as Gemini API
+    participant FIN as Finances
+    participant SAV as Financial Goals (Savings)
+    participant COM as Communications
+    participant MQ as RabbitMQ
+    U->>AG: Solicita el plan del próximo mes (RequestMonthlyPlanCommand)
+    AG->>ANA: Pide la proyección de gastos por categoría (REST)
+    AG->>FIN: Consulta los límites vigentes (REST)
+    AG->>SAV: Consulta las metas vigentes (REST)
+    AG->>GEM: Pide explicar el riesgo y proponer ajustes (Spring AI)
+    AG-->>U: Muestra el borrador: riesgo por categoría, límites, aportes previstos y recordatorios
+    U->>AG: Edita el borrador (EditPlanDraftCommand)
+    U->>AG: Aprueba la versión (ApprovePlanCommand)
+    AG->>FIN: Crea o ajusta los límites (REST, clave idempotente)
+    AG->>SAV: Registra los aportes previstos (REST, clave idempotente)
+    AG->>COM: Programa los recordatorios (REST, clave idempotente)
+    AG->>AG: Marca el plan como activo
+    AG--)MQ: Publica MonthlyPlanActivated
+    MQ--)COM: Entrega MonthlyPlanActivated
+    COM->>U: Notifica que el plan está activo
+```
+
+Esta historia corresponde a US 032 y TS 023, y es la que muestra la IA agéntica. La persona pide el plan y AI Agent reúne por su cuenta la información que necesita: la proyección de Analytics y los límites y metas vigentes. Con esos datos, Gemini explica el riesgo y propone ajustes; por ejemplo, si la proyección en Comida es S/ 580 y el límite es S/ 500, el borrador muestra un riesgo de S/ 80. Hasta ese momento nada ha cambiado en la cuenta de la persona. Ella edita el borrador y, solo cuando aprueba una versión, el agente aplica los límites, los aportes previstos y los recordatorios en los servicios que les corresponden, cada uno con su clave idempotente. Si una acción falla, el plan queda con error y la persona puede reintentar solo las pendientes. Al final, el agente publica `MonthlyPlanActivated` y Communications avisa que el plan está activo.
+
 ### 4.2.4. Bounded Context Canvases
 
-A partir de los ocho bounded contexts identificados en el Candidate Context Discovery, el equipo elaboró el Bounded Context Canvas de cada uno siguiendo el proceso iterativo propuesto por Nick Tune:
+A partir de los nueve bounded contexts identificados en el Candidate Context Discovery, el equipo elaboró el Bounded Context Canvas de cada uno siguiendo el proceso iterativo propuesto por Nick Tune:
 
 1. **Context Overview Definition** — nombre, propósito y clasificación estratégica del contexto.
 2. **Business Rules Distillation & Ubiquitous Language Capture** — el vocabulario y las reglas de negocio no ambiguas que gobiernan el contexto.
-3. **Capability Analysis** — qué hace el contexto, expresado como los *Commands*, *Queries* y *Domain Events* realmente implementados.
+3. **Capability Analysis** — qué hace el contexto, expresado como *Commands*, *Queries* y eventos publicados.
 4. **Capability Layering** — distinguiendo qué capacidades son el núcleo de la responsabilidad del contexto y cuáles son de soporte.
 5. **Dependencies Capture** — con quién colabora el contexto y mediante qué mecanismo (entrante y saliente).
 6. **Design Critique** — una revisión honesta de las decisiones de diseño, incluyendo aquellas que se apartan del patrón ideal.
 
-Los ocho contextos se presentan en el orden en que colaboran a lo largo del ciclo de vida de una persona usuaria: primero identidad y perfil, luego los contextos de soporte financiero, después el núcleo transaccional y familiar, y por último comunicación y analítica. Al final se agrega AI Agent, un noveno contexto que surgió con la planificación financiera con IA (US 032) y que no existía en el backend anterior.
+Los contextos se presentan en el orden en que colaboran a lo largo del ciclo de vida de una persona usuaria: primero identidad y perfil, luego los contextos de soporte financiero, después el núcleo transaccional y familiar, luego comunicación y analítica, y al final AI Agent, que surgió con la planificación financiera con IA (US 032).
 
-Los canvases se elaboraron a partir del código del backend anterior (`intiva-api-platform`), que era un solo despliegue. En la arquitectura de microservicios, cada contexto es un servicio: las llamadas a un `ContextFacade` pasan a ser llamadas REST entre servicios y los eventos de dominio se publican como eventos de integración en RabbitMQ. Las secciones de dependencias de Finances, Savings y Analytics ya reflejan ese cambio, y la tabla de relaciones de la sección 4.2.5 indica el mecanismo de cada relación.
+Los canvases se elaboraron primero a partir del código del backend anterior (`intiva-api-platform`), que era un solo despliegue, y se actualizaron a la arquitectura de microservicios. Por eso, en cada *Design Critique* se explica qué cambió respecto del backend anterior. En las dependencias, "REST" indica una llamada síncrona a la API del otro servicio y "evento" indica un mensaje publicado en RabbitMQ.
 
-Cada canvas se presenta a continuación en su representación visual —siguiendo la plantilla del Bounded Context Canvas, con las seis secciones del proceso numeradas— acompañada de la tabla con el detalle completo del contenido. Los canvases se encuentran en `assets/img/cap04/`.
+Cada canvas se presenta en su representación visual, con las seis secciones del proceso numeradas, acompañada de la tabla con el detalle completo del contenido.
 
 #### 4.2.4.1. Identity and Access Management (IAM)
 
 ![Bounded Context Canvas — Identity and Access Management (IAM)](../assets/img/cap04/bc-canvas-01-identity-and-access-management-iam.png)
 
-*Bounded Context Canvas de Identity and Access Management (IAM). Fuente: elaboración propia a partir de `intiva-api-platform`.*
+*Bounded Context Canvas de Identity and Access Management (IAM). Fuente: elaboración propia.*
 
 | Sección del Canvas | Contenido |
 | --- | --- |
 | **1. Context Overview — Propósito** | Gestiona el ciclo de vida de la identidad digital de las personas usuarias de Intiva: registro, autenticación (local y mediante OAuth2 con Google) y emisión de credenciales de sesión (JWT). Es la puerta de entrada de toda persona nueva a la plataforma. |
-| **Clasificación estratégica** | Generic Subdomain de alto riesgo: no es un diferenciador de negocio, pero es indispensable — sin identidad no hay acceso a ningún otro contexto. |
-| **Domain Roles** | Gateway Context (punto de entrada único) y Upstream Publisher: su evento de registro dispara el arranque de otros tres contextos. |
+| **Clasificación estratégica** | Generic Subdomain de alto riesgo: no es un diferenciador de negocio, pero es indispensable, porque sin identidad no hay acceso a ningún otro contexto. |
+| **Domain Roles** | Gateway Context (emite el token que validan todos los servicios) y Upstream Publisher: su evento de registro dispara la preparación inicial en otros dos contextos. |
 | **2. Ubiquitous Language** | • User<br>• Sign-Up / Sign-In<br>• PasswordHash (VO)<br>• Email (VO)<br>• Token (JWT)<br>• Role |
-| **Business Rules** | • El correo electrónico es único por persona usuaria (se rechaza con UserWithEmailAlreadyExits).<br>• La contraseña debe cumplir reglas mínimas de seguridad antes de aceptarse (isPasswordValid).<br>• La contraseña nunca se persiste en texto plano: se almacena únicamente como PasswordHash (BCrypt).<br>• La autenticación admite dos vías equivalentes: credenciales locales u OAuth2 con cuenta de Google. |
+| **Business Rules** | • El correo electrónico es único por persona usuaria (UserWithEmailAlreadyExists).<br>• La contraseña debe cumplir reglas mínimas de seguridad antes de aceptarse.<br>• La contraseña nunca se persiste en texto plano: se almacena solo como PasswordHash (BCrypt).<br>• La autenticación admite dos vías equivalentes: credenciales locales u OAuth2 con Google. |
 | **3. Capability Analysis — Commands** | • SignUpCommand<br>• SignInCommand<br>• SeedRolesCommand |
 | **Capability Analysis — Queries** | • GetUserByEmailQuery<br>• GetUserByIdQuery |
-| **Capability Analysis — Domain Events publicados** | UserRegisteredEvent |
-| **4. Capability Layering** | Core capability: autenticar y emitir tokens (razón de ser del contexto). Supporting capability: orquestar el «bootstrap» de una persona nueva (categoría, cuenta financiera y onboarding por defecto), delegando en otros contextos. |
-| **5. Dependencies — Inbound (quién lo consume)** | Ninguno. IAM no publica una interfaz ACL propia para que otros contextos lo consulten; su único canal de salida hacia afuera es el evento UserRegisteredEvent. |
-| **Dependencies — Outbound (a quién consume)** | • Categories & Financial Accounts — ACL síncrona: createDefaultCategory(userId), createDefaultFinancialAccount(userId).<br>• Profiles — ACL síncrona: createUserOnboarding(userId). |
-| **6. Design Critique** | El bootstrap posterior al registro concentra tres llamadas salientes en un único event handler dentro de IAM, acoplándolo al orden de creación en tres contextos distintos. Se evaluó introducir un proceso de aplicación tipo Saga, pero se descartó por ahora dado el bajo número de pasos. Además, conviven dos mecanismos distintos entre IAM y Profiles (ACL síncrona y evento asíncrono) para dos propósitos que podrían unificarse — ver relación 2 y 3 en la sección 4.2.5. |
+| **Capability Analysis — Domain Events publicados** | • UserRegistered |
+| **4. Capability Layering** | Core capability: autenticar y emitir tokens, que es la razón de ser del contexto. Supporting capability: publicar UserRegistered para que otros contextos preparen los datos por defecto de la persona nueva. |
+| **5. Dependencies — Inbound (quién lo consume)** | • Ninguna llamada síncrona de otros servicios: cada microservicio valida el JWT por su cuenta (AD-14).<br>• Profiles y Categories & Financial Accounts consumen el evento UserRegistered desde RabbitMQ. |
+| **Dependencies — Outbound (a quién consume)** | • Ninguna. IAM no llama a otros servicios; solo usa Google OAuth2 para validar el token de Google. |
+| **6. Design Critique** | En el backend anterior, IAM llamaba en cadena a tres contextos después del registro y quedaba acoplado al orden de creación en cada uno. Como microservicio, publica un solo evento y responde sin esperar. El costo es que la categoría, la cuenta y el perfil por defecto aparecen unos segundos después, lo que la aplicación debe indicar en el primer uso (Scenario 1). |
 
 #### 4.2.4.2. Profiles
 
 ![Bounded Context Canvas — Profiles](../assets/img/cap04/bc-canvas-02-profiles.png)
 
-*Bounded Context Canvas de Profiles. Fuente: elaboración propia a partir de `intiva-api-platform`.*
+*Bounded Context Canvas de Profiles. Fuente: elaboración propia.*
 
 | Sección del Canvas | Contenido |
 | --- | --- |
-| **1. Context Overview — Propósito** | Administra la información personal, preferencias y el proceso de onboarding (tutorial guiado de primeros pasos) de cada persona usuaria. |
+| **1. Context Overview — Propósito** | Administra la información personal, las preferencias y el proceso de onboarding (tutorial guiado de primeros pasos) de cada persona usuaria. |
 | **Clasificación estratégica** | Supporting Subdomain. |
-| **Domain Roles** | Downstream conformista de IAM para el evento de registro; modelo independiente para los datos personales. |
+| **Domain Roles** | Downstream conformista de IAM para el evento de registro; modelo propio para los datos personales. |
 | **2. Ubiquitous Language** | • Profile<br>• Onboarding<br>• TutorialStep<br>• Avatar |
-| **Business Rules** | • Toda persona usuaria (User) tiene exactamente un Profile.<br>• El nombre de perfil por defecto se deriva del local-part del correo electrónico (antes del «@»).<br>• El proceso de onboarding puede omitirse (Skip) o revertirse (Rollback) sin afectar los datos financieros ya creados. |
+| **Business Rules** | • Toda persona usuaria (User) tiene exactamente un Profile.<br>• El nombre de perfil por defecto se deriva de la parte del correo anterior a «@».<br>• El onboarding puede omitirse (Skip) o revertirse (Rollback) sin afectar los datos financieros ya creados. |
 | **3. Capability Analysis — Commands** | • CreateProfileCommand<br>• UpdateProfileCommand<br>• CreateUserOnboardingCommand<br>• AdvanceTutorialStepCommand<br>• SkipOnboardingCommand<br>• RollbackOnboardingCommand |
 | **Capability Analysis — Queries** | • GetProfileByUserIdQuery<br>• GetOnboardingStatusQuery |
-| **Capability Analysis — Domain Events publicados** | (ninguno propio identificado en el código actual) |
-| **4. Capability Layering** | Core capability: gestión del perfil personal. Supporting capability: orquestación del onboarding guiado (una funcionalidad de experiencia de usuario, no del dominio financiero). |
-| **5. Dependencies — Inbound (quién lo consume)** | • IAM llama a ProfilesContextFacade.createUserOnboarding(userId) — Open Host Service publicado por Profiles.<br>• IAM publica UserRegisteredEvent; Profiles lo escucha directamente (sin ACL intermedia) para crear el Profile por defecto. |
-| **Dependencies — Outbound (a quién consume)** | Ninguna. |
-| **6. Design Critique** | Profiles escucha un evento (UserRegisteredEvent) definido dentro del paquete de dominio de IAM, lo que implica un import cruzado entre Domain Layers de dos bounded contexts distintos. Se recomienda extraer un evento de integración propio (Published Language) en lugar de reutilizar la clase de dominio de IAM tal cual. |
+| **Capability Analysis — Domain Events publicados** | (no publica eventos propios) |
+| **4. Capability Layering** | Core capability: gestión del perfil personal. Supporting capability: onboarding guiado, que es una funcionalidad de experiencia de usuario y no del dominio financiero. |
+| **5. Dependencies — Inbound (quién lo consume)** | • Aplicaciones móvil y web, a través del API Gateway, para consultar y editar el perfil y avanzar el onboarding. |
+| **Dependencies — Outbound (a quién consume)** | • IAM: consume el evento UserRegistered desde RabbitMQ para crear el Profile y el onboarding por defecto.<br>• Cloudinary: almacenamiento de avatares. |
+| **6. Design Critique** | En el backend anterior, Profiles importaba la clase de evento definida en el dominio de IAM y además IAM lo llamaba por su fachada, de modo que había dos mecanismos para lo mismo. Ahora solo existe el evento UserRegistered, publicado como JSON (Published Language), y no hay dependencia de código entre ambos servicios. |
 
 #### 4.2.4.3. Categories & Financial Accounts
 
 ![Bounded Context Canvas — Categories & Financial Accounts](../assets/img/cap04/bc-canvas-03-categories-financial-accounts.png)
 
-*Bounded Context Canvas de Categories & Financial Accounts. Fuente: elaboración propia a partir de `intiva-api-platform`.*
+*Bounded Context Canvas de Categories & Financial Accounts. Fuente: elaboración propia.*
 
 | Sección del Canvas | Contenido |
 | --- | --- |
-| **1. Context Overview — Propósito** | Administra el catálogo de categorías de gasto/ingreso y los medios de pago (cuentas en efectivo, tarjetas de débito/crédito, billeteras digitales) que usan las personas y familias para registrar sus finanzas. |
+| **1. Context Overview — Propósito** | Administra el catálogo de categorías de gasto e ingreso y los medios de pago (efectivo, tarjetas de débito y crédito, billeteras digitales) que usan las personas y familias. Es el dueño del saldo de cada cuenta. |
 | **Clasificación estratégica** | Supporting Subdomain para «Categories»; capacidades casi Core para «Financial Accounts», por su relación directa con el saldo disponible. |
-| **Domain Roles** | Open Host Service ampliamente reutilizado: es el contexto con más consumidores del sistema (IAM, Finances y Analytics). |
+| **Domain Roles** | Open Host Service consultado por Finances y AI Agent; conformista del evento de registro de IAM. |
 | **2. Ubiquitous Language** | • Category / CategoryType<br>• FinancialAccount<br>• CashAccount / DebitCardAccount / CreditCardAccount / WalletAccount<br>• Institution<br>• AccountName |
-| **Business Rules** | • Toda persona o familia recibe una categoría y una cuenta financiera por defecto al registrarse.<br>• Una cuenta inactiva no puede recibir transacciones (InactiveFinancialAccountException).<br>• No se acepta una transacción que deje saldo insuficiente (InsufficientFundsException) ni un monto inválido (InvalidTransactionAmountException).<br>• Un conflicto de sincronización entre app móvil (offline) y backend se resuelve mediante control de versión del agregado (FinancialAccountSyncConflictException). |
+| **Business Rules** | • Toda persona recibe una categoría y una cuenta financiera por defecto al registrarse.<br>• Una cuenta inactiva no puede recibir transacciones (InactiveFinancialAccountException).<br>• No se acepta un cargo que deje saldo insuficiente (InsufficientFundsException) ni un monto inválido.<br>• Un mismo cargo no se aplica dos veces: cada operación lleva una clave de idempotencia (ProcessedOperation). |
 | **3. Capability Analysis — Commands** | • CreateCategoryCommand<br>• CreateDefaultCategoryCommand<br>• CreateFinancialAccountCommand<br>• CreateDefaultFinancialAccountCommand<br>• UpdateFinancialAccountCommand<br>• CreateFinancialAccountTransaction |
 | **Capability Analysis — Queries** | • GetCategoryByIdQuery<br>• GetAllCategoriesByOwnerTypeAndOwnerIdAndTypeQuery<br>• GetFinancialAccountByIdQuery<br>• GetAllFinancialAccountsByOwnerId |
-| **Capability Analysis — Domain Events publicados** | (no publica eventos de dominio propios: es consultado de forma síncrona como fuente de datos maestros) |
-| **4. Capability Layering** | Core capability: mantener el saldo y su consistencia (createFinancialAccountTransaction, hasSufficientBalance). Supporting capability: catálogo y etiquetado de categorías. |
-| **5. Dependencies — Inbound (quién lo consume)** | • IAM — ACL: createDefaultCategory, createDefaultFinancialAccount (bootstrap).<br>• Finances — ACL: hasSufficientBalance, getFinancialAccountNameById, createFinancialAccountTransaction, getCategoryNameById.<br>• Analytics — ACL: getCategoryColorAndIconById, getCategoryNameById. |
-| **Dependencies — Outbound (a quién consume)** | Ninguna. |
-| **6. Design Critique** | El contexto agrupa dos agregados (Category y FinancialAccount) con ciclos de vida y consumidores distintos. Se planteó la pregunta «¿qué pasaría si separamos Financial Accounts en su propio bounded context?»: se decidió mantenerlos juntos porque comparten infraestructura y el volumen de reglas de Financial Accounts aún es reducido, pero es el candidato más claro a dividirse si el dominio de medios de pago crece (por ejemplo, al integrar pasarelas de pago externas). |
+| **Capability Analysis — Domain Events publicados** | • CategoryUpserted |
+| **4. Capability Layering** | Core capability: mantener el saldo y su consistencia (cargo y abono idempotentes). Supporting capability: catálogo y etiquetado de categorías. |
+| **5. Dependencies — Inbound (quién lo consume)** | • Finances: REST para aplicar el cargo o abono de una transacción (clave idempotente).<br>• AI Agent: REST para consultar las categorías de la persona al sugerir una categoría.<br>• Analytics: consume CategoryUpserted para mostrar nombre y color en sus reportes. |
+| **Dependencies — Outbound (a quién consume)** | • IAM: consume el evento UserRegistered para crear la categoría y la cuenta por defecto. |
+| **6. Design Critique** | El contexto agrupa dos agregados (Category y FinancialAccount) con ciclos de vida y consumidores distintos. Se decidió mantenerlos juntos porque las reglas de Financial Accounts aún son pocas, pero es el candidato más claro a dividirse si el dominio de medios de pago crece, por ejemplo al integrar pasarelas de pago. |
 
 #### 4.2.4.4. Finances
 
 ![Bounded Context Canvas — Finances](../assets/img/cap04/bc-canvas-04-finances.png)
 
-*Bounded Context Canvas de Finances. Fuente: elaboración propia a partir de `intiva-api-platform`.*
+*Bounded Context Canvas de Finances. Fuente: elaboración propia.*
 
 | Sección del Canvas | Contenido |
 | --- | --- |
-| **1. Context Overview — Propósito** | Es el núcleo transaccional de Intiva: registra ingresos y egresos, aplica límites de gasto y gestiona transacciones recurrentes (pagos programados) tanto para personas individuales como para grupos familiares. |
-| **Clasificación estratégica** | Core Subdomain — es la razón de ser del producto. |
-| **Domain Roles** | Downstream de Categories & Financial Accounts; Upstream de Communications y de Analytics. |
+| **1. Context Overview — Propósito** | Es el núcleo transaccional de Intiva: registra ingresos y egresos, aplica límites de gasto y gestiona transacciones recurrentes (pagos programados), tanto para personas como para grupos familiares. |
+| **Clasificación estratégica** | Core Subdomain: es la razón de ser del producto. |
+| **Domain Roles** | Downstream de Categories & Financial Accounts y de Household; Upstream (publicador) de Communications y Analytics. |
 | **2. Ubiquitous Language** | • Transaction<br>• SpendingLimit / SpendingLimitStatus<br>• RecurringTransaction<br>• OwnerType (Individual / Family) |
-| **Business Rules** | • Toda transacción pertenece a un OwnerType: INDIVIDUAL o FAMILY.<br>• Un límite de gasto (SpendingLimit) se aplica sobre una categoría o sobre una cuenta financiera (SpendingLimitTargetType).<br>• Al superar el umbral de advertencia o el límite definido se dispara un evento de dominio.<br>• Una transacción sin fondos suficientes se rechaza y se notifica mediante TransactionRegistrationRejectedEvent. |
+| **Business Rules** | • Toda transacción pertenece a un OwnerType: INDIVIDUAL o FAMILY.<br>• Un límite de gasto se aplica sobre una categoría o sobre una cuenta financiera (SpendingLimitTargetType).<br>• Un límite informa, no bloquea: al superar el umbral de advertencia o el límite se publica un evento.<br>• Una transacción sin fondos suficientes se rechaza y no modifica el saldo.<br>• Un límite creado por un plan aprobado lleva la clave de la acción del plan, así que un reintento no lo duplica. |
 | **3. Capability Analysis — Commands** | • RegisterTransactionCommand<br>• UpdateTransactionAmountCommand<br>• CreateSpendingLimitCommand<br>• ActivateSpendingLimitCommand<br>• CreateRecurringTransactionCommand<br>• ActivateRecurringTransactionCommand |
 | **Capability Analysis — Queries** | • GetTransactionsByOwnerIdQuery<br>• GetLastTransactionsByOwnerIdQuery<br>• GetSpendingLimitsByOwnerIdQuery<br>• GetRecurringTransactionsByOwnerIdQuery |
-| **Capability Analysis — Domain Events publicados** | • FamilyTransactionCreatedEvent<br>• RegisteredTransactionDetectedEvent<br>• TransactionRegistrationRejectedEvent<br>• SpendingLimitWarningReachedEvent<br>• SpendingLimitExceededEvent<br>• PaymentDueSoonEvent<br>• PaymentExpiredEvent<br>• RecurringTransactionExecutionRequestedEvent |
-| **4. Capability Layering** | Core capability: registrar transacciones y controlar límites de gasto. Supporting capability: recordatorios de pagos recurrentes (scheduling con PaymentReminderScheduler / RecurringTransactionScheduler). |
-| **5. Dependencies — Inbound (quién lo consume)** | • Analytics consume sus eventos de transacciones y límites desde RabbitMQ para su modelo de lectura.<br>• Communications se suscribe a FamilyTransactionCreatedEvent, PaymentDueSoonEvent y PaymentExpiredEvent.<br>• AI Agent consulta y crea límites de gasto mediante su API REST al aplicar un plan aprobado. |
-| **Dependencies — Outbound (a quién consume)** | • Categories & Financial Accounts: llamada REST síncrona con ACL.<br>• Communications: llamada REST síncrona (FinancesExternalNotificationsService) para alertas de límite de gasto. |
-| **6. Design Critique** | Finances es el contexto con más eventos de dominio publicados (8). En el backend anterior no exponía una interfaz propia y Analytics leía sus repositorios directamente. Como microservicio, esa lectura ya no es posible: los demás servicios lo consultan solo a través de su API o de sus eventos, lo que protege al Core Subdomain del producto. |
+| **Capability Analysis — Domain Events publicados** | • TransactionConfirmed<br>• FamilyTransactionCreated<br>• SpendingLimitUpdated<br>• SpendingLimitWarningReached<br>• SpendingLimitExceeded<br>• PaymentDueSoon<br>• PaymentExpired |
+| **4. Capability Layering** | Core capability: registrar transacciones y controlar límites de gasto. Supporting capability: recordatorios de pagos recurrentes con PaymentReminderScheduler. |
+| **5. Dependencies — Inbound (quién lo consume)** | • AI Agent: REST para consultar los límites vigentes y para crear o ajustar límites al aplicar un plan aprobado.<br>• Communications consume FamilyTransactionCreated, SpendingLimitWarningReached, SpendingLimitExceeded, PaymentDueSoon y PaymentExpired.<br>• Analytics consume TransactionConfirmed y SpendingLimitUpdated para su modelo de lectura. |
+| **Dependencies — Outbound (a quién consume)** | • Categories & Financial Accounts: REST síncrona con ACL para aplicar el cargo (saga de registro).<br>• Household: REST para verificar pertenencia y rol en transacciones familiares (AD-04). |
+| **6. Design Critique** | En el backend anterior, Finances no exponía una interfaz propia y Analytics leía sus repositorios directamente. Como microservicio, esa lectura ya no es posible: los demás servicios lo consultan solo por su API o reciben sus eventos. Además, las alertas de límite dejaron de ser una llamada directa a Communications y ahora son eventos, de modo que registrar un gasto no espera el envío de notificaciones. |
 
 #### 4.2.4.5. Financial Goals (Savings)
 
 ![Bounded Context Canvas — Financial Goals (Savings)](../assets/img/cap04/bc-canvas-05-financial-goals-savings.png)
 
-*Bounded Context Canvas de Financial Goals (Savings). Fuente: elaboración propia a partir de `intiva-api-platform`.*
+*Bounded Context Canvas de Financial Goals (Savings). Fuente: elaboración propia.*
 
 | Sección del Canvas | Contenido |
 | --- | --- |
-| **1. Context Overview — Propósito** | Permite definir metas de ahorro individuales o familiares y registrar los aportes hasta alcanzarlas. |
-| **Clasificación estratégica** | Core Subdomain — el «ahorro colaborativo» es parte del valor diferencial de Intiva. |
-| **Domain Roles** | Contexto mayormente independiente (leaf context); es leído por Analytics. |
-| **2. Ubiquitous Language** | • SavingGoal<br>• GoalContribution<br>• SavingGoalStatus (In Progress / Completed) |
-| **Business Rules** | • Una meta puede pertenecer a un individuo o a una familia (OwnerTypes).<br>• El monto ahorrado es la suma de sus GoalContribution.<br>• Completar y descompletar una meta son operaciones simétricas y reversibles (Complete / UncompleteSavingGoalCommand). |
-| **3. Capability Analysis — Commands** | • CreateSavingGoalCommand<br>• ContributeToSavingGoalCommand<br>• CompleteSavingGoalCommand<br>• UncompleteSavingGoalCommand<br>• UpdateSavingGoalCommand<br>• DeleteSavingGoalCommand |
+| **1. Context Overview — Propósito** | Permite definir metas de ahorro individuales o familiares, registrar los aportes hasta alcanzarlas y guardar los aportes previstos de un plan mensual aprobado. |
+| **Clasificación estratégica** | Core Subdomain: el ahorro colaborativo es parte del valor diferencial de Intiva. |
+| **Domain Roles** | Publicador de eventos de metas para Communications y Analytics; Downstream de Household para verificar pertenencia. |
+| **2. Ubiquitous Language** | • SavingGoal<br>• GoalContribution<br>• PlannedContribution<br>• SavingGoalStatus (In Progress / Completed / Expired) |
+| **Business Rules** | • Una meta pertenece a un individuo o a una familia (OwnerTypes), nunca a ambos.<br>• El monto ahorrado es la suma de sus GoalContribution.<br>• Un aporte previsto (PlannedContribution) no mueve dinero ni suma al monto ahorrado; solo queda como referencia del plan.<br>• Al alcanzar el monto objetivo, la meta se marca como completada y se publica SavingGoalCompleted. |
+| **3. Capability Analysis — Commands** | • CreateSavingGoalCommand<br>• ContributeToSavingGoalCommand<br>• UpdateSavingGoalCommand<br>• CompleteSavingGoalCommand<br>• DeleteSavingGoalCommand<br>• RegisterPlannedContributionCommand |
 | **Capability Analysis — Queries** | • GetSavingGoalByIdQuery<br>• GetAllSavingGoalsByUserIdQuery<br>• GetAllSavingGoalsByGroupIdQuery<br>• GetAllCompletedSavingGoalsByUserIdQuery |
-| **Capability Analysis — Domain Events publicados** | (no se identifican eventos de dominio publicados en la implementación actual — ver crítica de diseño) |
-| **4. Capability Layering** | Core capability: ciclo de vida de la meta y sus aportes. No se identifican capacidades de soporte adicionales. |
-| **5. Dependencies — Inbound (quién lo consume)** | • Analytics consume sus eventos para el modelo de lectura de metas.<br>• AI Agent registra aportes previstos mediante su API REST al aplicar un plan aprobado. |
-| **Dependencies — Outbound (a quién consume)** | Ninguna. |
-| **6. Design Critique** | El vocabulario de Communications ya reserva los tipos SAVING_GOAL_COMPLETED y SAVING_GOAL_NOT_COMPLETED, pero Savings todavía no publica el evento que debería dispararlos (p. ej. SavingGoalCompletedEvent): es un vacío entre el diseño de mensajería anticipado y la implementación actual, y queda registrado como trabajo pendiente. Asimismo, la intención original del proyecto era que un aporte de ahorro generara una transacción en Finances; el código actual no materializa esa colaboración, por lo que ambos contextos permanecen desacoplados. |
+| **Capability Analysis — Domain Events publicados** | • SavingGoalContributed<br>• SavingGoalCompleted<br>• SavingGoalExpired |
+| **4. Capability Layering** | Core capability: ciclo de vida de la meta y sus aportes. Supporting capability: registro de aportes previstos del plan mensual. |
+| **5. Dependencies — Inbound (quién lo consume)** | • AI Agent: REST para consultar metas y registrar aportes previstos al aplicar un plan (clave idempotente).<br>• Analytics consume SavingGoalContributed, SavingGoalCompleted y SavingGoalExpired.<br>• Communications consume SavingGoalCompleted y SavingGoalExpired para felicitar o avisar. |
+| **Dependencies — Outbound (a quién consume)** | • Household: REST para verificar que quien aporta a una meta familiar pertenece al grupo (AD-04). |
+| **6. Design Critique** | En el backend anterior Savings no publicaba eventos, aunque Communications ya tenía reservados los tipos de notificación de meta cumplida. Como microservicio, publica sus eventos y ese vacío se cierra. Se mantuvo separado de Finances: un aporte no genera una transacción, y un aporte previsto del plan se guarda aparte de los aportes reales para no confundir lo planificado con lo ahorrado. |
 
 #### 4.2.4.6. Household
 
 ![Bounded Context Canvas — Household](../assets/img/cap04/bc-canvas-06-household.png)
 
-*Bounded Context Canvas de Household. Fuente: elaboración propia a partir de `intiva-api-platform`.*
+*Bounded Context Canvas de Household. Fuente: elaboración propia.*
 
 | Sección del Canvas | Contenido |
 | --- | --- |
 | **1. Context Overview — Propósito** | Modela la colaboración financiera familiar: creación de grupos familiares, asignación de roles, membresías e invitaciones. |
-| **Clasificación estratégica** | Core Subdomain — es el diferenciador central de Intiva frente a las apps de finanzas personales puramente individuales. |
-| **Domain Roles** | Upstream de Communications (provee membresía) y a la vez Downstream de Communications (solicita notificaciones): relación de Partnership bidireccional. |
+| **Clasificación estratégica** | Core Subdomain: es el diferenciador central de Intiva frente a las aplicaciones de finanzas puramente individuales. |
+| **Domain Roles** | Open Host Service: verifica pertenencia y rol para Finances, Savings y Communications (AD-04), y publica los eventos de invitación. |
 | **2. Ubiquitous Language** | • Family<br>• FamilyMember / FamilyRole<br>• Family Economy Responsible<br>• Invitation / InvitationStatus<br>• DeferredDeepLink |
-| **Business Rules** | • Solo el Family Economy Responsible administra el grupo familiar y asigna roles.<br>• Una invitación pendiente no puede duplicarse (InvitationAlreadyPendingException) y expira tras un tiempo definido (InvitationExpiredException).<br>• Una persona no puede unirse dos veces al mismo grupo (UserAlreadyMemberException).<br>• Las invitaciones soportan enlaces diferidos (deep link) y código QR para personas que aún no tienen la app instalada. |
+| **Business Rules** | • Solo el Family Economy Responsible administra el grupo familiar y asigna roles.<br>• Una invitación pendiente no puede duplicarse (InvitationAlreadyPendingException) y expira tras un tiempo definido.<br>• Una persona no puede unirse dos veces al mismo grupo (UserAlreadyMemberException).<br>• Las invitaciones admiten enlaces diferidos y código QR para personas que aún no tienen la aplicación. |
 | **3. Capability Analysis — Commands** | • CreateFamilyCommand<br>• AddFamilyMemberCommand<br>• AssignRoleCommand<br>• SendInvitationCommand<br>• SendInvitationLinkCommand<br>• AcceptInvitationCommand<br>• RejectInvitationCommand<br>• ClaimDeferredInviteCommand |
 | **Capability Analysis — Queries** | • GetFamilyByIdQuery<br>• GetMembersByFamilyIdQuery<br>• GetInvitationByTokenQuery<br>• GetPendingInvitationsByUserIdQuery |
-| **Capability Analysis — Domain Events publicados** | • FamilyCreatedEvent<br>• FamilyInvitationSentEvent<br>• InvitationAcceptedEvent<br>• InvitationRejectedEvent |
-| **4. Capability Layering** | Core capability: gestión de membresía familiar y roles. Supporting capability: generación de códigos QR y enlaces diferidos de invitación (infraestructura de distribución). |
-| **5. Dependencies — Inbound (quién lo consume)** | Communications llama a HouseholdContextFacade.getActiveFamilyMemberUserIds(familyId) para poder notificar a todo el grupo cuando Finances registra una transacción familiar. |
-| **Dependencies — Outbound (a quién consume)** | Communications — ACL síncrona, para notificar invitaciones enviadas y aceptadas. |
-| **6. Design Critique** | Household y Communications se llaman mutuamente (Household → Communications para notificar; Communications → Household para resolver miembros). Es una relación de Partnership válida, pero exige vigilar que no aparezcan ciclos de eventos entre ambos contextos; se recomienda documentarla explícitamente como tal en el Context Map para que el equipo la trate con el mismo cuidado de versionado en ambos sentidos. |
+| **Capability Analysis — Domain Events publicados** | • FamilyCreated<br>• FamilyInvitationSent<br>• InvitationAccepted<br>• InvitationRejected |
+| **4. Capability Layering** | Core capability: gestión de membresía familiar y roles. Supporting capability: generación de códigos QR y enlaces diferidos de invitación. |
+| **5. Dependencies — Inbound (quién lo consume)** | • Finances y Savings: REST para verificar pertenencia y rol.<br>• Communications: REST (/internal) para obtener los integrantes activos de una familia. |
+| **Dependencies — Outbound (a quién consume)** | • Ninguna llamada a otros servicios: publica sus eventos de invitación en RabbitMQ. |
+| **6. Design Critique** | En el backend anterior, Household y Communications se llamaban mutuamente: Household pedía notificar y Communications pedía los miembros. Ahora Household publica sus eventos y Communications solo le consulta los miembros, así que la dependencia va en un solo sentido y no hay riesgo de ciclos entre ambos. |
 
 #### 4.2.4.7. Communications
 
 ![Bounded Context Canvas — Communications](../assets/img/cap04/bc-canvas-07-communications.png)
 
-*Bounded Context Canvas de Communications. Fuente: elaboración propia a partir de `intiva-api-platform`.*
+*Bounded Context Canvas de Communications. Fuente: elaboración propia.*
 
 | Sección del Canvas | Contenido |
 | --- | --- |
-| **1. Context Overview — Propósito** | Centraliza la generación de notificaciones in-app y push (mediante Firebase Cloud Messaging) originadas por eventos de negocio de otros contextos. |
+| **1. Context Overview — Propósito** | Centraliza las notificaciones in-app y push (mediante Firebase Cloud Messaging) que se originan en eventos de otros contextos, y programa los recordatorios de un plan aprobado. |
 | **Clasificación estratégica** | Generic / Supporting Subdomain: motor de mensajería reutilizable, no es un diferenciador de negocio en sí mismo. |
-| **Domain Roles** | Downstream de Finances y Household (consumidor de eventos) y a la vez Open Host Service para quien necesite emitir una notificación. |
-| **2. Ubiquitous Language** | • Notification / NotificationDevice<br>• NotificationType<br>• NotificationSource<br>• NotificationStatus (Read / Unread) |
-| **Business Rules** | • Una notificación push se envía a todos los dispositivos activos registrados por la persona usuaria (NotificationDevice).<br>• Toda notificación registra un tipo y una fuente de negocio (NotificationType / NotificationSource) para poder filtrarla.<br>• En entornos de desarrollo, el envío a Firebase se sustituye por un stub (DevFirebaseMessagingGatewayStub) para no depender de credenciales reales. |
-| **3. Capability Analysis — Commands** | • CreateInAppNotificationCommand<br>• SendPushNotificationCommand<br>• RegisterNotificationDeviceCommand<br>• DeactivateNotificationDeviceCommand<br>• MarkNotificationAsReadCommand |
+| **Domain Roles** | Downstream conformista de Finances, Savings, Household y AI Agent (consume sus eventos); Open Host Service para programar recordatorios. |
+| **2. Ubiquitous Language** | • Notification / NotificationDevice<br>• NotificationType<br>• NotificationSource<br>• ScheduledReminder<br>• NotificationStatus (Read / Unread) |
+| **Business Rules** | • Una notificación push se envía a todos los dispositivos activos de la persona usuaria.<br>• Toda notificación registra un tipo y una fuente de negocio para poder filtrarla.<br>• Un evento ya procesado no genera una segunda notificación (consumidor idempotente).<br>• Si Firebase falla, la notificación queda guardada y visible dentro de la aplicación. |
+| **3. Capability Analysis — Commands** | • CreateInAppNotificationCommand<br>• SendPushNotificationCommand<br>• CreateScheduledReminderCommand<br>• RegisterNotificationDeviceCommand<br>• DeactivateNotificationDeviceCommand<br>• MarkNotificationAsReadCommand |
 | **Capability Analysis — Queries** | • GetNotificationsByRecipientUserIdQuery<br>• GetUnreadNotificationsByRecipientUserIdQuery<br>• GetActiveNotificationDevicesByUserIdQuery |
-| **Capability Analysis — Domain Events publicados** | (no publica eventos propios: es mayoritariamente un contexto «hoja» consumidor de eventos ajenos) |
-| **4. Capability Layering** | Core capability: entrega confiable de la notificación (in-app + push). Supporting capability: registro y gestión del ciclo de vida de los dispositivos (tokens FCM). |
-| **5. Dependencies — Inbound (quién lo consume)** | • Finances llama a CommunicationsContextFacade vía ACL (FinancesExternalNotificationsService).<br>• Household llama a CommunicationsContextFacade vía ACL directa.<br>• Communications escucha directamente 3 eventos de Finances (FamilyTransactionCreatedEvent, PaymentDueSoonEvent, PaymentExpiredEvent) y 2 de Household (FamilyInvitationSentEvent, InvitationAcceptedEvent). |
-| **Dependencies — Outbound (a quién consume)** | Household — ACL síncrona, para resolver los miembros activos de una familia. |
-| **6. Design Critique** | Conviven dos mecanismos de integración con el mismo propósito: ACL explícita (cuando Finances u Household llaman a Communications) frente a suscripción directa a eventos del emisor (cuando Communications escucha eventos de Finances/Household por su cuenta). Se recomienda unificar el criterio para que todo evento que derive en notificación se traduzca primero en una llamada explícita al ACL de Communications, evitando que este contexto dependa de las clases de evento internas de otros bounded contexts. |
+| **Capability Analysis — Domain Events publicados** | (no publica eventos: es un contexto hoja que consume eventos ajenos) |
+| **4. Capability Layering** | Core capability: entrega confiable de la notificación (in-app y push). Supporting capability: gestión de dispositivos (tokens FCM) y recordatorios programados. |
+| **5. Dependencies — Inbound (quién lo consume)** | • AI Agent: REST para programar los recordatorios de un plan aprobado (clave idempotente).<br>• Consume eventos de Finances (FamilyTransactionCreated, SpendingLimitWarningReached, SpendingLimitExceeded, PaymentDueSoon, PaymentExpired), Savings (SavingGoalCompleted, SavingGoalExpired), Household (FamilyInvitationSent, InvitationAccepted, InvitationRejected) y AI Agent (MonthlyPlanActivated). |
+| **Dependencies — Outbound (a quién consume)** | • Household: REST (/internal) para obtener los integrantes activos de una familia.<br>• Firebase Cloud Messaging: envío push. |
+| **6. Design Critique** | En el backend anterior convivían dos mecanismos para lo mismo: algunos contextos llamaban a Communications y otros eran escuchados directamente. Ahora toda notificación nace de un evento publicado en RabbitMQ. La única llamada directa es la de AI Agent para programar recordatorios, porque el agente necesita confirmar que cada acción del plan se aplicó. |
 
 #### 4.2.4.8. Analytics
 
 ![Bounded Context Canvas — Analytics](../assets/img/cap04/bc-canvas-08-analytics.png)
 
-*Bounded Context Canvas de Analytics. Fuente: elaboración propia a partir de `intiva-api-platform`.*
+*Bounded Context Canvas de Analytics. Fuente: elaboración propia.*
 
 | Sección del Canvas | Contenido |
 | --- | --- |
-| **1. Context Overview — Propósito** | Transforma los datos financieros (transacciones, límites de gasto, metas de ahorro) en métricas, tendencias y reportes visuales para el dashboard de la aplicación web. |
-| **Clasificación estratégica** | Supporting Subdomain: es un read-model / motor de reportes, no un contexto transaccional. |
-| **Domain Roles** | Downstream puro de Finances, Savings y Categories & Financial Accounts; no es consumido por ningún otro contexto de backend (solo por la aplicación web). |
-| **2. Ubiquitous Language** | • AnalyticsSummary<br>• AnalyticsPeriod (Daily / Weekly / Monthly / Annual)<br>• SpendingLimitAnalytics<br>• SavingGoalAnalytics<br>• CategoryExpenseSummary |
-| **Business Rules** | • Los resultados se calculan por OwnerType (Individual o Family) y por PeriodType.<br>• Los resúmenes se cachean en Redis mediante un AnalyticsCachePort para reducir la carga sobre PostgreSQL.<br>• Un reporte exportable respeta un ReportFormat y un ReportFilter definidos por la persona usuaria. |
-| **3. Capability Analysis — Commands** | GenerateReportCommand |
-| **Capability Analysis — Queries** | • GetAnalyticsSummaryByOwnerQuery<br>• GetSpendingLimitAnalyticsByOwnerQuery<br>• GetSavingGoalAnalyticsByOwnerQuery<br>• GetCategoryExpenseRankingQuery<br>• GetIncomeVsExpenseTrendQuery<br>• GetReportPreviewQuery |
-| **Capability Analysis — Domain Events publicados** | (no publica eventos: es un contexto de consulta, no de comando de negocio) |
-| **4. Capability Layering** | Core capability: cálculo y cacheo del resumen financiero. Supporting capability: generación de reportes exportables. |
-| **5. Dependencies — Inbound (quién lo consume)** | • La aplicación web, a través de sus endpoints REST.<br>• AI Agent, que le pide la proyección de gastos por categoría para armar el plan mensual. |
-| **Dependencies — Outbound (a quién consume)** | • Categories & Financial Accounts: llamada REST síncrona con ACL.<br>• Finances y Financial Goals (Savings): consume sus eventos de integración desde RabbitMQ y los guarda en su propio modelo de lectura (`analytics_db`). |
-| **6. Design Critique** | Era el caso más claro de deuda de diseño del backend anterior: AnalyticsExternalTransactionService inyectaba directamente los repositorios de Finances y Savings, saltándose su ACL y su Application Layer. Funcionaba porque todos los contextos compartían una base de datos y un despliegue. Con microservicios, Analytics tiene su propio modelo de lectura alimentado por eventos. El costo es que los datos del panel pueden tardar unos segundos en actualizarse. |
+| **1. Context Overview — Propósito** | Transforma los datos financieros (transacciones, límites de gasto y metas de ahorro) en métricas, tendencias, reportes y la proyección de gastos que usa el plan mensual. |
+| **Clasificación estratégica** | Supporting Subdomain: es un modelo de lectura y motor de reportes, no un contexto transaccional. |
+| **Domain Roles** | Downstream conformista de Finances, Savings y Categories & Financial Accounts; Open Host Service para la aplicación web y AI Agent. |
+| **2. Ubiquitous Language** | • AnalyticsSummary<br>• AnalyticsPeriod (Daily / Weekly / Monthly / Annual)<br>• SpendingLimitAnalytics<br>• SavingGoalAnalytics<br>• CategoryExpenseSummary<br>• SpendingProjection |
+| **Business Rules** | • Los resultados se calculan por OwnerType (individual o familiar) y por periodo.<br>• Los resúmenes se guardan en Redis con tiempo de vida acotado (cache-aside, AD-11).<br>• La proyección del próximo mes se calcula con reglas reproducibles sobre el historial, sin usar el modelo de IA.<br>• Un reporte exportable respeta el formato y el filtro que define la persona usuaria. |
+| **3. Capability Analysis — Commands** | • GenerateReportCommand |
+| **Capability Analysis — Queries** | • GetAnalyticsSummaryByOwnerQuery<br>• GetSpendingLimitAnalyticsByOwnerQuery<br>• GetSavingGoalAnalyticsByOwnerQuery<br>• GetCategoryExpenseRankingQuery<br>• GetIncomeVsExpenseTrendQuery<br>• GetSpendingProjectionQuery |
+| **Capability Analysis — Domain Events publicados** | (no publica eventos: es un contexto de consulta) |
+| **4. Capability Layering** | Core capability: cálculo y caché del resumen financiero. Supporting capability: proyección de gastos y reportes exportables. |
+| **5. Dependencies — Inbound (quién lo consume)** | • Aplicación web, a través de sus endpoints REST.<br>• AI Agent: REST para obtener la proyección del plan mensual y los resúmenes que usa el chat del asistente. |
+| **Dependencies — Outbound (a quién consume)** | • Consume eventos de Finances (TransactionConfirmed, SpendingLimitUpdated), Savings (SavingGoalContributed, SavingGoalCompleted, SavingGoalExpired) y Categories & Financial Accounts (CategoryUpserted), y los guarda en su modelo de lectura (analytics_db). |
+| **6. Design Critique** | Era el caso más claro de deuda de diseño del backend anterior: inyectaba directamente los repositorios de Finances y Savings, saltándose su ACL y su Application Layer. Con microservicios mantiene su propio modelo de lectura alimentado por eventos y no llama a nadie al consultar. El costo es que los datos del panel pueden tardar unos segundos en actualizarse. |
 
 #### 4.2.4.9. AI Agent
 
-*La representación visual de este canvas está pendiente; a continuación se presenta su contenido.*
+![Bounded Context Canvas — AI Agent](../assets/img/cap04/bc-canvas-09-ai-agent.png)
+
+*Bounded Context Canvas de AI Agent. Fuente: elaboración propia.*
 
 | Sección del Canvas | Contenido |
 | --- | --- |
-| **1. Context Overview — Propósito** | Ayuda a la persona usuaria a planificar su mes: obtiene la proyección de gastos, explica los riesgos frente a sus límites y metas y propone un plan editable. También sugiere categorías al registrar un gasto. Es el único contexto que se comunica con el modelo de IA (Gemini API). |
+| **1. Context Overview — Propósito** | Ayuda a la persona a planificar su mes: obtiene la proyección de gastos, explica los riesgos frente a sus límites y metas y propone un plan editable que solo se aplica al aprobarlo. También sugiere categorías al registrar un gasto y responde consultas en un chat que solo recomienda. Es el único contexto que se comunica con Gemini. |
 | **Clasificación estratégica** | Supporting Subdomain con valor diferencial: no maneja dinero, pero es la funcionalidad de IA agéntica que distingue a Intiva. |
-| **Domain Roles** | Orquestador (*Execution*): coordina a Analytics, Finances, Savings y Communications para preparar y aplicar un plan. |
-| **2. Ubiquitous Language** | • MonthlyPlan / PlanVersion<br>• PlanAction (límite, aporte previsto, recordatorio)<br>• Projection / RiskAmount<br>• Approval<br>• CategorySuggestion |
-| **Business Rules** | • Un borrador no cambia límites, metas ni avisos.<br>• Solo se aplica la versión que aprueba su titular; si el plan cambia, se crea una nueva versión.<br>• Cada acción se aplica con una clave idempotente, y un reintento solo ejecuta las acciones pendientes.<br>• Planificar un aporte no mueve dinero.<br>• Al modelo solo se envían los datos mínimos autorizados por el usuario, nunca credenciales ni datos de otros grupos. |
-| **3. Capability Analysis — Commands** | • RequestMonthlyPlanCommand<br>• EditPlanDraftCommand<br>• ApprovePlanCommand<br>• DiscardPlanCommand<br>• SuggestCategoryCommand |
-| **Capability Analysis — Queries** | • GetPlanByIdQuery<br>• GetPlanStatusQuery |
-| **Capability Analysis — Domain Events publicados** | • MonthlyPlanApprovedEvent<br>• MonthlyPlanAppliedEvent |
-| **4. Capability Layering** | Core capability: generar, versionar y aplicar el plan mensual con aprobación del usuario. Supporting capability: sugerencia de categorías para el registro de gastos. |
-| **5. Dependencies — Inbound (quién lo consume)** | • Aplicaciones móvil y web, a través del API Gateway.<br>• Categories & Financial Accounts: llamada REST para obtener una categoría sugerida. |
-| **Dependencies — Outbound (a quién consume)** | • Analytics: proyección de gastos por categoría.<br>• Finances, Savings y Communications: aplicación de las acciones del plan mediante sus APIs.<br>• Gemini API: explicación del riesgo, propuesta del plan y clasificación. |
+| **Domain Roles** | Orquestador (Execution): coordina a Analytics, Finances, Savings y Communications para preparar y aplicar un plan. |
+| **2. Ubiquitous Language** | • MonthlyPlan / PlanVersion<br>• PlanAction (límite, aporte previsto, recordatorio)<br>• Projection / RiskAmount<br>• Approval<br>• CategorySuggestion<br>• AssistantConversation |
+| **Business Rules** | • Un borrador no cambia límites, metas ni recordatorios.<br>• Solo se aplica la versión que aprueba su titular; si el plan cambia, se crea una nueva versión.<br>• Cada acción se aplica con una clave idempotente, y un reintento solo ejecuta las pendientes.<br>• El chat solo tiene herramientas de lectura: recomienda, pero no registra ni modifica datos (AD-26).<br>• Al modelo solo se envían los datos mínimos autorizados; nunca credenciales ni datos de otros grupos. |
+| **3. Capability Analysis — Commands** | • RequestMonthlyPlanCommand<br>• EditPlanDraftCommand<br>• ApprovePlanCommand<br>• DiscardPlanCommand<br>• RetryPendingActionsCommand<br>• SuggestCategoryCommand<br>• AskAssistantCommand |
+| **Capability Analysis — Queries** | • GetCurrentPlanQuery<br>• GetPlanByIdQuery<br>• GetPlanStatusQuery<br>• GetConversationQuery |
+| **Capability Analysis — Domain Events publicados** | • MonthlyPlanApproved<br>• MonthlyPlanActivated<br>• MonthlyPlanApplicationFailed |
+| **4. Capability Layering** | Core capability: generar, versionar y aplicar el plan mensual con aprobación del usuario. Supporting capability: sugerencia de categorías y chat del asistente. |
+| **5. Dependencies — Inbound (quién lo consume)** | • Aplicaciones móvil y web, a través del API Gateway.<br>• Communications consume MonthlyPlanActivated para avisar que el plan está activo. |
+| **Dependencies — Outbound (a quién consume)** | • Analytics: REST para la proyección de gastos y los resúmenes.<br>• Categories & Financial Accounts: REST para las categorías de la persona.<br>• Finances, Savings y Communications: REST para consultar y aplicar las acciones del plan.<br>• Gemini API mediante Spring AI: explicación del riesgo, propuesta del plan, clasificación y respuestas del chat. |
 | **6. Design Critique** | Concentrar la IA en un servicio evita que la dependencia del proveedor se reparta por todo el backend. A cambio, el agente depende de cuatro servicios para aplicar un plan, por lo que una aplicación puede quedar a medias (DT-04). Por eso cada acción guarda su propio estado y el plan solo pasa a activo cuando se confirman todas las acciones requeridas. |
 
 ### 4.2.5. Context Mapping
 
-Con las *Dependencies Capture* de cada Bounded Context Canvas ya relevadas, el equipo construyó el Context Map de Intiva, que muestra las relaciones entre los bounded contexts. En la arquitectura de microservicios hay dos tipos de colaboración: llamadas REST síncronas a la API que publica cada servicio (**Anti-Corruption Layer / Open Host Service**) y eventos de integración publicados en RabbitMQ (**Conformist / Published Language**). El análisis del backend anterior encontró un tercer tipo, el acceso directo de Analytics a los repositorios de otros contextos. Ese acceso desaparece con una base de datos por servicio, y las relaciones 10 y 11 de la tabla muestran cómo se reemplazó.
+Con las *Dependencies Capture* de cada Bounded Context Canvas ya relevadas, el equipo construyó el Context Map de Intiva, que muestra las relaciones entre los nueve bounded contexts. En la arquitectura de microservicios hay dos tipos de colaboración: llamadas REST síncronas a la API que publica cada servicio, para consultas y validaciones (**Customer/Supplier con Anti-Corruption Layer / Open Host Service**), y eventos de integración publicados en RabbitMQ, para avisos (**Conformist / Published Language**). El análisis del backend anterior encontró un tercer tipo, el acceso directo de Analytics a los repositorios de otros contextos. Ese acceso desaparece con una base de datos por servicio, y las relaciones 11 a 13 de la tabla muestran cómo se reemplazó.
 
 ![Context Map de Intiva](../assets/img/cap04/context-map.png)
 
-*Context Map de Intiva, en notación de Context Mapping de Domain-Driven Design: cada relación indica su extremo upstream (U, proveedor) y downstream (D, consumidor), junto con el patrón de relación aplicado. Los números remiten a la tabla de relaciones que se detalla a continuación. Fuente: elaboración propia a partir de `intiva-api-platform`.*
-
-
+*Context Map de Intiva, en notación de Context Mapping de Domain-Driven Design: cada relación indica su extremo upstream (U, proveedor) y downstream (D, consumidor), junto con el patrón de relación aplicado. Las líneas continuas son llamadas REST y las discontinuas, eventos en RabbitMQ. Los números remiten a la tabla de relaciones que se detalla a continuación. Fuente: elaboración propia.*
 
 #### Tabla de relaciones entre bounded contexts
 
-| # | Relación (llamador → llamado) | Patrón DDD | Mecanismo de integración | Uso |
+| # | Relación (consumidor → proveedor) | Patrón DDD | Mecanismo de integración | Uso |
 | --- | --- | --- | --- | --- |
-| 1 | IAM → Categories & Financial Accounts | Customer/Supplier con Anti-Corruption Layer (ACL) | Llamada REST síncrona a la API de Categories & Financial Accounts, mediante un adaptador propio de IAM (IamExternalCategoriesService, IamExternalFinancialAccountsService). | Crear la categoría y la cuenta financiera por defecto tras el registro. |
-| 2 | IAM → Profiles | Customer/Supplier con ACL (Open Host Service publicado por Profiles) | Llamada REST síncrona a la API de Profiles mediante IamProfilesExternalService. | createUserOnboarding(userId). |
-| 3 | Profiles → IAM | Conformist (Published Language) | Evento de integración UserRegistered publicado por IAM en RabbitMQ. | Crear el Profile por defecto. |
-| 4 | Finances → Categories & Financial Accounts | Customer/Supplier con ACL | Llamada REST síncrona mediante FinancesExternalCategoriesService / FinancesExternalFinancialAccountService. | Validación de saldo suficiente y registro del movimiento en la cuenta. |
-| 5 | Finances → Communications | Customer/Supplier con ACL / Open Host Service | Llamada REST síncrona mediante FinancesExternalNotificationsService. | Alertas de límite de gasto (warning / exceeded). |
-| 6 | Communications → Finances | Conformist (Published Language) | Suscripción en RabbitMQ a FamilyTransactionCreated, PaymentDueSoon y PaymentExpired. | Notificar transacciones familiares y pagos por vencer. |
-| 7 | Communications → Household | Customer/Supplier con ACL (Partnership junto con la relación 8) | Llamada REST síncrona mediante CommunicationsExternalHouseholdService. | Obtener miembros activos de la familia para notificar una transacción familiar. |
-| 8 | Household → Communications | Customer/Supplier con ACL (Partnership junto con la relación 7) | Llamada REST síncrona a la API de Communications. | Notificar invitaciones enviadas y aceptadas. |
-| 9 | Analytics → Categories & Financial Accounts | Customer/Supplier con ACL | Llamada REST síncrona a la API de Categories & Financial Accounts. | Nombre y color de categoría para los reportes. |
-| 10 | Analytics → Finances | Conformist (Published Language) | Suscripción en RabbitMQ a los eventos de transacciones y límites; Analytics los guarda en su modelo de lectura. | Cálculo de AnalyticsSummary y SpendingLimitAnalytics. |
-| 11 | Analytics → Financial Goals (Savings) | Conformist (Published Language) | Suscripción en RabbitMQ a los eventos de metas y aportes. | Cálculo de SavingGoalAnalytics. |
-| 12 | AI Agent → Analytics | Customer/Supplier con ACL | Llamada REST síncrona a la API de Analytics. | Obtener la proyección de gastos por categoría para el plan mensual. |
-| 13 | AI Agent → Finances, Savings y Communications | Customer/Supplier con ACL | Llamadas REST síncronas con clave idempotente por acción. | Aplicar el plan aprobado: límites de gasto, aportes previstos y recordatorios. |
-| 14 | Categories & Financial Accounts → AI Agent | Customer/Supplier con ACL | Llamada REST síncrona a la API de AI Agent. | Obtener una categoría sugerida al registrar un gasto. |
+| 1 | Profiles → IAM | Conformist (Published Language) | Evento `UserRegistered` en RabbitMQ. | Crear el Profile y el onboarding por defecto. |
+| 2 | Categories & Financial Accounts → IAM | Conformist (Published Language) | Evento `UserRegistered` en RabbitMQ. | Crear la categoría y la cuenta financiera por defecto. |
+| 3 | Finances → Categories & Financial Accounts | Customer/Supplier con ACL (Open Host Service) | REST síncrona con clave idempotente (saga de registro). | Validar el saldo y aplicar el cargo de una transacción. |
+| 4 | Finances → Household | Customer/Supplier con ACL | REST síncrona. | Verificar pertenencia y rol en transacciones familiares (AD-04). |
+| 5 | Financial Goals (Savings) → Household | Customer/Supplier con ACL | REST síncrona. | Verificar pertenencia en metas familiares (AD-04). |
+| 6 | Communications → Finances | Conformist (Published Language) | Eventos `FamilyTransactionCreated`, `SpendingLimitWarningReached`, `SpendingLimitExceeded`, `PaymentDueSoon` y `PaymentExpired`. | Notificar movimientos familiares, alertas de límite y pagos por vencer. |
+| 7 | Communications → Financial Goals (Savings) | Conformist (Published Language) | Eventos `SavingGoalCompleted` y `SavingGoalExpired`. | Felicitar o avisar sobre una meta. |
+| 8 | Communications → Household | Conformist (Published Language) | Eventos `FamilyInvitationSent`, `InvitationAccepted` e `InvitationRejected`. | Notificar invitaciones. |
+| 9 | Communications → Household | Customer/Supplier con ACL | REST síncrona sobre `/internal`. | Obtener los integrantes activos que deben recibir una notificación familiar. |
+| 10 | Communications → AI Agent | Conformist (Published Language) | Evento `MonthlyPlanActivated`. | Avisar que el plan del mes está activo. |
+| 11 | Analytics → Finances | Conformist (Published Language) | Eventos `TransactionConfirmed` y `SpendingLimitUpdated`, guardados en su modelo de lectura. | Cálculo de AnalyticsSummary, SpendingLimitAnalytics y la proyección. |
+| 12 | Analytics → Financial Goals (Savings) | Conformist (Published Language) | Eventos `SavingGoalContributed`, `SavingGoalCompleted` y `SavingGoalExpired`. | Cálculo de SavingGoalAnalytics. |
+| 13 | Analytics → Categories & Financial Accounts | Conformist (Published Language) | Evento `CategoryUpserted`. | Nombre y color de cada categoría en los reportes. |
+| 14 | AI Agent → Analytics | Customer/Supplier con ACL | REST síncrona. | Proyección de gastos por categoría y resúmenes para el chat. |
+| 15 | AI Agent → Categories & Financial Accounts | Customer/Supplier con ACL | REST síncrona. | Categorías de la persona para sugerir una al registrar un gasto. |
+| 16 | AI Agent → Finances, Savings y Communications | Customer/Supplier con ACL | REST síncrona; las escrituras llevan clave idempotente por acción. | Consultar límites y metas, y aplicar el plan aprobado: límites, aportes previstos y recordatorios. |
+
 #### Shared Kernel
 
-Los microservicios comparten deliberadamente la librería `platform.shared`, que actúa como un **Shared Kernel**: `Money`, `UserId`, `OwnerTypes`, `PeriodTypes`, `CurrencyCodes`, `TransactionEntry` y la clase base `AuditableAbstractAggregate`. Se publica con número de versión y cada servicio la incluye como dependencia. Mantener estos tipos de valor en un único lugar evita que cada servicio reinvente su propia noción de "dinero" o de "titular" (individual frente a familiar), algo especialmente riesgoso en un dominio financiero. El costo es el habitual del Shared Kernel: cualquier cambio en estos tipos requiere coordinación entre los responsables de los servicios. Como la librería tiene versión, cada servicio puede adoptar el cambio cuando le corresponda, sin que todos tengan que redesplegarse al mismo tiempo.
+Los microservicios comparten deliberadamente la librería `intiva-shared-kernel`, que actúa como un **Shared Kernel**: `Money`, `UserId`, `OwnerTypes`, `PeriodTypes`, `CurrencyCodes` y la clase base `AuditableAbstractAggregate`. Se publica con número de versión y cada servicio la incluye como dependencia. Mantener estos tipos de valor en un único lugar evita que cada servicio reinvente su propia noción de "dinero" o de "titular" (individual frente a familiar), algo especialmente riesgoso en un dominio financiero. El costo es el habitual del Shared Kernel: cualquier cambio en estos tipos requiere coordinación entre los responsables de los servicios. Como la librería tiene versión, cada servicio puede adoptar el cambio cuando le corresponda, sin que todos tengan que redesplegarse al mismo tiempo. Los eventos de integración no forman parte del Shared Kernel: se publican como JSON (Published Language), de modo que ningún servicio importa clases de otro.
 
 #### Discusión de diseño: preguntas "¿qué pasaría si…?"
 
 Siguiendo las preguntas de diseño sugeridas para el proceso de Context Mapping, el equipo discutió explícitamente las siguientes alternativas antes de llegar al mapa presentado:
 
-- **"¿Qué pasaría si movemos este *capability* a otro bounded context?"** — Se evaluó extraer *Financial Accounts* fuera de *Categories* hacia un contexto propio de "Payment Methods". Se decidió no hacerlo todavía: comparten infraestructura y el volumen de reglas de negocio de *Financial Accounts* aún es reducido, pero queda identificado como el candidato más claro a separarse si el dominio de medios de pago crece (por ejemplo, al integrar pasarelas de pago externas).
-- **"¿Qué pasaría si aislamos los *core capabilities* y movemos los otros a un contexto aparte?"** — Aplicado a *Finances*: se consideró separar el recordatorio de pagos recurrentes (*scheduling*) en un contexto de soporte independiente del núcleo transaccional. Se descartó porque ambos comparten el agregado `RecurringTransaction` y la separación duplicaría reglas de negocio sin un beneficio claro todavía.
-- **"¿Qué pasaría si creamos un *shared service* para reducir la duplicación entre múltiples bounded contexts?"** — Ya está aplicado como el Shared Kernel descrito arriba, para los tipos de valor fundamentales del dominio financiero (`Money`, `UserId`, `OwnerTypes`, etc.).
-- **"¿Qué pasaría si duplicamos una funcionalidad para romper la dependencia?"** — Es lo que se aplicó a *Analytics* al pasar a microservicios. En lugar de leer los repositorios de *Finances* y *Savings* (relaciones 10 y 11), *Analytics* mantiene su propio modelo de lectura al estilo CQRS, alimentado por los eventos que publican esos servicios. Así se eliminó la deuda de diseño del backend anterior sin sacrificar el rendimiento del dashboard, a cambio de que los datos tarden unos segundos en actualizarse.
-- **"¿Qué pasaría si partimos el bounded context en múltiples bounded contexts?"** — Aplicado a *Communications*: se evaluó separar la gestión de dispositivos (tokens de notificación push) de la generación y entrega de notificaciones. Se descartó porque ambos comparten el mismo ciclo de vida operativo y la separación solo añadiría una llamada más entre contextos sin reducir el acoplamiento real.
+- **"¿Qué pasaría si movemos este *capability* a otro bounded context?"** — Se evaluó extraer *Financial Accounts* fuera de *Categories* hacia un contexto propio de "Payment Methods". Se decidió no hacerlo todavía: el volumen de reglas de negocio de *Financial Accounts* aún es reducido, pero queda identificado como el candidato más claro a separarse si el dominio de medios de pago crece. También se evaluó poner la sugerencia de categoría dentro de *Categories & Financial Accounts*; se descartó para que Gemini quede detrás de un solo servicio, AI Agent.
+- **"¿Qué pasaría si aislamos los *core capabilities* y movemos los otros a un contexto aparte?"** — Aplicado a *Finances*: se consideró separar el recordatorio de pagos recurrentes en un contexto de soporte. Se descartó porque ambos comparten el agregado `RecurringTransaction` y la separación duplicaría reglas sin un beneficio claro todavía.
+- **"¿Qué pasaría si creamos un *shared service* para reducir la duplicación entre múltiples bounded contexts?"** — Ya está aplicado como el Shared Kernel descrito arriba, para los tipos de valor fundamentales del dominio financiero.
+- **"¿Qué pasaría si duplicamos una funcionalidad para romper la dependencia?"** — Es lo que se aplicó a *Analytics*. En lugar de leer los repositorios de *Finances* y *Savings*, mantiene su propio modelo de lectura al estilo CQRS, alimentado por sus eventos (relaciones 11 a 13). Así se eliminó la deuda de diseño del backend anterior sin sacrificar el rendimiento del dashboard, a cambio de que los datos tarden unos segundos en actualizarse.
+- **"¿Qué pasaría si partimos el bounded context en múltiples bounded contexts?"** — Aplicado a *Communications*: se evaluó separar la gestión de dispositivos de la generación y entrega de notificaciones. Se descartó porque ambos comparten el mismo ciclo de vida y la separación solo añadiría una llamada más sin reducir el acoplamiento real.
 
-**Conclusión del Context Mapping.** En conjunto, el Context Map confirma que *Finances* y *Household* son los Core Subdomains del negocio —motivo por el cual concentran más eventos de dominio y más relaciones entrantes—, mientras que *IAM*, *Communications* y *Analytics* cumplen roles de soporte genérico. *AI Agent* es el contexto con más dependencias salientes, porque coordina a cuatro servicios para aplicar un plan. Por eso cada acción del plan es idempotente y guarda su propio estado. La relación menos saludable del análisis original era el acceso directo de *Analytics* a los repositorios de *Finances* y *Savings*. Con los microservicios decididos en la Iteración 1 del ADD y una base de datos por servicio, ese acceso se reemplazó por eventos de integración (relaciones 10 y 11).
+**Conclusión del Context Mapping.** El Context Map confirma que *Finances*, *Household* y *Financial Goals* son los Core Subdomains del negocio, mientras que *IAM*, *Communications* y *Analytics* cumplen roles de soporte. Las relaciones siguen una regla sencilla: REST para consultas y validaciones, y eventos para avisos. Gracias a eso, Communications y Analytics reciben todo lo que necesitan por eventos y ninguno de los servicios que los alimentan espera por ellos. *AI Agent* es el contexto con más dependencias salientes, porque coordina a cuatro servicios para aplicar un plan; por eso cada acción del plan es idempotente y guarda su propio estado. La relación menos saludable del análisis original, el acceso directo de *Analytics* a los repositorios de *Finances* y *Savings*, se reemplazó por eventos de integración con la decisión de microservicios de la Iteración 1 del ADD.
 
 ## 4.3. Software Architecture
 
-En esta sección, el equipo presenta y explica la representación de la Arquitectura de Software para la solución Intiva, aplicando el C4 Model y utilizando la herramienta Structurizr. A continuación, se desglosa el diseño desde una vista macro del ecosistema tecnológico, pasando por el contexto del sistema, los contenedores internos, hasta llegar a la distribución física en el diagrama de despliegue.
+En esta sección, el equipo presenta y explica la representación de la Arquitectura de Software para la solución Intiva, aplicando el C4 Model y utilizando la herramienta Structurizr. A continuación, se desglosa el diseño desde una vista macro del ecosistema tecnológico, pasando por el contexto del sistema y los contenedores internos, hasta llegar a la distribución en el diagrama de despliegue.
 
 ### 4.3.1. Software Architecture System Landscape Diagram
 
 En esta sección se presenta el System Landscape Diagram, el cual ilustra el panorama tecnológico completo, delimitando la frontera de la empresa frente a los sistemas externos que no controla.
 
-![Software Architecture System Landscape Diagram](../assets/img/cap04/SystemLandscape1.png)
+![Software Architecture System Landscape Diagram](../assets/img/cap04/system-landscape.png)
 
 **Explicación del diagrama:**
-El diagrama muestra a la startup Balanza como el límite empresarial ("Enterprise Boundary") que agrupa a sus usuarios registrados (Integrantes de familia y Responsables de la economía familiar) y a su producto central, Intiva Platform. Fuera de este límite se ubican los Visitantes anónimos y los sistemas de software externos con los que la empresa interactúa: Google OAuth2 (para autenticación), Google Play Billing (para procesamiento de pagos), Firebase Cloud Messaging (para el envío de notificaciones), Cloudinary (para las imágenes de perfil) y Gemini API de Google AI Studio (para las funciones de IA).
+El diagrama muestra a la startup Balanza como el límite empresarial ("Enterprise Boundary") que agrupa a sus usuarios registrados (integrantes de familia y responsables de la economía familiar) y a su producto central, Intiva Platform. Fuera de este límite se ubican los visitantes anónimos, que conocen el producto en la landing page, y los sistemas externos con los que la empresa interactúa: Google OAuth2 (autenticación federada), Firebase Cloud Messaging (notificaciones push), Cloudinary (imágenes de perfil) y Gemini API de Google AI Studio (funciones de IA). Google Play Billing no se incluye porque las suscripciones se postergan a una etapa posterior.
 
-### 4.3.1. Software Architecture Context Level Diagrams
+### 4.3.2. Software Architecture Context Level Diagrams
 
 En esta sección se presenta el Context Level Diagram. A diferencia del Landscape, este diagrama hace un acercamiento para mostrar a Intiva Platform como un recuadro único en el centro, rodeado por sus usuarios y otros sistemas con los que interactúa directamente.
 
-![Software Architecture Context Level Diagram](../assets/img/cap04/context.jpg)
+![Software Architecture Context Level Diagram](../assets/img/cap04/context-diagram.png)
 
 **Explicación del diagrama:**
-Intiva Platform se posiciona como el núcleo de la solución para la gestión financiera. Interactúa directamente con los usuarios (Visitantes, Integrantes y Responsables familiares) quienes acceden para gestionar presupuestos, ingresos y ahorros. Para lograrlo, el sistema central delega responsabilidades críticas a servicios externos: la gestión de identidad y registro a OAuth2, el cobro de suscripciones a Google Play Billing, las alertas en tiempo real a Firebase Cloud Messaging, el almacenamiento de imágenes a Cloudinary y la clasificación y planificación con IA a Gemini API.
+Intiva Platform se posiciona como el núcleo de la solución para la gestión financiera. La persona usuaria, ya sea un individuo o un integrante de una familia, la usa para gestionar gastos, ingresos y ahorros. Para lograrlo, el sistema delega responsabilidades a servicios externos: la verificación de identidad federada a Google OAuth2, el almacenamiento de imágenes a Cloudinary, el envío de notificaciones push a Firebase Cloud Messaging y la clasificación, el plan mensual y las respuestas del asistente a Gemini API, mediante *function calling*.
 
-### 4.3.2. Software Architecture Container Level Diagrams
+### 4.3.3. Software Architecture Container Level Diagrams
 
 En esta sección se presenta el Container Diagram de la plataforma Intiva. Dicho diagrama muestra los elementos de alto nivel de la arquitectura de software, cómo se distribuyen las responsabilidades entre ellos, las principales decisiones de tecnología y cómo los contenedores se comunican entre sí.
 
 ![Software Architecture Container Level Diagram](../assets/img/cap04/container-diagram-microservices.png)
 
 **Explicación del diagrama:**
-El diagrama muestra los contenedores de Intiva con una base de datos por microservicio. Los visitantes llegan a la Landing Page estática. Una vez registrados, usan la aplicación móvil para el registro diario o la aplicación web para revisar sus analíticas. Ambos clientes envían peticiones HTTPS con JSON al API Gateway (Spring Cloud Gateway), que enruta cada petición al microservicio correspondiente. Hay nueve microservicios Spring Boot, uno por bounded context, y cada uno escribe solo en su propia base de datos PostgreSQL. Los servicios publican y consumen eventos a través del message broker (RabbitMQ), y Analytics guarda en Redis los resúmenes que se consultan con frecuencia. AI Agent es el único servicio que llama a Gemini API.
+El diagrama muestra los contenedores de Intiva con una base de datos por microservicio. Los visitantes llegan a la Landing Page estática. Una vez registrados, usan la aplicación móvil para el registro diario y el plan mensual, o la aplicación web para revisar sus analíticas. Ambos clientes envían peticiones HTTPS con JSON al API Gateway (Spring Cloud Gateway), que enruta cada petición al microservicio correspondiente. Hay nueve microservicios Spring Boot, uno por bounded context, y cada uno escribe solo en su propia base de datos PostgreSQL. Entre ellos usan REST para consultas y el message broker (RabbitMQ) para avisos. Analytics guarda en Redis los resúmenes que se consultan con frecuencia, e IAM, los códigos temporales de recuperación. AI Agent es el único servicio que llama a Gemini API.
 
 A continuación, se detallan las responsabilidades y tecnologías de cada contenedor:
 
@@ -1036,16 +1112,16 @@ A continuación, se detallan las responsabilidades y tecnologías de cada conten
 | **Landing Page** | Astro.js | Sitio web estático con las funcionalidades y beneficios de Intiva. |
 | **Web Application** | Vue.js | Aplicación para navegadores web con la analítica financiera y los gráficos estadísticos para familias y usuarios. |
 | **Mobile Application** | Kotlin, Jetpack Compose | Aplicación Android para el registro diario de finanzas, la gestión de grupos familiares y el plan mensual con IA. |
-| **API Gateway** | Spring Cloud Gateway | Punto de entrada único. Recibe las peticiones de los clientes y las enruta al microservicio que corresponde según la ruta. |
+| **API Gateway** | Spring Cloud Gateway | Punto de entrada único. Recibe las peticiones de los clientes, valida el JWT y las enruta al microservicio que corresponde según la ruta. |
 | **IAM Service** | Java, Spring Boot | Autenticación, registro, roles y emisión de JWT. Base de datos: `iam_db`. |
 | **Profiles Service** | Java, Spring Boot | Datos personales, avatares (Cloudinary) y onboarding guiado. Base de datos: `profiles_db`. |
-| **Categories & Financial Accounts Service** | Java, Spring Boot | Categorías, cuentas financieras y solicitud de categorías sugeridas por IA. Base de datos: `catalog_db`. |
+| **Categories & Financial Accounts Service** | Java, Spring Boot | Categorías y cuentas financieras; dueño del saldo. Base de datos: `catalog_db`. |
 | **Finances Service** | Java, Spring Boot | Core: transacciones, límites de gasto y pagos recurrentes. Base de datos: `finances_db`. |
-| **Financial Goals (Savings) Service** | Java, Spring Boot | Metas de ahorro personales y familiares, y sus aportes. Base de datos: `savings_db`. |
+| **Financial Goals (Savings) Service** | Java, Spring Boot | Metas de ahorro personales y familiares, sus aportes y los aportes previstos del plan. Base de datos: `savings_db`. |
 | **Household Service** | Java, Spring Boot | Core: grupos familiares, roles, membresías e invitaciones por QR o enlace. Base de datos: `household_db`. |
-| **Communications Service** | Java, Spring Boot | Notificaciones in-app y push mediante Firebase Cloud Messaging. Base de datos: `communications_db`. |
+| **Communications Service** | Java, Spring Boot | Notificaciones in-app y push mediante Firebase Cloud Messaging, y recordatorios programados. Base de datos: `communications_db`. |
 | **Analytics Service** | Java, Spring Boot | Métricas, tendencias, reportes y proyección de gastos, con caché en Redis. Base de datos: `analytics_db`. |
-| **AI Agent Service** | Java, Spring Boot | Agente conversacional con *tool calling* y confirmación del usuario: plan mensual y sugerencia de categorías mediante Gemini API. Base de datos: `agent_db`. |
+| **AI Agent Service** | Java, Spring Boot, Spring AI | Plan mensual (proyección, borrador, aprobación y aplicación), sugerencia de categorías y chat del asistente que solo recomienda, mediante Gemini API. Base de datos: `agent_db`. |
 | **Message Broker** | RabbitMQ | Exchange de tipo *topic* `intiva.events`. Los servicios publican con outbox y consumen de forma idempotente. |
 | **Cache** | Redis (Redis Cloud) | Resúmenes de analítica y códigos temporales de recuperación. |
 
@@ -1056,21 +1132,21 @@ flowchart LR
  U[Usuario] --> A[AI Agent]
  A --> N[Analytics: proyección por categoría]
  N --> P[Borrador versionado del plan]
- P --> R[Revisión y aprobación del titular]
+ P --> R[Edición y aprobación del titular]
  R --> O[Aplicación idempotente del plan]
  O --> F[Finances: límites]
  O --> S[Savings: aportes previstos]
  O --> C[Communications: recordatorios]
- F -. Seguimiento posterior .-> C
+ O -. MonthlyPlanActivated .-> C
 ```
 
-### 4.3.3. Software Architecture Deployment Diagrams
+### 4.3.4. Software Architecture Deployment Diagrams
 
-En esta sección se presenta y explica el Deployment Diagram, el cual ilustra cómo los contenedores de software descritos anteriormente se mapean a la infraestructura física y de nube para su ejecución en entornos de producción.
+En esta sección se presenta y explica el Deployment Diagram, el cual ilustra cómo los contenedores de software descritos anteriormente se mapean a la infraestructura de nube para su ejecución en producción.
 
-![Software Architecture Deployment Diagram](../assets/img/cap04/deploymentdiagram.jpg)
+![Software Architecture Deployment Diagram](../assets/img/cap04/deployment-diagram.png)
 
 **Explicación del diagrama:**
-El despliegue de la arquitectura se basa en un enfoque de alta disponibilidad en la nube. Por el lado del cliente, la aplicación móvil de Kotlin se ejecuta en los dispositivos Android de los usuarios (versión 8.0 o superior), mientras que las aplicaciones web (Vue.js) y el sitio estático (Astro.js) se renderizan en los navegadores web de los clientes.
+Por el lado del cliente, la aplicación móvil de Kotlin se ejecuta en los dispositivos Android de los usuarios (versión 8.0 o superior), mientras que la aplicación web (Vue.js) y el sitio estático (Astro.js) se publican en Vercel y se ejecutan en el navegador.
 
-El backend se aloja en **Microsoft Azure**, en **Azure Container Apps**. Las peticiones entrantes llegan a Spring Cloud Gateway, que actúa como API Gateway: es el único contenedor con acceso desde internet y enruta el tráfico hacia los nueve microservicios Spring Boot, que corren como contenedores en una red interna. Junto a ellos se despliega RabbitMQ para los eventos entre servicios. Los datos se guardan en **Azure Database for PostgreSQL**, un servidor gestionado que aloja una base de datos separada para cada microservicio. En local, el mismo conjunto se levanta con Docker Compose. La caché de analíticas y los códigos temporales se guardan en **Redis Cloud** mediante conexiones cifradas con TLS. Fuera de Azure, el servicio AI Agent se conecta a **Gemini API** (Google AI Studio) con una clave guardada como secreto, y Communications envía las notificaciones push a través de Firebase Cloud Messaging.
+El backend se aloja en **Microsoft Azure**, en un entorno de **Azure Container Apps**. Las peticiones entrantes llegan a Spring Cloud Gateway, que es el único contenedor con acceso desde internet y enruta el tráfico hacia los nueve microservicios Spring Boot, que corren como contenedores en una red interna. En el mismo entorno se despliega RabbitMQ para los eventos entre servicios. Los datos se guardan en un servidor gestionado de PostgreSQL, representado como **Azure Database for PostgreSQL**, que aloja una base de datos separada para cada microservicio; el proveedor definitivo se confirmará con la Spike Story SS 001, que compara opciones con plan gratuito. La caché de analíticas y los códigos temporales se guardan en **Redis Cloud** mediante conexiones cifradas con TLS. Fuera de Azure, el servicio AI Agent se conecta a **Gemini API** (Google AI Studio) con una clave guardada como secreto, y Communications envía las notificaciones push a través de Firebase Cloud Messaging. En local, el mismo conjunto se levanta con Docker Compose.

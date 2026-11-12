@@ -235,7 +235,7 @@ Los metadatos propuestos describen el contenido de la landing y configuran su pr
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Intiva - Tus finanzas, con un plan hecho para ti</title>
-<meta name="description" content="Registra tus gastos con ayuda de las notificaciones de tus apps financieras, recibe sugerencias de categoría con IA y organiza las finanzas de tu familia con Intiva.">
+<meta name="description" content="Registra tus gastos con sugerencias de categoría con IA, planifica tu mes con un plan que tú revisas y apruebas, y organiza las finanzas de tu familia con Intiva.">
 <meta name="author" content="Balanza">
 <meta name="robots" content="index, follow">
 
@@ -262,9 +262,9 @@ La aplicación web contiene información financiera privada, por lo que no busca
 
 * App Title: Intiva - Finanzas en Familia
 * Mensaje breve propuesto para la ficha de Google Play: Registra gastos más rápido, define límites y ahorra en familia
-* Términos para redactar la ficha de Google Play: control de gastos, categorización de gastos con IA, categorías con IA, presupuesto, ahorro, finanzas familiares, metas de ahorro
+* Términos para redactar la ficha de Google Play: control de gastos, categorización de gastos con IA, plan mensual con IA, presupuesto, ahorro, finanzas familiares, metas de ahorro
 * App Category: Finanzas
-* App Description: "Intiva te ayuda a tomar el control de tu dinero. Detecta tus gastos a partir de las notificaciones de tus apps financieras y te sugiere su categoría, para que solo tengas que revisarlos y confirmarlos. Define límites de gasto y recibe alertas antes de superarlos. Crea metas de ahorro solo o con tu familia y revisa a dónde va tu dinero desde un solo lugar."
+* App Description: "Intiva te ayuda a tomar el control de tu dinero. Registra un gasto y la IA te sugiere su categoría; tú decides si la aceptas. Pide tu plan del próximo mes: Intiva proyecta tus gastos, te muestra dónde podrías pasarte del límite y te propone ajustes que puedes editar antes de aprobarlos. Define límites, recibe alertas y crea metas de ahorro solo o con tu familia. Las funciones de IA están incluidas para toda persona con una cuenta."
 
 ### 6.2.5. Navigation Systems
 
@@ -275,7 +275,7 @@ Para la aplicación móvil se escogieron distintos patrones conocidos de Mobile 
 * "Sticky" Fixed Navigation: se usará una barra de navegación inferior fija con los botones "Inicio", "Transacciones", "Metas", "Familia" y "Perfil", siempre al alcance del pulgar.
 * Content-based Navigation: al tocar un elemento del contenido se accederá a su detalle. Por ejemplo, al tocar un movimiento se verá su información completa; al tocar una meta, su progreso y aportes; al tocar un plan, su proyección, acciones y estado; y al tocar una notificación, la pantalla relacionada con ella (por ejemplo, el límite de gasto superado o el detalle de un recordatorio).
 * Floating Action Button: se usará un botón flotante "+" para la acción más frecuente de cada sección, como crear una nueva meta o un nuevo límite de gasto.
-* Vertical Navigation: se usará para que los usuarios recorran listas como el historial de movimientos, las propuestas pendientes de aprobación, las metas, los integrantes del grupo y las notificaciones.
+* Vertical Navigation: se usará para que los usuarios recorran listas como el historial de movimientos, los planes pendientes de aprobación, las metas, los integrantes del grupo y las notificaciones.
 * Tabs: se usarán pestañas para separar información relacionada dentro de una misma sección, como metas "Personales" y "Familiares".
 * Swipe Navigation: en las pantallas de bienvenida (onboarding), el usuario avanzará deslizando hacia la izquierda.
 * Bottom Sheets: se usarán paneles inferiores para acciones rápidas sin salir de la pantalla actual, como aplicar filtros al historial o elegir otra categoría para un gasto.
@@ -291,7 +291,7 @@ Para la aplicación web se usará una barra lateral fija con las secciones "Pane
 
 ## 6.3. Landing Page UI Design
 
-La landing presenta categorización, asistencia y planificación financiera con IA. El flujo mensual cubre US 032 y TS 023; US 035 corresponde a la segunda etapa. [Abrir la página Prototipo de Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2045-2348).
+La landing presenta categorización, asistencia y planificación financiera con IA, e indica que estas funciones están incluidas para toda persona que cree una cuenta; el plan premium se definirá más adelante. El flujo mensual cubre US 032 y TS 023; US 035 corresponde a la segunda etapa. [Abrir la página Prototipo de Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2045-2348).
 
 ### 6.3.1. Landing Page Wireframe
 
@@ -397,7 +397,7 @@ Esta sección presenta los mock-ups de la aplicación móvil (Android) y de la a
 | Terciario | Cobre `#8A4900` | Acciones de edición y algunas categorías. |
 | Neutro | Gris violeta `#78767E` | Fondos, bordes, divisores y textos secundarios. |
 | Error | Rojo `#BA1A1A` | Gastos, límites superados y acción de eliminar. |
-| Estados de límite | Verde (a buen ritmo) y ámbar (cerca del límite) | Siempre acompañados de un texto. Las propuestas pendientes de aprobación se muestran en tonos neutros. |
+| Estados de límite | Verde (a buen ritmo) y ámbar (cerca del límite) | Siempre acompañados de un texto. Los planes en borrador, pendientes de aprobación, se muestran en tonos neutros. |
 
 **Tipografía e iconografía.** Manrope en títulos, Inter en textos y botones, y Space Grotesk en montos, que se muestran con signo ("+" para ingresos y "−" para gastos). Los íconos son Material Symbols en la aplicación móvil y PrimeIcons en la aplicación web.
 
@@ -414,13 +414,13 @@ Esta sección presenta los mock-ups de la aplicación móvil (Android) y de la a
 
 ![Mockup de Inicio](../assets/img/cap06/Mockup10.png)
 
-*Figura 6.4.3-A. Mock-up de la pantalla Inicio. [Abrir Mockup editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=0-1).*.*
+*Figura 6.4.3-A. Mock-up de la pantalla Inicio. [Abrir Mockup editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=0-1).*
 
 **Registro manual de un movimiento.** Muestra los cinco pasos del registro (tipo, monto, categoría, cuenta y fecha) con teclado numérico propio y botón de guardado en la parte inferior. Corresponde al formulario base de WF01.
 
 ![Mockup de Manual de un movimiento](../assets/img/cap06/Mockup11.png)
 
-*Figura 6.4.3-B. Mock-up del registro manual de un movimiento.[Abrir Mockup editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2045-2348).*
+*Figura 6.4.3-B. Mock-up del registro manual de un movimiento. [Abrir Mockup editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2045-2348).*
 
 **Planificación financiera con IA.** Los mock-ups muestran solicitud, proyección, aprobación y aplicación del plan. El seguimiento mensual y los avisos propuestos pertenecen a US 035, segunda etapa.
 
@@ -446,9 +446,9 @@ Las pantallas de los tres flujos, junto con la pantalla de inicio con el agente 
 
 **Reportes.** Muestra la configuración del reporte por tipo (general, ingresos, gastos o ahorros), período e integrantes, y la acción de descarga.
 
-![Mockup de Mock-up del Panel de la aplicación web](../assets/img/cap06/Mockup14.png)
+![Mock-up de Reportes de la aplicación web](../assets/img/cap06/Mockup14.png)
 
-*Figura 6.4.3-G. Mock-up del Panel de la aplicación web. [Abrir Mockup editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=0-1).*
+*Figura 6.4.3-H. Mock-up de Reportes de la aplicación web. [Abrir Mockup editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=0-1).*
 
 ### 6.4.4. Applications User Flow Diagrams
 
@@ -502,7 +502,15 @@ Los siguientes diagramas incluyen los mock-ups de cada pantalla (HOME, WF01 a WF
 
 **User Flow 3 · Plan mensual (UF04 y UF05, US 032 y TS 023)**
 
-Solicitar → proyectar → revisar y editar → aprobar → consultar estado. Solo cuando se confirman las acciones requeridas el plan pasa a activo.
+- **User goal:** "Quiero saber cuánto podría gastar el próximo mes y ajustar mi plan antes de que se aplique."
+- **Persona:** responsable de la economía familiar que organiza el presupuesto del hogar.
+- **Happy path (línea continua):** HOME → «Plan» → WF09 Solicitar plan → «Ver proyección» → WF10 Proyección de gastos (Comida S/ 580 frente a un límite de S/ 500, riesgo de S/ 80) → «Revisar plan» → WF11 Editar y aprobar → «Aprobar plan» → WF12a Aplicando plan → WF12b Plan activo.
+- **Unhappy paths:** desde WF11, «Descartar plan» lleva a WF12c Plan descartado, sin cambios. Si una acción falla al aplicarse (TS 023), WF12d muestra el plan sin confirmar y permite consultar el estado y reintentar solo lo pendiente.
+- **Condiciones:** solo cuando se confirman las acciones requeridas el plan pasa a activo; el aporte previsto no mueve dinero.
+
+![Figura 6.4.4-C · User Flow 3 · Plan mensual](../assets/img/cap06/userflow-uf3-plan-mensual.png)
+
+*Figura 6.4.4-C · User Flow 3 · Plan mensual. [Abrir diagrama en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2082-1830).*
 
 [Abrir los user flows editables en Figma](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2082-1830).
 
@@ -563,7 +571,20 @@ flowchart TD
 UF06 es una meta web y no deriva de F01, F02 ni F03.
 
 
-*Figura 6.4.4-F. User Flow UF06. [Abrir diagrama editable](https://www.figma.com/design/wV6U6QQC4MEYfj8PQArde5/Intiva-Platform-Application-Emergentes?node-id=2045-2348).*
+```mermaid
+flowchart LR
+  A["Landing"] --> B["Beneficios: categorización, asistente y plan mensual"]
+  B --> C["Control y privacidad · IA incluida para toda persona con cuenta"]
+  C --> D{"¿Le interesa probar Intiva?"}
+  D -- "Sí" --> E["CTA «Descargar app» (ilustrativo)"]
+  D -- "No todavía" --> F["Consulta equipo y planes"]
+  F --> G{"¿Información confirmada?"}
+  G -- "No" --> H["La landing indica que está pendiente"]
+  H --> B
+  G -- "Sí" --> D
+```
+
+*Figura 6.4.4-F. User Flow UF06 · Evaluar Intiva desde la landing. Fuente: elaboración propia.*
 Las composiciones TP1 se importaron como elementos vectoriales y textos editables. Las imágenes del informe son exportaciones PNG de los mismos frames. La interacción de estos recorridos se simula en el prototipo de [6.5](#65-applications-prototyping); las pruebas con usuarios se validarán en la siguiente etapa.
 
 ## 6.5. Applications Prototyping
