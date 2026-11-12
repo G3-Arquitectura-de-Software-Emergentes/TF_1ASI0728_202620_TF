@@ -275,3 +275,58 @@ Los siguientes problemas son puntos por verificar en la versión evaluada. La se
 | 6 | Un error general no permite saber qué cambios del plan quedaron pendientes. | 3 | Usabilidad · Recuperación de errores | Mostrar el estado por acción y permitir reintentar solo las pendientes. |
 
 ## 7.4. Video About-the-Product
+
+El Video About-the-Product presenta Intiva a dos públicos: los visitantes de la landing page, que buscan entender el problema que resolvemos, el modelo de negocio y las características principales del producto, y los usuarios de la aplicación móvil, que quieren ver cómo se realizan las tareas de registro, planificación y ahorro. El video se centra únicamente en la landing page y en la aplicación móvil; no incluye la aplicación web.
+
+El tono es el mismo que el de la marca: cercano, moderno y confiable. Se usan frases cortas en español, la paleta índigo `#534AB7` y verde lima `#CDEB45`, y las tipografías Outfit e Inter de la guía de estilo. El video no tiene voz en off: el mensaje se transmite con textos en pantalla, acercamientos y resaltados sobre los componentes, y una pista musical original sin derechos de autor que acompaña el ritmo de cada escena. Las escenas de la landing provienen de la versión publicada en la rama `develop`; las de la aplicación muestran los flujos de registro con categoría sugerida por IA, detección de gastos hormiga y plan mensual con el agente de IA, con datos sintéticos.
+
+**Contenido del video**
+
+| Tiempo | Escena | Qué se muestra |
+| --- | --- | --- |
+| 00:00 – 00:06 | Gancho | Gastos cotidianos que reducen el saldo del mes: «…y el mes se acaba antes que la plata». |
+| 00:06 – 00:13 | Problema | Finanzas dispersas en hojas de Excel, notas del celular y pagos olvidados. |
+| 00:13 – 00:20 | Presentación | Logo de Intiva y propuesta de valor: «Tus finanzas, con un plan hecho para ti». |
+| 00:20 – 00:30 | Landing · Hero | Título principal y vista previa de la aplicación con la tarjeta «Intiva IA». |
+| 00:30 – 00:40 | Landing · Funcionalidades | Presupuesto inteligente, límites de gasto por categoría y metas en familia. |
+| 00:40 – 00:48 | Landing · Intiva IA | Sección «Un agente que planifica contigo»: plan del mes editable y botón «Aprobar plan». |
+| 00:48 – 00:54 | App · Inicio | Balance total, accesos a gasto e ingreso, límite mensual y actividad reciente. |
+| 00:54 – 01:08 | App · Categoría con IA | Registro de un gasto de S/ 48.90: la IA sugiere «Alimentación», el usuario la acepta y guarda. |
+| 01:08 – 01:14 | App · Gastos hormiga | Resumen del mes: 23 gastos pequeños que suman S/ 186.40. |
+| 01:14 – 01:30 | App · Plan mensual con agente de IA | Proyección de S/ 580 frente a un límite de S/ 500, aporte previsto de S/ 100 a S/ 80, recordatorio del día 15 y aprobación hasta «Plan activo». |
+| 01:30 – 01:38 | App · Metas y familia | Progreso de metas de ahorro e invitación al grupo familiar mediante código QR. |
+| 01:38 – 01:46 | Modelo de negocio | Planes de la landing: Gratuito (S/ 0) y Premium (S/ 14.90 al mes, mediante Google Play Billing). |
+| 01:46 – 02:12 | Testimonios | Fragmentos de las entrevistas de validación, uno por segmento objetivo, con subtítulos. |
+| 02:12 – 02:19 | Cierre | Logo y eslogan: «Controla tus finanzas, transforma tu vida». |
+
+**Testimonios incluidos**
+
+Los testimonios son fragmentos de las entrevistas de validación registradas en la sección 7.3.2. Se transcriben las palabras de cada participante tal como aparecen subtituladas en el video.
+
+| Segmento | Participante | Tiempo en el video | Testimonio |
+| --- | --- | --- | --- |
+| Segmento 1: Integrantes de familias con problemas de gestión financiera | Valeria Ponce | 01:47 – 01:57 | «Bueno, yo elegiría la de registro con categoría. La usaría si puedo anotar una compra rápida y corregirlo sin tener que salir de la pantalla». |
+| Segmento 2: Responsables de la economía familiar | Ricardo Medina | 01:58 – 02:11 | «Normalmente separamos la plata al comienzo del mes, pero a veces recién en la última semana nos damos cuenta de que queda poco. Y me serviría revisar la proyección antes de decidir cuánto separar». |
+
+**Capturas del video**
+
+<img src="../assets/img/cap07/about-the-product-ia.jpg" width="720" alt="Captura del Video About-the-Product: sugerencia de categoría con IA en la aplicación móvil"/>
+
+*Captura del Video About-the-Product (01:02): sugerencia de categoría con IA en el registro de un gasto. Fuente: elaboración propia.*
+
+<img src="../assets/img/cap07/about-the-product-testimonio.jpg" width="720" alt="Captura del Video About-the-Product: testimonio de Valeria Ponce"/>
+
+*Captura del Video About-the-Product (01:52): testimonio de Valeria Ponce, participante del segmento 1. Fuente: elaboración propia.*
+
+**Datos del video**
+
+| Dato | Valor |
+| --- | --- |
+| Nombre del archivo | upc-pre-202620-si728-16363-balanza-about-the-product-tb2.mp4 |
+| Duración (timing) | 02:19 |
+| Formato | MP4 (H.264 y AAC), 1920 × 1080 px, 30 fps, horizontal |
+| Idioma | Español, con subtítulos en los testimonios |
+| Audio | Música original sin derechos de autor y audio de las entrevistas de validación |
+| URL en Microsoft Stream | [Ver en Microsoft Stream](https://upcedupe-my.sharepoint.com/:v:/g/personal/u202214214_upc_edu_pe/IQDaOF-2QXVMTL5Lsp1VHpGhAZHPJ_Wm-agz1emzrTa1-Fk?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D&e=YFWbC4) |
+| URL en YouTube (incrustado en la landing page) | [https://youtu.be/YTV-Xf1Z5Mo](https://youtu.be/YTV-Xf1Z5Mo) |
+
