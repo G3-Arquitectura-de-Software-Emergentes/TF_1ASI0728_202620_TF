@@ -180,6 +180,47 @@ Antes del despliegue en Azure, la prueba de concepto se levantará en local con 
 5. Se construyen las imágenes Docker de los microservicios y del API Gateway, y se despliegan en Azure Container Apps con sus variables de entorno (conexión a Azure Database for PostgreSQL, Redis, RabbitMQ y clave de la Gemini API).
 6. Los clientes (aplicación móvil y aplicación web) se comunican con los servicios únicamente mediante HTTPS a través del API Gateway.
 
+## 7.2. Solution Implementation
+
+### 7.2.1. Sprint 1
+
+#### 7.2.1.1. Sprint Planning 1
+
+Integrar el recorrido del plan mensual con la aplicación Android y el backend de Intiva. El recorrido comienza con gastos personales de prueba, usa Gemini para proponer un límite por categoría y exige que el usuario revise y apruebe la propuesta antes de aplicarla.
+
+#### 7.2.1.2. Sprint Backlog 1
+
+| Trabajo | Alcance del incremento |
+| --- | --- |
+| US 032 y US 033 | Sugerir una categoría para el registro de gastos y mostrar los gastos hormiga del mes. |
+| US 034 | Generar, editar y aprobar un plan mensual desde Android. |
+| Integración de servicios | Guardar el límite en Finances y publicar el evento en RabbitMQ para que Communications registre un aviso consultable en la app. |
+| Ampliación del plan | Registrar aportes previstos y programar recordatorios. Emitir un aviso cuando los nuevos gastos personales en PEN alcancen el límite. |
+
+#### 7.2.1.3. Development Evidence for Sprint Review
+
+El incremento se encuentra en las ramas [feature/ai-plan-poc de la API](https://github.com/G3-Arquitectura-de-Software-Emergentes/intiva-api-platform/tree/feature/ai-plan-poc) y [feature/ai-plan-poc de Android](https://github.com/G3-Arquitectura-de-Software-Emergentes/Intiva-mobile-application/tree/feature/ai-plan-poc). El gateway enruta las operaciones del plan y los avisos. El backend anterior sigue proporcionando el inicio de sesión y el registro de gastos.
+
+#### 7.2.1.4. Testing Suite Evidence for Sprint Review
+
+El registro de Maven de la API muestra dos pruebas de integración aprobadas: enrutamiento del gateway y persistencia del plan con confirmación y entrega repetidas. La prueba de persistencia usa PostgreSQL y simula la entrega. La compilación Android `:app:assembleDebug` finalizó correctamente con la configuración de Firebase de Intiva.
+
+#### 7.2.1.5. Execution Evidence for Sprint Review
+
+El APK de depuración se compiló con el gateway local en `http://10.0.2.2:18080/api/v1/`. Se comprobó el acceso al modelo configurado de Gemini mediante una consulta de metadatos con respuesta HTTP 200. El 12 de noviembre de 2026 se ejecutó el recorrido por el gateway con una cuenta de prueba y un gasto personal categorizado en PEN del mes anterior. Gemini generó un borrador para noviembre, se editó el límite a S/ 60.25 y se aprobó dos veces la versión 2. Ambas solicitudes devolvieron el plan en estado `ACTIVE`. PostgreSQL registró un solo límite y un solo evento enviado, y el endpoint de Communications devolvió un solo aviso para el plan. En una segunda ejecución se aprobó también un aporte previsto de S/ 12.50 y un recordatorio. Se registró una sola fila de cada uno tras repetir la aprobación. Un gasto posterior de S/ 62.00 generó el aviso de límite alcanzado. Queda pendiente comprobar visualmente los avisos desde Android.
+
+#### 7.2.1.6. Services Documentation Evidence for Sprint Review
+
+La [guía de la PoC](https://github.com/G3-Arquitectura-de-Software-Emergentes/intiva-api-platform/blob/feature/ai-plan-poc/poc/README.md) documenta la configuración local, los contratos HTTP y los pasos de verificación.
+
+#### 7.2.1.7. Software Deployment Evidence for Sprint Review
+
+La compilación de depuración genera un APK para la prueba local. La publicación requiere un gateway HTTPS accesible y una compilación de distribución que apunte a ese gateway. La distribución móvil y el despliegue de los servicios en Azure quedan pendientes de evidencias de publicación.
+
+#### 7.2.1.8. Team Collaboration Insights during Sprint
+
+Los historiales de [API](https://github.com/G3-Arquitectura-de-Software-Emergentes/intiva-api-platform/commits/feature/ai-plan-poc/) y [Android](https://github.com/G3-Arquitectura-de-Software-Emergentes/Intiva-mobile-application/commits/feature/ai-plan-poc/) permiten revisar los cambios de implementación por rama.
+
 ## 7.3. Validation Interviews
 
 La validación busca comprobar si los dos segmentos entienden la propuesta de Intiva en la landing y pueden usar la aplicación para registrar un gasto, revisar una recomendación y preparar un plan mensual. Esta ronda incluye **dos entrevistas: una por segmento**. Se usará la versión disponible y se indicará si se prueba una aplicación desplegada o un prototipo.
