@@ -1902,7 +1902,7 @@ El Video About-the-Product presenta Intiva a dos públicos: los visitantes de la
 
 El tono es el mismo que el de la marca: cercano, moderno y confiable. Se usan frases cortas en español, la paleta índigo `#534AB7` y verde lima `#CDEB45`, y las tipografías Outfit e Inter de la guía de estilo. El video no tiene voz en off: el mensaje se transmite con textos en pantalla, acercamientos y resaltados sobre los componentes, y una pista musical original sin derechos de autor que acompaña el ritmo de cada escena. Las escenas de la landing provienen de la versión publicada en la rama `develop`; las de la aplicación muestran los flujos de registro con categoría sugerida por IA, detección de gastos hormiga y plan mensual con el agente de IA, con datos sintéticos.
 
-**Contenido del video**
+### Contenido del video
 
 | Tiempo | Escena | Qué se muestra |
 | --- | --- | --- |
@@ -1921,26 +1921,35 @@ El tono es el mismo que el de la marca: cercano, moderno y confiable. Se usan fr
 | 01:46 – 02:12 | Testimonios | Fragmentos de las entrevistas de validación, uno por segmento objetivo, con subtítulos. |
 | 02:12 – 02:19 | Cierre | Logo y eslogan: «Controla tus finanzas, transforma tu vida». |
 
-**Testimonios incluidos**
+### Testimonios incluidos
 
 Los testimonios son fragmentos de las entrevistas de validación registradas en la sección 7.3.2. Se transcriben las palabras de cada participante tal como aparecen subtituladas en el video.
 
-| Segmento | Participante | Tiempo en el video | Testimonio |
-| --- | --- | --- | --- |
-| Segmento 1: Integrantes de familias con problemas de gestión financiera | Valeria Ponce | 01:47 – 01:57 | «Bueno, yo elegiría la de registro con categoría. La usaría si puedo anotar una compra rápida y corregirlo sin tener que salir de la pantalla». |
-| Segmento 2: Responsables de la economía familiar | Ricardo Medina | 01:58 – 02:11 | «Normalmente separamos la plata al comienzo del mes, pero a veces recién en la última semana nos damos cuenta de que queda poco. Y me serviría revisar la proyección antes de decidir cuánto separar». |
+**Segmento 1: Integrantes de familias con problemas de gestión financiera**
 
-**Capturas del video**
+**Valeria Ponce** · 01:47 – 01:57
 
-<img src="assets/img/cap07/about-the-product-ia.jpg" width="720" alt="Captura del Video About-the-Product: sugerencia de categoría con IA en la aplicación móvil"/>
+> «Bueno, yo elegiría la de registro con categoría. La usaría si puedo anotar una compra rápida y corregirlo sin tener que salir de la pantalla».
 
-*Captura del Video About-the-Product (01:02): sugerencia de categoría con IA en el registro de un gasto. Fuente: elaboración propia.*
+**Segmento 2: Responsables de la economía familiar**
 
-<img src="assets/img/cap07/about-the-product-testimonio.jpg" width="720" alt="Captura del Video About-the-Product: testimonio de Valeria Ponce"/>
+**Ricardo Medina** · 01:58 – 02:11
 
-*Captura del Video About-the-Product (01:52): testimonio de Valeria Ponce, participante del segmento 1. Fuente: elaboración propia.*
+> «Normalmente separamos la plata al comienzo del mes, pero a veces recién en la última semana nos damos cuenta de que queda poco. Y me serviría revisar la proyección antes de decidir cuánto separar».
 
-**Datos del video**
+### Capturas del video
+
+<div align="center" style="break-inside: avoid; page-break-inside: avoid;">
+  <img src="assets/img/cap07/about-the-product-ia.jpg" width="560" alt="Captura del Video About-the-Product: sugerencia de categoría con IA en la aplicación móvil"/>
+  <p><em>Captura del Video About-the-Product (01:02): sugerencia de categoría con IA en el registro de un gasto. Fuente: elaboración propia.</em></p>
+</div>
+
+<div align="center" style="break-inside: avoid; page-break-inside: avoid;">
+  <img src="assets/img/cap07/about-the-product-testimonio.jpg" width="560" alt="Captura del Video About-the-Product: testimonio de Valeria Ponce"/>
+  <p><em>Captura del Video About-the-Product (01:52): testimonio de Valeria Ponce, participante del segmento 1. Fuente: elaboración propia.</em></p>
+</div>
+
+### Datos del video
 
 | Dato | Valor |
 | --- | --- |
@@ -1949,7 +1958,6 @@ Los testimonios son fragmentos de las entrevistas de validación registradas en 
 | Formato | MP4, 1920 × 1080 px, horizontal |
 | URL en Microsoft Stream | [Ver en Microsoft Stream](https://upcedupe-my.sharepoint.com/:v:/g/personal/u202214214_upc_edu_pe/IQDaOF-2QXVMTL5Lsp1VHpGhAZHPJ_Wm-agz1emzrTa1-Fk?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D&e=YFWbC4) |
 | URL en YouTube (incrustado en la landing page) | [https://youtu.be/YTV-Xf1Z5Mo](https://youtu.be/YTV-Xf1Z5Mo) |
-
 
 <div style="page-break-after: always;"></div>
 
